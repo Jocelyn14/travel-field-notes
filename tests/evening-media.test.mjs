@@ -12,6 +12,10 @@ import {
   sha256,
   validateCatalog,
 } from '../scripts/lib/evening_media.mjs';
+import {
+  buildAcquisitionQueue,
+  generateIllustrationSvg,
+} from '../scripts/lib/evening_sources.mjs';
 
 const validEntry = (id, sourceFile, sourceUrl) => ({
   id,
@@ -138,4 +142,89 @@ test('media audit keeps non-identical near matches out of exact duplicates', asy
 
   assert.deepEqual(report.exactDuplicates, []);
   assert.ok(Array.isArray(report.nearDuplicates));
+});
+
+test('acquisition queue preserves each recommendation once with the required state fields', () => {
+  const recommendations = [
+    { id: 'one', name: '一号餐厅', nameEn: 'One Restaurant', nameLocal: 'Uno', city: 'Rome' },
+    { id: 'two', name: '二号酒吧', nameEn: 'Two Bar', nameLocal: 'Ni', city: 'Tokyo' },
+  ];
+
+  assert.deepEqual(buildAcquisitionQueue(recommendations), [
+    {
+      id: 'one',
+      query: 'One Restaurant Rome official interior exterior',
+      status: 'needs-source',
+      candidateUrl: '',
+      sourcePage: '',
+      decision: '',
+    },
+    {
+      id: 'two',
+      query: 'Two Bar Tokyo official interior exterior',
+      status: 'needs-source',
+      candidateUrl: '',
+      sourcePage: '',
+      decision: '',
+    },
+  ]);
+  assert.throws(() => buildAcquisitionQueue([...recommendations, recommendations[0]]), /推荐 ID 不得重复/);
+});
+
+test('illustration SVG is deterministic, venue-specific, and uses only paper ink and one category accent', () => {
+  const venue = { id: 'it-r-example', name: '示例餐厅', nameLocal: 'Esempio', category: '意大利菜' };
+  const first = generateIllustrationSvg(venue);
+  const repeated = generateIllustrationSvg(venue);
+  const other = generateIllustrationSvg({ ...venue, id: 'it-r-other', name: '另一餐厅' });
+
+  assert.equal(first, repeated);
+  assert.notEqual(first, other);
+  assert.match(first, /#F4F1E9/);
+  assert.match(first, /#17211D/);
+  assert.match(first, /#A84F3D/);
+  assert.doesNotMatch(first, /#385B70|#647052|gradient|<text|<image/i);
+});
+
+test('activity IDs keep the activity accent when their category mentions dining or clubs', () => {
+  for (const venue of [
+    { id: 'it-a-sanctuary', name: 'Sanctuary', nameLocal: 'Sanctuary', category: 'Club 与演出' },
+    { id: 'it-a-teatro-sale', name: 'Teatro del Sale', nameLocal: 'Teatro del Sale', category: '表演与晚餐' },
+  ]) {
+    const svg = generateIllustrationSvg(venue);
+    assert.match(svg, /#647052/);
+    assert.doesNotMatch(svg, /#A84F3D|#385B70/);
+  }
+});
+
+test('cooking and immersive-show illustrations remain perceptually distinct', async () => {
+  const cooking = generateIllustrationSvg({
+    id: 'it-a-cooking-trevi', name: '特莱维意面与提拉米苏课',
+    nameLocal: 'Italian Cooking Classes in Rome', category: '烹饪体验',
+  });
+  const show = generateIllustrationSvg({
+    id: 'it-a-welcome-rome', name: 'Welcome to Rome 沉浸展',
+    nameLocal: 'Welcome to Rome', category: '沉浸式演出',
+  });
+  const hashSvg = async (svg) => differenceHash(
+    await sharp(Buffer.from(svg)).resize(9, 8, { fit: 'fill' }).grayscale().raw().toBuffer(),
+    9,
+    8,
+  );
+
+  assert.ok(hammingDistance(await hashSvg(cooking), await hashSvg(show)) > 6);
+});
+
+test('natural-wine and cocktail-bar WebPs remain perceptually distinct', async () => {
+  const cocktail = generateIllustrationSvg({
+    id: 'it-b-rasputin', name: '拉斯普京地下酒吧', nameLocal: 'Rasputin', category: '鸡尾酒吧',
+  });
+  const naturalWine = generateIllustrationSvg({
+    id: 'jp-b-pilgrim', name: 'Pilgrim So San', nameLocal: 'Pilgrim So San', category: '自然酒吧',
+  });
+  const hashBuiltSvg = async (svg) => {
+    const webp = await sharp(Buffer.from(svg)).resize(1440, 960, { fit: 'cover', position: 'attention' }).webp({ quality: 82 }).toBuffer();
+    return differenceHash(await sharp(webp).resize(9, 8, { fit: 'fill' }).grayscale().raw().toBuffer(), 9, 8);
+  };
+
+  assert.ok(hammingDistance(await hashBuiltSvg(cocktail), await hashBuiltSvg(naturalWine)) > 6);
 });

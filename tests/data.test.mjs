@@ -101,6 +101,30 @@ test('evening media catalog matches recommendations one-to-one without neighborh
   assert.ok(catalog.every((item) => item.matchType !== 'neighborhood-fallback'));
 });
 
+test('evening acquisition decisions cover every recommendation exactly once', async () => {
+  const trips = JSON.parse(await readFile(dataUrl, 'utf8'));
+  const sources = JSON.parse(await readFile(new URL('../scripts/evening-media-sources.json', import.meta.url), 'utf8'));
+  const recommendations = trips.flatMap((trip) => trip.eveningGuides.flatMap((guide) => [
+    ...guide.restaurants,
+    ...guide.bars,
+    ...guide.activities,
+  ]));
+
+  assert.equal(sources.length, recommendations.length);
+  assert.equal(new Set(sources.map((item) => item.id)).size, sources.length);
+  assert.deepEqual(new Set(sources.map((item) => item.id)), new Set(recommendations.map((item) => item.id)));
+  assert.ok(sources.every((item) => ['verified-photo', 'needs-illustration'].includes(item.status)));
+  for (const item of sources) {
+    for (const field of ['query', 'decision']) assert.ok(item[field]?.trim(), `${item.id}.${field} 缺失`);
+    if (item.status === 'verified-photo') {
+      for (const field of ['candidateUrl', 'sourcePage', 'directAssetUrl', 'license', 'credit', 'alt', 'verifiedAt']) {
+        assert.ok(item[field]?.trim(), `${item.id}.${field} 缺失`);
+      }
+      assert.equal(item.candidateUrl, item.directAssetUrl);
+    }
+  }
+});
+
 test('trip dates and daily plans match the confirmed travel windows', async () => {
   const [italy, tokyo] = JSON.parse(await readFile(dataUrl, 'utf8'));
   assert.deepEqual(italy.dates, { start: '2026-08-23', end: '2026-08-30' });

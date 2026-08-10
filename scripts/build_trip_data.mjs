@@ -1,9 +1,7 @@
 import { writeFile } from 'node:fs/promises';
 import { buildGoogleMapsSearchUrl } from '../src/core.mjs';
-import eveningCredits from '../assets/evening/credits.json' with { type: 'json' };
 import eveningMediaCatalog from './evening-media-catalog.json' with { type: 'json' };
 
-const EVENING_CREDIT_BY_ID = new Map(eveningCredits.map((item) => [item.recommendationId, item]));
 const EVENING_CATALOG_BY_ID = new Map(eveningMediaCatalog.map((item) => [item.id, item]));
 
 const PLACE_NAMES = {
@@ -156,8 +154,7 @@ const RECOMMENDATION_EN = {
 const recommendation = (item, area) => {
   const [id, name, nameLocal, category, rating, distanceText, summary, tripadvisorRating, nameEn] = item;
   const media = EVENING_CATALOG_BY_ID.get(id);
-  const credit = EVENING_CREDIT_BY_ID.get(id);
-  if (!media || !credit) throw new Error(`${id} 缺少晚间图片目录或署名`);
+  if (!media) throw new Error(`${id} 缺少晚间图片目录`);
   const isNightlife = /酒吧|Club|夜场|俱乐部/.test(category);
   const practicalTips = isNightlife
     ? `${name}的营业日、最低消费、着装和入场年龄可能随活动变化；出发前复核，深夜返回优先选择正规出租车或公共交通。`
@@ -170,9 +167,12 @@ const recommendation = (item, area) => {
   category,
   summary,
   image: `assets/evening/${id}.webp`,
-  imageAlt: media.imageAlt,
-  imageCredit: `${credit.author} · ${credit.license}`,
-  imageSource: credit.sourceUrl,
+  imageAlt: media.alt,
+  imageCredit: media.credit,
+  imageSource: media.sourceUrl,
+  imageKind: media.kind,
+  license: media.license,
+  verifiedAt: media.verifiedAt,
   highlights: [
     summary.length >= 8 ? summary : `${name}提供具有当地特色的晚间体验。`,
     `${distanceText}，适合接在当天最后一站之后灵活安排。`,

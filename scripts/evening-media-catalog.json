@@ -1,954 +1,1362 @@
 [
   {
     "id": "it-r-pasta-corso",
-    "query": "Pasta In Corso Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "Pasta In Corso推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-pasta-corso.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-pasta-corso",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Pasta In Corso示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-grano",
-    "query": "Grano Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "Grano推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-grano.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-grano",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Grano示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-vecchia-roma",
-    "query": "Ristorante Vecchia Roma Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "老罗马餐厅推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-vecchia-roma.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-vecchia-roma",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "老罗马餐厅示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-oro",
-    "query": "Oro Bistrot Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "Oro 屋顶酒吧推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-oro.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-oro",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Oro 屋顶酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-court",
-    "query": "The Court Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "The Court推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-court.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-court",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "The Court示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-blackmarket",
-    "query": "Blackmarket Hall Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "Blackmarket Hall推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-blackmarket.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-blackmarket",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Blackmarket Hall示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-opera-roma",
-    "query": "Teatro dell'Opera di Roma Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "罗马歌剧院推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-opera-roma.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_dell%27Opera_a_Roma.JPG",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 3.0",
+    "credit": "LPLT / Wikimedia Commons",
+    "alt": "罗马歌剧院入口外观",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-brancaccio",
-    "query": "Teatro Brancaccio Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "布兰卡乔剧院推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-brancaccio.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Esquilino_-_teatro_Brancaccio_1220246.JPG",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 3.0",
+    "credit": "Lalupa / Wikimedia Commons",
+    "alt": "罗马布兰卡乔剧院外观",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-gregorys",
-    "query": "Gregory's Jazz Club Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "Gregory’s 爵士俱乐部推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-gregorys.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-gregorys",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Gregory’s 爵士俱乐部示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-sanctuary",
-    "query": "Sanctuary Eco Retreat Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "Sanctuary 生态夜场推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-sanctuary.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-sanctuary",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Sanctuary 生态夜场示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-opera-camera",
-    "query": "Opera da Camera di Roma Piazza Venezia and Capitoline Hill 意大利",
-    "fallbackPlaceId": "italy-capitoline",
-    "imageAlt": "罗马室内歌剧推荐：威尼斯广场与卡比托利欧山附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-opera-camera.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-opera-camera",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "罗马室内歌剧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-piccolo-buco",
-    "query": "Piccolo Buco Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "小洞披萨推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-piccolo-buco.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-piccolo-buco",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "小洞披萨示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-pizza-trevi",
-    "query": "Pizza in Trevi Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "特莱维披萨推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-pizza-trevi.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-pizza-trevi",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "特莱维披萨示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-agrodolce",
-    "query": "Agrodolce Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "酸甜餐厅推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-agrodolce.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-agrodolce",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "酸甜餐厅示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-salotto42",
-    "query": "Salotto 42 Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "42 客厅酒吧推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-salotto42.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-salotto42",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "42 客厅酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-jerry-thomas",
-    "query": "The Jerry Thomas Speakeasy Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "杰里·托马斯地下酒吧推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-jerry-thomas.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-jerry-thomas",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "杰里·托马斯地下酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-barber-shop",
-    "query": "The Barber Shop Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "理发店地下酒吧推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-barber-shop.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-barber-shop",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "理发店地下酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-quirino",
-    "query": "Teatro Quirino Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "奎里诺剧院推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-quirino.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_Quirino.JPG",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 3.0",
+    "credit": "MarteN253 / Wikimedia Commons",
+    "alt": "罗马奎里诺剧院正面",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-arciliuto",
-    "query": "Arciliuto Jazz Club Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "Arciliuto 爵士俱乐部推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-arciliuto.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-arciliuto",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Arciliuto 爵士俱乐部示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-cooking-trevi",
-    "query": "Italian Cooking Classes in Rome Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "特莱维意面与提拉米苏课推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-cooking-trevi.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-cooking-trevi",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "特莱维意面与提拉米苏课示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-welcome-rome",
-    "query": "Welcome to Rome Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "Welcome to Rome 沉浸展推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-welcome-rome.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-welcome-rome",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Welcome to Rome 沉浸展示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-st-pauls-opera",
-    "query": "Opera at St. Paul's Within the Walls Piazza Navona and Trevi Fountain 意大利",
-    "fallbackPlaceId": "italy-navona-trevi",
-    "imageAlt": "圣保罗堂歌剧音乐会推荐：纳沃纳广场—特莱维喷泉附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-st-pauls-opera.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Castro_Pretorio_-_St_Pauls_within_the_Walls.JPG",
+    "kind": "venue-photo",
+    "license": "Public domain",
+    "credit": "Croberto68 / Wikimedia Commons",
+    "alt": "罗马城内圣保罗教堂外观",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-futura",
-    "query": "Futura Cucina Italiana Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "未来意大利厨房推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-futura.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-futura",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "未来意大利厨房示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-ponte-vecchio",
-    "query": "Trattoria Ponte Vecchio Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "老桥小餐馆推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-ponte-vecchio.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-ponte-vecchio",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "老桥小餐馆示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-buca-orafo",
-    "query": "Buca dell'Orafo Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "金匠地窖餐厅推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-buca-orafo.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-buca-orafo",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "金匠地窖餐厅示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-volpi-uva",
-    "query": "Le Volpi e l'Uva Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "狐狸与葡萄酒馆推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-volpi-uva.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-volpi-uva",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "狐狸与葡萄酒馆示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-rasputin",
-    "query": "Rasputin Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "拉斯普京地下酒吧推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-rasputin.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-rasputin",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "拉斯普京地下酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-mad-souls",
-    "query": "MAD Souls & Spirits Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "MAD 灵魂与烈酒推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-mad-souls.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-mad-souls",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "MAD 灵魂与烈酒示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-niccolini",
-    "query": "Teatro Niccolini Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "尼科里尼剧院推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-niccolini.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_Niccolini_Firenze_26.jpg",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 3.0",
+    "credit": "Manuelarosi / Wikimedia Commons",
+    "alt": "佛罗伦萨尼科利尼剧院内部舞台与幕布",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-verdi",
-    "query": "Teatro Verdi Firenze Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "威尔第剧院推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-verdi.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_verdi,_firenze.JPG",
+    "kind": "venue-photo",
+    "license": "CC BY 2.5",
+    "credit": "Sailko / Wikimedia Commons",
+    "alt": "佛罗伦萨威尔第剧院外观",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-jazz-firenze",
-    "query": "Jazz Club Firenze Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "佛罗伦萨爵士俱乐部推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-jazz-firenze.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-jazz-firenze",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "佛罗伦萨爵士俱乐部示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-soulspace",
-    "query": "Soulspace Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "Soulspace 水疗推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-soulspace.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-soulspace",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Soulspace 水疗示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-stmarks-opera",
-    "query": "Opera at St. Mark's English Church Piazza della Signoria and Ponte Vecchio 意大利",
-    "fallbackPlaceId": "italy-signoria-vecchio",
-    "imageAlt": "圣马克教堂歌剧推荐：领主广场与老桥附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-stmarks-opera.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-stmarks-opera",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "圣马克教堂歌剧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-terrazze",
-    "query": "Terrazze Michelangelo Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "米开朗琪罗露台餐厅推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-terrazze.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-terrazze",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "米开朗琪罗露台餐厅示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-beppa",
-    "query": "La Beppa Fioraia Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "贝帕花园餐厅推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-beppa.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-beppa",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "贝帕花园餐厅示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-mescita",
-    "query": "Osteria Antica Mescita San Niccolò Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "圣尼科洛古酒馆推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-mescita.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-mescita",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "圣尼科洛古酒馆示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-vips",
-    "query": "Vip's Bar Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "Vip’s Bar推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-vips.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-vips",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Vip’s Bar示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-bulli",
-    "query": "Bulli & Balene Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "Bulli & Balene推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-bulli.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-bulli",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Bulli & Balene示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-speakeasy23",
-    "query": "The Speakeasy 23 Art & Bistrot Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "23 号艺术酒吧推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-speakeasy23.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-speakeasy23",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "23 号艺术酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-pergola",
-    "query": "Teatro della Pergola Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "佩尔戈拉剧院推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-pergola.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_della_Pergola.JPG",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 3.0",
+    "credit": "Sailko / Wikimedia Commons",
+    "alt": "佛罗伦萨佩哥拉剧院内部观众厅",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-teatro-sale",
-    "query": "Teatro del Sale Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "Teatro del Sale推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-teatro-sale.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-teatro-sale",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Teatro del Sale示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-flo",
-    "query": "Flo Lounge Bar Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "Flo 山景夜场推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-flo.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-flo",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Flo 山景夜场示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-nof",
-    "query": "NOF Club Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "NOF 现场俱乐部推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-nof.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-nof",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "NOF 现场俱乐部示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-night-photo",
-    "query": "Florence Night Photo Tour Piazzale Michelangelo 意大利",
-    "fallbackPlaceId": "italy-michelangelo",
-    "imageAlt": "佛罗伦萨夜景摄影漫步推荐：米开朗琪罗广场附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-night-photo.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-night-photo",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "佛罗伦萨夜景摄影漫步示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-sorbillo",
-    "query": "Gino e Toto Sorbillo Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "索尔比洛披萨推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-sorbillo.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-sorbillo",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "索尔比洛披萨示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-tandem",
-    "query": "Tandem Ragù Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "Tandem 肉酱餐厅推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-tandem.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-tandem",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Tandem 肉酱餐厅示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-gesu",
-    "query": "La Locanda Gesù Vecchio Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "耶稣旧街小馆推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-gesu.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-gesu",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "耶稣旧街小馆示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-berisio",
-    "query": "Libreria Berisio Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "贝里西奥书店酒吧推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-berisio.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-berisio",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "贝里西奥书店酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-perditempo",
-    "query": "Perditempo Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "消磨时间酒吧推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-perditempo.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-perditempo",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "消磨时间酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-oak",
-    "query": "Oak Napoli Wine And Craft Beer Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "Oak 自然酒吧推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-oak.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-oak",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Oak 自然酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-bellini",
-    "query": "Teatro Bellini Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "贝利尼剧院推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-bellini.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:TeatroBelliniNaples2.jpg",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 3.0",
+    "credit": "IlSistemone / Wikimedia Commons",
+    "alt": "那不勒斯贝利尼剧院外观",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-napoli-underground",
-    "query": "Napoli Sotterranea Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "那不勒斯地下城推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-napoli-underground.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Napoli_sotterranea_(1).jpg",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 3.0",
+    "credit": "Sordelli / Wikimedia Commons",
+    "alt": "那不勒斯地下城内部通道",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-napulitanata",
-    "query": "Napulitanata Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "Napulitanata 那不勒斯音乐推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-napulitanata.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-napulitanata",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Napulitanata 那不勒斯音乐示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-san-carlo",
-    "query": "Teatro di San Carlo Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "圣卡洛剧院推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-san-carlo.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_de_San_Carlos,_N%C3%A1poles,_Italia,_2023-03-25,_DD_184-186_HDR.jpg",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 4.0",
+    "credit": "Diego Delso / Wikimedia Commons",
+    "alt": "那不勒斯圣卡洛剧院外观",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-bourbon",
-    "query": "Galleria Borbonica Sansevero Chapel Museum 意大利",
-    "fallbackPlaceId": "italy-san-severo",
-    "imageAlt": "波旁地下隧道推荐：圣塞维诺小堂附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-bourbon.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Galleria_borbonica_-_LTR_(Naples).jpg",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 4.0",
+    "credit": "Associazione Culturale Borbonica Sotterranea / Wikimedia Commons",
+    "alt": "那不勒斯波旁地下隧道内景",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-zi-teresa",
-    "query": "Zi Teresa Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "特蕾莎姨妈餐厅推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-zi-teresa.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-zi-teresa",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "特蕾莎姨妈餐厅示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-regina",
-    "query": "Regina Margherita Napoli Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "玛格丽特王后餐厅推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-regina.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-regina",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "玛格丽特王后餐厅示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-officina-mare",
-    "query": "Officina del Mare Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "海之工坊推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-officina-mare.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-officina-mare",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "海之工坊示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-antiquario",
-    "query": "L'Antiquario Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "古董商鸡尾酒吧推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-antiquario.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-antiquario",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "古董商鸡尾酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-barril",
-    "query": "Barril Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "Barril 花园酒吧推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-barril.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-barril",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Barril 花园酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-flanagans",
-    "query": "Flanagan's Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "弗拉纳根酒吧推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-flanagans.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-flanagans",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "弗拉纳根酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-seaside-cruise",
-    "query": "Seaside Napoli Sunset Cruise Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "那不勒斯日落游船推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-seaside-cruise.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-seaside-cruise",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "那不勒斯日落游船示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-sannazaro",
-    "query": "Teatro Sannazaro Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "桑纳扎罗剧院推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-sannazaro.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Napoli_-_Teatro_Sannazzaro.jpg",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 2.0",
+    "credit": "Armando Mancini / Wikimedia Commons",
+    "alt": "那不勒斯桑纳扎罗剧院入口",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-augusteo",
-    "query": "Teatro Augusteo Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "奥古斯特奥剧院推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/it-a-augusteo.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:TeatroAugusteoNaples1.jpg",
+    "kind": "venue-photo",
+    "license": "CC BY-SA 3.0",
+    "credit": "IlSistemone / Wikimedia Commons",
+    "alt": "那不勒斯奥古斯特奥剧院外观",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-bourbon-water",
-    "query": "Galleria Borbonica - Morelli Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "波旁地下隧道特别线路推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-bourbon-water.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-bourbon-water",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "波旁地下隧道特别线路示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-nevermind",
-    "query": "Nevermind Live Music & Drink Castel dell'Ovo and Naples Waterfront 意大利",
-    "fallbackPlaceId": "italy-naples-waterfront",
-    "imageAlt": "Nevermind 现场音乐推荐：蛋堡与那不勒斯海滨附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-nevermind.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-nevermind",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Nevermind 现场音乐示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-tonnarello",
-    "query": "Tonnarello Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "Tonnarello推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-tonnarello.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-tonnarello",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Tonnarello示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-nannarella",
-    "query": "Nannarella Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "Nannarella推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-nannarella.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-nannarella",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Nannarella示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-r-otello",
-    "query": "Otello Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "Otello推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-r-otello.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-r-otello",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Otello示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-freni",
-    "query": "Freni e Frizioni Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "刹车与离合器酒吧推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-freni.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-freni",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "刹车与离合器酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-mache",
-    "query": "Ma Che Siete Venuti a Fà Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "Ma Che Siete Venuti a Fà推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-mache.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-mache",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Ma Che Siete Venuti a Fà示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-b-mrbrown",
-    "query": "Mr. Brown Pub Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "布朗先生酒吧推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-b-mrbrown.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-b-mrbrown",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "布朗先生酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-belli",
-    "query": "Teatro Belli Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "贝利剧院推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-belli.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-belli",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "贝利剧院示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-rome-cooking",
-    "query": "Rome Cooking Class Trastevere Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "特拉斯提弗列烹饪课推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-rome-cooking.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-rome-cooking",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "特拉斯提弗列烹饪课示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-vinoroma",
-    "query": "VinoRoma Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "VinoRoma 品酒课推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-vinoroma.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-vinoroma",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "VinoRoma 品酒课示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-marcello",
-    "query": "Teatro di Marcello Concerts Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "马切罗剧场夏季音乐会推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-marcello.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-marcello",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "马切罗剧场夏季音乐会示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "it-a-night-walk",
-    "query": "Trastevere Evening Walking Tour Trastevere 意大利",
-    "fallbackPlaceId": "italy-trastevere",
-    "imageAlt": "特拉斯提弗列夜间历史漫步推荐：特拉斯提弗列附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/it-a-night-walk.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/it-a-night-walk",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "特拉斯提弗列夜间历史漫步示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-hakushu",
-    "query": "Hakushu Kobe Beef Teppanyaki SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "白秋神户牛铁板烧推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-hakushu.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-hakushu",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "白秋神户牛铁板烧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-inase",
-    "query": "Sushi Inase SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "寿司稻濑推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-inase.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-inase",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "寿司稻濑示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-pichiten",
-    "query": "Shibuya Pichiten SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "涩谷 Pichiten推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-pichiten.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-pichiten",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "涩谷 Pichiten示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-ulala",
-    "query": "Kobe Beef Yakiniku Ulala SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "神户牛烧肉 Ulala推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-ulala.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-ulala",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "神户牛烧肉 Ulala示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-han-no",
-    "query": "Han no Daidokoro Bettei SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "韩之厨房别邸推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-han-no.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-han-no",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "韩之厨房别邸示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-rockaholic",
-    "query": "Music Bar ROCKAHOLIC 渋谷 SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "Rockaholic 涩谷音乐酒吧推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-rockaholic.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-rockaholic",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Rockaholic 涩谷音乐酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-sgclub",
-    "query": "The SG Club SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "The SG Club推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-sgclub.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-sgclub",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "The SG Club示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-starstar",
-    "query": "star star SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "star star推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-starstar.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-starstar",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "star star示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-soak",
-    "query": "SOAK ROOFTOP RESTAURANT & BAR SHIBUYA SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "SOAK 屋顶酒吧推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-soak.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-soak",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "SOAK 屋顶酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-iguand",
-    "query": "Ishi no Hana SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "石之花推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-iguand.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-iguand",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "石之花示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-modis",
-    "query": "Premium Karaoke MODIS Shibuya SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "MODIS 涩谷高级卡拉 OK推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-modis.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-modis",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "MODIS 涩谷高级卡拉 OK示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-noh",
-    "query": "Cerulean Tower Noh Theatre SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "涩谷能乐堂推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-noh.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-noh",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "涩谷能乐堂示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-arona",
-    "query": "ARONA SPA Shibuya SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "ARONA SPA 涩谷推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-arona.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-arona",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "ARONA SPA 涩谷示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-street-kart",
-    "query": "Shibuya Street Kart SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "涩谷街头卡丁车推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-street-kart.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-street-kart",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "涩谷街头卡丁车示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-comedy-shibuya",
-    "query": "Tokyo Comedy Bar SHIBUYA SKY 东京",
-    "fallbackPlaceId": "tokyo-shibuya-sky",
-    "imageAlt": "东京喜剧酒吧推荐：涩谷天空附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-comedy-shibuya.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-comedy-shibuya",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "东京喜剧酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-tayori",
-    "query": "TAYORI Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "TAYORI推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-tayori.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-tayori",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "TAYORI示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-hagiso",
-    "query": "HAGI CAFE Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "HAGI CAFE推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/photos/jp-r-hagiso.jpg",
+    "sourceUrl": "https://openverse.org/image/54fac4c2-e02f-4584-a327-18935cf8a1a6",
+    "kind": "venue-photo",
+    "license": "CC BY 2.0",
+    "credit": "naitwo2 / Flickr via Openverse",
+    "alt": "HAGI CAFE 的手绘菜单",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-kayaba",
-    "query": "カヤバ珈琲 Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "Kayaba 咖啡推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-kayaba.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-kayaba",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Kayaba 咖啡示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-sake-crafters",
-    "query": "SAKE CRAFTERS Yanaka Ginza Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "SAKE CRAFTERS 谷中银座店推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-sake-crafters.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-sake-crafters",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "SAKE CRAFTERS 谷中银座店示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-yanaka-beer",
-    "query": "Yanaka Beer Hall Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "谷中啤酒馆推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-yanaka-beer.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-yanaka-beer",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "谷中啤酒馆示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-ishii",
-    "query": "Beer Pub Ishii Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "Beer Pub Ishii推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-ishii.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-ishii",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Beer Pub Ishii示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-yanaka-night",
-    "query": "Yanaka Night History Walk Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "谷中暗夜历史漫步推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-yanaka-night.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-yanaka-night",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "谷中暗夜历史漫步示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-kaguwa",
-    "query": "Asakusa Kaguwa Show Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "浅草香和舞台秀推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-kaguwa.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-kaguwa",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "浅草香和舞台秀示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-geisha",
-    "query": "Yushima Geisha Experience Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "汤岛艺伎文化体验推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-geisha.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-geisha",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "汤岛艺伎文化体验示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-sakura-photo",
-    "query": "Asakusa Sakura Photo Studio Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "浅草樱花写真馆推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-sakura-photo.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-sakura-photo",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "浅草樱花写真馆示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-yae-kimono",
-    "query": "Asakusa Kimono Rental Yae Yanaka Ginza 东京",
-    "fallbackPlaceId": "tokyo-yanaka",
-    "imageAlt": "八重和服体验推荐：谷中银座附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-yae-kimono.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-yae-kimono",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "八重和服体验示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-tofuya",
-    "query": "Tokyo Shiba Tofuya Ukai Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "东京芝豆腐屋 UKAI推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-tofuya.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-tofuya",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "东京芝豆腐屋 UKAI示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-towers",
-    "query": "TOWERS Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "Towers 餐厅推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-towers.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-towers",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Towers 餐厅示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-tsurutontan",
-    "query": "TsuruTonTan Roppongi Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "鹤咚咚 六本木推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-tsurutontan.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-tsurutontan",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "鹤咚咚 六本木示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-stellar",
-    "query": "Sky Lounge Stellar Garden Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "星空花园酒廊推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-stellar.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-stellar",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "星空花园酒廊示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-mokuren",
-    "query": "Main Bar Mokuren Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "木莲主酒吧推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-mokuren.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-mokuren",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "木莲主酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-dealan",
-    "query": "Bar Dealan-Dé Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "Bar Dealan-Dé推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-dealan.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-dealan",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Bar Dealan-Dé示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-tantra",
-    "query": "TANTRA TOKYO Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "TANTRA TOKYO 舞台秀推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-tantra.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-tantra",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "TANTRA TOKYO 舞台秀示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-red-tower",
-    "query": "RED° TOKYO TOWER Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "RED° 东京塔推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-red-tower.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-red-tower",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "RED° 东京塔示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-billboard",
-    "query": "Billboard Live Tokyo Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "Billboard Live Tokyo推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-billboard.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-billboard",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Billboard Live Tokyo示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-erawan",
-    "query": "Erawan Roppongi Thai Massage Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "Erawan 六本木泰式按摩推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-erawan.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-erawan",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Erawan 六本木泰式按摩示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-kingyo",
-    "query": "Roppongi Kingyo Show Zojoji Temple and Tokyo Tower 东京",
-    "fallbackPlaceId": "tokyo-zojoji",
-    "imageAlt": "六本木金鱼秀推荐：增上寺与东京塔附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-kingyo.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-kingyo",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "六本木金鱼秀示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-akari",
-    "query": "Kamakura Rokuyata Akari Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "灯餐厅推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-akari.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-akari",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "灯餐厅示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-garden-house",
-    "query": "GARDEN HOUSE Kamakura Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "镰仓花园屋推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-garden-house.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-garden-house",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "镰仓花园屋示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-matsubaraan",
-    "query": "Kamakura Matsubara-an Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "松原庵推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-matsubaraan.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-matsubaraan",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "松原庵示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-pilgrim",
-    "query": "Pilgrim So San Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "Pilgrim So San推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-pilgrim.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-pilgrim",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Pilgrim So San示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-kelpie",
-    "query": "Bar Kelpie Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "Bar Kelpie推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-kelpie.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-kelpie",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Bar Kelpie示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-bank",
-    "query": "THE BANK Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "THE BANK推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-bank.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-bank",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "THE BANK示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-noh-kamakura",
-    "query": "Kamakura Noh Theatre Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "镰仓能舞台推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-noh-kamakura.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-noh-kamakura",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "镰仓能舞台示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-vasara",
-    "query": "Kimono Rental VASARA Kamakura Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "VASARA 镰仓和服推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-vasara.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-vasara",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "VASARA 镰仓和服示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-zen",
-    "query": "Kamakura Zen Experience Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "镰仓禅修体验推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-zen.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-zen",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "镰仓禅修体验示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-samurai",
-    "query": "Kamakura Samurai Experience Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "镰仓武士文化体验推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-samurai.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-samurai",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "镰仓武士文化体验示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-night-kamakura",
-    "query": "Kamakura Twilight History Walk Komachi Street 东京",
-    "fallbackPlaceId": "tokyo-komachi",
-    "imageAlt": "镰仓黄昏历史漫步推荐：小町通附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-night-kamakura.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-night-kamakura",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "镰仓黄昏历史漫步示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-fuunji",
-    "query": "Fuunji Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "风云儿推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-fuunji.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-fuunji",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "风云儿示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-sushi-ten",
-    "query": "Sushi Tokyo Ten Shinjuku Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "Sushi Tokyo Ten 新宿推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-sushi-ten.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-sushi-ten",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Sushi Tokyo Ten 新宿示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-r-gyukatsu",
-    "query": "Gyukatsu Motomura Shinjuku Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "牛炸村 新宿店推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-gyukatsu.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-gyukatsu",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "牛炸村 新宿店示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-benfiddich",
-    "query": "BenFiddich Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "BenFiddich推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-benfiddich.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-benfiddich",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "BenFiddich示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-albatross",
-    "query": "Bar Albatross Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "信天翁酒吧推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-albatross.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-albatross",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "信天翁酒吧示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-b-composition",
-    "query": "Bar Composition Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "Bar Composition推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-b-composition.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-composition",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Bar Composition示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-kujira",
-    "query": "DINING BAR KUJIRA Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "Kujira 娱乐秀推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-kujira.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-kujira",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Kujira 娱乐秀示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-comedy",
-    "query": "Tokyo Comedy Bar Shinjuku Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "东京喜剧酒吧新宿场推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-comedy.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-comedy",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "东京喜剧酒吧新宿场示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-samurai-show",
-    "query": "SAMURAI RESTAURANT TIME Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "武士餐厅演出推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-samurai-show.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-samurai-show",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "武士餐厅演出示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-hogushi",
-    "query": "Hogushi no Mori Shinjuku East Exit Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "ほぐしの森 新宿东口店推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-hogushi.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-hogushi",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "ほぐしの森 新宿东口店示意插画",
+    "verifiedAt": "2026-08-10"
   },
   {
     "id": "jp-a-muscle",
-    "query": "MUSCLE GIRLS Shinjuku East Exit and Kabukicho 东京",
-    "fallbackPlaceId": "tokyo-shinjuku",
-    "imageAlt": "Muscle Girls 肌肉女孩秀推荐：新宿东口—歌舞伎町附近实景",
-    "matchType": "neighborhood-fallback"
+    "sourceFile": "assets/evening/sources/illustrations/jp-a-muscle.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-muscle",
+    "kind": "illustration",
+    "license": "Project-generated illustration",
+    "credit": "Travel Atlas",
+    "alt": "Muscle Girls 肌肉女孩秀示意插画",
+    "verifiedAt": "2026-08-10"
   }
 ]
