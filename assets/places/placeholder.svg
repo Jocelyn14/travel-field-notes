@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title description">
+  <title id="title">景点图片暂缺</title>
+  <desc id="description">旅行地图册等高线占位图</desc>
+  <rect width="1200" height="800" fill="#e9e5da"/>
+  <g fill="none" stroke="#9da097" stroke-width="2" opacity=".55">
+    <path d="M-80 630C180 460 240 760 520 590s410-20 770-250"/>
+    <path d="M-70 690C180 510 290 820 560 640s440-30 770-260"/>
+    <path d="M-40 520C200 380 300 650 550 490s420-30 730-240"/>
+    <ellipse cx="920" cy="185" rx="190" ry="105"/>
+    <ellipse cx="920" cy="185" rx="135" ry="70"/>
+  </g>
+  <text x="70" y="100" fill="#18201d" font-family="sans-serif" font-size="28" letter-spacing="8">FIELD NOTES</text>
+  <text x="70" y="700" fill="#6f756f" font-family="sans-serif" font-size="22">PLACE IMAGE / OFFLINE PLACEHOLDER</text>
+</svg>

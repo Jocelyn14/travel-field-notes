@@ -1,0 +1,15 @@
+{
+  "name": "Field Notes · 旅行地图册",
+  "short_name": "旅行地图册",
+  "description": "意大利与东京双主题离线旅行攻略样张",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F3F0E8",
+  "theme_color": "#18201D",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

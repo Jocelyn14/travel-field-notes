@@ -1,0 +1,9 @@
+{
+  "name": "travel-atlas-sample",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/core.test.mjs tests/data.test.mjs tests/entrypoints.test.mjs tests/itinerary.test.mjs tests/search.test.mjs tests/view.test.mjs",
+    "test:browser": "node --test tests/browser.test.mjs tests/pwa.test.mjs"
+  }
+}

@@ -1,0 +1,954 @@
+[
+  {
+    "id": "it-r-pasta-corso",
+    "query": "Pasta In Corso Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "Pasta In Corso推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-grano",
+    "query": "Grano Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "Grano推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-vecchia-roma",
+    "query": "Ristorante Vecchia Roma Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "老罗马餐厅推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-oro",
+    "query": "Oro Bistrot Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "Oro 屋顶酒吧推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-court",
+    "query": "The Court Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "The Court推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-blackmarket",
+    "query": "Blackmarket Hall Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "Blackmarket Hall推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-opera-roma",
+    "query": "Teatro dell'Opera di Roma Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "罗马歌剧院推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-brancaccio",
+    "query": "Teatro Brancaccio Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "布兰卡乔剧院推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-gregorys",
+    "query": "Gregory's Jazz Club Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "Gregory’s 爵士俱乐部推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-sanctuary",
+    "query": "Sanctuary Eco Retreat Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "Sanctuary 生态夜场推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-opera-camera",
+    "query": "Opera da Camera di Roma Piazza Venezia and Capitoline Hill 意大利",
+    "fallbackPlaceId": "italy-capitoline",
+    "imageAlt": "罗马室内歌剧推荐：威尼斯广场与卡比托利欧山附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-piccolo-buco",
+    "query": "Piccolo Buco Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "小洞披萨推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-pizza-trevi",
+    "query": "Pizza in Trevi Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "特莱维披萨推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-agrodolce",
+    "query": "Agrodolce Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "酸甜餐厅推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-salotto42",
+    "query": "Salotto 42 Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "42 客厅酒吧推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-jerry-thomas",
+    "query": "The Jerry Thomas Speakeasy Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "杰里·托马斯地下酒吧推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-barber-shop",
+    "query": "The Barber Shop Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "理发店地下酒吧推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-quirino",
+    "query": "Teatro Quirino Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "奎里诺剧院推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-arciliuto",
+    "query": "Arciliuto Jazz Club Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "Arciliuto 爵士俱乐部推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-cooking-trevi",
+    "query": "Italian Cooking Classes in Rome Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "特莱维意面与提拉米苏课推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-welcome-rome",
+    "query": "Welcome to Rome Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "Welcome to Rome 沉浸展推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-st-pauls-opera",
+    "query": "Opera at St. Paul's Within the Walls Piazza Navona and Trevi Fountain 意大利",
+    "fallbackPlaceId": "italy-navona-trevi",
+    "imageAlt": "圣保罗堂歌剧音乐会推荐：纳沃纳广场—特莱维喷泉附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-futura",
+    "query": "Futura Cucina Italiana Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "未来意大利厨房推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-ponte-vecchio",
+    "query": "Trattoria Ponte Vecchio Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "老桥小餐馆推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-buca-orafo",
+    "query": "Buca dell'Orafo Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "金匠地窖餐厅推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-volpi-uva",
+    "query": "Le Volpi e l'Uva Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "狐狸与葡萄酒馆推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-rasputin",
+    "query": "Rasputin Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "拉斯普京地下酒吧推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-mad-souls",
+    "query": "MAD Souls & Spirits Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "MAD 灵魂与烈酒推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-niccolini",
+    "query": "Teatro Niccolini Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "尼科里尼剧院推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-verdi",
+    "query": "Teatro Verdi Firenze Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "威尔第剧院推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-jazz-firenze",
+    "query": "Jazz Club Firenze Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "佛罗伦萨爵士俱乐部推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-soulspace",
+    "query": "Soulspace Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "Soulspace 水疗推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-stmarks-opera",
+    "query": "Opera at St. Mark's English Church Piazza della Signoria and Ponte Vecchio 意大利",
+    "fallbackPlaceId": "italy-signoria-vecchio",
+    "imageAlt": "圣马克教堂歌剧推荐：领主广场与老桥附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-terrazze",
+    "query": "Terrazze Michelangelo Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "米开朗琪罗露台餐厅推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-beppa",
+    "query": "La Beppa Fioraia Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "贝帕花园餐厅推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-mescita",
+    "query": "Osteria Antica Mescita San Niccolò Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "圣尼科洛古酒馆推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-vips",
+    "query": "Vip's Bar Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "Vip’s Bar推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-bulli",
+    "query": "Bulli & Balene Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "Bulli & Balene推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-speakeasy23",
+    "query": "The Speakeasy 23 Art & Bistrot Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "23 号艺术酒吧推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-pergola",
+    "query": "Teatro della Pergola Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "佩尔戈拉剧院推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-teatro-sale",
+    "query": "Teatro del Sale Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "Teatro del Sale推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-flo",
+    "query": "Flo Lounge Bar Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "Flo 山景夜场推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-nof",
+    "query": "NOF Club Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "NOF 现场俱乐部推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-night-photo",
+    "query": "Florence Night Photo Tour Piazzale Michelangelo 意大利",
+    "fallbackPlaceId": "italy-michelangelo",
+    "imageAlt": "佛罗伦萨夜景摄影漫步推荐：米开朗琪罗广场附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-sorbillo",
+    "query": "Gino e Toto Sorbillo Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "索尔比洛披萨推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-tandem",
+    "query": "Tandem Ragù Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "Tandem 肉酱餐厅推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-gesu",
+    "query": "La Locanda Gesù Vecchio Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "耶稣旧街小馆推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-berisio",
+    "query": "Libreria Berisio Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "贝里西奥书店酒吧推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-perditempo",
+    "query": "Perditempo Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "消磨时间酒吧推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-oak",
+    "query": "Oak Napoli Wine And Craft Beer Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "Oak 自然酒吧推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-bellini",
+    "query": "Teatro Bellini Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "贝利尼剧院推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-napoli-underground",
+    "query": "Napoli Sotterranea Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "那不勒斯地下城推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-napulitanata",
+    "query": "Napulitanata Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "Napulitanata 那不勒斯音乐推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-san-carlo",
+    "query": "Teatro di San Carlo Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "圣卡洛剧院推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-bourbon",
+    "query": "Galleria Borbonica Sansevero Chapel Museum 意大利",
+    "fallbackPlaceId": "italy-san-severo",
+    "imageAlt": "波旁地下隧道推荐：圣塞维诺小堂附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-zi-teresa",
+    "query": "Zi Teresa Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "特蕾莎姨妈餐厅推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-regina",
+    "query": "Regina Margherita Napoli Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "玛格丽特王后餐厅推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-officina-mare",
+    "query": "Officina del Mare Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "海之工坊推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-antiquario",
+    "query": "L'Antiquario Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "古董商鸡尾酒吧推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-barril",
+    "query": "Barril Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "Barril 花园酒吧推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-flanagans",
+    "query": "Flanagan's Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "弗拉纳根酒吧推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-seaside-cruise",
+    "query": "Seaside Napoli Sunset Cruise Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "那不勒斯日落游船推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-sannazaro",
+    "query": "Teatro Sannazaro Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "桑纳扎罗剧院推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-augusteo",
+    "query": "Teatro Augusteo Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "奥古斯特奥剧院推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-bourbon-water",
+    "query": "Galleria Borbonica - Morelli Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "波旁地下隧道特别线路推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-nevermind",
+    "query": "Nevermind Live Music & Drink Castel dell'Ovo and Naples Waterfront 意大利",
+    "fallbackPlaceId": "italy-naples-waterfront",
+    "imageAlt": "Nevermind 现场音乐推荐：蛋堡与那不勒斯海滨附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-tonnarello",
+    "query": "Tonnarello Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "Tonnarello推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-nannarella",
+    "query": "Nannarella Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "Nannarella推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-r-otello",
+    "query": "Otello Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "Otello推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-freni",
+    "query": "Freni e Frizioni Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "刹车与离合器酒吧推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-mache",
+    "query": "Ma Che Siete Venuti a Fà Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "Ma Che Siete Venuti a Fà推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-b-mrbrown",
+    "query": "Mr. Brown Pub Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "布朗先生酒吧推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-belli",
+    "query": "Teatro Belli Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "贝利剧院推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-rome-cooking",
+    "query": "Rome Cooking Class Trastevere Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "特拉斯提弗列烹饪课推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-vinoroma",
+    "query": "VinoRoma Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "VinoRoma 品酒课推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-marcello",
+    "query": "Teatro di Marcello Concerts Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "马切罗剧场夏季音乐会推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "it-a-night-walk",
+    "query": "Trastevere Evening Walking Tour Trastevere 意大利",
+    "fallbackPlaceId": "italy-trastevere",
+    "imageAlt": "特拉斯提弗列夜间历史漫步推荐：特拉斯提弗列附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-hakushu",
+    "query": "Hakushu Kobe Beef Teppanyaki SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "白秋神户牛铁板烧推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-inase",
+    "query": "Sushi Inase SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "寿司稻濑推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-pichiten",
+    "query": "Shibuya Pichiten SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "涩谷 Pichiten推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-ulala",
+    "query": "Kobe Beef Yakiniku Ulala SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "神户牛烧肉 Ulala推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-han-no",
+    "query": "Han no Daidokoro Bettei SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "韩之厨房别邸推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-rockaholic",
+    "query": "Music Bar ROCKAHOLIC 渋谷 SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "Rockaholic 涩谷音乐酒吧推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-sgclub",
+    "query": "The SG Club SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "The SG Club推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-starstar",
+    "query": "star star SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "star star推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-soak",
+    "query": "SOAK ROOFTOP RESTAURANT & BAR SHIBUYA SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "SOAK 屋顶酒吧推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-iguand",
+    "query": "Ishi no Hana SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "石之花推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-modis",
+    "query": "Premium Karaoke MODIS Shibuya SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "MODIS 涩谷高级卡拉 OK推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-noh",
+    "query": "Cerulean Tower Noh Theatre SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "涩谷能乐堂推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-arona",
+    "query": "ARONA SPA Shibuya SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "ARONA SPA 涩谷推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-street-kart",
+    "query": "Shibuya Street Kart SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "涩谷街头卡丁车推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-comedy-shibuya",
+    "query": "Tokyo Comedy Bar SHIBUYA SKY 东京",
+    "fallbackPlaceId": "tokyo-shibuya-sky",
+    "imageAlt": "东京喜剧酒吧推荐：涩谷天空附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-tayori",
+    "query": "TAYORI Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "TAYORI推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-hagiso",
+    "query": "HAGI CAFE Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "HAGI CAFE推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-kayaba",
+    "query": "カヤバ珈琲 Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "Kayaba 咖啡推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-sake-crafters",
+    "query": "SAKE CRAFTERS Yanaka Ginza Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "SAKE CRAFTERS 谷中银座店推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-yanaka-beer",
+    "query": "Yanaka Beer Hall Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "谷中啤酒馆推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-ishii",
+    "query": "Beer Pub Ishii Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "Beer Pub Ishii推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-yanaka-night",
+    "query": "Yanaka Night History Walk Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "谷中暗夜历史漫步推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-kaguwa",
+    "query": "Asakusa Kaguwa Show Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "浅草香和舞台秀推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-geisha",
+    "query": "Yushima Geisha Experience Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "汤岛艺伎文化体验推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-sakura-photo",
+    "query": "Asakusa Sakura Photo Studio Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "浅草樱花写真馆推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-yae-kimono",
+    "query": "Asakusa Kimono Rental Yae Yanaka Ginza 东京",
+    "fallbackPlaceId": "tokyo-yanaka",
+    "imageAlt": "八重和服体验推荐：谷中银座附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-tofuya",
+    "query": "Tokyo Shiba Tofuya Ukai Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "东京芝豆腐屋 UKAI推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-towers",
+    "query": "TOWERS Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "Towers 餐厅推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-tsurutontan",
+    "query": "TsuruTonTan Roppongi Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "鹤咚咚 六本木推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-stellar",
+    "query": "Sky Lounge Stellar Garden Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "星空花园酒廊推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-mokuren",
+    "query": "Main Bar Mokuren Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "木莲主酒吧推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-dealan",
+    "query": "Bar Dealan-Dé Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "Bar Dealan-Dé推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-tantra",
+    "query": "TANTRA TOKYO Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "TANTRA TOKYO 舞台秀推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-red-tower",
+    "query": "RED° TOKYO TOWER Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "RED° 东京塔推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-billboard",
+    "query": "Billboard Live Tokyo Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "Billboard Live Tokyo推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-erawan",
+    "query": "Erawan Roppongi Thai Massage Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "Erawan 六本木泰式按摩推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-kingyo",
+    "query": "Roppongi Kingyo Show Zojoji Temple and Tokyo Tower 东京",
+    "fallbackPlaceId": "tokyo-zojoji",
+    "imageAlt": "六本木金鱼秀推荐：增上寺与东京塔附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-akari",
+    "query": "Kamakura Rokuyata Akari Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "灯餐厅推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-garden-house",
+    "query": "GARDEN HOUSE Kamakura Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "镰仓花园屋推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-matsubaraan",
+    "query": "Kamakura Matsubara-an Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "松原庵推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-pilgrim",
+    "query": "Pilgrim So San Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "Pilgrim So San推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-kelpie",
+    "query": "Bar Kelpie Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "Bar Kelpie推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-bank",
+    "query": "THE BANK Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "THE BANK推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-noh-kamakura",
+    "query": "Kamakura Noh Theatre Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "镰仓能舞台推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-vasara",
+    "query": "Kimono Rental VASARA Kamakura Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "VASARA 镰仓和服推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-zen",
+    "query": "Kamakura Zen Experience Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "镰仓禅修体验推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-samurai",
+    "query": "Kamakura Samurai Experience Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "镰仓武士文化体验推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-night-kamakura",
+    "query": "Kamakura Twilight History Walk Komachi Street 东京",
+    "fallbackPlaceId": "tokyo-komachi",
+    "imageAlt": "镰仓黄昏历史漫步推荐：小町通附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-fuunji",
+    "query": "Fuunji Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "风云儿推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-sushi-ten",
+    "query": "Sushi Tokyo Ten Shinjuku Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "Sushi Tokyo Ten 新宿推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-r-gyukatsu",
+    "query": "Gyukatsu Motomura Shinjuku Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "牛炸村 新宿店推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-benfiddich",
+    "query": "BenFiddich Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "BenFiddich推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-albatross",
+    "query": "Bar Albatross Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "信天翁酒吧推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-b-composition",
+    "query": "Bar Composition Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "Bar Composition推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-kujira",
+    "query": "DINING BAR KUJIRA Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "Kujira 娱乐秀推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-comedy",
+    "query": "Tokyo Comedy Bar Shinjuku Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "东京喜剧酒吧新宿场推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-samurai-show",
+    "query": "SAMURAI RESTAURANT TIME Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "武士餐厅演出推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-hogushi",
+    "query": "Hogushi no Mori Shinjuku East Exit Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "ほぐしの森 新宿东口店推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  },
+  {
+    "id": "jp-a-muscle",
+    "query": "MUSCLE GIRLS Shinjuku East Exit and Kabukicho 东京",
+    "fallbackPlaceId": "tokyo-shinjuku",
+    "imageAlt": "Muscle Girls 肌肉女孩秀推荐：新宿东口—歌舞伎町附近实景",
+    "matchType": "neighborhood-fallback"
+  }
+]

@@ -1,0 +1,216 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+
+import {
+  RESERVATION_STATUSES,
+  buildGoogleMapsSearchUrl,
+  calculateBudget,
+  cycleReservationStatus,
+  normalizePersistedState,
+  validateTrips,
+} from '../src/core.mjs';
+
+const validTrips = [
+  {
+    id: 'italy',
+    title: '意大利',
+    dates: { start: '2026-08-26', end: '2026-08-31' },
+    currency: 'EUR',
+    theme: { accent: '#C65D3B', secondary: '#6E7B58' },
+    days: [
+      {
+        date: '2026-08-27',
+        title: '罗马步行日',
+        places: [
+          {
+            id: 'colosseum',
+            name: '罗马斗兽场',
+            nameEn: 'Colosseum',
+            nameLocal: 'Colosseo',
+            category: '门票',
+            time: '09:00',
+            durationMinutes: 120,
+            travelMinutes: 15,
+            timeMode: 'fixed',
+            address: 'Piazza del Colosseo, Roma',
+            cost: 18,
+            transit: '步行 12 分钟',
+            tips: '提前预约实名门票。',
+            image: 'assets/places/colosseum.webp',
+            imageAlt: '罗马斗兽场实景',
+            links: { maps: 'https://www.google.com/maps/search/?api=1&query=Colosseo' },
+          },
+        ],
+      },
+    ],
+    eveningGuides: [{
+      date: '2026-08-27',
+      anchorPlaceId: 'colosseum',
+      mode: 'city',
+      verifiedAt: '2026-08-10',
+      restaurants: Array.from({ length: 3 }, (_, index) => ({
+        id: `restaurant-${index}`,
+        name: `餐厅 ${index}`,
+        nameEn: `Restaurant ${index}`,
+        nameLocal: `Restaurant ${index}`,
+        category: '餐厅',
+        summary: '靠近当天最后一站的晚餐选择。',
+        image: `assets/evening/restaurant-${index}.webp`,
+        imageAlt: `餐厅 ${index} 环境`,
+        imageCredit: 'Wikimedia Commons contributor',
+        imageSource: 'https://commons.wikimedia.org/wiki/Main_Page',
+        highlights: ['适合体验当地晚餐氛围。', '从当天最后一站步行可达。'],
+        practicalTips: '建议出发前确认营业时间并提前预约晚餐座位。',
+        googleRating: 4.5,
+        googleReviewCount: 100,
+        distanceText: '步行 8 分钟',
+        links: {
+          maps: 'https://www.google.com/maps/search/?api=1&query=restaurant',
+          tripadvisor: 'https://www.tripadvisor.com/Search?q=restaurant',
+          images: 'https://www.google.com/search?tbm=isch&q=restaurant',
+        },
+      })),
+      bars: Array.from({ length: 3 }, (_, index) => ({
+        id: `bar-${index}`,
+        name: `酒吧 ${index}`,
+        nameEn: `Bar ${index}`,
+        nameLocal: `Bar ${index}`,
+        category: '酒吧',
+        summary: '靠近当天最后一站的夜间选择。',
+        image: `assets/evening/bar-${index}.webp`,
+        imageAlt: `酒吧 ${index} 环境`,
+        imageCredit: 'Wikimedia Commons contributor',
+        imageSource: 'https://commons.wikimedia.org/wiki/Main_Page',
+        highlights: ['适合轻松喝一杯。', '从当天最后一站步行可达。'],
+        practicalTips: '请确认当晚营业时间、最低消费和入场年龄要求。',
+        googleRating: 4.6,
+        googleReviewCount: 80,
+        distanceText: '步行 10 分钟',
+        links: {
+          maps: 'https://www.google.com/maps/search/?api=1&query=bar',
+          tripadvisor: 'https://www.tripadvisor.com/Search?q=bar',
+          images: 'https://www.google.com/search?tbm=isch&q=bar',
+        },
+      })),
+      activities: Array.from({ length: 5 }, (_, index) => ({
+        id: `activity-${index}`,
+        name: `娱乐 ${index}`,
+        nameEn: `Activity ${index}`,
+        nameLocal: `Attività ${index}`,
+        category: '夜间活动',
+        summary: '靠近当天最后一站的晚间活动。',
+        image: `assets/evening/activity-${index}.webp`,
+        imageAlt: `娱乐 ${index} 场景`,
+        imageCredit: 'Wikimedia Commons contributor',
+        imageSource: 'https://commons.wikimedia.org/wiki/Main_Page',
+        highlights: ['提供有特色的夜间体验。', '可与晚餐或酒吧灵活组合。'],
+        practicalTips: '请提前核对演出场次、预约规则和最晚入场时间。',
+        googleRating: 4.6,
+        googleReviewCount: 60,
+        distanceText: '步行 12 分钟',
+        links: {
+          maps: 'https://www.google.com/maps/search/?api=1&query=activity',
+          tripadvisor: 'https://www.tripadvisor.com/Search?q=activity',
+          images: 'https://www.google.com/search?tbm=isch&q=activity',
+        },
+      })),
+      airportTips: [],
+    }],
+    reservations: [{ id: 'colosseum-ticket', title: '斗兽场门票', placeId: 'colosseum' }],
+    budget: [{ id: 'ticket', category: '门票', label: '景点门票', planned: 40, paid: 18 }],
+    checklist: [{ id: 'docs', title: '证件', items: [{ id: 'passport', label: '护照' }] }],
+  },
+];
+
+test('validateTrips accepts the agreed travel data contract', () => {
+  assert.deepEqual(validateTrips(validTrips), { ok: true, errors: [] });
+});
+
+test('validateTrips reports readable paths for malformed fields', () => {
+  const malformed = structuredClone(validTrips);
+  malformed[0].currency = 'USD';
+  malformed[0].days[0].places[0].links.maps = 'javascript:alert(1)';
+  const result = validateTrips(malformed);
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.includes('trips[0].currency 必须是 EUR 或 JPY'));
+  assert.ok(result.errors.includes('trips[0].days[0].places[0].links.maps 必须使用 https://'));
+});
+
+test('validateTrips enforces complete, high-rated evening guides', () => {
+  const malformed = structuredClone(validTrips);
+  malformed[0].eveningGuides[0].restaurants[0].googleRating = 4.4;
+  malformed[0].eveningGuides[0].restaurants.pop();
+  malformed[0].eveningGuides[0].activities[0].googleRating = 4.4;
+  malformed[0].eveningGuides[0].activities.pop();
+  const result = validateTrips(malformed);
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.includes('trips[0].eveningGuides[0].restaurants 必须包含 3 或 5 项'));
+  assert.ok(result.errors.includes('trips[0].eveningGuides[0].restaurants[0].googleRating 必须不低于 4.5'));
+  assert.ok(result.errors.includes('trips[0].eveningGuides[0].activities 必须包含 5 项'));
+  assert.ok(result.errors.includes('trips[0].eveningGuides[0].activities[0].googleRating 必须不低于 4.5'));
+});
+
+test('validateTrips requires offline media and expanded copy for city recommendations', () => {
+  const malformed = structuredClone(validTrips);
+  const item = malformed[0].eveningGuides[0].restaurants[0];
+  delete item.image;
+  item.highlights = ['太短'];
+  item.practicalTips = '';
+  item.links.images = 'javascript:alert(1)';
+
+  const result = validateTrips(malformed);
+
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.includes('trips[0].eveningGuides[0].restaurants[0].image 不能为空'));
+  assert.ok(result.errors.includes('trips[0].eveningGuides[0].restaurants[0].highlights 至少包含 2 项且每项不少于 8 个字'));
+  assert.ok(result.errors.includes('trips[0].eveningGuides[0].restaurants[0].practicalTips 不能为空'));
+  assert.ok(result.errors.includes('trips[0].eveningGuides[0].restaurants[0].links.images 必须使用 https://'));
+});
+
+test('calculateBudget returns local and CNY totals without live rates', () => {
+  assert.deepEqual(calculateBudget([{ planned: 100, paid: 40 }, { planned: 50, paid: 10 }], 7.9), {
+    planned: 150,
+    paid: 50,
+    remaining: 100,
+    cnyPlanned: 1185,
+    cnyPaid: 395,
+  });
+});
+
+test('cycleReservationStatus follows the fixed four-state sequence', () => {
+  assert.deepEqual(RESERVATION_STATUSES, ['待预订', '已预订', '已付款', '凭证已存']);
+  assert.equal(cycleReservationStatus('待预订'), '已预订');
+  assert.equal(cycleReservationStatus('凭证已存'), '待预订');
+  assert.equal(cycleReservationStatus('未知'), '待预订');
+});
+
+test('normalizePersistedState migrates older data and removes unknown trip keys', () => {
+  const migrated = normalizePersistedState({
+    version: 0,
+    activeTripId: 'missing',
+    rates: { italy: 8.1, missing: 1 },
+    reservations: { 'colosseum-ticket': '已付款', invalid: '未知' },
+    checklist: { passport: true, invalid: true },
+  }, validTrips);
+
+  assert.deepEqual(migrated, {
+    version: 2,
+    activeTripId: 'italy',
+    rates: { italy: 8.1 },
+    reservations: { 'colosseum-ticket': '已付款' },
+    checklist: { passport: true },
+    itinerary: {
+      customPlaces: {},
+      deletedPlaceIds: {},
+      dayOrder: {},
+      placeOverrides: {},
+    },
+  });
+});
+
+test('buildGoogleMapsSearchUrl encodes the place name and address', () => {
+  assert.equal(
+    buildGoogleMapsSearchUrl('浅草寺', '2 Chome-3-1 Asakusa, 台东区'),
+    'https://www.google.com/maps/search/?api=1&query=%E6%B5%85%E8%8D%89%E5%AF%BA%202%20Chome-3-1%20Asakusa%2C%20%E5%8F%B0%E4%B8%9C%E5%8C%BA',
+  );
+});

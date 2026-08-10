@@ -1,0 +1,16 @@
+{
+  "id": "./italy-guide",
+  "name": "意大利旅行档案 · Field Notes",
+  "short_name": "意大利攻略",
+  "description": "独立的意大利离线旅行攻略",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F3F0E8",
+  "theme_color": "#18201D",
+  "icons": [
+    { "src": "../assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "../assets/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
