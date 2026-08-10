@@ -37,6 +37,9 @@ test('every day has a local evening guide or airport waiting guide', async () =>
           for (const field of ['image', 'imageAlt', 'imageCredit', 'imageSource', 'practicalTips']) {
             assert.ok(recommendation[field]?.trim(), `${recommendation.id}.${field} 缺失`);
           }
+          assert.ok(['venue-photo', 'illustration'].includes(recommendation.imageKind));
+          assert.match(recommendation.verifiedAt, /^\d{4}-\d{2}-\d{2}$/);
+          assert.ok(recommendation.license.trim());
           assert.match(recommendation.image, /^assets\/evening\/.+\.webp$/);
           assert.match(recommendation.imageSource, /^https:\/\//);
           assert.ok(recommendation.highlights.length >= 3);
@@ -55,12 +58,14 @@ test('every day has a local evening guide or airport waiting guide', async () =>
 
 test('evening recommendation identifiers stay unique across both trips', async () => {
   const trips = JSON.parse(await readFile(dataUrl, 'utf8'));
-  const identifiers = trips.flatMap((trip) => trip.eveningGuides.flatMap((guide) => [
+  const recommendations = trips.flatMap((trip) => trip.eveningGuides.flatMap((guide) => [
     ...guide.restaurants,
     ...guide.bars,
     ...(guide.activities ?? []),
-  ].map((item) => item.id)));
-  assert.equal(new Set(identifiers).size, identifiers.length);
+  ]));
+  assert.equal(new Set(recommendations.map((item) => item.id)).size, recommendations.length);
+  assert.equal(new Set(recommendations.map((item) => item.image)).size, recommendations.length);
+  assert.equal(new Set(recommendations.map((item) => item.imageSource)).size, recommendations.length);
 });
 
 test('every evening recommendation has a usable local image and matching credit', async () => {
@@ -80,18 +85,20 @@ test('every evening recommendation has a usable local image and matching credit'
   }
 });
 
-test('fallback evening photos always represent the guide last-stop area', async () => {
+test('evening media catalog matches recommendations one-to-one without neighborhood fallbacks', async () => {
   const trips = JSON.parse(await readFile(dataUrl, 'utf8'));
   const catalog = JSON.parse(await readFile(new URL('../scripts/evening-media-catalog.json', import.meta.url), 'utf8'));
-  const fallbackById = new Map(catalog.map((item) => [item.id, item.fallbackPlaceId]));
+  const recommendations = trips.flatMap((trip) => trip.eveningGuides.flatMap((guide) => [
+    ...guide.restaurants,
+    ...guide.bars,
+    ...guide.activities,
+  ]));
+  const catalogIds = new Set(catalog.map((item) => item.id));
 
-  for (const trip of trips) {
-    for (const guide of trip.eveningGuides.filter((item) => item.mode === 'city')) {
-      for (const item of [...guide.restaurants, ...guide.bars, ...guide.activities]) {
-        assert.equal(fallbackById.get(item.id), guide.anchorPlaceId, `${item.id} 应使用最后一站附近实景`);
-      }
-    }
-  }
+  assert.equal(catalogIds.size, catalog.length, 'catalog recommendation IDs must be unique');
+  assert.equal(catalog.length, recommendations.length, 'catalog must have one entry per recommendation');
+  for (const item of recommendations) assert.ok(catalogIds.has(item.id), `${item.id} 缺少目录项`);
+  assert.ok(catalog.every((item) => item.matchType !== 'neighborhood-fallback'));
 });
 
 test('trip dates and daily plans match the confirmed travel windows', async () => {

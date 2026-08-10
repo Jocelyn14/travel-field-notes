@@ -9,6 +9,8 @@ const isMoney = (value) => Number.isFinite(value) && value >= 0;
 
 export function validateTrips(trips) {
   const errors = [];
+  const eveningImagePaths = new Set();
+  const eveningImageSources = new Set();
   if (!Array.isArray(trips) || trips.length === 0) {
     return { ok: false, errors: ['trips 必须是非空数组'] };
   }
@@ -109,6 +111,21 @@ export function validateTrips(trips) {
             }
             if (item?.imageSource && !isHttpsUrl(item.imageSource)) {
               errors.push(`${itemPath}.imageSource 必须使用 https://`);
+            }
+            if (!['venue-photo', 'illustration'].includes(item?.imageKind)) {
+              errors.push(`${itemPath}.imageKind 必须是 venue-photo 或 illustration`);
+            }
+            if (!isNonEmptyString(item?.license)) errors.push(`${itemPath}.license 不能为空`);
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(item?.verifiedAt ?? '')) {
+              errors.push(`${itemPath}.verifiedAt 必须是 YYYY-MM-DD`);
+            }
+            if (isNonEmptyString(item?.image)) {
+              if (eveningImagePaths.has(item.image)) errors.push(`${itemPath}.image 不得与其他推荐重复`);
+              else eveningImagePaths.add(item.image);
+            }
+            if (isNonEmptyString(item?.imageSource)) {
+              if (eveningImageSources.has(item.imageSource)) errors.push(`${itemPath}.imageSource 不得与其他推荐重复`);
+              else eveningImageSources.add(item.imageSource);
             }
             if (!Number.isFinite(item?.googleRating) || item.googleRating < 4.5 || item.googleRating > 5) {
               errors.push(`${itemPath}.googleRating 必须不低于 4.5`);

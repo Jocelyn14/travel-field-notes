@@ -57,8 +57,11 @@ const validTrips = [
         summary: '靠近当天最后一站的晚餐选择。',
         image: `assets/evening/restaurant-${index}.webp`,
         imageAlt: `餐厅 ${index} 环境`,
+        imageKind: 'venue-photo',
         imageCredit: 'Wikimedia Commons contributor',
-        imageSource: 'https://commons.wikimedia.org/wiki/Main_Page',
+        imageSource: `https://commons.wikimedia.org/wiki/File:restaurant-${index}.jpg`,
+        license: 'CC BY-SA 4.0',
+        verifiedAt: '2026-08-10',
         highlights: ['适合体验当地晚餐氛围。', '从当天最后一站步行可达。'],
         practicalTips: '建议出发前确认营业时间并提前预约晚餐座位。',
         googleRating: 4.5,
@@ -79,8 +82,11 @@ const validTrips = [
         summary: '靠近当天最后一站的夜间选择。',
         image: `assets/evening/bar-${index}.webp`,
         imageAlt: `酒吧 ${index} 环境`,
+        imageKind: 'venue-photo',
         imageCredit: 'Wikimedia Commons contributor',
-        imageSource: 'https://commons.wikimedia.org/wiki/Main_Page',
+        imageSource: `https://commons.wikimedia.org/wiki/File:bar-${index}.jpg`,
+        license: 'CC BY-SA 4.0',
+        verifiedAt: '2026-08-10',
         highlights: ['适合轻松喝一杯。', '从当天最后一站步行可达。'],
         practicalTips: '请确认当晚营业时间、最低消费和入场年龄要求。',
         googleRating: 4.6,
@@ -101,8 +107,11 @@ const validTrips = [
         summary: '靠近当天最后一站的晚间活动。',
         image: `assets/evening/activity-${index}.webp`,
         imageAlt: `娱乐 ${index} 场景`,
+        imageKind: 'venue-photo',
         imageCredit: 'Wikimedia Commons contributor',
-        imageSource: 'https://commons.wikimedia.org/wiki/Main_Page',
+        imageSource: `https://commons.wikimedia.org/wiki/File:activity-${index}.jpg`,
+        license: 'CC BY-SA 4.0',
+        verifiedAt: '2026-08-10',
         highlights: ['提供有特色的夜间体验。', '可与晚餐或酒吧灵活组合。'],
         practicalTips: '请提前核对演出场次、预约规则和最晚入场时间。',
         googleRating: 4.6,
@@ -165,6 +174,37 @@ test('validateTrips requires offline media and expanded copy for city recommenda
   assert.ok(result.errors.includes('trips[0].eveningGuides[0].restaurants[0].highlights 至少包含 2 项且每项不少于 8 个字'));
   assert.ok(result.errors.includes('trips[0].eveningGuides[0].restaurants[0].practicalTips 不能为空'));
   assert.ok(result.errors.includes('trips[0].eveningGuides[0].restaurants[0].links.images 必须使用 https://'));
+});
+
+test('validateTrips enforces recommendation media provenance and uniqueness', () => {
+  const mutations = [
+    {
+      apply: (items) => { items.restaurants[0].imageKind = 'neighborhood-fallback'; },
+      error: 'trips[0].eveningGuides[0].restaurants[0].imageKind 必须是 venue-photo 或 illustration',
+    },
+    {
+      apply: (items) => { items.restaurants[0].license = ' '; },
+      error: 'trips[0].eveningGuides[0].restaurants[0].license 不能为空',
+    },
+    {
+      apply: (items) => { items.restaurants[0].verifiedAt = '2026/08/10'; },
+      error: 'trips[0].eveningGuides[0].restaurants[0].verifiedAt 必须是 YYYY-MM-DD',
+    },
+    {
+      apply: (items) => { items.bars[0].image = items.restaurants[0].image; },
+      error: 'trips[0].eveningGuides[0].bars[0].image 不得与其他推荐重复',
+    },
+    {
+      apply: (items) => { items.bars[0].imageSource = items.restaurants[0].imageSource; },
+      error: 'trips[0].eveningGuides[0].bars[0].imageSource 不得与其他推荐重复',
+    },
+  ];
+
+  for (const { apply, error } of mutations) {
+    const malformed = structuredClone(validTrips);
+    apply(malformed[0].eveningGuides[0]);
+    assert.ok(validateTrips(malformed).errors.includes(error));
+  }
 });
 
 test('calculateBudget returns local and CNY totals without live rates', () => {
