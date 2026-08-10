@@ -958,48 +958,49 @@ svg.icon {
   font-size: 9px;
 }
 
+.evening-launch,
+.evening-guide-panel {
+  --evening-paper: #F4F1E9;
+  --evening-ink: #17211D;
+  --evening-rule: #BFC2B8;
+}
+
 .evening-launch {
   position: relative;
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr) 44px;
-  gap: 16px;
+  gap: 18px;
   align-items: center;
   width: calc(100% - 112px);
   min-height: 116px;
   margin: 18px 0 0 112px;
-  padding: 18px 16px;
-  border: 1px solid var(--ink);
-  background:
-    linear-gradient(90deg, transparent 0 72%, color-mix(in srgb, var(--accent) 8%, transparent) 72% 100%),
-    var(--white);
-  color: var(--ink);
+  padding: 20px 18px;
+  border: 1px solid var(--evening-rule);
+  background: #FFFEFA;
+  color: var(--evening-ink);
   text-align: left;
   cursor: pointer;
 }
 
 .evening-launch::before {
-  position: absolute;
-  inset: 7px;
-  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
-  content: '';
-  pointer-events: none;
+  content: none;
 }
 
-.evening-route-mark {
+.evening-location-mark {
   display: grid;
   width: 64px;
   height: 64px;
   place-items: center;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  color: var(--accent);
+  padding-right: 12px;
+  border-right: 1px solid var(--evening-rule);
+  color: var(--evening-ink);
 }
 
-.evening-route-mark svg {
-  width: 48px;
-  height: 48px;
+.evening-location-mark svg {
+  width: 52px;
+  height: 52px;
   stroke: currentColor;
-  stroke-width: 1.7;
+  stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -1011,31 +1012,35 @@ svg.icon {
 }
 
 .evening-launch-copy > span {
-  color: var(--accent);
+  color: color-mix(in srgb, var(--evening-ink) 72%, transparent);
   font-family: var(--utility);
   font-size: 10px;
-  letter-spacing: .16em;
+  letter-spacing: .18em;
 }
 
 .evening-launch-copy strong {
   font-size: clamp(18px, 2.4vw, 24px);
+  line-height: 1.35;
 }
 
 .evening-launch-copy small {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  color: var(--ink-soft);
+  gap: 8px;
+  color: color-mix(in srgb, var(--evening-ink) 72%, transparent);
   font-size: 10px;
 }
 
 .evening-launch-copy small i {
-  padding: 3px 8px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--paper);
-  color: var(--ink);
+  padding-left: 8px;
+  border-left: 1px solid var(--evening-rule);
+  color: var(--evening-ink);
   font-style: normal;
+}
+
+.evening-launch-copy small i:first-child {
+  padding-left: 0;
+  border-left: 0;
 }
 
 .evening-launch-arrow {
@@ -1043,14 +1048,15 @@ svg.icon {
   width: 44px;
   height: 44px;
   place-items: center;
-  border-left: 1px solid var(--line);
-  color: var(--accent);
-  font-size: 22px;
+  border-left: 1px solid var(--evening-rule);
+  color: var(--evening-ink);
+  font-family: var(--utility);
+  font-size: 20px;
 }
 
-.evening-launch.is-airport .evening-route-mark {
+.evening-launch.is-airport .evening-location-mark {
   color: var(--secondary);
-  border-color: var(--secondary);
+  border-color: var(--evening-rule);
 }
 
 .evening-backdrop {
@@ -1068,20 +1074,20 @@ svg.icon {
   width: min(calc(100% - 20px), 960px);
   margin: 0 auto;
   overflow: hidden;
-  border: 1px solid var(--ink);
-  background: var(--paper);
-  color: var(--ink);
+  border: 1px solid var(--evening-ink);
+  background: var(--evening-paper);
+  color: var(--evening-ink);
   box-shadow: var(--shadow);
 }
 
 .evening-panel-head {
   display: flex;
-  min-height: 96px;
+  min-height: 112px;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--line);
+  gap: 24px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--evening-rule);
 }
 
 .evening-panel-head h2,
@@ -1096,24 +1102,29 @@ svg.icon {
 }
 
 .evening-panel-head small {
-  color: var(--ink-soft);
+  display: block;
+  max-width: 44em;
+  color: color-mix(in srgb, var(--evening-ink) 68%, transparent);
   font-size: 9px;
+  line-height: 1.7;
+  text-wrap: balance;
 }
 
 .evening-panel-head > button {
-  flex: 0 0 48px;
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--ink);
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-left: 1px solid var(--evening-rule);
   background: transparent;
-  color: var(--ink);
-  font-size: 28px;
+  color: var(--evening-ink);
+  font-size: 24px;
   cursor: pointer;
 }
 
 .evening-guides,
 .evening-guide {
-  height: calc(100% - 96px);
+  height: calc(100% - 112px);
 }
 
 .evening-guide {
@@ -1122,17 +1133,17 @@ svg.icon {
 
 .evening-guide > header {
   display: grid;
-  gap: 5px;
-  padding: 22px 18px 14px;
+  gap: 7px;
+  padding: 28px 24px 20px;
 }
 
 .evening-guide > header p,
 .guide-page > header small {
   margin: 0;
-  color: var(--accent);
+  color: var(--evening-ink);
   font-family: var(--utility);
   font-size: 10px;
-  letter-spacing: .14em;
+  letter-spacing: .16em;
 }
 
 .evening-guide > header h3 {
@@ -1140,26 +1151,62 @@ svg.icon {
 }
 
 .evening-guide > header span {
-  color: var(--ink-soft);
+  color: color-mix(in srgb, var(--evening-ink) 68%, transparent);
   font-size: 10px;
 }
 
 .guide-tabs {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  margin: 0 18px 14px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  gap: 0;
+  margin: 0 24px 20px;
+  border-top: 1px solid var(--evening-rule);
+  border-bottom: 1px solid var(--evening-rule);
+  background: transparent;
 }
 
 .guide-tabs button {
-  min-height: 46px;
+  position: relative;
+  min-height: 48px;
+  padding: 0 12px;
   border: 0;
-  background: var(--white);
-  color: var(--ink);
-  font-weight: 700;
+  border-right: 1px solid var(--evening-rule);
+  background: transparent;
+  color: var(--evening-ink);
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+}
+
+.guide-tabs button:last-child {
+  border-right: 0;
+}
+
+.guide-tabs button::after {
+  position: absolute;
+  right: 12px;
+  bottom: -1px;
+  left: 12px;
+  height: 2px;
+  background: transparent;
+  content: '';
+}
+
+.guide-tabs [data-guide-tab="restaurants"] {
+  --tab-accent: #A84F3D;
+}
+
+.guide-tabs [data-guide-tab="bars"] {
+  --tab-accent: #385B70;
+}
+
+.guide-tabs [data-guide-tab="activities"] {
+  --tab-accent: #647052;
+}
+
+.guide-tabs:not(:focus-within) [data-guide-tab="restaurants"]::after,
+.guide-tabs button:focus::after {
+  background: var(--tab-accent);
 }
 
 .guide-carousel {
@@ -1176,76 +1223,55 @@ svg.icon {
 .guide-page {
   display: grid;
   flex: 0 0 100%;
-  gap: 14px;
+  gap: 18px;
   align-content: start;
-  padding: 0 18px 32px;
+  padding: 0 24px 40px;
   scroll-snap-align: start;
 }
 
 .guide-page > header {
   display: grid;
   grid-template-columns: 44px 1fr;
-  gap: 10px;
+  gap: 14px;
   align-items: center;
-  padding: 11px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  padding: 13px 0;
+  border-top: 1px solid var(--evening-rule);
+  border-bottom: 1px solid var(--evening-rule);
 }
 
 .guide-page > header > span {
   display: grid;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   place-items: center;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  color: var(--accent);
+  border-right: 1px solid var(--card-accent);
+  color: var(--card-accent);
   font-family: var(--utility);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 [data-category-theme="restaurant"] {
-  --card-accent: #F06A4F;
-  --card-tint: #FFE2C7;
+  --card-accent: #A84F3D;
 }
 
 [data-category-theme="bar"] {
-  --card-accent: #4B61D1;
-  --card-tint: #DDE5FF;
+  --card-accent: #385B70;
 }
 
 [data-category-theme="activity"] {
-  --card-accent: #9A4FD0;
-  --card-tint: #F0DFFF;
-}
-
-.guide-tabs [data-guide-tab="restaurants"] {
-  background: #FFE2C7;
-  color: #8B2F20;
-}
-
-.guide-tabs [data-guide-tab="bars"] {
-  background: #DDE5FF;
-  color: #263B9D;
-}
-
-.guide-tabs [data-guide-tab="activities"] {
-  background: #F0DFFF;
-  color: #6D2A9A;
+  --card-accent: #647052;
 }
 
 .guide-page[data-category-theme] {
-  background: color-mix(in srgb, var(--card-tint) 28%, var(--paper));
+  background: transparent;
 }
 
 .guide-page[data-category-theme] > header {
-  border-color: color-mix(in srgb, var(--card-accent) 55%, var(--line));
+  border-bottom-color: var(--card-accent);
 }
 
 .guide-page[data-category-theme] > header > span {
-  border-color: var(--card-accent);
-  background: var(--card-accent);
-  color: white;
+  background: transparent;
 }
 
 .guide-page[data-category-theme] > header small {
@@ -1254,27 +1280,28 @@ svg.icon {
 
 .recommendation-card {
   display: grid;
-  grid-template-columns: minmax(220px, 36%) minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 38%) minmax(0, 1fr);
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--card-accent) 50%, var(--line));
-  background: color-mix(in srgb, var(--card-tint) 38%, var(--white));
+  border: 1px solid var(--evening-rule);
+  border-left: 4px solid var(--card-accent);
+  background: #FFFEFA;
 }
 
 .recommendation-media {
   display: grid;
-  grid-template-rows: minmax(230px, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-self: start;
   min-width: 0;
   margin: 0;
-  background:
-    radial-gradient(circle at 25% 20%, color-mix(in srgb, var(--card-accent) 55%, transparent) 0 2px, transparent 3px),
-    linear-gradient(135deg, var(--card-tint), color-mix(in srgb, var(--card-accent) 38%, var(--ink)));
-  background-size: 28px 28px, auto;
+  border-right: 1px solid var(--evening-rule);
+  background: var(--evening-paper);
 }
 
 .recommendation-media img {
   width: 100%;
-  height: 100%;
-  min-height: 230px;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
 }
 
@@ -1283,9 +1310,11 @@ svg.icon {
   flex-wrap: wrap;
   gap: 5px 10px;
   justify-content: space-between;
-  padding: 8px 10px;
-  background: var(--ink);
-  color: color-mix(in srgb, var(--paper) 76%, transparent);
+  align-items: center;
+  padding: 7px 10px;
+  border-top: 1px solid var(--evening-rule);
+  background: var(--evening-paper);
+  color: color-mix(in srgb, var(--evening-ink) 68%, transparent);
   font-size: 9px;
   line-height: 1.45;
 }
@@ -1293,7 +1322,8 @@ svg.icon {
 .recommendation-media figcaption a {
   display: inline-flex;
   gap: 4px;
-  color: white;
+  align-items: center;
+  color: var(--evening-ink);
   font-weight: 700;
   text-decoration: none;
 }
@@ -1304,9 +1334,9 @@ svg.icon {
 
 .recommendation-body {
   display: grid;
-  gap: 16px;
+  gap: 18px;
   min-width: 0;
-  padding: 20px;
+  padding: 22px 24px 24px;
 }
 
 .recommendation-body > header {
@@ -1329,7 +1359,7 @@ svg.icon {
 
 .recommendation-body > header p {
   margin: 4px 0 0;
-  color: var(--ink-soft);
+  color: color-mix(in srgb, var(--evening-ink) 68%, transparent);
   font-size: 12px;
   line-height: 1.55;
 }
@@ -1337,8 +1367,9 @@ svg.icon {
 .recommendation-body > header > strong {
   flex: 0 0 auto;
   padding: 8px 10px;
-  background: #D7EF61;
-  color: var(--ink);
+  border: 1px solid var(--evening-ink);
+  background: transparent;
+  color: var(--evening-ink);
   font-family: var(--utility);
   font-size: 12px;
 }
@@ -1371,18 +1402,17 @@ svg.icon {
 .recommendation-highlights li {
   position: relative;
   padding-left: 18px;
-  color: var(--ink-soft);
+  color: color-mix(in srgb, var(--evening-ink) 76%, transparent);
   font-size: 14px;
   line-height: 1.65;
 }
 
 .recommendation-highlights li::before {
   position: absolute;
-  top: .65em;
+  top: .8em;
   left: 0;
   width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  height: 1px;
   background: var(--card-accent);
   content: '';
 }
@@ -1392,8 +1422,8 @@ svg.icon {
   gap: 5px;
   margin: 0;
   padding: 12px 14px;
-  border-left: 3px solid var(--card-accent);
-  background: color-mix(in srgb, var(--card-tint) 64%, white);
+  border-left: 2px solid var(--card-accent);
+  background: var(--evening-paper);
   font-size: 14px;
   line-height: 1.7;
 }
@@ -1406,7 +1436,7 @@ svg.icon {
 }
 
 .recommendation-body > footer > span {
-  color: var(--ink-soft);
+  color: color-mix(in srgb, var(--evening-ink) 68%, transparent);
   font-size: 11px;
 }
 
@@ -1416,9 +1446,9 @@ svg.icon {
   align-items: center;
   gap: 5px;
   padding: 0 11px;
-  border: 1px solid var(--card-accent);
-  background: var(--white);
-  color: color-mix(in srgb, var(--card-accent) 80%, var(--ink));
+  border: 1px solid var(--evening-rule);
+  background: transparent;
+  color: var(--evening-ink);
   font-size: 10px;
   font-weight: 700;
   text-decoration: none;
@@ -1435,10 +1465,12 @@ svg.icon {
 
   .recommendation-media {
     grid-template-rows: auto auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--evening-rule);
   }
 
   .recommendation-media img {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 3 / 2;
     min-height: 0;
   }
 
@@ -2475,12 +2507,12 @@ body.panel-open {
     padding: 14px 12px;
   }
 
-  .evening-route-mark {
+  .evening-location-mark {
     width: 52px;
     height: 52px;
   }
 
-  .evening-route-mark svg {
+  .evening-location-mark svg {
     width: 40px;
     height: 40px;
   }

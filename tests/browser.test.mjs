@@ -217,7 +217,7 @@ test('daily evening guide opens, switches horizontally and shows airport-only de
   }
 });
 
-test('colorful evening cards show themed local images and readable copy', async () => {
+test('editorial evening cards use restrained color, media and control treatments', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   try {
@@ -227,11 +227,22 @@ test('colorful evening cards show themed local images and readable copy', async 
     const restaurant = guide.locator('[data-guide-page="restaurants"] .recommendation-card').first();
     await restaurant.locator('img').waitFor({ state: 'visible' });
     assert.equal(await restaurant.getAttribute('data-category-theme'), 'restaurant');
-    assert.equal(await restaurant.evaluate((node) => getComputedStyle(node).getPropertyValue('--card-accent').trim()), '#F06A4F');
+    assert.equal(await restaurant.evaluate((node) => getComputedStyle(node).getPropertyValue('--card-accent').trim()), '#A84F3D');
+    assert.equal(await restaurant.evaluate((node) => getComputedStyle(node).backgroundColor), 'rgb(255, 254, 250)');
+    assert.equal(await restaurant.locator('.recommendation-media img').evaluate((node) => getComputedStyle(node).aspectRatio), '3 / 2');
+    assert.ok(await guide.locator('[data-guide-tab="restaurants"]').evaluate((node) => getComputedStyle(node).backgroundColor === 'rgba(0, 0, 0, 0)' || getComputedStyle(node).backgroundColor === 'rgb(244, 241, 233)'));
+    const closeTarget = await page.locator('[data-action="close-evening"]').boundingBox();
+    assert.ok(closeTarget && closeTarget.width >= 44 && closeTarget.height >= 44);
+    for (const tab of await guide.locator('[data-guide-tab]').all()) {
+      const target = await tab.boundingBox();
+      assert.ok(target && target.width >= 44 && target.height >= 44);
+    }
     assert.ok(await restaurant.locator('img').evaluate((node) => node.naturalWidth > 0));
     assert.ok(await restaurant.locator('h4').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 20));
     assert.ok(await restaurant.locator('.recommendation-copy p').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 15));
     assert.ok(await restaurant.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    assert.equal(await guide.locator('.guide-carousel').evaluate((node) => getComputedStyle(node).scrollBehavior), 'auto');
   } finally {
     await browser.close();
   }
