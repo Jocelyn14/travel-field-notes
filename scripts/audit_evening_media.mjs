@@ -20,9 +20,10 @@ const catalog = JSON.parse(await readFile(catalogPath, 'utf8'));
 validateCatalog(catalog, catalog.map((entry) => entry.id));
 
 const media = await Promise.all(catalog.map(async (entry) => {
-  const file = join(sourceRoot, entry.sourceFile);
+  const relativeFile = `assets/evening/${entry.id}.webp`;
+  const file = join(sourceRoot, relativeFile);
   const rawPixels = await sharp(file).resize(9, 8, { fit: 'fill' }).grayscale().raw().toBuffer();
-  return { id: entry.id, sourceFile: entry.sourceFile, sha256: await sha256(file), differenceHash: differenceHash(rawPixels, 9, 8) };
+  return { id: entry.id, file: relativeFile, sha256: await sha256(file), differenceHash: differenceHash(rawPixels, 9, 8) };
 }));
 
 const exactDuplicates = [];
@@ -44,4 +45,4 @@ const report = { generatedAt: new Date().toISOString(), media, exactDuplicates, 
 await mkdir(dirname(outputPath), { recursive: true });
 await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 process.stdout.write(`MEDIA_AUDIT exact=${exactDuplicates.length} near=${nearDuplicates.length} total=${media.length}\n`);
-if (exactDuplicates.length) process.exitCode = 1;
+if (exactDuplicates.length || nearDuplicates.length) process.exitCode = 1;

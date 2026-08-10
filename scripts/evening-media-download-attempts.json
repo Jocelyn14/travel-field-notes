@@ -1,0 +1,215 @@
+{
+  "generatedAt": "2026-08-10T08:51:19.944Z",
+  "maxAttempts": 2,
+  "selection": "verified-photo research rows whose expected local photo file was absent",
+  "targets": [
+    {
+      "id": "it-a-belli",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Trastevere_-_teatro_Belli_1110726.JPG",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Trastevere_-_teatro_Belli_1110726.JPG",
+      "attempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-08-10T08:46:12.304Z",
+          "finishedAt": "2026-08-10T08:46:32.148Z",
+          "outcome": "downloaded",
+          "httpStatus": "200",
+          "exitCode": 0,
+          "error": "",
+          "bytes": 2201267,
+          "sha256": "a2bba835f7a51384231a22200e627d1ad802237a2467ccc0ed668549b6ed5aba"
+        }
+      ],
+      "finalOutcome": "downloaded",
+      "sourceBytes": 2201267,
+      "sourceSha256": "a2bba835f7a51384231a22200e627d1ad802237a2467ccc0ed668549b6ed5aba"
+    },
+    {
+      "id": "it-a-marcello",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/d/da/Teatro_di_Marcello_Roma_2016.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Teatro_di_Marcello_Roma_2016.jpg",
+      "attempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-08-10T08:46:32.155Z",
+          "finishedAt": "2026-08-10T08:46:46.730Z",
+          "outcome": "downloaded",
+          "httpStatus": "200",
+          "exitCode": 0,
+          "error": "",
+          "bytes": 1869309,
+          "sha256": "228185339376f7e35b25cc165d3ad7e82a4670432a6138cd5a23afc1b2b73ca3"
+        }
+      ],
+      "finalOutcome": "downloaded",
+      "sourceBytes": 1869309,
+      "sourceSha256": "228185339376f7e35b25cc165d3ad7e82a4670432a6138cd5a23afc1b2b73ca3"
+    },
+    {
+      "id": "jp-r-kayaba",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Cafe_Kayaba_20211126.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Cafe_Kayaba_20211126.jpg",
+      "attempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-08-10T08:46:46.737Z",
+          "finishedAt": "2026-08-10T08:47:03.570Z",
+          "outcome": "downloaded",
+          "httpStatus": "200",
+          "exitCode": 0,
+          "error": "",
+          "bytes": 4733851,
+          "sha256": "e8b768eeba3486facebb130b0cf1e9b89f0753652854b0ba92d50c7907dfdf78"
+        }
+      ],
+      "finalOutcome": "downloaded",
+      "sourceBytes": 4733851,
+      "sourceSha256": "e8b768eeba3486facebb130b0cf1e9b89f0753652854b0ba92d50c7907dfdf78"
+    },
+    {
+      "id": "jp-b-yanaka-beer",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/5/50/Yanaka_Beer_Hall_in_Yanaka%2C_Taito%2C_Tokyo%2C_Japan%2C_2024_May.jpg",
+      "sourcePage": "https://openverse.org/image/d7719bc9-1981-496c-8565-02eea95a77cc",
+      "attempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-08-10T08:47:03.571Z",
+          "finishedAt": "2026-08-10T08:47:48.615Z",
+          "outcome": "failed",
+          "httpStatus": "200",
+          "exitCode": 28,
+          "error": "curl: (28) Operation timed out after 45003 milliseconds with 6797104 out of 18142706 bytes received; HTTP 200"
+        },
+        {
+          "attempt": 2,
+          "startedAt": "2026-08-10T08:47:48.615Z",
+          "finishedAt": "2026-08-10T08:48:33.652Z",
+          "outcome": "failed",
+          "httpStatus": "200",
+          "exitCode": 28,
+          "error": "curl: (28) Operation timed out after 45006 milliseconds with 5727281 out of 18142706 bytes received; HTTP 200"
+        }
+      ],
+      "finalOutcome": "failed"
+    },
+    {
+      "id": "jp-r-tofuya",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Tokyo_Shiba_Tofuya_Ukai_restaurant_%2824890762891%29.jpg",
+      "sourcePage": "https://openverse.org/image/69a7be5a-8c0e-4335-a533-265ea43b6fff",
+      "attempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-08-10T08:48:33.654Z",
+          "finishedAt": "2026-08-10T08:49:18.697Z",
+          "outcome": "failed",
+          "httpStatus": "200",
+          "exitCode": 28,
+          "error": "curl: (28) Operation timed out after 45008 milliseconds with 7025080 out of 9359492 bytes received; HTTP 200"
+        },
+        {
+          "attempt": 2,
+          "startedAt": "2026-08-10T08:49:18.697Z",
+          "finishedAt": "2026-08-10T08:50:02.859Z",
+          "outcome": "downloaded",
+          "httpStatus": "200",
+          "exitCode": 0,
+          "error": "",
+          "bytes": 9359492,
+          "sha256": "5cbe25f1aa5b566f0aadcd04e817c1a645028059eb839bfac1411868494feec0"
+        }
+      ],
+      "finalOutcome": "downloaded",
+      "sourceBytes": 9359492,
+      "sourceSha256": "5cbe25f1aa5b566f0aadcd04e817c1a645028059eb839bfac1411868494feec0"
+    },
+    {
+      "id": "jp-r-tsurutontan",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Curry_Udon_%40_Tsurutontan_%40_Roppongi_%2813621767843%29.jpg",
+      "sourcePage": "https://openverse.org/image/f9ceadf0-2705-41a6-b216-7d9791b0ef86",
+      "attempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-08-10T08:50:02.863Z",
+          "finishedAt": "2026-08-10T08:50:24.489Z",
+          "outcome": "downloaded",
+          "httpStatus": "200",
+          "exitCode": 0,
+          "error": "",
+          "bytes": 5034413,
+          "sha256": "c732712909682796b1a51730928c3de018655347857d3a9991c17609f4eaebba"
+        }
+      ],
+      "finalOutcome": "downloaded",
+      "sourceBytes": 5034413,
+      "sourceSha256": "c732712909682796b1a51730928c3de018655347857d3a9991c17609f4eaebba"
+    },
+    {
+      "id": "jp-a-billboard",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Billboard_Live_TOKYO_01.JPG",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Billboard_Live_TOKYO_01.JPG",
+      "attempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-08-10T08:50:24.490Z",
+          "finishedAt": "2026-08-10T08:50:44.734Z",
+          "outcome": "downloaded",
+          "httpStatus": "200",
+          "exitCode": 0,
+          "error": "",
+          "bytes": 3845243,
+          "sha256": "af2e7b0e4704c34d82108e40a45023ccb90a0a1ea46ef2b1cfda424195021605"
+        }
+      ],
+      "finalOutcome": "downloaded",
+      "sourceBytes": 3845243,
+      "sourceSha256": "af2e7b0e4704c34d82108e40a45023ccb90a0a1ea46ef2b1cfda424195021605"
+    },
+    {
+      "id": "jp-r-fuunji",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/7/74/Chicken_Gyokai_Tsukemen_%40_Fuunji_%40_Shinjuku_%2811324269423%29.jpg",
+      "sourcePage": "https://openverse.org/image/b2726798-554f-40de-88bb-23a451e1ce5d",
+      "attempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-08-10T08:50:44.736Z",
+          "finishedAt": "2026-08-10T08:51:17.223Z",
+          "outcome": "downloaded",
+          "httpStatus": "200",
+          "exitCode": 0,
+          "error": "",
+          "bytes": 3871787,
+          "sha256": "5d4c4c8d95e0c6b54a218bf0aa3af13c632c0acb7f6623b157d45c29860c35b5"
+        }
+      ],
+      "finalOutcome": "downloaded",
+      "sourceBytes": 3871787,
+      "sourceSha256": "5d4c4c8d95e0c6b54a218bf0aa3af13c632c0acb7f6623b157d45c29860c35b5"
+    },
+    {
+      "id": "jp-b-benfiddich",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/4/40/%E3%83%99%E3%83%B3%E3%83%95%E3%82%A3%E3%83%87%E3%82%A3%E3%83%83%E3%82%AF%E7%9C%8B%E6%9D%BF2.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:%E3%83%99%E3%83%B3%E3%83%95%E3%82%A3%E3%83%87%E3%82%A3%E3%83%83%E3%82%AF%E7%9C%8B%E6%9D%BF2.jpg",
+      "attempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-08-10T08:51:17.226Z",
+          "finishedAt": "2026-08-10T08:51:18.643Z",
+          "outcome": "failed",
+          "httpStatus": "429",
+          "exitCode": 0,
+          "error": "HTTP 429"
+        },
+        {
+          "attempt": 2,
+          "startedAt": "2026-08-10T08:51:18.643Z",
+          "finishedAt": "2026-08-10T08:51:19.943Z",
+          "outcome": "failed",
+          "httpStatus": "429",
+          "exitCode": 0,
+          "error": "HTTP 429"
+        }
+      ],
+      "finalOutcome": "failed"
+    }
+  ]
+}

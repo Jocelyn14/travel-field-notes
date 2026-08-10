@@ -29,6 +29,10 @@ for (const entry of catalog) {
     kind: entry.kind,
     alt: entry.alt,
     verifiedAt: entry.verifiedAt,
+    ...(entry.sourceSha256 ? {
+      sourceBytes: entry.sourceBytes,
+      sourceSha256: entry.sourceSha256,
+    } : {}),
   });
 }
 

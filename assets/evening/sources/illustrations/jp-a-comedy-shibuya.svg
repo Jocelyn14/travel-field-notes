@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 960" width="1440" height="960">
   <rect width="1440" height="960" fill="#F4F1E9"/>
-  
+
     <circle cx="410" cy="132" r="91" fill="#647052"/>
     <path d="M120 252V383" stroke="#647052" stroke-width="5" stroke-linecap="round"/><path d="M285 234V349" stroke="#17211D" stroke-width="9" stroke-linecap="round"/><path d="M450 109V467" stroke="#17211D" stroke-width="4" stroke-linecap="round"/><path d="M615 233V367" stroke="#647052" stroke-width="10" stroke-linecap="round"/><path d="M780 210V459" stroke="#17211D" stroke-width="6" stroke-linecap="round"/><path d="M945 160V463" stroke="#17211D" stroke-width="5" stroke-linecap="round"/><path d="M1110 235V492" stroke="#647052" stroke-width="5" stroke-linecap="round"/><path d="M1275 234V380" stroke="#17211D" stroke-width="5" stroke-linecap="round"/>
     <rect x="94" y="639" width="92" height="80" rx="16" fill="none" stroke="#17211D" stroke-width="8"/><rect x="253" y="439" width="91" height="280" rx="29" fill="none" stroke="#17211D" stroke-width="8"/><rect x="436" y="492" width="141" height="227" rx="5" fill="none" stroke="#17211D" stroke-width="8"/><rect x="636" y="608" width="112" height="111" rx="17" fill="none" stroke="#17211D" stroke-width="8"/><rect x="838" y="566" width="139" height="153" rx="27" fill="none" stroke="#17211D" stroke-width="8"/><rect x="995" y="435" width="77" height="284" rx="15" fill="none" stroke="#17211D" stroke-width="8"/><rect x="1191" y="634" width="80" height="85" rx="18" fill="none" stroke="#17211D" stroke-width="8"/>
     <path d="M72 719 C320 636 515 752 720 719 S1120 616 1368 719" fill="none" stroke="#17211D" stroke-width="11" stroke-linecap="round"/>
-  
+
   <g transform="rotate(7 509 516)"><path d="M174 291Q289 451 174 751H844Q729 451 844 291Z" fill="#647052" stroke="#17211D" stroke-width="15"/><path d="M421 751V446Q509 336 597 446V751" fill="#F4F1E9" stroke="#17211D" stroke-width="13"/><circle cx="509" cy="501" r="36" fill="#17211D"/></g>
   <path d="M1190 150l44 -24" stroke="#17211D" stroke-width="7" stroke-linecap="round"/><path d="M1236 150l20 -24" stroke="#647052" stroke-width="7" stroke-linecap="round"/><path d="M1282 150l48 -24" stroke="#17211D" stroke-width="7" stroke-linecap="round"/><path d="M1190 198l32 -24" stroke="#647052" stroke-width="7" stroke-linecap="round"/><path d="M1236 198l20 -24" stroke="#17211D" stroke-width="7" stroke-linecap="round"/><path d="M1282 198l26 24" stroke="#647052" stroke-width="7" stroke-linecap="round"/>
   <path d="M74 884H1366" stroke="#17211D" stroke-width="12" stroke-linecap="round"/>

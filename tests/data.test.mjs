@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFile, stat } from 'node:fs/promises';
 
 import { buildGoogleMapsSearchUrl, validateTrips } from '../src/core.mjs';
@@ -104,6 +105,9 @@ test('evening media catalog matches recommendations one-to-one without neighborh
 test('evening acquisition decisions cover every recommendation exactly once', async () => {
   const trips = JSON.parse(await readFile(dataUrl, 'utf8'));
   const sources = JSON.parse(await readFile(new URL('../scripts/evening-media-sources.json', import.meta.url), 'utf8'));
+  const catalog = JSON.parse(await readFile(new URL('../scripts/evening-media-catalog.json', import.meta.url), 'utf8'));
+  const credits = JSON.parse(await readFile(new URL('../assets/evening/credits.json', import.meta.url), 'utf8'));
+  const attempts = JSON.parse(await readFile(new URL('../scripts/evening-media-download-attempts.json', import.meta.url), 'utf8'));
   const recommendations = trips.flatMap((trip) => trip.eveningGuides.flatMap((guide) => [
     ...guide.restaurants,
     ...guide.bars,
@@ -116,12 +120,102 @@ test('evening acquisition decisions cover every recommendation exactly once', as
   assert.ok(sources.every((item) => ['verified-photo', 'needs-illustration'].includes(item.status)));
   for (const item of sources) {
     for (const field of ['query', 'decision']) assert.ok(item[field]?.trim(), `${item.id}.${field} 缺失`);
+    assert.equal(item.researchQuery, item.query, `${item.id} must preserve its venue-specific research query`);
+    assert.equal(item.originalEvidence?.trim(), item.originalEvidence, `${item.id} must preserve exact research evidence`);
+    assert.equal(item.researchInput.id, item.id);
+    assert.match(item.researchInput.googleMaps, /^https:\/\/www\.google\.com\/maps\/search/);
+    assert.match(item.researchInput.imageSearch, /^https:\/\/www\.google\.com\/search\?/);
+    assert.deepEqual(
+      item.researchChecks.map((check) => check.sourceClass),
+      ['official', 'wikimedia-commons', 'openverse'],
+      `${item.id} must record all required source classes`,
+    );
+    for (const check of item.researchChecks) {
+      assert.match(check.query, new RegExp(`\\[${item.id}\\]`));
+      assert.ok(check.status?.trim(), `${item.id}.${check.sourceClass}.status missing`);
+      assert.ok(check.outcome?.trim(), `${item.id}.${check.sourceClass}.outcome missing`);
+    }
+    for (const field of ['input', 'result', 'report']) {
+      assert.match(item.researchProvenance[field], /^scripts\/evening-media-research\/(italy|tokyo)-(input|results|report)\.(json|md)$/);
+      assert.ok((await stat(new URL(`../${item.researchProvenance[field]}`, import.meta.url))).size > 0);
+    }
     if (item.status === 'verified-photo') {
       for (const field of ['candidateUrl', 'sourcePage', 'directAssetUrl', 'license', 'credit', 'alt', 'verifiedAt']) {
         assert.ok(item[field]?.trim(), `${item.id}.${field} 缺失`);
       }
       assert.equal(item.candidateUrl, item.directAssetUrl);
+      assert.match(item.sourceSha256, /^[a-f0-9]{64}$/);
+      assert.ok(item.sourceBytes > 0);
+      const sourceFile = catalog.find((entry) => entry.id === item.id).sourceFile;
+      const sourceBytes = await readFile(new URL(`../${sourceFile}`, import.meta.url));
+      assert.equal(item.sourceBytes, sourceBytes.length);
+      assert.equal(item.sourceSha256, createHash('sha256').update(sourceBytes).digest('hex'));
+      assert.equal(catalog.find((entry) => entry.id === item.id).sourceSha256, item.sourceSha256);
+      assert.equal(credits.find((entry) => entry.recommendationId === item.id).sourceSha256, item.sourceSha256);
     }
+  }
+
+  const fallbackChecks = sources
+    .filter((item) => item.status === 'needs-illustration')
+    .map((item) => JSON.stringify(item.researchChecks));
+  assert.equal(new Set(fallbackChecks).size, fallbackChecks.length, 'fallback check evidence must be venue-specific');
+
+  assert.ok(Array.isArray(attempts.targets));
+  for (const target of attempts.targets) {
+    assert.match(target.url, /^https:\/\//);
+    assert.ok(target.attempts.length >= 1 && target.attempts.length <= attempts.maxAttempts);
+    for (const attempt of target.attempts) {
+      assert.match(attempt.startedAt, /^\d{4}-\d{2}-\d{2}T/);
+      assert.match(attempt.finishedAt, /^\d{4}-\d{2}-\d{2}T/);
+      assert.ok(['downloaded', 'failed'].includes(attempt.outcome));
+      assert.ok(attempt.httpStatus === null || /^\d{3}$/.test(attempt.httpStatus));
+      if (attempt.outcome === 'failed') assert.ok(attempt.error?.trim());
+    }
+    const source = sources.find((item) => item.id === target.id);
+    assert.equal(source.status, target.finalOutcome === 'downloaded' ? 'verified-photo' : 'needs-illustration');
+    if (target.finalOutcome === 'downloaded') {
+      assert.equal(target.sourceSha256, source.sourceSha256);
+      assert.equal(target.sourceBytes, source.sourceBytes);
+      const successfulAttempt = target.attempts.find((attempt) => attempt.outcome === 'downloaded');
+      assert.equal(successfulAttempt.sha256, source.sourceSha256);
+      assert.equal(successfulAttempt.bytes, source.sourceBytes);
+    }
+  }
+
+  const hagisoSource = sources.find((item) => item.id === 'jp-r-hagiso');
+  const hagisoCatalog = catalog.find((item) => item.id === 'jp-r-hagiso');
+  assert.equal(hagisoSource.status, 'needs-illustration');
+  assert.match(hagisoSource.decision, /menu close-up/i);
+  assert.equal(hagisoCatalog.kind, 'illustration');
+
+  const illustrationLicense = await readFile(new URL('../assets/evening/sources/illustrations/LICENSE.md', import.meta.url), 'utf8');
+  assert.match(illustrationLicense, /Creative Commons Attribution 4\.0 International/);
+  assert.match(illustrationLicense, /https:\/\/creativecommons\.org\/licenses\/by\/4\.0\/legalcode/);
+  for (const item of catalog.filter((entry) => entry.kind === 'illustration')) {
+    assert.equal(item.license, 'CC BY 4.0');
+    assert.equal(item.credit, 'Travel Atlas');
+  }
+});
+
+test('committed research provenance covers all evening recommendations reproducibly', async () => {
+  const researchFiles = [
+    ['italy-input.json', 'italy-results.json'],
+    ['tokyo-input.json', 'tokyo-results.json'],
+  ];
+  const inputs = [];
+  const results = [];
+  for (const [inputFile, resultFile] of researchFiles) {
+    inputs.push(...JSON.parse(await readFile(new URL(`../scripts/evening-media-research/${inputFile}`, import.meta.url), 'utf8')));
+    results.push(...JSON.parse(await readFile(new URL(`../scripts/evening-media-research/${resultFile}`, import.meta.url), 'utf8')));
+  }
+
+  assert.equal(inputs.length, 136);
+  assert.equal(results.length, 136);
+  assert.deepEqual(new Set(inputs.map((item) => item.id)), new Set(results.map((item) => item.id)));
+  assert.equal(new Set(inputs.map((item) => item.id)).size, 136);
+  for (const row of results) {
+    assert.match(row.verifiedAt, /^\d{4}-\d{2}-\d{2}$/);
+    assert.ok(row.evidence?.trim(), `${row.id}.evidence missing from canonical research`);
   }
 });
 

@@ -1,821 +1,821 @@
 {
-  "generatedAt": "2026-08-10T08:24:29.071Z",
+  "generatedAt": "2026-08-10T09:00:13.570Z",
   "media": [
     {
       "id": "it-r-pasta-corso",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-pasta-corso.svg",
-      "sha256": "35227c490103a4ef4ab29ee4d1c834af476fea6d12ef40d08a4aafc5ebb829f0",
-      "differenceHash": "4642daf8f8b00282"
+      "file": "assets/evening/it-r-pasta-corso.webp",
+      "sha256": "8ff3d05f0c10383370f61899b68637220ae0f8d422e085d1ef075d02b47f6319",
+      "differenceHash": "4652dafcf8b20282"
     },
     {
       "id": "it-r-grano",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-grano.svg",
-      "sha256": "2398b60e52747a7c826d4db54bf0a69901ac94c6c2221fb9ccb6af711ace5f41",
-      "differenceHash": "06961aa8e2aae082"
+      "file": "assets/evening/it-r-grano.webp",
+      "sha256": "307c98c6aa6e39ea9a6b2b1f4053ff4e7b412875717ea50014413a4456639d57",
+      "differenceHash": "86929a88e2aae082"
     },
     {
       "id": "it-r-vecchia-roma",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-vecchia-roma.svg",
-      "sha256": "6be65b053ded31df7a3ac54c64c2b565788a802ca937640059acdba126da57c6",
-      "differenceHash": "06c6cce4e0e0a082"
+      "file": "assets/evening/it-r-vecchia-roma.webp",
+      "sha256": "4bbf22cc4c7c31a9bcacb8a626f073b17332094842f40829d225599312230f43",
+      "differenceHash": "0aca9cace4e0a082"
     },
     {
       "id": "it-b-oro",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-oro.svg",
-      "sha256": "85d278f2801ca291e8cb9d8be252867b92cbeaf52a1eabf2adb750466debec71",
-      "differenceHash": "a28adac8d0f10082"
+      "file": "assets/evening/it-b-oro.webp",
+      "sha256": "45a6f223ab8cd7d79da8bb09b2f70ba6ab30e8c59c0708b17f01a5474386fb1d",
+      "differenceHash": "a28a9ac8d0f10082"
     },
     {
       "id": "it-b-court",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-court.svg",
-      "sha256": "ab5c910c291c7a3ba7a0473c05f9f5cecdcc830bb16f78d72448da367eec1824",
-      "differenceHash": "40d2e2e464e60282"
+      "file": "assets/evening/it-b-court.webp",
+      "sha256": "7961937a8fc6a9801c70223985c9ebb2b5e1b80108f5138e681f6e62356e9fbc",
+      "differenceHash": "40d2e2e664e60282"
     },
     {
       "id": "it-b-blackmarket",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-blackmarket.svg",
-      "sha256": "0ad78f5366eca80114e2c483e53f2bbca7972571f151765499d62598c803408e",
-      "differenceHash": "82b6cae2b4b4b282"
+      "file": "assets/evening/it-b-blackmarket.webp",
+      "sha256": "b4b3b32ebeb652279e9dad34a2512bf30ce732be27917198c8737e4383c0047d",
+      "differenceHash": "82b2d2e2b4b4b282"
     },
     {
       "id": "it-a-opera-roma",
-      "sourceFile": "assets/evening/sources/photos/it-a-opera-roma.jpg",
-      "sha256": "5ae826409da223ba2efbb35fdeefd39ab898dae78a240c2aa295dab0f6492cae",
-      "differenceHash": "0b33b69b3bf8c0cc"
+      "file": "assets/evening/it-a-opera-roma.webp",
+      "sha256": "7107251d667f32e4205f38f04bcd696dac8e53792b8c8f7dc9535715e5d9721b",
+      "differenceHash": "0b33b3961733c8e8"
     },
     {
       "id": "it-a-brancaccio",
-      "sourceFile": "assets/evening/sources/photos/it-a-brancaccio.jpg",
-      "sha256": "037f4d57dda537671f56e6f7d6b3d4b6e76271311a15f8265bf2db7520038dfc",
-      "differenceHash": "0b196c6d654d0f07"
+      "file": "assets/evening/it-a-brancaccio.webp",
+      "sha256": "436afe073fd122ea4e8b1e3a98b8f7372c18b012f04b3a01f8849a839266092e",
+      "differenceHash": "59446d25654d0b07"
     },
     {
       "id": "it-a-gregorys",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-gregorys.svg",
-      "sha256": "5c14fdbd2ed3e773eadbb78fc1f4cc70b4d66b3f02c42108e3a61f3fd4481719",
-      "differenceHash": "008ab860d0f06182"
+      "file": "assets/evening/it-a-gregorys.webp",
+      "sha256": "e6ec441ba995e49618582645e87136008765792bd663f4814c7b27127bd0f874",
+      "differenceHash": "008ab8e0d0f06182"
     },
     {
       "id": "it-a-sanctuary",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-sanctuary.svg",
-      "sha256": "eb8e7ed71f4a1bbd10e9c6e8594a773a750928330b20087c905eb20284f23b0f",
-      "differenceHash": "0092e07170706082"
+      "file": "assets/evening/it-a-sanctuary.webp",
+      "sha256": "1f9acac1fd4ecdfc8eabf596a0db9f101ca65cfb87311316fe8348bc528eae88",
+      "differenceHash": "0092e05150e06082"
     },
     {
       "id": "it-a-opera-camera",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-opera-camera.svg",
-      "sha256": "d346abda6b77eaf62058ab6e7bfb700da1f8697578e1bb97e9f63734b1e88f7c",
-      "differenceHash": "4c5cf0ca48c8c082"
+      "file": "assets/evening/it-a-opera-camera.webp",
+      "sha256": "b83b7f8bd2b416d8df9517a7246c3400199e74840da420d609b162d6f45c6eac",
+      "differenceHash": "4d5cf2ca48484082"
     },
     {
       "id": "it-r-piccolo-buco",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-piccolo-buco.svg",
-      "sha256": "44c4684601510dfad1201ceb382eacb1a13ec71245997464aad53edf2670940f",
-      "differenceHash": "1090bcb4e1f0b082"
+      "file": "assets/evening/it-r-piccolo-buco.webp",
+      "sha256": "5d36e82f6acde2bd9a9dadb6aa24254fb9a61666cc97a57703a8acf86407a642",
+      "differenceHash": "12dabcb465f0b082"
     },
     {
       "id": "it-r-pizza-trevi",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-pizza-trevi.svg",
-      "sha256": "48357d49d3476dc9b9e5b96cbf3b723e3e11144c3e2a574932e6f96c273bbf4f",
-      "differenceHash": "6a66a2b6b2b2b2a2"
+      "file": "assets/evening/it-r-pizza-trevi.webp",
+      "sha256": "3f07ac305e428a05474bf3d96b6acccb898b6ae9723ce31b3e0402a6b32202fc",
+      "differenceHash": "6a62eab6b2b2b282"
     },
     {
       "id": "it-r-agrodolce",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-agrodolce.svg",
-      "sha256": "be0a0f1fb41fb828fcd02ea179ba9bedb137fb52b60360ec4c319fe09a5ad4d1",
-      "differenceHash": "5a9afaa6e2a30082"
+      "file": "assets/evening/it-r-agrodolce.webp",
+      "sha256": "9178ab3b888cc97a016ce4b943d7a745ee4ecc55bc07a1052eec8d41f12acff3",
+      "differenceHash": "5a9adaa4e0aa8082"
     },
     {
       "id": "it-b-salotto42",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-salotto42.svg",
-      "sha256": "eebcbfbef7a8a9775d250b0d8ea8f990c8e4d6d39f7d50588e31c84fd45a2f5f",
-      "differenceHash": "02e2a2b2b6258082"
+      "file": "assets/evening/it-b-salotto42.webp",
+      "sha256": "f5f0d974828e8f9fd79a2fd6739eadc252f256a0901ffb310a41fc6336e7be94",
+      "differenceHash": "0ac2a2b2a4a48082"
     },
     {
       "id": "it-b-jerry-thomas",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-jerry-thomas.svg",
-      "sha256": "78a195cd99b84b80d6e15e2c524ff330cd974250846c5fe560ddc7a20ba67f9b",
-      "differenceHash": "80f2f260b6b20082"
+      "file": "assets/evening/it-b-jerry-thomas.webp",
+      "sha256": "7f9cb077fa0cca17152b3afa4d68dc181b4774190ef8efb6779a3bc6e25bb845",
+      "differenceHash": "82b6f262b6b20082"
     },
     {
       "id": "it-b-barber-shop",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-barber-shop.svg",
-      "sha256": "92eb9823627dddcd031a3336432057901400c17d03f424566e9c696601dcecdd",
-      "differenceHash": "507872f6b2728082"
+      "file": "assets/evening/it-b-barber-shop.webp",
+      "sha256": "b27ceec1072b46c7e85be57cc170307b2b08c9165f3e9048707bc5f11109771f",
+      "differenceHash": "507a72f6b2728082"
     },
     {
       "id": "it-a-quirino",
-      "sourceFile": "assets/evening/sources/photos/it-a-quirino.jpg",
-      "sha256": "dae75b5c009755e47894b31ea8da2da778ca1dd151e6c006ceab951ff0af4b8d",
-      "differenceHash": "80e020181814c270"
+      "file": "assets/evening/it-a-quirino.webp",
+      "sha256": "6a10c88f033bd0642d8e78c20f5cfa477f537cc72d1a6c1635ed5888b77422ab",
+      "differenceHash": "80c020100914d5c2"
     },
     {
       "id": "it-a-arciliuto",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-arciliuto.svg",
-      "sha256": "4227737a5ee5a536d136f68969518196ab8a443707933e3b1710759f0bcbb7a8",
-      "differenceHash": "80e2e2e0f0f16082"
+      "file": "assets/evening/it-a-arciliuto.webp",
+      "sha256": "5da048be5b6cdf0dc7b392ce4a132924b7179fe0b1db7b596d0fc9c67af4dff9",
+      "differenceHash": "80e2e2e0d0f16082"
     },
     {
       "id": "it-a-cooking-trevi",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-cooking-trevi.svg",
-      "sha256": "b1b5822ab637928689270fbfc47ce45d11367acc3b269c125e6a0556897d9e9b",
-      "differenceHash": "0062e2f2e2e0a382"
+      "file": "assets/evening/it-a-cooking-trevi.webp",
+      "sha256": "ce95d01bf584a7885f5b9881a13c911ac946728391322e042412ed5112e4453b",
+      "differenceHash": "0062e2f2f0e0a182"
     },
     {
       "id": "it-a-welcome-rome",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-welcome-rome.svg",
-      "sha256": "3f8fa3ad90702481f3facc1976a462053af637e97b79debbc8aebd8f68342f02",
-      "differenceHash": "0042c2d2d0d0f282"
+      "file": "assets/evening/it-a-welcome-rome.webp",
+      "sha256": "dd5e6606301eced1e7450e3573350f0a24bac9336b44873f4ad9e7255565c2b4",
+      "differenceHash": "004ac2d2d0d0d282"
     },
     {
       "id": "it-a-st-pauls-opera",
-      "sourceFile": "assets/evening/sources/photos/it-a-st-pauls-opera.jpg",
-      "sha256": "b158dba1a62256e36be5b0911b677bc56a4c8d22436b04eecf5f90c32184c115",
-      "differenceHash": "181919d8ea6e6d1f"
+      "file": "assets/evening/it-a-st-pauls-opera.webp",
+      "sha256": "6faa3e7fc1bd23fd26db4aebeefa04c9d59dd5f8f6acd0b5c2c16a43b053a4ce",
+      "differenceHash": "393978d8faea6e6e"
     },
     {
       "id": "it-r-futura",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-futura.svg",
-      "sha256": "6f4add36c328f4df515207d28b488a6a5dddf332a5a5e1f79d3bdf7fa853b891",
-      "differenceHash": "809696d2e2e1b482"
+      "file": "assets/evening/it-r-futura.webp",
+      "sha256": "8d57e36f70ab45b67c9c1e73d069f99b86b5a8483aeab0cbdd6d421af587d296",
+      "differenceHash": "9096d6e2e2e1b482"
     },
     {
       "id": "it-r-ponte-vecchio",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-ponte-vecchio.svg",
-      "sha256": "ab414d880c7c1da16afd9a998fadadb686795c86712513121be7cd2a5b226e96",
-      "differenceHash": "001a9ac870d46082"
+      "file": "assets/evening/it-r-ponte-vecchio.webp",
+      "sha256": "8664b5dfe79a9c58bcc61d88c387da7ef34ee27e47ba08608e75c87b68027728",
+      "differenceHash": "005a9ac870d46082"
     },
     {
       "id": "it-r-buca-orafo",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-buca-orafo.svg",
-      "sha256": "33c1c75811e6e2287697e18445ba45d2c413c054ed4b4adf21e5e5521304eedc",
-      "differenceHash": "00984a42f0943182"
+      "file": "assets/evening/it-r-buca-orafo.webp",
+      "sha256": "1788cd946be573f47e759596e3f41c838fe934eeb646840d4776a645903c8065",
+      "differenceHash": "1092dac2f0d43184"
     },
     {
       "id": "it-b-volpi-uva",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-volpi-uva.svg",
-      "sha256": "99bba075a6242b4a3e32a05235422de8e965b25c9c44cd0c9bc39fba5029a08e",
-      "differenceHash": "80f26045c8c2da82"
+      "file": "assets/evening/it-b-volpi-uva.webp",
+      "sha256": "257e995a16199690fe353c1d1dce5560fb636b29c881a530e426a44480de10d3",
+      "differenceHash": "b0f26245c8c2da82"
     },
     {
       "id": "it-b-rasputin",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-rasputin.svg",
-      "sha256": "7875dc64d47a8f6442756e7bc2069a15c8881aaf38ee11895f3d97b2d47d29a4",
-      "differenceHash": "9096fa7230f2b282"
+      "file": "assets/evening/it-b-rasputin.webp",
+      "sha256": "74044cc54a971b861aea92a79fca0a1f4492096b1e00c221708bb8d480153536",
+      "differenceHash": "8092fa7232b2b282"
     },
     {
       "id": "it-b-mad-souls",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-mad-souls.svg",
-      "sha256": "88e52fd587dafff25e73a10a8cc7979c2639e171aa06028e4f807ee878c01f66",
+      "file": "assets/evening/it-b-mad-souls.webp",
+      "sha256": "d0b3a159aca10d44124f982e8fb0be024939c347eca39ede3b5b6915a4f5301b",
       "differenceHash": "59da62a2a6240082"
     },
     {
       "id": "it-a-niccolini",
-      "sourceFile": "assets/evening/sources/photos/it-a-niccolini.jpg",
-      "sha256": "a000191323e2fdcd2cdaeb45e647582025a4667b65c23ac84680b9975bd7cff0",
-      "differenceHash": "80ccc4632b607171"
+      "file": "assets/evening/it-a-niccolini.webp",
+      "sha256": "034a5c5bfe68513ff4f47b0d65a44e6e42a71ac7156db257826806ca9f248a14",
+      "differenceHash": "c4ccf02b28415170"
     },
     {
       "id": "it-a-verdi",
-      "sourceFile": "assets/evening/sources/photos/it-a-verdi.jpg",
-      "sha256": "39ccf5e4fc326a2e6dbfaea275478f54c2f781ca0fd1a7a176b85d3ce09d5dd8",
-      "differenceHash": "4980c0dcece848cc"
+      "file": "assets/evening/it-a-verdi.webp",
+      "sha256": "588a249d38929933ba7a062b5a83c801abdd37f8ae578f0b001329fe7998dcf6",
+      "differenceHash": "498180d8c4e86848"
     },
     {
       "id": "it-a-jazz-firenze",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-jazz-firenze.svg",
-      "sha256": "336d36812f1eec0cfbb15d0c09d3b404312e94fbb7d14f4d6c9bc774e0ff0fb4",
-      "differenceHash": "049af870d1e07282"
+      "file": "assets/evening/it-a-jazz-firenze.webp",
+      "sha256": "2f4f26469dbfaf22fefee3b9668bfec1a8486f6afb94a71832d422cdcff787b1",
+      "differenceHash": "029af870d1e07882"
     },
     {
       "id": "it-a-soulspace",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-soulspace.svg",
-      "sha256": "2ab442e66a381002dbe062ab1141e81665e33313cb47a5128ba127ff33eaad2f",
-      "differenceHash": "000aba3238aa8082"
+      "file": "assets/evening/it-a-soulspace.webp",
+      "sha256": "5a8c701967f1b9eccdd2ecc2c5696d91d549b955c2f7327977c205e95ea8ed49",
+      "differenceHash": "000aba3238ba8082"
     },
     {
       "id": "it-a-stmarks-opera",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-stmarks-opera.svg",
-      "sha256": "1da4f01a58c6edd1ac34a0ca102d3bad9cc834287559d85dad3135e4e75160ad",
-      "differenceHash": "40c0d1d2dada8082"
+      "file": "assets/evening/it-a-stmarks-opera.webp",
+      "sha256": "42b6d8427566e71255b3ba9a9f52754684d54cfce14709d817cc499ef28bc2b5",
+      "differenceHash": "40c0d2d2dada8082"
     },
     {
       "id": "it-r-terrazze",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-terrazze.svg",
-      "sha256": "6aece483d5f1a1121e747643d8be8df5c2b5bfe5659d6de7f08772400dae981f",
-      "differenceHash": "6466d2ba98680a82"
+      "file": "assets/evening/it-r-terrazze.webp",
+      "sha256": "d00fd46783a26f7bf1c6f4fe606f0ffa0fe2c35c1e64abad5b2a472e7d717b3c",
+      "differenceHash": "6466f2b898682a82"
     },
     {
       "id": "it-r-beppa",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-beppa.svg",
-      "sha256": "0d083daedbbc1e3905afe9db1c1f35d5317945b149e8b4c2630a45970ff7ca09",
-      "differenceHash": "0286d4e4f0f18d82"
+      "file": "assets/evening/it-r-beppa.webp",
+      "sha256": "8354360ebd9559b274d2103bf4fd5f00ebb43efce940a02b292f14b928945764",
+      "differenceHash": "00d6d4f4b0f18982"
     },
     {
       "id": "it-r-mescita",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-mescita.svg",
-      "sha256": "9c39bcdfa8144cec1b8e948f0f51468bd95efea7f9656e2f93a8a27015823f71",
-      "differenceHash": "0002caf878e60682"
+      "file": "assets/evening/it-r-mescita.webp",
+      "sha256": "2b0737350bb8fa363d7f0598b2965c6d8973a51f08bd2488ee2b0f14aa45fd5a",
+      "differenceHash": "004acaf878e60682"
     },
     {
       "id": "it-b-vips",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-vips.svg",
-      "sha256": "87470e86c46e907799c5deb2de2c9637cb597602401c41477de16391ab49d4af",
-      "differenceHash": "00889888c8e86282"
+      "file": "assets/evening/it-b-vips.webp",
+      "sha256": "c87522001d364b4160503946fea316c4195bd93e4b93976969aaaa4175acf00b",
+      "differenceHash": "40989888e8e8e282"
     },
     {
       "id": "it-b-bulli",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-bulli.svg",
-      "sha256": "9bd1bee9486538115c77794d8838cab1d62ea1c6688458be19e8322a19886860",
-      "differenceHash": "34c2ccd89692b482"
+      "file": "assets/evening/it-b-bulli.webp",
+      "sha256": "958ca680cd79f1e449dda35c594e85fe17683985ed934707e72a14eb5e235058",
+      "differenceHash": "36d2ccd89692b492"
     },
     {
       "id": "it-b-speakeasy23",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-speakeasy23.svg",
-      "sha256": "b01938f9782780d347c6f4fb4a98d9733370d5bc6b9b864f7c85da31a9ba4ac7",
-      "differenceHash": "007174dc5ada6282"
+      "file": "assets/evening/it-b-speakeasy23.webp",
+      "sha256": "3a2f3b1c057b261a10b3c929be11b2d8238ec10a0204bc756867d7cb5c0801fe",
+      "differenceHash": "80f0f4dc5a9a2282"
     },
     {
       "id": "it-a-pergola",
-      "sourceFile": "assets/evening/sources/photos/it-a-pergola.jpg",
-      "sha256": "1e95823f232a8394f6788aa28c95e93363a43d66744557d2ab6ca22ea5fbda6a",
-      "differenceHash": "6161e2e1e1496171"
+      "file": "assets/evening/it-a-pergola.webp",
+      "sha256": "b12dfcd8220720c89c56ce74f89932cf17afd66014109c2110f49518e67d9c2f",
+      "differenceHash": "6161e3e3e1c96961"
     },
     {
       "id": "it-a-teatro-sale",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-teatro-sale.svg",
-      "sha256": "f40258f544bc9de79f9a0d386f36dee69a2eddbe024e167f9ef605fd6c200848",
-      "differenceHash": "90f2f2f2e3a60082"
+      "file": "assets/evening/it-a-teatro-sale.webp",
+      "sha256": "419e6bc9b9ab8348fab64625f0b2888a95993d25503f388575e92a49d2182f8a",
+      "differenceHash": "90b2f2e2e3a40082"
     },
     {
       "id": "it-a-flo",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-flo.svg",
-      "sha256": "1d795824aa4e792cd7ab4df785aba5ec7861af92244810d7574c282687e9c958",
-      "differenceHash": "52d2e051d0711982"
+      "file": "assets/evening/it-a-flo.webp",
+      "sha256": "c40db5a95dacc3c1b73684dab517220eced5b3a71c7da9b1618edd4d78f67524",
+      "differenceHash": "52d2f051d4711982"
     },
     {
       "id": "it-a-nof",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-nof.svg",
-      "sha256": "bef6f9e8f0193884574ee8ee8eea7ec589445eb6a7373d9d608ad53d6345ec3e",
-      "differenceHash": "12dac2e2c2c26282"
+      "file": "assets/evening/it-a-nof.webp",
+      "sha256": "33a0daefd8d0c79724e88d6e75fbba2ed8270719ed2d5a628b9efa852c99633a",
+      "differenceHash": "12dac2f2cac27282"
     },
     {
       "id": "it-a-night-photo",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-night-photo.svg",
-      "sha256": "5e76316b35cc9808a339924db44cddbd28573ed7805d2fa7d1a7e6c7df343ca4",
-      "differenceHash": "004a5a98b1d0c3b2"
+      "file": "assets/evening/it-a-night-photo.webp",
+      "sha256": "9f7ecc4ba27dfec078503fcfa42ed97e3a8f65662439fbb39386c0328c27d4fe",
+      "differenceHash": "00dada9891d0c3aa"
     },
     {
       "id": "it-r-sorbillo",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-sorbillo.svg",
-      "sha256": "5daaa4251c4c89b6965fa03c32db5d7b59b18b32b5105ccf83e3c9bc96959859",
-      "differenceHash": "6868f2b2b2b28082"
+      "file": "assets/evening/it-r-sorbillo.webp",
+      "sha256": "ce18842caf0d2047f7d5932bf3ce2ca2ce23c5bb6262eb9f277a039781807898",
+      "differenceHash": "686af2b2b2b28082"
     },
     {
       "id": "it-r-tandem",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-tandem.svg",
-      "sha256": "59cf06f7570484cd1967fcf6944adc4992a4c7d4fb4a765e9802e021c422bb3c",
-      "differenceHash": "189a9aaae4b21282"
+      "file": "assets/evening/it-r-tandem.webp",
+      "sha256": "13bb937f6f5496cfe271e0e1c7699838941d2ace88bcec6c8ccdaf745b2693bc",
+      "differenceHash": "1a9a9aaae4e27282"
     },
     {
       "id": "it-r-gesu",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-gesu.svg",
-      "sha256": "70c7aa843c07d9534847220e1c7361adc78e15b1d0a6973615b161fb7239fd08",
-      "differenceHash": "591af0a0e0c00082"
+      "file": "assets/evening/it-r-gesu.webp",
+      "sha256": "be890bfe960d4a5b202b2833b15006f1a73f8f6ab9db3c4f37e5abf92933612e",
+      "differenceHash": "999a92a0e0f00082"
     },
     {
       "id": "it-b-berisio",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-berisio.svg",
-      "sha256": "d37a6d503a6d1489f9c483f3826bc999853584be36c4fddf3460c477484ebdd1",
-      "differenceHash": "009292b8f0b23082"
+      "file": "assets/evening/it-b-berisio.webp",
+      "sha256": "2628805ca5d0eec1406e7a1eb3655df5e708e618fe279eb7a11946d1bd09f749",
+      "differenceHash": "009292f8b0f23082"
     },
     {
       "id": "it-b-perditempo",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-perditempo.svg",
-      "sha256": "89e4dc5b253b89818364ad943da4d92245f35c042865c327773701ac694fa74d",
-      "differenceHash": "a4a6b0f4f0b33282"
+      "file": "assets/evening/it-b-perditempo.webp",
+      "sha256": "38f4a96af54bbcc030dca9ee41cc05ddf4137b98f8ac3044658b0cbdc0573ee9",
+      "differenceHash": "a4b292f4f2b13282"
     },
     {
       "id": "it-b-oak",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-oak.svg",
-      "sha256": "03e77ea70c415e45052007dc10f784fd055ebd033b0c8702034eea7b740599cd",
-      "differenceHash": "2466e066e8695a82"
+      "file": "assets/evening/it-b-oak.webp",
+      "sha256": "0bd6bdbc2a460f10417d62e4dcca5710757b8010d250bb5b1ce79e9fbcd111fd",
+      "differenceHash": "a4e6e066e9685a82"
     },
     {
       "id": "it-a-bellini",
-      "sourceFile": "assets/evening/sources/photos/it-a-bellini.jpg",
-      "sha256": "fce53f1436c4bf609ef4fb3ae56c88f05c22e7ecd7f2308a82b150e6864ff0be",
-      "differenceHash": "b26272e3f3cbf2d3"
+      "file": "assets/evening/it-a-bellini.webp",
+      "sha256": "a3f1aca5e65c11eb7d9ee8327a8f50f6749e2e90f3bc41dd2daa5de49076bd18",
+      "differenceHash": "b66372e3f2e3dbf3"
     },
     {
       "id": "it-a-napoli-underground",
-      "sourceFile": "assets/evening/sources/photos/it-a-napoli-underground.jpg",
-      "sha256": "cbf0cbbab9d726f9ed11c0c06b316fb0c64e0c05df84124b5665737111131107",
-      "differenceHash": "2b8f9b91b0d21e1a"
+      "file": "assets/evening/it-a-napoli-underground.webp",
+      "sha256": "2aa6485ecece137c6f74c168aaf7a03e5a8c57b59aeb07749924f252e353998c",
+      "differenceHash": "2b2b0f0b8b933911"
     },
     {
       "id": "it-a-napulitanata",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-napulitanata.svg",
-      "sha256": "6e2d1f4b1bd9e598f47d17ea3850c50d166360c48810fd3d2d2fb22f2e12c227",
-      "differenceHash": "1092f2caf0c09082"
+      "file": "assets/evening/it-a-napulitanata.webp",
+      "sha256": "87d6567da26312e7858b3580a88485a1b9def3c0cb7ba217273d29c659d893d6",
+      "differenceHash": "1292f2caf0c09082"
     },
     {
       "id": "it-a-san-carlo",
-      "sourceFile": "assets/evening/sources/photos/it-a-san-carlo.jpg",
-      "sha256": "dd93eb2ec93f7d0189aa190af2389c81508c83ae78e2a35b30e9a30b92699112",
-      "differenceHash": "2471a0f2faaaecd0"
+      "file": "assets/evening/it-a-san-carlo.webp",
+      "sha256": "a96c2b7170942db844cb3c93b657c7b4ee8b66a7bff5e189f3d31690ffd7e3f2",
+      "differenceHash": "696188f4bce8c8f2"
     },
     {
       "id": "it-a-bourbon",
-      "sourceFile": "assets/evening/sources/photos/it-a-bourbon.jpg",
-      "sha256": "42fcd25e2264d8588e282e2eebece0b020440be8aa30364735d8034038064b85",
-      "differenceHash": "7c7e7cbc7f5e1f3f"
+      "file": "assets/evening/it-a-bourbon.webp",
+      "sha256": "26d19d2fc293f19816d0e2c03e7e4dfe610d080980abac1864fb6d29371714f1",
+      "differenceHash": "7c7e7ebc7b5e1f3f"
     },
     {
       "id": "it-r-zi-teresa",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-zi-teresa.svg",
-      "sha256": "059b08473b595b19686e76254f2f2907ba9605c91f9871927d9b6261b800cc14",
-      "differenceHash": "c0d23af898860082"
+      "file": "assets/evening/it-r-zi-teresa.webp",
+      "sha256": "8a94a079674ae7ebf3d0d7d0913edd8abd146d282950a055b7eda3dd0eb69da8",
+      "differenceHash": "c8d2daf898e60082"
     },
     {
       "id": "it-r-regina",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-regina.svg",
-      "sha256": "e70447e1ab2afd0e239d6eb1a9e4d6acd5cad31e918da0001b98acc6763015ca",
-      "differenceHash": "00d2da98389ce282"
+      "file": "assets/evening/it-r-regina.webp",
+      "sha256": "26550a2edc7660aa546bbd8e8dbac45909ed5d17fb87d675771e2628ee8126c8",
+      "differenceHash": "00d2dab83898e282"
     },
     {
       "id": "it-r-officina-mare",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-officina-mare.svg",
-      "sha256": "50ad02b6ab95893d8e14f06cc22c5800340839be8c81ff465bd482a9fa1783f4",
-      "differenceHash": "00b232b2f2b60082"
+      "file": "assets/evening/it-r-officina-mare.webp",
+      "sha256": "9a40fd690598dd768fcef6d42b50833b1ba09dbd8218be981880ab59c5561fea",
+      "differenceHash": "00b2b2b2f2b40082"
     },
     {
       "id": "it-b-antiquario",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-antiquario.svg",
-      "sha256": "83551dc6fbfcb81a1cb13125837fa0e08e4b46bab1d531117268685a32b20c5f",
-      "differenceHash": "8988a0f1f2b2b282"
+      "file": "assets/evening/it-b-antiquario.webp",
+      "sha256": "de11fceddaa624f4a2c14541c235ac28bbcc2af14a267458a85b099d17f41a0b",
+      "differenceHash": "8988e8f0f2f2b282"
     },
     {
       "id": "it-b-barril",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-barril.svg",
-      "sha256": "eae45b9b93c82cd91ef49eccbf7e54ac3839480a32f439bdd276f55487031538",
-      "differenceHash": "363cb439d8692882"
+      "file": "assets/evening/it-b-barril.webp",
+      "sha256": "d2c080692a4ed6f6113e0d8e9b64192eb0e8c9d600bf25c1c13aa368c0ad0b74",
+      "differenceHash": "565cb479d8692882"
     },
     {
       "id": "it-b-flanagans",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-flanagans.svg",
-      "sha256": "f114fd2e1396fbc9b61215d95be9f3ec720f66855459ae84b5d2b77ef2483756",
-      "differenceHash": "00b6c26262e66a82"
+      "file": "assets/evening/it-b-flanagans.webp",
+      "sha256": "5c5a7b86e36b0d19c11e8ee5ea4f010276eaf35054a3d93551e90224aab43161",
+      "differenceHash": "00b6d26262ea6a82"
     },
     {
       "id": "it-a-seaside-cruise",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-seaside-cruise.svg",
-      "sha256": "c5dac05efbb3a1c715d83a8ee019e1fa0f842860ffec4fcea3a72505bbb3e90a",
-      "differenceHash": "d2d8d436b0b88c82"
+      "file": "assets/evening/it-a-seaside-cruise.webp",
+      "sha256": "33fbe58ed04f071b8d34080b51b2cd73cc79439bb4f1a638211196b3de9f54cb",
+      "differenceHash": "d2dad436b0b88c82"
     },
     {
       "id": "it-a-sannazaro",
-      "sourceFile": "assets/evening/sources/photos/it-a-sannazaro.jpg",
-      "sha256": "d5360676b88102cb17116f8816e1d94ff0638d63847b72f457f2083fd0e23604",
-      "differenceHash": "3107f86872f29b7f"
+      "file": "assets/evening/it-a-sannazaro.webp",
+      "sha256": "82416725258c936c86f8cc1a3e045a805812e12dd4fb02b96230c387cb7cc8c6",
+      "differenceHash": "7011258fbef8602c"
     },
     {
       "id": "it-a-augusteo",
-      "sourceFile": "assets/evening/sources/photos/it-a-augusteo.jpg",
-      "sha256": "80644f3474dde57ff8226109653267e7839e35bdbc3204ee5906d8d1ec3f7278",
-      "differenceHash": "3913272c29412525"
+      "file": "assets/evening/it-a-augusteo.webp",
+      "sha256": "a3bc4f6e8cfd88729c76c8dedeb03feea20722f6f347b8465c9e839b6ef6a08d",
+      "differenceHash": "3913250f2c414125"
     },
     {
       "id": "it-a-bourbon-water",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-bourbon-water.svg",
-      "sha256": "cdc1359eeebd7da198a10fdfa5912311b41e7d2da1d22a98c1631511ebb493d7",
-      "differenceHash": "e8e269cdcdcce482"
+      "file": "assets/evening/it-a-bourbon-water.webp",
+      "sha256": "e5c9ea61271666a23e628683324825ba5cbc9d850000b85704e118af3a05acbb",
+      "differenceHash": "e8e268cdcdcce682"
     },
     {
       "id": "it-a-nevermind",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-nevermind.svg",
-      "sha256": "48836a5e74037d72b77ee126f9e6af8a5662e6b8228f618701c3e33841b56b23",
-      "differenceHash": "9096c2f2e8e1f082"
+      "file": "assets/evening/it-a-nevermind.webp",
+      "sha256": "0105835cfced4fe668ceb35c3e881c6972a1016977754f0c0cf5bff365eb9c9e",
+      "differenceHash": "9292c2f2a8e1f082"
     },
     {
       "id": "it-r-tonnarello",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-tonnarello.svg",
-      "sha256": "0d5be3879edcc1dc896cb694d878c5997402b2e0ecc19e83951c48baffaec5fd",
-      "differenceHash": "209a8a8ae2a26882"
+      "file": "assets/evening/it-r-tonnarello.webp",
+      "sha256": "fdeab1a8205b6964ac7b2012b1803796b5a14d7003aa86d62c0bba350a3d5ae0",
+      "differenceHash": "109a9a8ae2a26082"
     },
     {
       "id": "it-r-nannarella",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-nannarella.svg",
-      "sha256": "7d90c4fdb75e75c37cfcd67c47acb662ec91cbf0b4c223016ef8905eee9a2fdf",
-      "differenceHash": "0034e4f0e0b00282"
+      "file": "assets/evening/it-r-nannarella.webp",
+      "sha256": "4a506a2485232225189d5c07b776cd9caf45bf13c90fa2322ef4aef1626d549b",
+      "differenceHash": "00d8e0f0e0980282"
     },
     {
       "id": "it-r-otello",
-      "sourceFile": "assets/evening/sources/illustrations/it-r-otello.svg",
-      "sha256": "8608e025561f07c903a7d4d774e518d19eb536d77c289d08816fee05a680747d",
-      "differenceHash": "0040e6a5e4aa8082"
+      "file": "assets/evening/it-r-otello.webp",
+      "sha256": "d2392cc182deacf64f7b5fdc8e692fea86cc94660aab345eb7e6c8d43ff058b8",
+      "differenceHash": "0212e6a0e4aa8082"
     },
     {
       "id": "it-b-freni",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-freni.svg",
-      "sha256": "c51b6f1d99421766c6860603b56acaef13222afd6d97c24991d5bedda9a20630",
-      "differenceHash": "02b8f9e9e4ee6882"
+      "file": "assets/evening/it-b-freni.webp",
+      "sha256": "e971c8726901d75555f7b1d96f3e015795211923671dcbbb00213afc2ae9753a",
+      "differenceHash": "02b8f8e8e4ee6882"
     },
     {
       "id": "it-b-mache",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-mache.svg",
-      "sha256": "bbdb405a9482134b62835fc0a092acf2f88642969792cb2ab385b896e843c03a",
+      "file": "assets/evening/it-b-mache.webp",
+      "sha256": "27169fc85f7a6be794f89cc95ddc0d6f9a964646fbe2a3ce273a832eed3555f3",
       "differenceHash": "48e0d462e664a482"
     },
     {
       "id": "it-b-mrbrown",
-      "sourceFile": "assets/evening/sources/illustrations/it-b-mrbrown.svg",
-      "sha256": "c0b5a30e4e9a9ed57bac3a825ec77deb8a236adaa7918264068f67b5cf15a126",
-      "differenceHash": "8092b03059587382"
+      "file": "assets/evening/it-b-mrbrown.webp",
+      "sha256": "68f443b7ac88ed4bab1a4cbe856551b6180c2d799b0a4a62b977f85fdca2458b",
+      "differenceHash": "8092b03059585382"
     },
     {
       "id": "it-a-belli",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-belli.svg",
-      "sha256": "ae9f447adc7f1fdda8e4e6e3277bf89e3d5370028aff0855efcd4174524248e1",
-      "differenceHash": "00887ac258c8c982"
+      "file": "assets/evening/it-a-belli.webp",
+      "sha256": "d313374c1496b1a68f9bbe8f9ea19d07da88f512807c9242c608a0add42dd51e",
+      "differenceHash": "636123036468b0b1"
     },
     {
       "id": "it-a-rome-cooking",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-rome-cooking.svg",
-      "sha256": "38179fb44c55ccf1dd8ee6116cf0adbcddbfdb9bbc284a29e6f775191400cbca",
-      "differenceHash": "4069c26070721282"
+      "file": "assets/evening/it-a-rome-cooking.webp",
+      "sha256": "74dc391ab74120299c69cc391405c31eb213f077264b41300d636fb1f68e6d9f",
+      "differenceHash": "40e8d26072723282"
     },
     {
       "id": "it-a-vinoroma",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-vinoroma.svg",
-      "sha256": "a783720fb9b255ba7e8795d15922a3db792e23ad266ed4b36a344eecbd176880",
-      "differenceHash": "00c486c0e2e21282"
+      "file": "assets/evening/it-a-vinoroma.webp",
+      "sha256": "d09ad4e4b62ed21ea4edf095cb72274a36ef8e7d64bde79379f3cc0626e70d18",
+      "differenceHash": "00c082c0e2e23282"
     },
     {
       "id": "it-a-marcello",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-marcello.svg",
-      "sha256": "bd0868ab293fd5d04754381f4395dbe3989edd1b886dd9439bf9ee2fec55129c",
-      "differenceHash": "585a706860b80c82"
+      "file": "assets/evening/it-a-marcello.webp",
+      "sha256": "2280b789cdcd482c502f4c84966b3b5eb85954663dba397665cde05c7457c7d1",
+      "differenceHash": "0010f8c4fa4c7fb2"
     },
     {
       "id": "it-a-night-walk",
-      "sourceFile": "assets/evening/sources/illustrations/it-a-night-walk.svg",
-      "sha256": "6cf6109cbda657646e99b78eebc66548b7a14880fba63b38e93f664fcd514252",
-      "differenceHash": "40c04cc49cd2e2c8"
+      "file": "assets/evening/it-a-night-walk.webp",
+      "sha256": "55ff049ecd0d75ce7a81f46ea4f22cc7beb7cfc725447f6835ad59abddf8dae5",
+      "differenceHash": "50d8dace9cd2e2c8"
     },
     {
       "id": "jp-r-hakushu",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-hakushu.svg",
-      "sha256": "25390d6d0ef021f59fa809efe9af326a0ee88fe902bab7f18bb4cca28b8ca594",
-      "differenceHash": "0048c8e5f0d43482"
+      "file": "assets/evening/jp-r-hakushu.webp",
+      "sha256": "480f8d4bbb158a78a3596d2e692a5b73791202eaab84a8c6991f02672abdbc68",
+      "differenceHash": "80cacaf0f0d43482"
     },
     {
       "id": "jp-r-inase",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-inase.svg",
-      "sha256": "ac7dc10a0875f51a06a58b77ab57105df3ae33ae709ecb0bfda02fb826f5210f",
-      "differenceHash": "12b27258d8900082"
+      "file": "assets/evening/jp-r-inase.webp",
+      "sha256": "0794176345e2ae1e7157e3439aece27dd91f72972aec4a2c036133ec01716718",
+      "differenceHash": "12b2d25858900082"
     },
     {
       "id": "jp-r-pichiten",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-pichiten.svg",
-      "sha256": "adc04d489b5a6245bce902a5414fc7ad2e23a179f22130af6d1ffdea577ceefe",
-      "differenceHash": "999889e1e0621082"
+      "file": "assets/evening/jp-r-pichiten.webp",
+      "sha256": "b284e9856f9a78f09a8f8d0ce4b5ea26a9f0286ffc4a208978b2e6453f9ca991",
+      "differenceHash": "999888e0e0721082"
     },
     {
       "id": "jp-r-ulala",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-ulala.svg",
-      "sha256": "f8fe2a044ae35f720d7bf1b58c0405c35f1883a1115694c94fb13a19f68ae52c",
+      "file": "assets/evening/jp-r-ulala.webp",
+      "sha256": "48f4b8a63f51d012da8b771907b2489fa2ac6ca6812c2f4474e09553ea1ff259",
       "differenceHash": "00d2d2a8c2e27292"
     },
     {
       "id": "jp-r-han-no",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-han-no.svg",
-      "sha256": "b912882b3416ab459112443ad6817002595918620eea8bfbf8bf922b2a329a5b",
-      "differenceHash": "60eacae2e0e28082"
+      "file": "assets/evening/jp-r-han-no.webp",
+      "sha256": "6a11723b402f5d2c99189ca55d0f60a3d1864255c8118353cf588be791585c5e",
+      "differenceHash": "68ead2e2e0db8082"
     },
     {
       "id": "jp-b-rockaholic",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-rockaholic.svg",
-      "sha256": "0317e763a054bd5bfc2a399a79eea8b3044d0777bc2cfa5e51c31f506d554ff2",
-      "differenceHash": "599862faa0726282"
+      "file": "assets/evening/jp-b-rockaholic.webp",
+      "sha256": "d9e73320e116c0bc8cff9b8810a05aa3b1b1526f3bd0ccf1edb63540810236c0",
+      "differenceHash": "d998e2daa0706282"
     },
     {
       "id": "jp-b-sgclub",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-sgclub.svg",
-      "sha256": "01016d8320ec91b3391fb57f9fa1129c7a68479d0b7bb2b8ef483d1493c04b75",
-      "differenceHash": "003068f2b5b4b682"
+      "file": "assets/evening/jp-b-sgclub.webp",
+      "sha256": "88df60c926655b9688fe69b18af6a1983ba588d124f4da827dcf2f7fc331ee0f",
+      "differenceHash": "0032caf2b5b4b682"
     },
     {
       "id": "jp-b-starstar",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-starstar.svg",
-      "sha256": "113ceb7367e8fa32147d8b79b062294aa27ec034ffbe97392e09398ddcaa1730",
-      "differenceHash": "006c795858c88082"
+      "file": "assets/evening/jp-b-starstar.webp",
+      "sha256": "d5c08ac756d9538a92f73133d4c65b7ec9db4068c3391327375e094cdf09e5a5",
+      "differenceHash": "00ecf87a58e98082"
     },
     {
       "id": "jp-b-soak",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-soak.svg",
-      "sha256": "47a3c913b453c7de8c9176d76aadf8cb1c1cc8aec2095767f18b632e764633f1",
-      "differenceHash": "00daeae2f2e30082"
+      "file": "assets/evening/jp-b-soak.webp",
+      "sha256": "32d59b5995628cec61a7bb00dfff42b1f7900b689db14320d0bc68bcce629d2c",
+      "differenceHash": "00daeae0c2e30082"
     },
     {
       "id": "jp-b-iguand",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-iguand.svg",
-      "sha256": "5a33a45ad679d5accf54927e344e0d391b9070fcfcbb3ec5acc8337eced14249",
-      "differenceHash": "68ea30b8da923282"
+      "file": "assets/evening/jp-b-iguand.webp",
+      "sha256": "594561959e583e9b7eb9d0844320cea27f5b9e15f94b1a7252416f1266f39b95",
+      "differenceHash": "68eab0b9da923282"
     },
     {
       "id": "jp-a-modis",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-modis.svg",
-      "sha256": "d29b9d36847f7c74d425c26bd036c1cc2e26500a5ac8564f77fd683c2f6ef0a0",
-      "differenceHash": "88b8bcfa709c9282"
+      "file": "assets/evening/jp-a-modis.webp",
+      "sha256": "c7af0c0ad7f63c4fd4b129ca229b2380264a35c9bf9c590e4758d14bfc888180",
+      "differenceHash": "88b8fcea709c9282"
     },
     {
       "id": "jp-a-noh",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-noh.svg",
-      "sha256": "e92148b7d48cdaba9b88730fc98d97a955f6f33291f81b7af4450647f6ab74ef",
-      "differenceHash": "086ae2d3e2e49382"
+      "file": "assets/evening/jp-a-noh.webp",
+      "sha256": "54922849b071c55648bdcbb39ed7d162eeef7372cd0ac65636679fc8452b30c9",
+      "differenceHash": "086ae2d3e2e48382"
     },
     {
       "id": "jp-a-arona",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-arona.svg",
-      "sha256": "d5ad8ded2f7f273c5f63495f3a461a08c74c42d352c38260fa8e82ba64667280",
-      "differenceHash": "06ee6ad2e6ea0082"
+      "file": "assets/evening/jp-a-arona.webp",
+      "sha256": "f5dcaba7b7e1cb942cb211c4bd7f38837ab88e0709f99aa303fc10116c93cdca",
+      "differenceHash": "06ee6ad2e6ae0082"
     },
     {
       "id": "jp-a-street-kart",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-street-kart.svg",
-      "sha256": "6a8c2c259957e3da73a6c9de9b7821fff26cb9595faaecbb90caaf674860baec",
-      "differenceHash": "003271e969ece182"
+      "file": "assets/evening/jp-a-street-kart.webp",
+      "sha256": "b49049f5442019df6d4186a91d02eb360e4d6a585bc5fe1a2191aa55213b8316",
+      "differenceHash": "0032716969ece182"
     },
     {
       "id": "jp-a-comedy-shibuya",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-comedy-shibuya.svg",
-      "sha256": "54ed3fddb87938906df0adfbfa6ac64aa5943eeaa63acb862982edd82983a0f8",
+      "file": "assets/evening/jp-a-comedy-shibuya.webp",
+      "sha256": "4da17f8ac05d3413e7ee087e990cc7abc722ad54caf095118f5e53a9db5df5bb",
       "differenceHash": "c8cac2d09190f282"
     },
     {
       "id": "jp-r-tayori",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-tayori.svg",
-      "sha256": "09ff26d30603d367f3e8cbcd89d07ef2a48ce1d85521801ec7369450166915d3",
-      "differenceHash": "1092d0d070c10082"
+      "file": "assets/evening/jp-r-tayori.webp",
+      "sha256": "3c8ddf83acb7b86223316b494599856835ef247e0de334269621d748007005f0",
+      "differenceHash": "1092d0d070d10082"
     },
     {
       "id": "jp-r-hagiso",
-      "sourceFile": "assets/evening/sources/photos/jp-r-hagiso.jpg",
-      "sha256": "17e0f62a97f29e3d35d705adc6c5eeadc44a7fa3d204ac7607c3437336e63b47",
-      "differenceHash": "813218480c0486e2"
+      "file": "assets/evening/jp-r-hagiso.webp",
+      "sha256": "88d4c03e1f1711f8b1ed7a3b7681b8c017697eb8cc3fcb19924cd4b72de3c1c0",
+      "differenceHash": "02929a99acb22282"
     },
     {
       "id": "jp-r-kayaba",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-kayaba.svg",
-      "sha256": "a2622d89decb5081ef849bf104d1b302bb38077a116faad0b752ca5381482330",
-      "differenceHash": "90d2a8ead252a482"
+      "file": "assets/evening/jp-r-kayaba.webp",
+      "sha256": "4efd9433f6a50d7fce8bc8567181e443b10007361d8c53efac5dc0a9f9a1203d",
+      "differenceHash": "c66cf4ccd4cc8c08"
     },
     {
       "id": "jp-b-sake-crafters",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-sake-crafters.svg",
-      "sha256": "c64d5f38e568274a9197f3f7b9b997059b6966e71cf9a5b3b0c826f600860918",
-      "differenceHash": "c0f2e9f0f0b28082"
+      "file": "assets/evening/jp-b-sake-crafters.webp",
+      "sha256": "68f683d1ecd74cca2891a920549df6f84e24a140bf77b65e789ff690b4556af7",
+      "differenceHash": "c0f2e8f0f0f48082"
     },
     {
       "id": "jp-b-yanaka-beer",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-yanaka-beer.svg",
-      "sha256": "24e6b608b36aae663b82f0b2926d6ef18fff28aded832711da5a3446c7a5e29e",
-      "differenceHash": "0838b230b0b19882"
+      "file": "assets/evening/jp-b-yanaka-beer.webp",
+      "sha256": "5e484984e9ac3a8f7abcf17152b11d146a95a9eeab9b19bc676d75203cf27208",
+      "differenceHash": "08dab2b0b0b19882"
     },
     {
       "id": "jp-b-ishii",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-ishii.svg",
-      "sha256": "50413e5fe4a84cfd00cd88ac07ed7e300161a664f75b98de1b7662e3ccc0f08f",
-      "differenceHash": "30edc864626a6282"
+      "file": "assets/evening/jp-b-ishii.webp",
+      "sha256": "7ce9aea27296868eca7d6305619043f24166c765bb8bbdd0c79c5aa2e81abc7c",
+      "differenceHash": "30edcc6462ea6282"
     },
     {
       "id": "jp-a-yanaka-night",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-yanaka-night.svg",
-      "sha256": "e30dda70df0ce7be8372bcd27a39ada7c3e86478315f8a52c85b808990ba0305",
-      "differenceHash": "00284854d6f438a2"
+      "file": "assets/evening/jp-a-yanaka-night.webp",
+      "sha256": "adc2df336130e04e6d53c745d5ef399c226c1e7a9c264e7cd5c0e4822b5080bc",
+      "differenceHash": "00da48d4d6b478a6"
     },
     {
       "id": "jp-a-kaguwa",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-kaguwa.svg",
-      "sha256": "a7c4a9eccfe8ece15bbf45013682bd24572f2bd250cc7464933a901a5e191ac8",
-      "differenceHash": "c0d6d4d6f6b63082"
+      "file": "assets/evening/jp-a-kaguwa.webp",
+      "sha256": "279c67d3bc85d6e9b3c08e8a9c2381acaafbd31056f4f423e9ec0e259bcb60c4",
+      "differenceHash": "c0d2dcf6f6b63082"
     },
     {
       "id": "jp-a-geisha",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-geisha.svg",
-      "sha256": "f2e00682f743a0bc4867509a1ca11aba976fd826ea708d5780e84dc4dcf6413f",
-      "differenceHash": "406ac2c0c5c8a282"
+      "file": "assets/evening/jp-a-geisha.webp",
+      "sha256": "0fc101fd055c91c7459d879f1ed9780cca6a6fc1ba47ebc12e92bf9ee2e40b78",
+      "differenceHash": "4062c2c0c5c8a282"
     },
     {
       "id": "jp-a-sakura-photo",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-sakura-photo.svg",
-      "sha256": "dbef0373c7b7972cabf7fefa6879d8105b708cc2bfdaea199959fa1443b850f6",
-      "differenceHash": "42caf4f0b0b85a82"
+      "file": "assets/evening/jp-a-sakura-photo.webp",
+      "sha256": "a93e006a1e5f9628bca574f6e45e004e3803dc087f831412ae5cf925214cc9a8",
+      "differenceHash": "42daf470b0b85a82"
     },
     {
       "id": "jp-a-yae-kimono",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-yae-kimono.svg",
-      "sha256": "9ce90319650af8dc76b6991bc8d143e3c7b43bcf96035522882b11552fd3596c",
-      "differenceHash": "0a4a626272f20282"
+      "file": "assets/evening/jp-a-yae-kimono.webp",
+      "sha256": "a66a7ebca3d31e5e28de4c9d2a8c61968f20da99f41700e2dd30a96f26650a90",
+      "differenceHash": "8aca626072f20282"
     },
     {
       "id": "jp-r-tofuya",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-tofuya.svg",
-      "sha256": "2888c43286e4c050c429a9b18f94b684531285cb6be908e5dfa5f8731b5e2207",
-      "differenceHash": "029ad0d171c80082"
+      "file": "assets/evening/jp-r-tofuya.webp",
+      "sha256": "e93bb5d22a0b6ed80d01c1a947b76b05acc5e45b8a2c41660bf69c2e0b8b524e",
+      "differenceHash": "3b39115119393226"
     },
     {
       "id": "jp-r-towers",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-towers.svg",
-      "sha256": "be2977c2cee22d117d4697036e073073b8fd58bc5cdeb7a08b0244d621866702",
-      "differenceHash": "34b2e8f8f8580082"
+      "file": "assets/evening/jp-r-towers.webp",
+      "sha256": "8fd15342b66deaec2aa5f96dfee07e21ef0c6140e88d2bb544521a7cf8369ed4",
+      "differenceHash": "34a2e8f8f8580082"
     },
     {
       "id": "jp-r-tsurutontan",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-tsurutontan.svg",
-      "sha256": "0999e066edab3afd4e458f78593163e0eb8c5fedb2799b5aaf53b1513d9484df",
-      "differenceHash": "003232c2d2e30282"
+      "file": "assets/evening/jp-r-tsurutontan.webp",
+      "sha256": "c25911bf508bffeccc798372b7360662324ec9974f6b7455940839105f858dd0",
+      "differenceHash": "70e2cc96b6b6a69c"
     },
     {
       "id": "jp-b-stellar",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-stellar.svg",
-      "sha256": "4e502658e2e47b63f42f563f940bd1985a5a937bb80519f5d1e5550d14eb357d",
-      "differenceHash": "34b49c9ed4fc7082"
+      "file": "assets/evening/jp-b-stellar.webp",
+      "sha256": "bb6365ab3c72fcc51b650e4d79c8e032e9dad7e2f8fe0e9186f67c38697a65c3",
+      "differenceHash": "34b4dc9ef4dc7082"
     },
     {
       "id": "jp-b-mokuren",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-mokuren.svg",
-      "sha256": "4984eb21e49d83bf1e54cc3122a9deb729f69afff63d7c038d60675d73c929c2",
-      "differenceHash": "001cd45969680882"
+      "file": "assets/evening/jp-b-mokuren.webp",
+      "sha256": "d39225af31368da0f5dba26218607abe748a31450c9daca03c10084bdde6cbb6",
+      "differenceHash": "12d8d45969c80882"
     },
     {
       "id": "jp-b-dealan",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-dealan.svg",
-      "sha256": "748d33f1a67276aee9b933a2c6a7be1b0655908813cff7be4d89f0f1ccb2a009",
-      "differenceHash": "96b6b898c8a88082"
+      "file": "assets/evening/jp-b-dealan.webp",
+      "sha256": "a539c4159902f6e58640d713d2dcbb00c4423707a0cd3f4490acb6cef4a025d6",
+      "differenceHash": "969698d8c8888082"
     },
     {
       "id": "jp-a-tantra",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-tantra.svg",
-      "sha256": "89811a22a870cea29d11a9603ba71390a022b939c5be42685e20c97f6ec00325",
-      "differenceHash": "00f9c9c869684082"
+      "file": "assets/evening/jp-a-tantra.webp",
+      "sha256": "8f1e8b98fd07003ee4e42a6c176906e0953ec1ae2ca85d3e60e2d58afa19a57e",
+      "differenceHash": "00f8cac869e84082"
     },
     {
       "id": "jp-a-red-tower",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-red-tower.svg",
-      "sha256": "2fc96d6121aac92233a21e94189cf839097913541ceec5884e5155fa2d36c720",
-      "differenceHash": "006470bcf8bc8682"
+      "file": "assets/evening/jp-a-red-tower.webp",
+      "sha256": "493266451728afa54cc43e8d20f493ecb7cbb12f8d029b497507e3a86e2d0107",
+      "differenceHash": "00e4f0bcf8bc8482"
     },
     {
       "id": "jp-a-billboard",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-billboard.svg",
-      "sha256": "8e0db7600ead55b289f2cebddf4c94ceecdad8ec385b73695c37a494e32379af",
-      "differenceHash": "8096f868acac6282"
+      "file": "assets/evening/jp-a-billboard.webp",
+      "sha256": "357866d7ff90c09ecf75c89d0e42273e1e13696662dfac41cccccf15823f07ef",
+      "differenceHash": "644d0e466e666406"
     },
     {
       "id": "jp-a-erawan",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-erawan.svg",
-      "sha256": "6d1bfd382a17803f3fba073d9166ffb751884a01e658ade999b3dbf665e38ed4",
-      "differenceHash": "101a38b2b2690a82"
+      "file": "assets/evening/jp-a-erawan.webp",
+      "sha256": "b37ccf6600f77fff90b12fb9ceabca4d404e28346fbae89f50eb3bc1c6ce0404",
+      "differenceHash": "30da18b0b2690a82"
     },
     {
       "id": "jp-a-kingyo",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-kingyo.svg",
-      "sha256": "56ae6205b8703d8d117699dd1699a8b36fe76c961e8d43fc3ed1bca1425beb15",
-      "differenceHash": "00e8e87436f63682"
+      "file": "assets/evening/jp-a-kingyo.webp",
+      "sha256": "f69ed466fdb417cfc49769d1854eb0da36506c628cf0ed02396097e094b1e6b3",
+      "differenceHash": "00eae07436f63682"
     },
     {
       "id": "jp-r-akari",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-akari.svg",
-      "sha256": "0ec5bc4c86190373aef525ab4de82317f0f0be898e49a296ee4da5185d6da376",
-      "differenceHash": "591894e1f2e988a2"
+      "file": "assets/evening/jp-r-akari.webp",
+      "sha256": "f384974cc01fc282b032241e8a3fb8bc2477d2f2733cd4c8dcca8ce0b58d83da",
+      "differenceHash": "591ad2e0b2e98882"
     },
     {
       "id": "jp-r-garden-house",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-garden-house.svg",
-      "sha256": "ca577a915d9a6f7bc9d0f8a446f603bf0febad34370f2a9935a8a752fb5c850e",
-      "differenceHash": "c8c8d86878aa2482"
+      "file": "assets/evening/jp-r-garden-house.webp",
+      "sha256": "213da2b1dfad0089c5583259c9a22a1d31d2f3c6080d6dbf1f9a9474cef195b4",
+      "differenceHash": "c8cad868f8aa2482"
     },
     {
       "id": "jp-r-matsubaraan",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-matsubaraan.svg",
-      "sha256": "3a7e95fb052455764fff3cfd518ccfc5c07d0393554dca19728a96e809dabfc6",
-      "differenceHash": "5a5ada9c96690082"
+      "file": "assets/evening/jp-r-matsubaraan.webp",
+      "sha256": "3caec0435a83de710625aea9456002c8bdce34408c5241275483485a7520e64d",
+      "differenceHash": "5adada9c96690082"
     },
     {
       "id": "jp-b-pilgrim",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-pilgrim.svg",
-      "sha256": "dde50de1843e5ec66a15fee5980d06ae534a9e81a6afbcd4bbe0faedde1e6772",
-      "differenceHash": "003668e448e869c2"
+      "file": "assets/evening/jp-b-pilgrim.webp",
+      "sha256": "c7582ebe771e7a3ec037f0799e97f39409c713ac9d5fc8755280a663f432ba3a",
+      "differenceHash": "0096c8e448e869c2"
     },
     {
       "id": "jp-b-kelpie",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-kelpie.svg",
-      "sha256": "2484ced10e6cea3f826eacd2ccec90f2a88a1c83249b58a5cfaeb4b30367dae3",
-      "differenceHash": "40d2f4b1d8985a82"
+      "file": "assets/evening/jp-b-kelpie.webp",
+      "sha256": "320c5507d33090520bf1f20f98fb162a5755f6857b1020143c2373dcf0b652df",
+      "differenceHash": "40d2f4f9d8985a82"
     },
     {
       "id": "jp-b-bank",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-bank.svg",
-      "sha256": "09271dd8b60dc68302134352a1be39bece771933ade066d984f682ca6a4470d6",
-      "differenceHash": "0078e8b0f2b6b082"
+      "file": "assets/evening/jp-b-bank.webp",
+      "sha256": "101b54b5aba3623fcb8364660af43d42783b53c8d0500ebf1219cf2e500757d9",
+      "differenceHash": "0278e8b0b2b2b082"
     },
     {
       "id": "jp-a-noh-kamakura",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-noh-kamakura.svg",
-      "sha256": "b6c3912d5b984e3e3aa7ad7e193700078765bb549e7b9a555b7af9a58136dcee",
-      "differenceHash": "00c2d261f0f2b482"
+      "file": "assets/evening/jp-a-noh-kamakura.webp",
+      "sha256": "d09b4e915a8001bf542fdfa740cc6614145abc3a60a7549691636b23ca9acd19",
+      "differenceHash": "08dad2e1f0f2b482"
     },
     {
       "id": "jp-a-vasara",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-vasara.svg",
-      "sha256": "8d305a079cca8edc8f710ba834ff144b2f11ff15ec682758f6b633f98207bfce",
-      "differenceHash": "32b074b859980082"
+      "file": "assets/evening/jp-a-vasara.webp",
+      "sha256": "c3bac3bd72da2c6f8267bac738736d82fdff7db52ba21348201312e2bd408cfd",
+      "differenceHash": "20b0f4b859980082"
     },
     {
       "id": "jp-a-zen",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-zen.svg",
-      "sha256": "51e7cfd357a88be8ffa91362d94660db6df5ac069dc34c26a1a3f32b0c0d2154",
-      "differenceHash": "003ab2f264b65282"
+      "file": "assets/evening/jp-a-zen.webp",
+      "sha256": "a001617063f50841c8a1683e9fa4e67eb25aca8c1be53e361bbe1297cb8bef26",
+      "differenceHash": "0052b2f264b65282"
     },
     {
       "id": "jp-a-samurai",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-samurai.svg",
-      "sha256": "5098ad1f8a93a0acde6e8156e4a1b43de9e7e5963e7a4cca79f6baa08028d50a",
-      "differenceHash": "025878307898b282"
+      "file": "assets/evening/jp-a-samurai.webp",
+      "sha256": "78e1678784632638abf71174e65ba8afdb94adfec689eebec46273e8bd33baaf",
+      "differenceHash": "02d8f8387898a082"
     },
     {
       "id": "jp-a-night-kamakura",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-night-kamakura.svg",
-      "sha256": "9a0716d15977270b12768aa1a32e11f2457c86e742125a0b4dd9353d789e5b56",
-      "differenceHash": "8099c9d092c2e1e2"
+      "file": "assets/evening/jp-a-night-kamakura.webp",
+      "sha256": "45132cc0746e91cfc6f44b3fc3cd35049537d8bb39b468713660ac4d5992cb32",
+      "differenceHash": "8098c8d092c2c1e2"
     },
     {
       "id": "jp-r-fuunji",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-fuunji.svg",
-      "sha256": "35b6eb700884d45178535b536951ad0fa9d1dcab6ba9f8f6dc44c8214435c035",
-      "differenceHash": "12424272e2e28082"
+      "file": "assets/evening/jp-r-fuunji.webp",
+      "sha256": "826b51bca6607c895e247b86266cac283ea8bb3930bac6349b16655680730014",
+      "differenceHash": "c6073b2a2b338e09"
     },
     {
       "id": "jp-r-sushi-ten",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-sushi-ten.svg",
-      "sha256": "66c96f8eeea879dabca33e00a395943b37ec733ac88a63dd63993965027348ee",
-      "differenceHash": "195908b070e280a2"
+      "file": "assets/evening/jp-r-sushi-ten.webp",
+      "sha256": "e638d2cb06dd3a375cdf1f013d2572f1743c3359a5bc33a459bf2d7c0472697b",
+      "differenceHash": "1959dab070e28082"
     },
     {
       "id": "jp-r-gyukatsu",
-      "sourceFile": "assets/evening/sources/illustrations/jp-r-gyukatsu.svg",
-      "sha256": "9c94da195da1d36dcaa9e20086deefa2e2cb77a9b6a7a4d3a28372865bbe63a6",
-      "differenceHash": "065c505171d08d82"
+      "file": "assets/evening/jp-r-gyukatsu.webp",
+      "sha256": "9cc482c3b880e1760dfc01ab6989119adcfb4ff4ecb1b2ad4369eb1c104d0a43",
+      "differenceHash": "065cd05171d48d82"
     },
     {
       "id": "jp-b-benfiddich",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-benfiddich.svg",
-      "sha256": "2afa0edc27d64c4460444bc632b1ad47e5f12353a64a4e0096eae0105263cdf9",
-      "differenceHash": "80ed79d95ad80082"
+      "file": "assets/evening/jp-b-benfiddich.webp",
+      "sha256": "1314a0c7024a44d1d5bd0c8f5f21c9d3b27e963329fba31d0a0228a68484acf3",
+      "differenceHash": "88ac78da58d80082"
     },
     {
       "id": "jp-b-albatross",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-albatross.svg",
-      "sha256": "20e887d1bebe157ee2b97a1c6c729df15d60390eded06b95dbcfa56a9a6ded1f",
-      "differenceHash": "68646cd988880882"
+      "file": "assets/evening/jp-b-albatross.webp",
+      "sha256": "d551b538470e1774c521b64f141b91915d82abdd7f47b2d3ef07e663cb32037a",
+      "differenceHash": "68e46cd888a80882"
     },
     {
       "id": "jp-b-composition",
-      "sourceFile": "assets/evening/sources/illustrations/jp-b-composition.svg",
-      "sha256": "f709b7cd95a93ba37571691c5b2e192526c6f2e271504ef1c3fb10f504cd61f8",
-      "differenceHash": "80b2b4f9dad25282"
+      "file": "assets/evening/jp-b-composition.webp",
+      "sha256": "6a2a967b7104c15edb693bd9a35f5bcbf7bdeac59dd40f697eab1147c9b38e08",
+      "differenceHash": "80b2b6f9dad25282"
     },
     {
       "id": "jp-a-kujira",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-kujira.svg",
-      "sha256": "ba4fe977f724c14ad0948eb71aa8556fada6d4ff6b5886ed132ccf729eb8c017",
-      "differenceHash": "0092b2a292929282"
+      "file": "assets/evening/jp-a-kujira.webp",
+      "sha256": "301f6c335e422d030e47d74c335a17f6f4185d391ada376916fb0f0068355c5a",
+      "differenceHash": "0292b2a292929282"
     },
     {
       "id": "jp-a-comedy",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-comedy.svg",
-      "sha256": "29a00c1e55c774b423bd0400b21f84226f0aafa7b70a7455db4fc6693b8ab62a",
+      "file": "assets/evening/jp-a-comedy.webp",
+      "sha256": "2e39af2b998259fa711ebe2dec39b75d9a34c07b16e6ae3116cdf6d85860dab1",
       "differenceHash": "909cf4b4f4f40082"
     },
     {
       "id": "jp-a-samurai-show",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-samurai-show.svg",
-      "sha256": "12cd2aeea99eb1ccfc6ba88b4a728601d4d7da800e4a7e6b7522f11cc9348e42",
-      "differenceHash": "00e4e0e2e2a68082"
+      "file": "assets/evening/jp-a-samurai-show.webp",
+      "sha256": "972990f1e7d29da0c905d38be879159849a23b703527b9488b89f82764a67a4d",
+      "differenceHash": "00e4f0f2e2a68082"
     },
     {
       "id": "jp-a-hogushi",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-hogushi.svg",
-      "sha256": "69bbcde10949027d36c09a81194184e83e59baa69c0ef8524fa3ef8108dcd9fc",
-      "differenceHash": "42ca52b4e29a0882"
+      "file": "assets/evening/jp-a-hogushi.webp",
+      "sha256": "1f8f8f12d667c1210b2bb04a3e7caf12410824d7e97a19bba3313d154e9b9eb1",
+      "differenceHash": "42dad2b4e09a0882"
     },
     {
       "id": "jp-a-muscle",
-      "sourceFile": "assets/evening/sources/illustrations/jp-a-muscle.svg",
-      "sha256": "ca0d683bc6c2a5b8c7a6cdd46c33523b1cd36d9be607ba15a85b994b1bdd3756",
-      "differenceHash": "40d9e8dacac98082"
+      "file": "assets/evening/jp-a-muscle.webp",
+      "sha256": "ba99594478fc2732f47809ce144603bb7f2420cb3df047cf47a21af4292c719c",
+      "differenceHash": "40d8e8dacac98082"
     }
   ],
   "exactDuplicates": [],

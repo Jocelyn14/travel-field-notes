@@ -174,5 +174,5 @@ export const generateIllustrationSvg = (venue) => {
   ${signature}
   <path d="M74 884H1366" stroke="${INK}" stroke-width="12" stroke-linecap="round"/>
 </svg>
-`;
+`.replace(/[ \t]+$/gm, '');
 };

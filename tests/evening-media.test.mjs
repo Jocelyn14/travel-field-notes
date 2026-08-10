@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -31,6 +31,14 @@ const validEntry = (id, sourceFile, sourceUrl) => ({
 const writePng = async (directory, name, pixels) => {
   const file = join(directory, name);
   await sharp(Buffer.from(pixels), { raw: { width: 9, height: 8, channels: 1 } }).png().toFile(file);
+  return file;
+};
+
+const writeBuiltWebp = async (directory, id, pixels) => {
+  const mediaDirectory = join(directory, 'assets', 'evening');
+  await mkdir(mediaDirectory, { recursive: true });
+  const file = join(mediaDirectory, `${id}.webp`);
+  await sharp(Buffer.from(pixels), { raw: { width: 9, height: 8, channels: 1 } }).webp({ lossless: true }).toFile(file);
   return file;
 };
 
@@ -90,9 +98,12 @@ test('media audit reports exact duplicates and near duplicates separately', asyn
   const basePixels = Array.from({ length: 72 }, (_, index) => (index % 9 < 4 ? 20 : 220));
   const nearPixels = [...basePixels];
   nearPixels[1] = 30;
-  await writePng(directory, 'one.png', basePixels);
-  await writePng(directory, 'two.png', basePixels);
-  await writePng(directory, 'three.png', nearPixels);
+  await writePng(directory, 'one.png', Array(72).fill(10));
+  await writePng(directory, 'two.png', Array(72).fill(120));
+  await writePng(directory, 'three.png', Array(72).fill(240));
+  await writeBuiltWebp(directory, 'one', basePixels);
+  await writeBuiltWebp(directory, 'two', basePixels);
+  await writeBuiltWebp(directory, 'three', nearPixels);
   const catalog = [
     validEntry('one', 'one.png', 'https://example.test/one'),
     validEntry('two', 'two.png', 'https://example.test/two'),
@@ -112,6 +123,7 @@ test('media audit reports exact duplicates and near duplicates separately', asyn
   const report = JSON.parse(await readFile(reportPath, 'utf8'));
 
   assert.equal(report.exactDuplicates.length, 1);
+  assert.equal(report.media[0].file, 'assets/evening/one.webp');
   assert.ok(Array.isArray(report.nearDuplicates));
   assert.ok(report.nearDuplicates.some((pair) => pair.ids.includes('one') && pair.ids.includes('three')));
 });
@@ -121,8 +133,10 @@ test('media audit keeps non-identical near matches out of exact duplicates', asy
   const basePixels = Array.from({ length: 72 }, (_, index) => (index % 9 < 4 ? 20 : 220));
   const nearPixels = [...basePixels];
   nearPixels[1] = 30;
-  await writePng(directory, 'one.png', basePixels);
-  await writePng(directory, 'two.png', nearPixels);
+  await writePng(directory, 'one.png', Array(72).fill(10));
+  await writePng(directory, 'two.png', Array(72).fill(240));
+  await writeBuiltWebp(directory, 'one', basePixels);
+  await writeBuiltWebp(directory, 'two', nearPixels);
   const catalog = [
     validEntry('one', 'one.png', 'https://example.test/one'),
     validEntry('two', 'two.png', 'https://example.test/two'),
@@ -137,11 +151,11 @@ test('media audit keeps non-identical near matches out of exact duplicates', asy
     '--root', directory,
     '--output', reportPath,
   ], { cwd: new URL('..', import.meta.url), encoding: 'utf8' });
-  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.status, 1, result.stderr);
   const report = JSON.parse(await readFile(reportPath, 'utf8'));
 
   assert.deepEqual(report.exactDuplicates, []);
-  assert.ok(Array.isArray(report.nearDuplicates));
+  assert.equal(report.nearDuplicates.length, 1);
 });
 
 test('acquisition queue preserves each recommendation once with the required state fields', () => {
@@ -183,6 +197,7 @@ test('illustration SVG is deterministic, venue-specific, and uses only paper ink
   assert.match(first, /#17211D/);
   assert.match(first, /#A84F3D/);
   assert.doesNotMatch(first, /#385B70|#647052|gradient|<text|<image/i);
+  assert.doesNotMatch(first, /[ \t]+$/m);
 });
 
 test('activity IDs keep the activity accent when their category mentions dining or clubs', () => {
