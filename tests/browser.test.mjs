@@ -8,6 +8,33 @@ const tokyoUrl = `${baseUrl}tokyo/`;
 const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const launchOptions = { headless: true, executablePath: chromePath };
 
+async function openTokyoEveningGuide(viewport = { width: 390, height: 844 }) {
+  const browser = await chromium.launch(launchOptions);
+  const page = await browser.newPage({ viewport });
+  try {
+    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
+    await page.locator('[data-app-ready="true"]').waitFor();
+    await page.locator('[data-action="open-evening"][data-guide-date="2026-10-05"]').click();
+    const guide = page.locator('[data-evening-guide-date="2026-10-05"]');
+    await guide.waitFor({ state: 'visible' });
+    return { browser, page, guide };
+  } catch (error) {
+    await browser.close();
+    throw error;
+  }
+}
+
+async function tabTreatment(tab) {
+  return tab.evaluate((node) => {
+    const underline = getComputedStyle(node, '::after');
+    return {
+      selected: node.getAttribute('aria-selected'),
+      underlineColor: underline.backgroundColor,
+      underlineHeight: underline.height,
+    };
+  });
+}
+
 test('root directory exposes two separate shareable destinations', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
@@ -217,32 +244,165 @@ test('daily evening guide opens, switches horizontally and shows airport-only de
   }
 });
 
-test('editorial evening cards use restrained color, media and control treatments', async () => {
+test('editorial evening cards keep approved treatments across target viewports', async () => {
   const browser = await chromium.launch(launchOptions);
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   try {
-    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
-    await page.locator('[data-action="open-evening"][data-guide-date="2026-10-05"]').click();
-    const guide = page.locator('[data-evening-guide-date="2026-10-05"]');
-    const restaurant = guide.locator('[data-guide-page="restaurants"] .recommendation-card').first();
-    await restaurant.locator('img').waitFor({ state: 'visible' });
-    assert.equal(await restaurant.getAttribute('data-category-theme'), 'restaurant');
-    assert.equal(await restaurant.evaluate((node) => getComputedStyle(node).getPropertyValue('--card-accent').trim()), '#A84F3D');
-    assert.equal(await restaurant.evaluate((node) => getComputedStyle(node).backgroundColor), 'rgb(255, 254, 250)');
-    assert.equal(await restaurant.locator('.recommendation-media img').evaluate((node) => getComputedStyle(node).aspectRatio), '3 / 2');
-    assert.ok(await guide.locator('[data-guide-tab="restaurants"]').evaluate((node) => getComputedStyle(node).backgroundColor === 'rgba(0, 0, 0, 0)' || getComputedStyle(node).backgroundColor === 'rgb(244, 241, 233)'));
-    const closeTarget = await page.locator('[data-action="close-evening"]').boundingBox();
-    assert.ok(closeTarget && closeTarget.width >= 44 && closeTarget.height >= 44);
-    for (const tab of await guide.locator('[data-guide-tab]').all()) {
-      const target = await tab.boundingBox();
-      assert.ok(target && target.width >= 44 && target.height >= 44);
+    for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
+      const page = await browser.newPage({ viewport });
+      await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
+      await page.locator('[data-app-ready="true"]').waitFor();
+
+      const airportMark = page.locator('.evening-launch.is-airport .evening-location-mark').first();
+      assert.equal(await airportMark.evaluate((node) => getComputedStyle(node).color), 'rgb(23, 33, 29)');
+
+      await page.locator('[data-action="open-evening"][data-guide-date="2026-10-05"]').click();
+      const guide = page.locator('[data-evening-guide-date="2026-10-05"]');
+      await guide.waitFor({ state: 'visible' });
+      assert.equal(await page.locator('.evening-panel-head .kicker').evaluate((node) => getComputedStyle(node).color), 'rgb(168, 79, 61)');
+
+      for (const [pageName, theme, accent] of [
+        ['restaurants', 'restaurant', '#A84F3D'],
+        ['bars', 'bar', '#385B70'],
+        ['activities', 'activity', '#647052'],
+      ]) {
+        const card = guide.locator(`[data-guide-page="${pageName}"] .recommendation-card`).first();
+        assert.equal(await card.getAttribute('data-category-theme'), theme);
+        assert.equal(await card.evaluate((node) => getComputedStyle(node).getPropertyValue('--card-accent').trim()), accent);
+        assert.equal(await card.evaluate((node) => getComputedStyle(node).backgroundColor), 'rgb(255, 254, 250)');
+        assert.equal(await card.evaluate((node) => getComputedStyle(node).borderLeftWidth), '4px');
+      }
+
+      const restaurant = guide.locator('[data-guide-page="restaurants"] .recommendation-card').first();
+      await restaurant.locator('img').waitFor({ state: 'visible' });
+      assert.equal(await restaurant.locator('.recommendation-media img').evaluate((node) => getComputedStyle(node).aspectRatio), '3 / 2');
+      assert.equal(await guide.locator('[data-guide-tab="restaurants"]').evaluate((node) => getComputedStyle(node).backgroundColor), 'rgba(0, 0, 0, 0)');
+      assert.deepEqual(await tabTreatment(guide.locator('[data-guide-tab="restaurants"]')), {
+        selected: 'true',
+        underlineColor: 'rgb(168, 79, 61)',
+        underlineHeight: '2px',
+      });
+
+      const layout = await restaurant.evaluate((node) => {
+        const columns = getComputedStyle(node).gridTemplateColumns.split(' ').map(Number.parseFloat);
+        const media = node.querySelector('.recommendation-media').getBoundingClientRect();
+        const body = node.querySelector('.recommendation-body').getBoundingClientRect();
+        return {
+          columns,
+          mediaBottom: media.bottom,
+          mediaRight: media.right,
+          bodyTop: body.top,
+          bodyLeft: body.left,
+        };
+      });
+      if (viewport.width <= 620) {
+        assert.equal(layout.columns.length, 1);
+        assert.ok(layout.mediaBottom <= layout.bodyTop + 1);
+      } else {
+        assert.equal(layout.columns.length, 2);
+        assert.ok(Math.abs(layout.columns[0] / (layout.columns[0] + layout.columns[1]) - 0.38) < 0.01);
+        assert.ok(layout.mediaRight <= layout.bodyLeft + 1);
+      }
+
+      const ratingTreatment = await restaurant.locator('.recommendation-body > header > strong').evaluate((node) => {
+        const style = getComputedStyle(node);
+        return { background: style.backgroundColor, borderColor: style.borderColor, borderWidth: style.borderWidth };
+      });
+      assert.deepEqual(ratingTreatment, {
+        background: 'rgba(0, 0, 0, 0)',
+        borderColor: 'rgb(23, 33, 29)',
+        borderWidth: '1px',
+      });
+
+      const close = page.locator('[data-action="close-evening"]');
+      const closeTarget = await close.boundingBox();
+      assert.ok(closeTarget && closeTarget.width >= 44 && closeTarget.height >= 44);
+      assert.deepEqual(await close.evaluate((node) => {
+        const style = getComputedStyle(node);
+        return { background: style.backgroundColor, borderLeftColor: style.borderLeftColor, borderLeftWidth: style.borderLeftWidth };
+      }), {
+        background: 'rgba(0, 0, 0, 0)',
+        borderLeftColor: 'rgb(191, 194, 184)',
+        borderLeftWidth: '1px',
+      });
+
+      for (const tab of await guide.locator('[data-guide-tab]').all()) {
+        const target = await tab.boundingBox();
+        assert.ok(target && target.width >= 44 && target.height >= 44);
+      }
+      assert.ok(await restaurant.locator('img').evaluate((node) => node.naturalWidth > 0));
+      assert.ok(await restaurant.locator('h4').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 20));
+      assert.ok(await restaurant.locator('.recommendation-copy p').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 15));
+      assert.ok(await restaurant.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      assert.equal(await guide.locator('.guide-carousel').evaluate((node) => getComputedStyle(node).scrollBehavior), 'auto');
+      await page.close();
     }
-    assert.ok(await restaurant.locator('img').evaluate((node) => node.naturalWidth > 0));
-    assert.ok(await restaurant.locator('h4').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 20));
-    assert.ok(await restaurant.locator('.recommendation-copy p').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 15));
-    assert.ok(await restaurant.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  } finally {
+    await browser.close();
+  }
+});
+
+test('evening tab selection persists after category click loses focus', async () => {
+  const { browser, page, guide } = await openTokyoEveningGuide();
+  try {
+    const restaurant = guide.locator('[data-guide-tab="restaurants"]');
+    const activity = guide.locator('[data-guide-tab="activities"]');
+    await activity.click();
+    await page.waitForFunction(() => {
+      const guideNode = document.querySelector('[data-evening-guide-date="2026-10-05"]');
+      const carousel = guideNode?.querySelector('.guide-carousel');
+      const tab = guideNode?.querySelector('[data-guide-tab="activities"]');
+      return tab?.getAttribute('aria-selected') === 'true'
+        && Math.abs(carousel.scrollLeft - carousel.clientWidth * 2) <= 1;
+    });
+    await page.locator('[data-action="close-evening"]').focus();
+    assert.deepEqual(await tabTreatment(activity), {
+      selected: 'true',
+      underlineColor: 'rgb(100, 112, 82)',
+      underlineHeight: '2px',
+    });
+    assert.equal((await tabTreatment(restaurant)).underlineColor, 'rgba(0, 0, 0, 0)');
+  } finally {
+    await browser.close();
+  }
+});
+
+test('evening tab focus alone does not change selection', async () => {
+  const { browser, guide } = await openTokyoEveningGuide();
+  try {
+    const tabList = guide.locator('.guide-tabs');
+    const restaurant = guide.locator('[data-guide-tab="restaurants"]');
+    const bar = guide.locator('[data-guide-tab="bars"]');
+    const restaurantPanel = guide.locator('[data-guide-page="restaurants"]');
+    assert.equal(await tabList.getAttribute('role'), 'tablist');
+    assert.equal(await restaurant.getAttribute('role'), 'tab');
+    assert.equal(await restaurant.getAttribute('aria-controls'), await restaurantPanel.getAttribute('id'));
+    assert.equal(await restaurantPanel.getAttribute('role'), 'tabpanel');
+    await bar.focus();
+    assert.equal(await restaurant.getAttribute('aria-selected'), 'true');
+    assert.equal(await bar.getAttribute('aria-selected'), 'false');
+    assert.equal((await tabTreatment(restaurant)).underlineColor, 'rgb(168, 79, 61)');
+    assert.equal((await tabTreatment(bar)).underlineColor, 'rgba(0, 0, 0, 0)');
+  } finally {
+    await browser.close();
+  }
+});
+
+test('evening tab selection follows direct carousel scrolling', async () => {
+  const { browser, page, guide } = await openTokyoEveningGuide();
+  try {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    assert.equal(await guide.locator('.guide-carousel').evaluate((node) => getComputedStyle(node).scrollBehavior), 'auto');
+    const carousel = guide.locator('.guide-carousel');
+    await carousel.evaluate((node) => { node.scrollLeft = node.clientWidth; });
+    await page.waitForFunction(() => document.querySelector('[data-evening-guide-date="2026-10-05"] [data-guide-tab="bars"]')?.getAttribute('aria-selected') === 'true');
+    const restaurant = guide.locator('[data-guide-tab="restaurants"]');
+    const bar = guide.locator('[data-guide-tab="bars"]');
+    assert.equal((await tabTreatment(restaurant)).underlineColor, 'rgba(0, 0, 0, 0)');
+    assert.deepEqual(await tabTreatment(bar), {
+      selected: 'true',
+      underlineColor: 'rgb(56, 91, 112)',
+      underlineHeight: '2px',
+    });
   } finally {
     await browser.close();
   }

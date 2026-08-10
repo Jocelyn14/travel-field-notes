@@ -157,6 +157,21 @@ function closeEveningGuide() {
   if (originId) document.getElementById(originId)?.focus();
 }
 
+function selectGuideTab(guide, selectedPage) {
+  guide.querySelectorAll('[data-guide-tab]').forEach((tab) => {
+    tab.setAttribute('aria-selected', String(tab.dataset.guideTab === selectedPage));
+  });
+}
+
+function syncGuideTabToCarousel(carousel) {
+  if (!carousel.clientWidth) return;
+  const pages = [...carousel.querySelectorAll('[data-guide-page]')];
+  const pageIndex = Math.max(0, Math.min(pages.length - 1, Math.round(carousel.scrollLeft / carousel.clientWidth)));
+  const selectedPage = pages[pageIndex]?.dataset.guidePage;
+  const guide = carousel.closest('[data-evening-guide-date]');
+  if (guide && selectedPage) selectGuideTab(guide, selectedPage);
+}
+
 function openEveningGuide(date, trigger) {
   const panel = root.querySelector('[data-panel="evening-guide"]');
   const guide = panel?.querySelector(`[data-evening-guide-date="${CSS.escape(date)}"]`);
@@ -165,7 +180,10 @@ function openEveningGuide(date, trigger) {
   panelState = nextPanelState(panelState, { type: 'open-evening', guideDate: date, originId: trigger.id });
   panel.querySelectorAll('[data-evening-guide-date]').forEach((item) => { item.hidden = item !== guide; });
   const carousel = guide.querySelector('.guide-carousel');
-  if (carousel) carousel.scrollLeft = 0;
+  if (carousel) {
+    carousel.scrollLeft = 0;
+    syncGuideTabToCarousel(carousel);
+  }
   panel.hidden = false;
   panel.setAttribute('aria-hidden', 'false');
   const backdrop = root.querySelector('[data-evening-backdrop]');
@@ -219,6 +237,7 @@ root.addEventListener('click', (event) => {
     const page = guide?.querySelector(`[data-guide-page="${action.dataset.guideTab}"]`);
     if (carousel && page) {
       const pageIndex = [...carousel.querySelectorAll('[data-guide-page]')].indexOf(page);
+      selectGuideTab(guide, action.dataset.guideTab);
       carousel.scrollTo({ left: pageIndex * carousel.clientWidth, behavior: 'smooth' });
     }
     return;
@@ -456,6 +475,10 @@ root.addEventListener('wheel', (event) => {
   closeOtherDeleteRails(item);
   setDeleteRail(item, event.deltaX > 0);
 }, { passive: false });
+
+root.addEventListener('scroll', (event) => {
+  if (event.target.matches?.('.guide-carousel')) syncGuideTabToCarousel(event.target);
+}, true);
 
 window.addEventListener('online', () => render({ preserveScroll: true }));
 window.addEventListener('offline', () => render({ preserveScroll: true }));

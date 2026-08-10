@@ -963,6 +963,9 @@ svg.icon {
   --evening-paper: #F4F1E9;
   --evening-ink: #17211D;
   --evening-rule: #BFC2B8;
+  --evening-restaurant: #A84F3D;
+  --evening-bar: #385B70;
+  --evening-activity: #647052;
 }
 
 .evening-launch {
@@ -1055,7 +1058,7 @@ svg.icon {
 }
 
 .evening-launch.is-airport .evening-location-mark {
-  color: var(--secondary);
+  color: var(--evening-ink);
   border-color: var(--evening-rule);
 }
 
@@ -1099,6 +1102,10 @@ svg.icon {
 
 .evening-panel-head h2 {
   font-size: clamp(26px, 5vw, 44px);
+}
+
+.evening-panel-head .kicker {
+  color: var(--evening-restaurant);
 }
 
 .evening-panel-head small {
@@ -1193,19 +1200,18 @@ svg.icon {
 }
 
 .guide-tabs [data-guide-tab="restaurants"] {
-  --tab-accent: #A84F3D;
+  --tab-accent: var(--evening-restaurant);
 }
 
 .guide-tabs [data-guide-tab="bars"] {
-  --tab-accent: #385B70;
+  --tab-accent: var(--evening-bar);
 }
 
 .guide-tabs [data-guide-tab="activities"] {
-  --tab-accent: #647052;
+  --tab-accent: var(--evening-activity);
 }
 
-.guide-tabs:not(:focus-within) [data-guide-tab="restaurants"]::after,
-.guide-tabs button:focus::after {
+.guide-tabs button[aria-selected="true"]::after {
   background: var(--tab-accent);
 }
 
@@ -1251,15 +1257,15 @@ svg.icon {
 }
 
 [data-category-theme="restaurant"] {
-  --card-accent: #A84F3D;
+  --card-accent: var(--evening-restaurant);
 }
 
 [data-category-theme="bar"] {
-  --card-accent: #385B70;
+  --card-accent: var(--evening-bar);
 }
 
 [data-category-theme="activity"] {
-  --card-accent: #647052;
+  --card-accent: var(--evening-activity);
 }
 
 .guide-page[data-category-theme] {
