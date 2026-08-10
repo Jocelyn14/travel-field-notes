@@ -27,7 +27,7 @@ The production catalog remains untouched and intentionally legacy for Task 3 med
 
 ## Commit
 
-`b2d5008572c45ec0f0b9c20791bc2dc908339f28` (amended below to include this report).
+`3debf8d815f01928422eb56a07d3c297eb421298` (`feat: add evening media manifest pipeline`).
 
 ## Self-review
 
