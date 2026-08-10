@@ -1,4 +1,4 @@
-const CACHE_NAME = 'travel-atlas-v9';
+const CACHE_NAME = 'travel-atlas-v10';
 const APP_SHELL = [
   './',
   './index.html',
@@ -53,9 +53,9 @@ self.addEventListener('fetch', (event) => {
   if (request.mode === 'navigate') {
     event.respondWith(fetch(request).then((response) => {
       const copy = response.clone();
-      caches.open(CACHE_NAME).then((cache) => cache.put('./index.html', copy));
+      caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
       return response;
-    }).catch(() => caches.match('./index.html')));
+    }).catch(() => caches.match(request).then((cached) => cached || caches.match('./index.html'))));
     return;
   }
 
