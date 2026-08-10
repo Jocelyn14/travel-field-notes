@@ -19,9 +19,10 @@ async function openEveningImage(page, target) {
   assert.ok(await image.evaluate((node) => node.complete && node.naturalWidth > 0), `${target.label} should be available`);
 }
 
-test('navigation cache writes extend the service worker event lifetime without delaying the response', async () => {
+test('navigation cache writes bind to the fetch event synchronously without delaying the response', async () => {
   const listeners = {};
   let failCacheWrite;
+  let waitUntilCalledAfterDispatch = false;
   let cacheWriteFinished = false;
   const cacheWrite = new Promise((_, reject) => {
     failCacheWrite = () => {
@@ -30,6 +31,7 @@ test('navigation cache writes extend the service worker event lifetime without d
     };
   });
   const networkResponse = { clone: () => ({}) };
+  const fallbackResponse = { offline: true };
   const workerSource = await readFile(new URL('../sw.js', import.meta.url), 'utf8');
 
   runInNewContext(workerSource, {
@@ -37,6 +39,7 @@ test('navigation cache writes extend the service worker event lifetime without d
     fetch: () => Promise.resolve(networkResponse),
     caches: {
       open: () => Promise.resolve({ put: () => cacheWrite }),
+      match: () => Promise.resolve(fallbackResponse),
     },
     self: {
       location: { origin: 'https://travel.test' },
@@ -46,21 +49,81 @@ test('navigation cache writes extend the service worker event lifetime without d
 
   const lifetimePromises = [];
   let responsePromise;
+  let dispatchActive = true;
   listeners.fetch({
     request: { method: 'GET', mode: 'navigate', url: 'https://travel.test/italy/' },
     respondWith: (promise) => { responsePromise = promise; },
-    waitUntil: (promise) => { lifetimePromises.push(promise); },
+    waitUntil: (promise) => {
+      if (!dispatchActive) {
+        waitUntilCalledAfterDispatch = true;
+        throw new Error('InvalidStateError: fetch event dispatch has finished');
+      }
+      lifetimePromises.push(promise);
+    },
   });
+  const synchronousLifetimeRegistrations = lifetimePromises.length;
+  dispatchActive = false;
 
   const response = await responsePromise;
   const responseFinishedBeforeCacheWrite = !cacheWriteFinished;
 
+  assert.equal(synchronousLifetimeRegistrations, 1, 'waitUntil should be registered before fetch dispatch returns');
+  assert.equal(waitUntilCalledAfterDispatch, false, 'waitUntil should never be called from a later microtask');
   assert.equal(response, networkResponse);
   assert.equal(responseFinishedBeforeCacheWrite, true, 'navigation response should not wait for the cache write');
-  assert.equal(lifetimePromises.length, 1, 'navigation cache write should extend the fetch event lifetime');
   failCacheWrite();
-  await assert.rejects(lifetimePromises[0], /cache write failed/, 'cache write failures should remain observable');
+  await assert.rejects(lifetimePromises[0], /cache write failed/, 'cache write failures should not replace or hide behind a successful response');
   assert.equal(cacheWriteFinished, true);
+});
+
+test('failed navigation resolves the destination-specific cached response', async () => {
+  const listeners = {};
+  const matchedRequests = [];
+  let cacheOpenCount = 0;
+  const cachedItalyResponse = { cached: 'italy' };
+  const workerSource = await readFile(new URL('../sw.js', import.meta.url), 'utf8');
+
+  runInNewContext(workerSource, {
+    URL,
+    fetch: () => Promise.reject(new Error('offline')),
+    caches: {
+      open: () => {
+        cacheOpenCount += 1;
+        return Promise.resolve({ put: () => Promise.resolve() });
+      },
+      match: (request) => {
+        matchedRequests.push(request);
+        return Promise.resolve(cachedItalyResponse);
+      },
+    },
+    self: {
+      location: { origin: 'https://travel.test' },
+      addEventListener: (type, listener) => { listeners[type] = listener; },
+    },
+  });
+
+  const request = { method: 'GET', mode: 'navigate', url: 'https://travel.test/italy/' };
+  const lifetimePromises = [];
+  let responsePromise;
+  let dispatchActive = true;
+  listeners.fetch({
+    request,
+    respondWith: (promise) => { responsePromise = promise; },
+    waitUntil: (promise) => {
+      if (!dispatchActive) throw new Error('InvalidStateError: fetch event dispatch has finished');
+      lifetimePromises.push(promise);
+    },
+  });
+  const synchronousLifetimeRegistrations = lifetimePromises.length;
+  dispatchActive = false;
+
+  const response = await responsePromise;
+  await Promise.all(lifetimePromises);
+
+  assert.equal(synchronousLifetimeRegistrations, 1);
+  assert.equal(response, cachedItalyResponse);
+  assert.deepEqual(matchedRequests, [request]);
+  assert.equal(cacheOpenCount, 0, 'network failures should not attempt a navigation cache write');
 });
 
 test('unique Italy venue photos and Tokyo illustrations reload offline after first visit', async () => {

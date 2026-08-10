@@ -51,12 +51,13 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(fetch(request).then((response) => {
-      const copy = response.clone();
-      const cacheWrite = caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-      event.waitUntil(cacheWrite);
-      return response;
-    }).catch(() => caches.match(request).then((cached) => cached || caches.match('./index.html'))));
+    const networkResponse = fetch(request);
+    const cacheWrite = networkResponse.then(
+      (response) => caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone())),
+      () => undefined,
+    );
+    event.waitUntil(cacheWrite);
+    event.respondWith(networkResponse.catch(() => caches.match(request).then((cached) => cached || caches.match('./index.html'))));
     return;
   }
 
