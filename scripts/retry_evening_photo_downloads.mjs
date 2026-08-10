@@ -36,11 +36,9 @@ for (const row of results.filter((item) => item.status === 'verified-photo')) {
     const previous = previousTargets.get(row.id);
     if (previous?.finalOutcome === 'downloaded') {
       const identity = await fileIdentity(destination);
-      Object.assign(previous, identity);
-      Object.assign(previous.attempts.find((attempt) => attempt.outcome === 'downloaded'), {
-        bytes: identity.sourceBytes,
-        sha256: identity.sourceSha256,
-      });
+      if (identity.sourceBytes !== previous.sourceBytes || identity.sourceSha256 !== previous.sourceSha256) {
+        throw new Error(`Historical download ${row.id} checksum mismatch; refusing to overwrite recorded provenance`);
+      }
       targets.push(previous);
     }
     continue;

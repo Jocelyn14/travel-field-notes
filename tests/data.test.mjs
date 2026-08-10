@@ -125,15 +125,24 @@ test('evening acquisition decisions cover every recommendation exactly once', as
     assert.equal(item.researchInput.id, item.id);
     assert.match(item.researchInput.googleMaps, /^https:\/\/www\.google\.com\/maps\/search/);
     assert.match(item.researchInput.imageSearch, /^https:\/\/www\.google\.com\/search\?/);
-    assert.deepEqual(
-      item.researchChecks.map((check) => check.sourceClass),
-      ['official', 'wikimedia-commons', 'openverse'],
-      `${item.id} must record all required source classes`,
-    );
-    for (const check of item.researchChecks) {
-      assert.match(check.query, new RegExp(`\\[${item.id}\\]`));
-      assert.ok(check.status?.trim(), `${item.id}.${check.sourceClass}.status missing`);
-      assert.ok(check.outcome?.trim(), `${item.id}.${check.sourceClass}.outcome missing`);
+    if (item.status === 'needs-illustration') {
+      assert.deepEqual(
+        item.researchChecks.map((check) => check.sourceClass),
+        ['official', 'wikimedia-commons', 'openverse'],
+        `${item.id} must record all required source classes`,
+      );
+      const [official, ...apiChecks] = item.researchChecks;
+      assert.equal(official.status, 'not-recorded');
+      assert.equal(official.sourceUrl, null);
+      for (const check of apiChecks) {
+        assert.ok(check.query.includes(item.researchInput.nameEn) || check.query.includes(item.researchInput.nameLocal));
+        assert.match(check.requestedAt, /^\d{4}-\d{2}-\d{2}T/);
+        assert.equal(check.httpStatus, 200);
+        assert.equal(check.outcome, 'success');
+        assert.match(check.rawResponseSha256, /^[a-f0-9]{64}$/);
+        assert.match(check.requestUrl, /^https:\/\//);
+        assert.equal(check.acceptance.accepted, false);
+      }
     }
     for (const field of ['input', 'result', 'report']) {
       assert.match(item.researchProvenance[field], /^scripts\/evening-media-research\/(italy|tokyo)-(input|results|report)\.(json|md)$/);
@@ -154,11 +163,6 @@ test('evening acquisition decisions cover every recommendation exactly once', as
       assert.equal(credits.find((entry) => entry.recommendationId === item.id).sourceSha256, item.sourceSha256);
     }
   }
-
-  const fallbackChecks = sources
-    .filter((item) => item.status === 'needs-illustration')
-    .map((item) => JSON.stringify(item.researchChecks));
-  assert.equal(new Set(fallbackChecks).size, fallbackChecks.length, 'fallback check evidence must be venue-specific');
 
   assert.ok(Array.isArray(attempts.targets));
   for (const target of attempts.targets) {
@@ -217,6 +221,61 @@ test('committed research provenance covers all evening recommendations reproduci
     assert.match(row.verifiedAt, /^\d{4}-\d{2}-\d{2}$/);
     assert.ok(row.evidence?.trim(), `${row.id}.evidence missing from canonical research`);
   }
+});
+
+test('captured API evidence covers every delivered illustration with real venue searches', async () => {
+  const catalog = JSON.parse(await readFile(new URL('../scripts/evening-media-catalog.json', import.meta.url), 'utf8'));
+  const evidence = JSON.parse(await readFile(new URL('../scripts/evening-media-search-evidence.json', import.meta.url), 'utf8'));
+  const illustrationIds = catalog.filter((item) => item.kind === 'illustration').map((item) => item.id);
+
+  assert.equal(evidence.rows.length, illustrationIds.length);
+  assert.equal(new Set(evidence.rows.map((item) => item.id)).size, illustrationIds.length);
+  assert.deepEqual(new Set(evidence.rows.map((item) => item.id)), new Set(illustrationIds));
+  const serviceQueries = { 'wikimedia-commons': new Set(), openverse: new Set() };
+  const candidateTitles = new Set();
+  for (const row of evidence.rows) {
+    assert.ok(row.venue.nameEn?.trim());
+    assert.ok(row.venue.city?.trim());
+    assert.ok(['not-recorded', 'checked'].includes(row.official.status));
+    if (row.official.status === 'checked') assert.match(row.official.sourceUrl, /^https:\/\//);
+    else assert.equal(row.official.sourceUrl, null);
+    assert.deepEqual(row.services.map((item) => item.service), ['wikimedia-commons', 'openverse']);
+    for (const service of row.services) {
+      serviceQueries[service.service].add(service.query);
+      assert.ok(
+        service.query.includes(row.venue.nameEn) || service.query.includes(row.venue.nameLocal),
+        `${row.id}.${service.service} query must contain the venue name`,
+      );
+      assert.ok(service.query.includes(row.venue.city));
+      assert.match(service.requestedAt, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+      assert.ok(Number.isInteger(service.httpStatus));
+      assert.ok(['success', 'http-error', 'transport-error'].includes(service.outcome));
+      assert.match(service.rawResponseSha256, /^[a-f0-9]{64}$/);
+      assert.ok(service.rawResponseBytes > 0);
+      const requestUrl = new URL(service.requestUrl);
+      if (service.service === 'wikimedia-commons') {
+        assert.equal(requestUrl.hostname, 'commons.wikimedia.org');
+        assert.equal(requestUrl.searchParams.get('srsearch'), service.query);
+      } else {
+        assert.equal(requestUrl.hostname, 'api.openverse.org');
+        assert.equal(requestUrl.searchParams.get('q'), service.query);
+      }
+      assert.ok(service.resultCount === null || Number.isInteger(service.resultCount));
+      if (service.resultCount > 0) {
+        assert.ok(service.topCandidate?.title?.trim());
+        assert.match(service.topCandidate.sourceUrl, /^https:\/\//);
+        candidateTitles.add(`${service.service}:${service.topCandidate.title}`);
+      } else {
+        assert.equal(service.topCandidate, null);
+      }
+      assert.equal(service.acceptance.accepted, false);
+      assert.ok(['no-candidate', 'identity-license-not-verified', 'content-unsuitable', 'delivery-download-failed', 'request-failed'].includes(service.acceptance.reasonCode));
+      assert.ok(service.acceptance.reason?.trim());
+    }
+  }
+  assert.equal(serviceQueries['wikimedia-commons'].size, illustrationIds.length);
+  assert.equal(serviceQueries.openverse.size, illustrationIds.length);
+  assert.ok(candidateTitles.size >= 10, 'captured responses must contain varied real candidates, not boilerplate-only records');
 });
 
 test('trip dates and daily plans match the confirmed travel windows', async () => {

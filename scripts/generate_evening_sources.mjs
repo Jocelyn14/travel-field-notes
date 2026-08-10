@@ -45,8 +45,10 @@ const researchRows = [
 ];
 const downloadAttempts = await readJson(join(root, 'scripts', 'evening-media-download-attempts.json'));
 const contentDecisions = await readJson(join(root, 'scripts', 'evening-media-content-decisions.json'));
+const searchEvidence = await readJson(join(root, 'scripts', 'evening-media-search-evidence.json'));
 const attemptsById = new Map(downloadAttempts.targets.map((item) => [item.id, item]));
 const contentDecisionById = new Map(contentDecisions.map((item) => [item.id, item]));
+const searchEvidenceById = new Map(searchEvidence.rows.map((item) => [item.id, item]));
 const researchInputById = new Map(researchInputs.map((item) => [item.id, item]));
 const researchById = new Map();
 for (const row of researchRows) {
@@ -59,50 +61,9 @@ if (researchRows.length !== recommendations.length) {
 if (researchInputs.length !== recommendations.length || researchInputById.size !== researchInputs.length) {
   throw new Error(`研究输入必须唯一覆盖 ${recommendations.length} 条推荐`);
 }
+if (searchEvidenceById.size !== searchEvidence.rows.length) throw new Error('Search evidence IDs must be unique');
 
 const recommendationById = new Map(recommendations.map((item) => [item.id, item]));
-const buildResearchChecks = (item, country) => country === 'italy'
-  ? [
-      {
-        sourceClass: 'official',
-        query: `[${item.id}] ${item.query} official media explicit reuse rights`,
-        status: 'batch-method-recorded',
-        outcome: 'The canonical Italy report records official pages as eligible only with explicit reuse rights; none supplied a stronger reusable result for this batch.',
-      },
-      {
-        sourceClass: 'wikimedia-commons',
-        query: `[${item.id}] ${item.query} exact-name Wikimedia Commons`,
-        status: 'checked',
-        outcome: 'The canonical Italy report records exact-name Commons API discovery and manual file-page review for identity and license.',
-      },
-      {
-        sourceClass: 'openverse',
-        query: `[${item.id}] ${item.query} exact-name Openverse`,
-        status: 'not-recorded',
-        outcome: 'The canonical Italy report does not record a separate Openverse pass; no Openverse check is claimed.',
-      },
-    ]
-  : [
-      {
-        sourceClass: 'official',
-        query: `[${item.id}] ${item.query} official media press reuse rights`,
-        status: 'checked',
-        outcome: 'The canonical Tokyo report records screening official media and press rights pages.',
-      },
-      {
-        sourceClass: 'wikimedia-commons',
-        query: `[${item.id}] ${item.query} exact-name Wikimedia Commons`,
-        status: 'checked',
-        outcome: 'The canonical Tokyo report records exact-name Commons discovery and manual identity and license review.',
-      },
-      {
-        sourceClass: 'openverse',
-        query: `[${item.id}] ${item.query} exact-name Openverse`,
-        status: 'checked',
-        outcome: 'The canonical Tokyo report records exact-name Openverse discovery and manual identity and license review.',
-      },
-    ];
-
 const sources = await Promise.all(queue.map(async (item) => {
   const research = researchById.get(item.id);
   if (!research) throw new Error(`${item.id} 缺少研究结果`);
@@ -131,13 +92,27 @@ const sources = await Promise.all(queue.map(async (item) => {
     : null;
   const provenanceStem = `scripts/evening-media-research/${country}`;
   const decision = `${item.query}: ${research.evidence}${downgradeReason ? ` ${downgradeReason}` : ''}`;
+  const capturedEvidence = searchEvidenceById.get(item.id);
+  if (status === 'needs-illustration' && !capturedEvidence) {
+    throw new Error(`${item.id} is missing captured search evidence`);
+  }
+  const researchChecks = capturedEvidence ? [
+    {
+      sourceClass: 'official',
+      query: item.query,
+      status: capturedEvidence.official.status,
+      sourceUrl: capturedEvidence.official.sourceUrl,
+      outcome: capturedEvidence.official.reason,
+    },
+    ...capturedEvidence.services.map((service) => ({ sourceClass: service.service, ...service })),
+  ] : [];
   return {
     ...item,
     status,
     researchStatus: research.status,
     researchQuery: item.query,
     researchInput,
-    researchChecks: buildResearchChecks(item, country),
+    researchChecks,
     researchProvenance: {
       input: `${provenanceStem}-input.json`,
       result: `${provenanceStem}-results.json`,
@@ -160,6 +135,10 @@ const sources = await Promise.all(queue.map(async (item) => {
     } : {}),
   };
 }));
+const fallbackIds = new Set(sources.filter((item) => item.status === 'needs-illustration').map((item) => item.id));
+if (fallbackIds.size !== searchEvidenceById.size || [...searchEvidenceById.keys()].some((id) => !fallbackIds.has(id))) {
+  throw new Error('Captured search evidence must cover every illustration exactly once');
+}
 for (const id of researchById.keys()) {
   if (!recommendationById.has(id)) throw new Error(`${id} 不在推荐列表中`);
 }

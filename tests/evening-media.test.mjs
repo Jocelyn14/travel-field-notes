@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { copyFile, mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -156,6 +157,49 @@ test('media audit keeps non-identical near matches out of exact duplicates', asy
 
   assert.deepEqual(report.exactDuplicates, []);
   assert.equal(report.nearDuplicates.length, 1);
+});
+
+test('download retry rejects changed bytes without mutating successful history', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'evening-downloads-'));
+  const scriptsDirectory = join(directory, 'scripts');
+  const researchDirectory = join(scriptsDirectory, 'evening-media-research');
+  const photoDirectory = join(directory, 'assets', 'evening', 'sources', 'photos');
+  await mkdir(researchDirectory, { recursive: true });
+  await mkdir(photoDirectory, { recursive: true });
+  await copyFile(new URL('../scripts/retry_evening_photo_downloads.mjs', import.meta.url), join(scriptsDirectory, 'retry_evening_photo_downloads.mjs'));
+  await writeFile(join(researchDirectory, 'italy-results.json'), JSON.stringify([{
+    id: 'one', status: 'verified-photo', sourcePage: 'https://example.test/source', directAssetUrl: 'https://example.test/one.jpg',
+  }]));
+  await writeFile(join(researchDirectory, 'tokyo-results.json'), '[]');
+  await writeFile(join(scriptsDirectory, 'evening-media-content-decisions.json'), '[]');
+  const originalHash = createHash('sha256').update('original').digest('hex');
+  const attempts = {
+    generatedAt: '2026-08-10T00:00:00.000Z',
+    maxAttempts: 2,
+    selection: 'test fixture',
+    targets: [{
+      id: 'one',
+      url: 'https://example.test/one.jpg',
+      sourcePage: 'https://example.test/source',
+      attempts: [{
+        attempt: 1, startedAt: '2026-08-10T00:00:00.000Z', finishedAt: '2026-08-10T00:00:01.000Z',
+        outcome: 'downloaded', httpStatus: '200', exitCode: 0, error: '', bytes: 8, sha256: originalHash,
+      }],
+      finalOutcome: 'downloaded',
+      sourceBytes: 8,
+      sourceSha256: originalHash,
+    }],
+  };
+  const attemptsPath = join(scriptsDirectory, 'evening-media-download-attempts.json');
+  const originalLog = `${JSON.stringify(attempts, null, 2)}\n`;
+  await writeFile(attemptsPath, originalLog);
+  await writeFile(join(photoDirectory, 'one.jpg'), 'tampered bytes');
+
+  const result = spawnSync(process.execPath, [join(scriptsDirectory, 'retry_evening_photo_downloads.mjs')], { encoding: 'utf8' });
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /historical download.*checksum mismatch/i);
+  assert.equal(await readFile(attemptsPath, 'utf8'), originalLog);
 });
 
 test('acquisition queue preserves each recommendation once with the required state fields', () => {

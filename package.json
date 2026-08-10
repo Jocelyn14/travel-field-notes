@@ -5,6 +5,7 @@
   "scripts": {
     "test": "node --test tests/core.test.mjs tests/data.test.mjs tests/entrypoints.test.mjs tests/itinerary.test.mjs tests/search.test.mjs tests/view.test.mjs tests/evening-media.test.mjs",
     "test:browser": "node --test tests/browser.test.mjs tests/pwa.test.mjs",
+    "media:capture-search-evidence": "node scripts/capture_evening_search_evidence.mjs",
     "media:build": "node scripts/build_evening_media.mjs",
     "media:audit": "node scripts/audit_evening_media.mjs"
   },
