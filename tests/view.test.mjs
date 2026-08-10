@@ -149,3 +149,63 @@ test('every day opens a horizontally paged evening or airport guide', () => {
   assert.match(html, /lang="en">Hakushu Kobe Beef Teppanyaki/);
   assert.match(html, /机场候机提示/);
 });
+
+test('evening illustrations use project attribution and a committed license while photos keep source links', () => {
+  const tokyoTrip = structuredClone(trips[1]);
+  const guide = tokyoTrip.eveningGuides.find((item) => item.mode !== 'airport');
+  guide.restaurants = [{
+    ...guide.restaurants[0],
+    imageKind: 'illustration',
+    imageCredit: 'Travel Atlas',
+    imageSource: 'https://travel-atlas.local/illustrations/test-card',
+    license: 'CC BY 4.0',
+    licenseUrl: 'assets/evening/sources/illustrations/LICENSE.md',
+  }];
+  guide.bars = [{
+    ...guide.bars[0],
+    imageKind: 'venue-photo',
+    imageCredit: 'Example photographer / Wikimedia Commons',
+    imageSource: 'https://commons.wikimedia.org/wiki/File:Example_venue.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    modificationNote: 'Cropped to 3:2, resized to 1440×960, and converted to WebP.',
+  }];
+  guide.activities = [];
+  tokyoTrip.eveningGuides = [guide];
+  const state = normalizePersistedState({ activeTripId: 'tokyo' }, [tokyoTrip]);
+
+  const html = renderApp([tokyoTrip], state, true, { standalone: true, assetBase: '../' });
+
+  assert.match(html, /class="recommendation-media-credit">项目插画：Travel Atlas<\/span>/);
+  assert.match(html, /class="recommendation-media-license" href="\.\.\/assets\/evening\/sources\/illustrations\/LICENSE\.md"/);
+  assert.match(html, />CC BY 4\.0 授权/);
+  assert.doesNotMatch(html, /href="https:\/\/travel-atlas\.local\/illustrations\/test-card"/);
+  assert.match(html, /class="recommendation-media-source" href="https:\/\/commons\.wikimedia\.org\/wiki\/File:Example_venue\.jpg"/);
+  assert.match(html, /class="recommendation-media-license" href="https:\/\/creativecommons\.org\/licenses\/by-sa\/4\.0\/"/);
+  assert.match(html, />CC BY-SA 4\.0 授权/);
+  assert.match(html, /class="recommendation-media-change">Cropped to 3:2, resized to 1440×960, and converted to WebP\.<\/span>/);
+});
+
+test('evening recommendations render semantic category line art ready for image failures', () => {
+  const state = normalizePersistedState({ activeTripId: 'tokyo' }, [trips[1]]);
+  const html = renderApp([trips[1]], state, true, { standalone: true, assetBase: '../' });
+
+  for (const [theme, lineArt] of [
+    ['restaurant', '餐盘'],
+    ['bar', '酒杯'],
+    ['activity', '夜间活动'],
+  ]) {
+    assert.match(html, new RegExp(`data-media-fallback="${theme}"[^>]*role="img"[^>]*aria-label="[^"]*${lineArt}线稿[^"]*"[^>]*aria-hidden="true"[^>]*hidden`));
+  }
+});
+
+test('evening guide initializes a complete manual-activation tab state', () => {
+  const state = normalizePersistedState({ activeTripId: 'tokyo' }, [trips[1]]);
+  const html = renderApp([trips[1]], state, true, { standalone: true, assetBase: '../' });
+
+  assert.match(html, /role="tablist" aria-label="晚间推荐分类" aria-orientation="horizontal"/);
+  assert.match(html, /role="tab" aria-selected="true" tabindex="0" aria-controls="evening-2026-10-05-restaurants-panel"/);
+  assert.match(html, /role="tab" aria-selected="false" tabindex="-1" aria-controls="evening-2026-10-05-bars-panel"/);
+  assert.match(html, /id="evening-2026-10-05-restaurants-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="evening-2026-10-05-restaurants-tab" aria-hidden="false"/);
+  assert.match(html, /id="evening-2026-10-05-bars-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="evening-2026-10-05-bars-tab" aria-hidden="true" inert/);
+});

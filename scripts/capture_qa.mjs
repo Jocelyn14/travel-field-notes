@@ -23,7 +23,22 @@ try {
       const page = await browser.newPage({ viewport });
       await page.goto(`${baseUrl}${destination}/`, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
-      await page.screenshot({ path: new URL(`${destination}-${viewport.label}.png`, outputDir).pathname.slice(1), fullPage: true });
+      await page.locator('[data-action="open-evening"]').first().click();
+      const guide = page.locator('[data-evening-guide-date]:not([hidden])');
+      await guide.waitFor({ state: 'visible' });
+      if (destination === 'italy') {
+        await guide.locator('[data-guide-tab="activities"]').click();
+        await page.waitForFunction(() => {
+          const activeGuide = document.querySelector('[data-evening-guide-date]:not([hidden])');
+          const carousel = activeGuide?.querySelector('.guide-carousel');
+          return activeGuide?.querySelector('[data-guide-tab="activities"]')?.getAttribute('aria-selected') === 'true'
+            && Math.abs(carousel.scrollLeft - carousel.clientWidth * 2) <= 1;
+        });
+      }
+      const image = guide.locator('[role="tabpanel"][aria-hidden="false"] .recommendation-media img').first();
+      await image.scrollIntoViewIfNeeded();
+      await page.waitForFunction((node) => node.complete && node.naturalWidth > 0, await image.elementHandle());
+      await page.screenshot({ path: new URL(`${destination}-evening-${viewport.label}.png`, outputDir).pathname.slice(1), fullPage: false });
       await page.close();
     }
   }

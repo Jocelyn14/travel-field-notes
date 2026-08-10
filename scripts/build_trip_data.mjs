@@ -172,6 +172,8 @@ const recommendation = (item, area) => {
   imageSource: media.sourceUrl,
   imageKind: media.kind,
   license: media.license,
+  licenseUrl: media.licenseUrl,
+  modificationNote: media.modificationNote,
   verifiedAt: media.verifiedAt,
   highlights: [
     summary.length >= 8 ? summary : `${name}提供具有当地特色的晚间体验。`,

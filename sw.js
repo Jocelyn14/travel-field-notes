@@ -1,4 +1,5 @@
-const CACHE_NAME = 'travel-atlas-v10';
+const CONTENT_REVISION = 'c0d206f75398f40b95d366bab1c242bafd90c4b0492491398d5a77f18290d602';
+const CACHE_NAME = `travel-atlas-v10-${CONTENT_REVISION}`;
 const APP_SHELL = [
   './',
   './index.html',

@@ -98,7 +98,11 @@ export function validateTrips(trips) {
           }
           list.forEach((item, itemIndex) => {
             const itemPath = `${listPath}[${itemIndex}]`;
-            for (const field of ['id', 'name', 'nameEn', 'nameLocal', 'category', 'summary', 'distanceText', 'image', 'imageAlt', 'imageCredit', 'imageSource', 'practicalTips']) {
+            for (const field of [
+              'id', 'name', 'nameEn', 'nameLocal', 'category', 'summary', 'distanceText',
+              'image', 'imageAlt', 'imageCredit', 'imageSource', 'licenseUrl',
+              'modificationNote', 'practicalTips',
+            ]) {
               if (!isNonEmptyString(item?.[field])) errors.push(`${itemPath}.${field} 不能为空`);
             }
             if (!Array.isArray(item?.highlights)

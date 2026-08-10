@@ -5,9 +5,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-pasta-corso",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Pasta In Corso示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2765,
+    "sourceSha256": "bc3a08cffd45c098ccfdf1551f90d59fe381cc89e7ce37b2c9630d709f8b44b9"
   },
   {
     "id": "it-r-grano",
@@ -15,9 +19,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-grano",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Grano示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2755,
+    "sourceSha256": "bd301a6dc47c7f9f78eaa97c031dbb849f47786c57815009cdb30d02f357484e"
   },
   {
     "id": "it-r-vecchia-roma",
@@ -25,9 +33,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-vecchia-roma",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "老罗马餐厅示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2758,
+    "sourceSha256": "624e3306d16644baa08504cfdd80d90a31cb9db7e493d26bdc901eed86c62add"
   },
   {
     "id": "it-b-oro",
@@ -35,9 +47,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-oro",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Oro 屋顶酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2954,
+    "sourceSha256": "58b99dc712bd3c47d5c8635daef0fb812b55ec16c840483c726134f95aa8bc18"
   },
   {
     "id": "it-b-court",
@@ -45,9 +61,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-court",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "The Court示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2665,
+    "sourceSha256": "777e51cec9422f0331f3acea90eb65c9d03d2c9e373a936ed1c8c885031ac1e7"
   },
   {
     "id": "it-b-blackmarket",
@@ -55,9 +75,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-blackmarket",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Blackmarket Hall示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2663,
+    "sourceSha256": "79105c5ecbaeb7f55051f25c65b94ce6ed22ae4aca889b1d3147dc04fa3a10c4"
   },
   {
     "id": "it-a-opera-roma",
@@ -65,7 +89,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_dell%27Opera_a_Roma.JPG",
     "kind": "venue-photo",
     "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "credit": "LPLT / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "罗马歌剧院入口外观",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 2814264,
@@ -77,7 +103,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Esquilino_-_teatro_Brancaccio_1220246.JPG",
     "kind": "venue-photo",
     "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "credit": "Lalupa / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "罗马布兰卡乔剧院外观",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 2126475,
@@ -89,9 +117,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-gregorys",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Gregory’s 爵士俱乐部示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2743,
+    "sourceSha256": "5d14307f3987609d3490e82c2e6cab5f748d0cdf99f69db4b62625963404ed6f"
   },
   {
     "id": "it-a-sanctuary",
@@ -99,9 +131,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-sanctuary",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Sanctuary 生态夜场示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2738,
+    "sourceSha256": "cd4b6dd52cd226cff282a987998f80714ed219982c24dbe611b8782c890ecb23"
   },
   {
     "id": "it-a-opera-camera",
@@ -109,9 +145,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-opera-camera",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "罗马室内歌剧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2600,
+    "sourceSha256": "6f20082b0b00ed7384ffb5c384d1db7885e055e8ed82af396a1c66f67d1e7364"
   },
   {
     "id": "it-r-piccolo-buco",
@@ -119,9 +159,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-piccolo-buco",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "小洞披萨示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2657,
+    "sourceSha256": "7235ae7518a889553050a49c5e176af44850c467fc2e1f0d60f1238376f7521f"
   },
   {
     "id": "it-r-pizza-trevi",
@@ -129,9 +173,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-pizza-trevi",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "特莱维披萨示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2656,
+    "sourceSha256": "89d54ec78fae4500fbf0e70b0177d328c4670a623fb7727cea51a348d2a907cc"
   },
   {
     "id": "it-r-agrodolce",
@@ -139,9 +187,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-agrodolce",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "酸甜餐厅示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2761,
+    "sourceSha256": "f95ec90e6a3e2a72a677927a08893b2abc8b299cd926e4d51770dded8ef6d3fe"
   },
   {
     "id": "it-b-salotto42",
@@ -149,9 +201,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-salotto42",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "42 客厅酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2650,
+    "sourceSha256": "b0747a573e801307c97b9080d6ba6108dec16d877faa229ee7cf9e49fd07208b"
   },
   {
     "id": "it-b-jerry-thomas",
@@ -159,9 +215,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-jerry-thomas",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "杰里·托马斯地下酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2651,
+    "sourceSha256": "bfc58ff8b10fe2c500664217a590dc8e13f734e3d3f12a5f4da4d63385964075"
   },
   {
     "id": "it-b-barber-shop",
@@ -169,9 +229,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-barber-shop",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "理发店地下酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2655,
+    "sourceSha256": "678c7f0e30e17204f3912b35c3376834cbbb92e3e96388f0db50016d36b3781b"
   },
   {
     "id": "it-a-quirino",
@@ -179,7 +243,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_Quirino.JPG",
     "kind": "venue-photo",
     "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "credit": "MarteN253 / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "罗马奎里诺剧院正面",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 1018303,
@@ -191,9 +257,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-arciliuto",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Arciliuto 爵士俱乐部示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2737,
+    "sourceSha256": "c1f70821dac1e8dbe57dde70363fc8a185fc68e303e0e86eeaf7e3417c4f16ad"
   },
   {
     "id": "it-a-cooking-trevi",
@@ -201,9 +271,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-cooking-trevi",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "特莱维意面与提拉米苏课示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2760,
+    "sourceSha256": "a7946b95fb7604a458fe92e61f7bb815d4d48e5cd67155751d040c3a5f895ebc"
   },
   {
     "id": "it-a-welcome-rome",
@@ -211,9 +285,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-welcome-rome",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Welcome to Rome 沉浸展示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2601,
+    "sourceSha256": "9a4f1df2618d0915ab26c1c71424f38129b2000b8fb01b074aa1aba5563a86e8"
   },
   {
     "id": "it-a-st-pauls-opera",
@@ -221,7 +299,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Castro_Pretorio_-_St_Pauls_within_the_Walls.JPG",
     "kind": "venue-photo",
     "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
     "credit": "Croberto68 / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "罗马城内圣保罗教堂外观",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 603875,
@@ -233,9 +313,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-futura",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "未来意大利厨房示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2753,
+    "sourceSha256": "cfea6dac50e5f7bafeca5fa1c90ab264f46c4fc4089f526dc18086d4a2142249"
   },
   {
     "id": "it-r-ponte-vecchio",
@@ -243,9 +327,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-ponte-vecchio",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "老桥小餐馆示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2770,
+    "sourceSha256": "662aa8b5365f3c522b536bfc79a3c4171fbfbbcb74e32bc89bace9d9ccde58cc"
   },
   {
     "id": "it-r-buca-orafo",
@@ -253,9 +341,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-buca-orafo",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "金匠地窖餐厅示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2767,
+    "sourceSha256": "0caa3e4120fb4ebfb634ed23a1ab24aec8b3d456da9a6a6bcd50c2e3f403677b"
   },
   {
     "id": "it-b-volpi-uva",
@@ -263,9 +355,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-volpi-uva",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "狐狸与葡萄酒馆示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2757,
+    "sourceSha256": "0c33c70aaa2e9ed115c299b78da5f1d1480fd9afef6f1184a4970b2c52e268f1"
   },
   {
     "id": "it-b-rasputin",
@@ -273,9 +369,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-rasputin",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "拉斯普京地下酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2658,
+    "sourceSha256": "54309ee510dcfbb794e9a250ab2613f1f23af413500df78f44b7d90231d44a9a"
   },
   {
     "id": "it-b-mad-souls",
@@ -283,9 +383,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-mad-souls",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "MAD 灵魂与烈酒示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2652,
+    "sourceSha256": "2659b539cef15a6d16addbf707265513820d24bd9a9a5b17c25e3641ce10efc6"
   },
   {
     "id": "it-a-niccolini",
@@ -293,7 +397,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_Niccolini_Firenze_26.jpg",
     "kind": "venue-photo",
     "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "credit": "Manuelarosi / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "佛罗伦萨尼科利尼剧院内部舞台与幕布",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 1807085,
@@ -305,7 +411,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_verdi,_firenze.JPG",
     "kind": "venue-photo",
     "license": "CC BY 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.5/",
     "credit": "Sailko / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "佛罗伦萨威尔第剧院外观",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 1011333,
@@ -317,9 +425,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-jazz-firenze",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "佛罗伦萨爵士俱乐部示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2737,
+    "sourceSha256": "2aad0efb97ca37706235258102013c69c35652998e68a8baf0992aca4ddd55b9"
   },
   {
     "id": "it-a-soulspace",
@@ -327,9 +439,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-soulspace",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Soulspace 水疗示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2663,
+    "sourceSha256": "ff4e279232cafd134ca16eeb4941243741b29407e22a3c6bc693495ac6889deb"
   },
   {
     "id": "it-a-stmarks-opera",
@@ -337,9 +453,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-stmarks-opera",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "圣马克教堂歌剧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2587,
+    "sourceSha256": "e336db05aba62b7d6a9028bc8d3489bb0986c1ce3d8c14c9c2398504e61a1aa5"
   },
   {
     "id": "it-r-terrazze",
@@ -347,9 +467,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-terrazze",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "米开朗琪罗露台餐厅示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2766,
+    "sourceSha256": "1d457405d2a7149e385804c5fa979c7396cf19899430b117a7c94a3c04c31d05"
   },
   {
     "id": "it-r-beppa",
@@ -357,9 +481,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-beppa",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "贝帕花园餐厅示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2760,
+    "sourceSha256": "ddcc055097f8741ef0d74ef61b2419d6675640091d9766bab6211f3c25e4b6dd"
   },
   {
     "id": "it-r-mescita",
@@ -367,9 +495,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-mescita",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "圣尼科洛古酒馆示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2762,
+    "sourceSha256": "1fece8ffb689b8fec9716d2e2a125e318b0e62cabf0b3d2fb38ac51cf7dfe7fe"
   },
   {
     "id": "it-b-vips",
@@ -377,9 +509,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-vips",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Vip’s Bar示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2946,
+    "sourceSha256": "0a7e8c9f367203da778248b0fbdb34b03ec2a19b5549e65182d3cad4d20abdac"
   },
   {
     "id": "it-b-bulli",
@@ -387,9 +523,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-bulli",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Bulli & Balene示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2752,
+    "sourceSha256": "4e9e92d16c7a667568efc18748bc27cf1a7625b1ee27cbe4278d129ba531dca5"
   },
   {
     "id": "it-b-speakeasy23",
@@ -397,9 +537,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-speakeasy23",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "23 号艺术酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2661,
+    "sourceSha256": "08f5fb458c78dfe2589c6792b47b0b1a8e78dee4efaed0189881517334b10a50"
   },
   {
     "id": "it-a-pergola",
@@ -407,7 +551,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_della_Pergola.JPG",
     "kind": "venue-photo",
     "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "credit": "Sailko / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "佛罗伦萨佩哥拉剧院内部观众厅",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 1093763,
@@ -419,9 +565,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-teatro-sale",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Teatro del Sale示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2898,
+    "sourceSha256": "c2a744cc909720865092db74e4cd630b01577a99889e2b2d05bd282edaea6b40"
   },
   {
     "id": "it-a-flo",
@@ -429,9 +579,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-flo",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Flo 山景夜场示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2735,
+    "sourceSha256": "f6324556695cdb594725a87b6b393b79949316bef70ebb728295898e3bed2e67"
   },
   {
     "id": "it-a-nof",
@@ -439,9 +593,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-nof",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "NOF 现场俱乐部示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2741,
+    "sourceSha256": "9c242b52f0aad4876e3b6102bfa67194b705628df020117f7370af0f955f294a"
   },
   {
     "id": "it-a-night-photo",
@@ -449,9 +607,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-night-photo",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "佛罗伦萨夜景摄影漫步示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2607,
+    "sourceSha256": "9259c659da3a3fae3affbc77e58f65f3b5f982dd8adcc2e77fd99ba138e4a7b4"
   },
   {
     "id": "it-r-sorbillo",
@@ -459,9 +621,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-sorbillo",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "索尔比洛披萨示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2657,
+    "sourceSha256": "8d18578722ece2b4b09c207da8e5f12689c84176b62b2a10d1ef68ba9294f76c"
   },
   {
     "id": "it-r-tandem",
@@ -469,9 +635,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-tandem",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Tandem 肉酱餐厅示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2757,
+    "sourceSha256": "3c0d848d4b413cc62183f12c474c93931fb2eb819a7cc0a4ce5d509c9b4f5511"
   },
   {
     "id": "it-r-gesu",
@@ -479,9 +649,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-gesu",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "耶稣旧街小馆示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2763,
+    "sourceSha256": "cab1b527f273886cc696f91caf387acb8439508c5230436c2158642b61ab7841"
   },
   {
     "id": "it-b-berisio",
@@ -489,9 +663,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-berisio",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "贝里西奥书店酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2722,
+    "sourceSha256": "689460a0b9cc1067c05e3f2982857f1207c2c3fe5567d913b70e45340fbdfe89"
   },
   {
     "id": "it-b-perditempo",
@@ -499,9 +677,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-perditempo",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "消磨时间酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2722,
+    "sourceSha256": "c6e0f7d999f1d556e3a394db8f927dc9729a800622e915a826ac68756cdd496a"
   },
   {
     "id": "it-b-oak",
@@ -509,9 +691,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-oak",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Oak 自然酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2761,
+    "sourceSha256": "ff2682b29b48a570774d52b6cdbabe5ed1d22e49d99f271ea889089f577a2151"
   },
   {
     "id": "it-a-bellini",
@@ -519,7 +705,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:TeatroBelliniNaples2.jpg",
     "kind": "venue-photo",
     "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "credit": "IlSistemone / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "那不勒斯贝利尼剧院外观",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 750276,
@@ -531,7 +719,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Napoli_sotterranea_(1).jpg",
     "kind": "venue-photo",
     "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "credit": "Sordelli / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "那不勒斯地下城内部通道",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 7958816,
@@ -543,9 +733,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-napulitanata",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Napulitanata 那不勒斯音乐示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2740,
+    "sourceSha256": "7e1913837b77ddb44f78c931bcac17fa0a31c75fde2f0bf0eb23beee52730b02"
   },
   {
     "id": "it-a-san-carlo",
@@ -553,7 +747,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_de_San_Carlos,_N%C3%A1poles,_Italia,_2023-03-25,_DD_184-186_HDR.jpg",
     "kind": "venue-photo",
     "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
     "credit": "Diego Delso / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "那不勒斯圣卡洛剧院外观",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 7708591,
@@ -565,7 +761,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Galleria_borbonica_-_LTR_(Naples).jpg",
     "kind": "venue-photo",
     "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
     "credit": "Associazione Culturale Borbonica Sotterranea / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "那不勒斯波旁地下隧道内景",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 275407,
@@ -577,9 +775,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-zi-teresa",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "特蕾莎姨妈餐厅示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2600,
+    "sourceSha256": "ac368c5c4cc34c47ba4b3bbc8af0a941776bbab3a7ec731459df5e74baab2e34"
   },
   {
     "id": "it-r-regina",
@@ -587,9 +789,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-regina",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "玛格丽特王后餐厅示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2665,
+    "sourceSha256": "8f6eb03240831688c3ce4aca85fda6a3cdc92438f512cc04a19e0327794b3f78"
   },
   {
     "id": "it-r-officina-mare",
@@ -597,9 +803,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-officina-mare",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "海之工坊示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2600,
+    "sourceSha256": "7ebd3a4a2f1b4d3f0a5fbb2ae2aedf459c9a828b676188904e1f187e595f300e"
   },
   {
     "id": "it-b-antiquario",
@@ -607,9 +817,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-antiquario",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "古董商鸡尾酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2650,
+    "sourceSha256": "2b883004a7ad60ca50f302392294e0fdd8092ddbfba63cd54b273c53574dcb9b"
   },
   {
     "id": "it-b-barril",
@@ -617,9 +831,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-barril",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Barril 花园酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2662,
+    "sourceSha256": "31ea56dfe47e88309fc2cae2333ff96722df5db14526400005781de4fad636f8"
   },
   {
     "id": "it-b-flanagans",
@@ -627,9 +845,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-flanagans",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "弗拉纳根酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2665,
+    "sourceSha256": "8e451a25e5fe8e63ec8491bbb6a01fd55adf4dea437c7aafc65cdacec8aedb3f"
   },
   {
     "id": "it-a-seaside-cruise",
@@ -637,9 +859,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-seaside-cruise",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "那不勒斯日落游船示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2616,
+    "sourceSha256": "20f92cc9f2cee9450dc84e5fcc9e8d23d06bfef0f94b8715e87674b91f7811ff"
   },
   {
     "id": "it-a-sannazaro",
@@ -647,7 +873,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Napoli_-_Teatro_Sannazzaro.jpg",
     "kind": "venue-photo",
     "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
     "credit": "Armando Mancini / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "那不勒斯桑纳扎罗剧院入口",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 1200094,
@@ -659,7 +887,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:TeatroAugusteoNaples1.jpg",
     "kind": "venue-photo",
     "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "credit": "IlSistemone / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "那不勒斯奥古斯特奥剧院外观",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 1134041,
@@ -671,9 +901,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-bourbon-water",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "波旁地下隧道特别线路示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2651,
+    "sourceSha256": "9722913eb0deb9afe80a9e58aee1c57bb5fc5cfdffdc981fab42b136623dee83"
   },
   {
     "id": "it-a-nevermind",
@@ -681,9 +915,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-nevermind",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Nevermind 现场音乐示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2736,
+    "sourceSha256": "d46a03949267a7f2b2346cbaf2bb988bb391baa5054a1ed169712a58cf653303"
   },
   {
     "id": "it-r-tonnarello",
@@ -691,9 +929,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-tonnarello",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Tonnarello示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2767,
+    "sourceSha256": "2da038c223c36992010db1b1a4e09038aafa77210834315c0cec6f582118564b"
   },
   {
     "id": "it-r-nannarella",
@@ -701,9 +943,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-nannarella",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Nannarella示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2765,
+    "sourceSha256": "29db4743484422e281a30f98204e4aae57da7210eb73cc8074430ae115067286"
   },
   {
     "id": "it-r-otello",
@@ -711,9 +957,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-r-otello",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Otello示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2754,
+    "sourceSha256": "6aa3bbe7d0dc423b222ca0d9378d3f56f38c17e70b8002005304a4aac5b07dff"
   },
   {
     "id": "it-b-freni",
@@ -721,9 +971,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-freni",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "刹车与离合器酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2651,
+    "sourceSha256": "2e4b644ee53418e0ba5970f42363dd79481aab27e1f387da7c50bde622f58635"
   },
   {
     "id": "it-b-mache",
@@ -731,9 +985,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-mache",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Ma Che Siete Venuti a Fà示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2653,
+    "sourceSha256": "643001a8daec592cc95708abffc9ec9d51cc3b8d23063043edc421c964e11391"
   },
   {
     "id": "it-b-mrbrown",
@@ -741,9 +999,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-b-mrbrown",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "布朗先生酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2654,
+    "sourceSha256": "b52de56f1ac2634a06db87d8174c9b0d26eedc4463e3f615391a0284647202ba"
   },
   {
     "id": "it-a-belli",
@@ -751,7 +1013,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Trastevere_-_teatro_Belli_1110726.JPG",
     "kind": "venue-photo",
     "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "credit": "Lalupa / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "罗马特拉斯提弗列贝利剧院外观",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 2201267,
@@ -763,9 +1027,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-rome-cooking",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "特拉斯提弗列烹饪课示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2769,
+    "sourceSha256": "b5d8d1db16dad9cb18296e9de9bc3f8842ce788f8bf43d1140a2b0ba3216629e"
   },
   {
     "id": "it-a-vinoroma",
@@ -773,9 +1041,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-vinoroma",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "VinoRoma 品酒课示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2766,
+    "sourceSha256": "227080a4c207b32a29f313ca4c0bfc9476d79f1d702194699fd001f26b44eb1a"
   },
   {
     "id": "it-a-marcello",
@@ -783,7 +1055,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teatro_di_Marcello_Roma_2016.jpg",
     "kind": "venue-photo",
     "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
     "credit": "Gaiadh / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "罗马马切罗剧场遗址外观",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 1869309,
@@ -795,9 +1069,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/it-a-night-walk",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "特拉斯提弗列夜间历史漫步示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2612,
+    "sourceSha256": "7fb5d473be05cdc125df8980a7435ef2a0c921e4f455c885bd585d7f63f83d28"
   },
   {
     "id": "jp-r-hakushu",
@@ -805,9 +1083,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-hakushu",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "白秋神户牛铁板烧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2762,
+    "sourceSha256": "294ad4d4ce8aab781393a5d74b221d959307b01dfb8b8d7f687d8a252b6a1007"
   },
   {
     "id": "jp-r-inase",
@@ -815,9 +1097,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-inase",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "寿司稻濑示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2596,
+    "sourceSha256": "23f3a9014b7719afdd1d5fc8eb7a29655e899dd12bc974f32d8a374710a19be0"
   },
   {
     "id": "jp-r-pichiten",
@@ -825,9 +1111,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-pichiten",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "涩谷 Pichiten示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2764,
+    "sourceSha256": "4f0bcda6ae94c8adadddb7c8f91da2240b1c24718746a0c30f04f96a9d62d1d7"
   },
   {
     "id": "jp-r-ulala",
@@ -835,9 +1125,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-ulala",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "神户牛烧肉 Ulala示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2761,
+    "sourceSha256": "b11b28c38316ae71b6c7760b80989525dfcc1e2c94f9388f06f0e09c74aa0b01"
   },
   {
     "id": "jp-r-han-no",
@@ -845,9 +1139,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-han-no",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "韩之厨房别邸示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2760,
+    "sourceSha256": "af8890f9c92993b5225c46d9b567ca67480175224fd174d1f41270b75e0765f5"
   },
   {
     "id": "jp-b-rockaholic",
@@ -855,9 +1153,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-rockaholic",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Rockaholic 涩谷音乐酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2713,
+    "sourceSha256": "c07050672405ee81186573224a02e0bf089eb6e83dcd86869c9d9b1fc96d13af"
   },
   {
     "id": "jp-b-sgclub",
@@ -865,9 +1167,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-sgclub",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "The SG Club示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2656,
+    "sourceSha256": "00bf9bfcb3e9b7fca0fd46d5cf745e2be6015fab4bda97116b87495945289e5b"
   },
   {
     "id": "jp-b-starstar",
@@ -875,9 +1181,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-starstar",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "star star示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2654,
+    "sourceSha256": "1055aee63e40a52509ec6198ca449ff41eb4e0cbf307820fcd69cf2b1dd166ab"
   },
   {
     "id": "jp-b-soak",
@@ -885,9 +1195,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-soak",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "SOAK 屋顶酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2949,
+    "sourceSha256": "33e18b57627505599fb787d15efcad47ef34e497474984f5d6be7a7dafd0752d"
   },
   {
     "id": "jp-b-iguand",
@@ -895,9 +1209,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-iguand",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "石之花示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2658,
+    "sourceSha256": "77bb4074ab3a6b30e70199c2902b9597bd8fcb8b2b9fbe7e13641a1717773ac7"
   },
   {
     "id": "jp-a-modis",
@@ -905,9 +1223,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-modis",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "MODIS 涩谷高级卡拉 OK示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2739,
+    "sourceSha256": "527ffbb5205621a7401fa314de9928af20bb76858de1748e1a399ec97aa4eda3"
   },
   {
     "id": "jp-a-noh",
@@ -915,9 +1237,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-noh",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "涩谷能乐堂示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2895,
+    "sourceSha256": "6469c177e1d2527755e62ba8e5bf31ed174dd55b960dc6ba14db4147b20628ab"
   },
   {
     "id": "jp-a-arona",
@@ -925,9 +1251,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-arona",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "ARONA SPA 涩谷示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2662,
+    "sourceSha256": "e75d021184e5b2fa2b621fb66501dbae71d7c8502916a8d6b26da839a7bbacc6"
   },
   {
     "id": "jp-a-street-kart",
@@ -935,9 +1265,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-street-kart",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "涩谷街头卡丁车示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2595,
+    "sourceSha256": "d0dfca3e052501716c22eb2ac7ee59ce9fdbc794b3c0d19960cb986d1dc8f888"
   },
   {
     "id": "jp-a-comedy-shibuya",
@@ -945,9 +1279,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-comedy-shibuya",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "东京喜剧酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2597,
+    "sourceSha256": "e522ba8965ee5423cc40dc95dab9bce7cbc101621c665fe4b0b3e6a7fdbc4244"
   },
   {
     "id": "jp-r-tayori",
@@ -955,9 +1293,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-tayori",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "TAYORI示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2759,
+    "sourceSha256": "584c66ef6c471b971b47c58b054c99f9af315c9d2d7f2fc53b6efca8b813cc81"
   },
   {
     "id": "jp-r-hagiso",
@@ -965,9 +1307,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-hagiso",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "HAGI CAFE示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2680,
+    "sourceSha256": "4621940da4757a168b3ee1e58d3fe0582198c51d0febef97aca6ed2cbf98a6f0"
   },
   {
     "id": "jp-r-kayaba",
@@ -975,7 +1321,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cafe_Kayaba_20211126.jpg",
     "kind": "venue-photo",
     "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
     "credit": "先従隗始 / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "东京谷中カヤバ珈琲的建筑外观",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 4733851,
@@ -987,9 +1335,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-sake-crafters",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "SAKE CRAFTERS 谷中银座店示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2591,
+    "sourceSha256": "6ecc8dd0a25c44e5c856cc2a826fecff7befe84a02cad73066f637106fc95a3e"
   },
   {
     "id": "jp-b-yanaka-beer",
@@ -997,9 +1349,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-yanaka-beer",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "谷中啤酒馆示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2586,
+    "sourceSha256": "0b7b39d94d23b7067b42d5c39733db3237d95d707ef49f7ec43ad6ba5263968e"
   },
   {
     "id": "jp-b-ishii",
@@ -1007,9 +1363,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-ishii",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Beer Pub Ishii示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2657,
+    "sourceSha256": "0a503923d978b8e24eb08e771d53be22bcfb1f8f2a5fe1ffcf830f5829a96634"
   },
   {
     "id": "jp-a-yanaka-night",
@@ -1017,9 +1377,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-yanaka-night",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "谷中暗夜历史漫步示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2620,
+    "sourceSha256": "726663acfc46120a3da322a26f245cb17bd97e29d2241b6b3a3e598c724e79bc"
   },
   {
     "id": "jp-a-kaguwa",
@@ -1027,9 +1391,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-kaguwa",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "浅草香和舞台秀示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2597,
+    "sourceSha256": "5260bc9356bb45801f69b34f4ad1e1c091ce66154613e64826342bd2288011ba"
   },
   {
     "id": "jp-a-geisha",
@@ -1037,9 +1405,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-geisha",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "汤岛艺伎文化体验示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2905,
+    "sourceSha256": "d0f46bc670cbddc9fc02a9840124bdf3176e79d58b72996c91c5915bf0b47bab"
   },
   {
     "id": "jp-a-sakura-photo",
@@ -1047,9 +1419,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-sakura-photo",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "浅草樱花写真馆示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2902,
+    "sourceSha256": "759a10532b462c9358e7e0479c4d91a0a2ccc7ad0581c0e0024605859830540e"
   },
   {
     "id": "jp-a-yae-kimono",
@@ -1057,9 +1433,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-yae-kimono",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "八重和服体验示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2902,
+    "sourceSha256": "e17bca37ac41df6dbe3c6761610a6be5ad7216f105c4a232ecc5c58fa4debcf5"
   },
   {
     "id": "jp-r-tofuya",
@@ -1067,7 +1447,9 @@
     "sourceUrl": "https://openverse.org/image/69a7be5a-8c0e-4335-a533-265ea43b6fff",
     "kind": "venue-photo",
     "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
     "credit": "Raita Futo from Tokyo, Japan / Wikimedia Commons via Openverse",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "夜色中的东京芝豆腐屋うかい庭院与餐室",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 9359492,
@@ -1079,21 +1461,27 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-towers",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Towers 餐厅示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2766,
+    "sourceSha256": "d29391876a9800e668450e016ad5e4d4151ecc0670905c6cf31f3828da6efc1c"
   },
   {
     "id": "jp-r-tsurutontan",
-    "sourceFile": "assets/evening/sources/photos/jp-r-tsurutontan.jpg",
-    "sourceUrl": "https://openverse.org/image/f9ceadf0-2705-41a6-b216-7d9791b0ef86",
-    "kind": "venue-photo",
-    "license": "CC BY 2.0",
-    "credit": "Guilhem Vellut from Annecy, France / Wikimedia Commons via Openverse",
-    "alt": "鹤咚咚六本木店的咖喱乌冬面",
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-tsurutontan.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-tsurutontan",
+    "kind": "illustration",
+    "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
+    "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
+    "alt": "鹤咚咚 六本木示意插画",
     "verifiedAt": "2026-08-10",
-    "sourceBytes": 5034413,
-    "sourceSha256": "c732712909682796b1a51730928c3de018655347857d3a9991c17609f4eaebba"
+    "sourceBytes": 3043,
+    "sourceSha256": "3c9d9414f38480670414baaaa959acab5f2202244a95b529789e8e500eb12b73"
   },
   {
     "id": "jp-b-stellar",
@@ -1101,9 +1489,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-stellar",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "星空花园酒廊示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2948,
+    "sourceSha256": "bbe2c77f91cb39860409eb56fc48b8074011653f980ec28494b340dcddfd9598"
   },
   {
     "id": "jp-b-mokuren",
@@ -1111,9 +1503,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-mokuren",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "木莲主酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2657,
+    "sourceSha256": "73190fe0070bc61d9f49dbad712499e5eb6c8de15c78965d4ebd7fafb470c6ff"
   },
   {
     "id": "jp-b-dealan",
@@ -1121,9 +1517,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-dealan",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Bar Dealan-Dé示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2655,
+    "sourceSha256": "ce655beb9f25a8d03e150d3e7822a56015bc9eee1c88260c78cf5b1ee7380006"
   },
   {
     "id": "jp-a-tantra",
@@ -1131,9 +1531,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-tantra",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "TANTRA TOKYO 舞台秀示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2589,
+    "sourceSha256": "947731e233e9a48887533ecb201ae39fe6c4b2e91ecb99e90a6544d3166e3798"
   },
   {
     "id": "jp-a-red-tower",
@@ -1141,9 +1545,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-red-tower",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "RED° 东京塔示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2736,
+    "sourceSha256": "8e6de7055487979f2135a9fd33199ae9545aa728244bfddad5d08ddbac91816e"
   },
   {
     "id": "jp-a-billboard",
@@ -1151,7 +1559,9 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Billboard_Live_TOKYO_01.JPG",
     "kind": "venue-photo",
     "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "credit": "Asacyan / Wikimedia Commons",
+    "modificationNote": "Cropped to 3:2, resized to 1440×960, and converted to WebP.",
     "alt": "Billboard Live Tokyo 的演出场地内景",
     "verifiedAt": "2026-08-10",
     "sourceBytes": 3845243,
@@ -1163,9 +1573,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-erawan",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Erawan 六本木泰式按摩示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2672,
+    "sourceSha256": "287023cbdbc526385002877f1f14ba6ad748e421bd817252f81141423f337887"
   },
   {
     "id": "jp-a-kingyo",
@@ -1173,9 +1587,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-kingyo",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "六本木金鱼秀示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2604,
+    "sourceSha256": "798b1ac5d3f8d69d79c3f6938a5dd2fe00bc3f52c18b1a2a6868ec2c0deb3993"
   },
   {
     "id": "jp-r-akari",
@@ -1183,9 +1601,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-akari",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "灯餐厅示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2752,
+    "sourceSha256": "331a2d6a2f4a92a000fe947bb42a0d3fb71e490a9ee39ffe2acef56de238b259"
   },
   {
     "id": "jp-r-garden-house",
@@ -1193,9 +1615,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-garden-house",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "镰仓花园屋示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2757,
+    "sourceSha256": "5fbc75097d719cfdce3008e688714fff9ce524b8ff1ada87d45fccf29cdf3c8f"
   },
   {
     "id": "jp-r-matsubaraan",
@@ -1203,9 +1629,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-matsubaraan",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "松原庵示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 3055,
+    "sourceSha256": "f82be782c422197890a889a9d2de728d04759a040fff6939a41473bebf32f7c6"
   },
   {
     "id": "jp-b-pilgrim",
@@ -1213,9 +1643,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-pilgrim",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Pilgrim So San示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2754,
+    "sourceSha256": "4e098f779d2e040f875ae02c0e90a0882f547d3008ab34b6a53e2a6f16c5fe93"
   },
   {
     "id": "jp-b-kelpie",
@@ -1223,9 +1657,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-kelpie",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Bar Kelpie示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2658,
+    "sourceSha256": "901c783fea2be6f1f48588949babf85d5fc26d3aab8194815ffb380d042c0dec"
   },
   {
     "id": "jp-b-bank",
@@ -1233,9 +1671,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-bank",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "THE BANK示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2653,
+    "sourceSha256": "5e086a4c597f2a4a729b61a4341410c60a3057f6e51681d33d408000ccfe5a70"
   },
   {
     "id": "jp-a-noh-kamakura",
@@ -1243,9 +1685,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-noh-kamakura",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "镰仓能舞台示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2891,
+    "sourceSha256": "27d964b5d1f1c32c30a58a4d7796fe33c1cd8a8a31288224ca382b8270bda9a5"
   },
   {
     "id": "jp-a-vasara",
@@ -1253,9 +1699,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-vasara",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "VASARA 镰仓和服示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2899,
+    "sourceSha256": "4596fe7ec608ee5ebd86d348de410ea963cf2b609d5fb55305fc59c9c561453c"
   },
   {
     "id": "jp-a-zen",
@@ -1263,9 +1713,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-zen",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "镰仓禅修体验示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2672,
+    "sourceSha256": "b7e6502acdb08c8456b8b8414d84868a4ec68308615e99df404d2154f9e55168"
   },
   {
     "id": "jp-a-samurai",
@@ -1273,9 +1727,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-samurai",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "镰仓武士文化体验示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2899,
+    "sourceSha256": "2b8d77c3e7406092b455083a2bed2bd7589f60dfaf266a26068eb688496241d7"
   },
   {
     "id": "jp-a-night-kamakura",
@@ -1283,21 +1741,27 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-night-kamakura",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "镰仓黄昏历史漫步示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2609,
+    "sourceSha256": "23a40da051f181f2168a52b650db080c7a25fe3e60595c9846bdb9b9b3a71b6a"
   },
   {
     "id": "jp-r-fuunji",
-    "sourceFile": "assets/evening/sources/photos/jp-r-fuunji.jpg",
-    "sourceUrl": "https://openverse.org/image/b2726798-554f-40de-88bb-23a451e1ce5d",
-    "kind": "venue-photo",
-    "license": "CC BY 2.0",
-    "credit": "Guilhem Vellut from Annecy, France / Wikimedia Commons via Openverse",
-    "alt": "新宿风云儿的鸡肉鱼介蘸面",
+    "sourceFile": "assets/evening/sources/illustrations/jp-r-fuunji.svg",
+    "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-fuunji",
+    "kind": "illustration",
+    "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
+    "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
+    "alt": "风云儿示意插画",
     "verifiedAt": "2026-08-10",
-    "sourceBytes": 3871787,
-    "sourceSha256": "5d4c4c8d95e0c6b54a218bf0aa3af13c632c0acb7f6623b157d45c29860c35b5"
+    "sourceBytes": 3041,
+    "sourceSha256": "069b7f2bd4ea4c25384cab800bfca220ad90d61bd675506ab8e4c798334e196e"
   },
   {
     "id": "jp-r-sushi-ten",
@@ -1305,9 +1769,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-sushi-ten",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Sushi Tokyo Ten 新宿示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2592,
+    "sourceSha256": "58cf0edff2dbf6e643e6717caf34645aac9988970b94a3e4dbbc8189630c5ca4"
   },
   {
     "id": "jp-r-gyukatsu",
@@ -1315,9 +1783,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-r-gyukatsu",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "牛炸村 新宿店示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2757,
+    "sourceSha256": "420a2ee625f5f2e724849ea93a486c3ef2171c4bcd9d2ed93a5aec8a6c66b500"
   },
   {
     "id": "jp-b-benfiddich",
@@ -1325,9 +1797,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-benfiddich",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "BenFiddich示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2658,
+    "sourceSha256": "ba37eb0fa6bfae101e98abcf375251d75ea3a507fcefa179ab606e566a18f1c9"
   },
   {
     "id": "jp-b-albatross",
@@ -1335,9 +1811,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-albatross",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "信天翁酒吧示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2654,
+    "sourceSha256": "3796a56268570ac2f448970402cdec363545b392b18870a81f5770a003e24b02"
   },
   {
     "id": "jp-b-composition",
@@ -1345,9 +1825,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-b-composition",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Bar Composition示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2664,
+    "sourceSha256": "9e141c93b6b1dede8c2050c1863731fc2919507d9ebdb0d25a74837287a2c92b"
   },
   {
     "id": "jp-a-kujira",
@@ -1355,9 +1839,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-kujira",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Kujira 娱乐秀示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2596,
+    "sourceSha256": "2886b3c7a5e096d8faefed1759407d7859adb35dcb7373063dd846272dbf5919"
   },
   {
     "id": "jp-a-comedy",
@@ -1365,9 +1853,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-comedy",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "东京喜剧酒吧新宿场示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2598,
+    "sourceSha256": "f9b906323d7f4ef89269653cd7c8171e3c4610c45c451e18417c6f32bcc524b3"
   },
   {
     "id": "jp-a-samurai-show",
@@ -1375,9 +1867,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-samurai-show",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "武士餐厅演出示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2898,
+    "sourceSha256": "8bdefe1f76555b4fd3449a55f2333ef067a025e6a6229bb4c9fdf19a1314ce39"
   },
   {
     "id": "jp-a-hogushi",
@@ -1385,9 +1881,13 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-hogushi",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "ほぐしの森 新宿东口店示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2665,
+    "sourceSha256": "2c3924d7e7f4f7dc82da2a5227f9f2a05db5b7ab5df4c5778dea000680f13321"
   },
   {
     "id": "jp-a-muscle",
@@ -1395,8 +1895,12 @@
     "sourceUrl": "https://travel-atlas.local/illustrations/jp-a-muscle",
     "kind": "illustration",
     "license": "CC BY 4.0",
+    "licenseUrl": "assets/evening/sources/illustrations/LICENSE.md",
     "credit": "Travel Atlas",
+    "modificationNote": "Converted from the original SVG to 1440×960 WebP.",
     "alt": "Muscle Girls 肌肉女孩秀示意插画",
-    "verifiedAt": "2026-08-10"
+    "verifiedAt": "2026-08-10",
+    "sourceBytes": 2590,
+    "sourceSha256": "dfe80c2a918aeb814b9966d27e9c258149f26282ba94b7c810757c2fb9f65a9f"
   }
 ]

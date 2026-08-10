@@ -159,8 +159,39 @@ function closeEveningGuide() {
 
 function selectGuideTab(guide, selectedPage) {
   guide.querySelectorAll('[data-guide-tab]').forEach((tab) => {
-    tab.setAttribute('aria-selected', String(tab.dataset.guideTab === selectedPage));
+    const isSelected = tab.dataset.guideTab === selectedPage;
+    tab.setAttribute('aria-selected', String(isSelected));
+    tab.tabIndex = isSelected ? 0 : -1;
   });
+  guide.querySelectorAll('[data-guide-page]').forEach((page) => {
+    const isSelected = page.dataset.guidePage === selectedPage;
+    page.setAttribute('aria-hidden', String(!isSelected));
+    page.toggleAttribute('inert', !isSelected);
+  });
+}
+
+function activateGuideTab(tab) {
+  const guide = tab.closest('[data-evening-guide-date]');
+  const carousel = guide?.querySelector('.guide-carousel');
+  const page = guide?.querySelector(`[data-guide-page="${tab.dataset.guideTab}"]`);
+  if (!guide || !carousel || !page) return;
+  const pageIndex = [...carousel.querySelectorAll('[data-guide-page]')].indexOf(page);
+  selectGuideTab(guide, tab.dataset.guideTab);
+  carousel.scrollTo({ left: pageIndex * carousel.clientWidth, behavior: 'smooth' });
+}
+
+function moveGuideTabFocus(tab, key) {
+  const tabList = tab.closest('[role="tablist"]');
+  if (!tabList) return;
+  const tabs = [...tabList.querySelectorAll('[data-guide-tab]')];
+  const currentIndex = tabs.indexOf(tab);
+  let targetIndex = currentIndex;
+  if (key === 'Home') targetIndex = 0;
+  if (key === 'End') targetIndex = tabs.length - 1;
+  if (key === 'ArrowRight') targetIndex = (currentIndex + 1) % tabs.length;
+  if (key === 'ArrowLeft') targetIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+  tabs.forEach((item, index) => { item.tabIndex = index === targetIndex ? 0 : -1; });
+  tabs[targetIndex].focus();
 }
 
 function syncGuideTabToCarousel(carousel) {
@@ -182,7 +213,8 @@ function openEveningGuide(date, trigger) {
   const carousel = guide.querySelector('.guide-carousel');
   if (carousel) {
     carousel.scrollLeft = 0;
-    syncGuideTabToCarousel(carousel);
+    const firstPage = carousel.querySelector('[data-guide-page]')?.dataset.guidePage;
+    if (firstPage) selectGuideTab(guide, firstPage);
   }
   panel.hidden = false;
   panel.setAttribute('aria-hidden', 'false');
@@ -232,14 +264,7 @@ root.addEventListener('click', (event) => {
     return;
   }
   if (action.dataset.action === 'guide-tab') {
-    const guide = action.closest('[data-evening-guide-date]');
-    const carousel = guide?.querySelector('.guide-carousel');
-    const page = guide?.querySelector(`[data-guide-page="${action.dataset.guideTab}"]`);
-    if (carousel && page) {
-      const pageIndex = [...carousel.querySelectorAll('[data-guide-page]')].indexOf(page);
-      selectGuideTab(guide, action.dataset.guideTab);
-      carousel.scrollTo({ left: pageIndex * carousel.clientWidth, behavior: 'smooth' });
-    }
+    activateGuideTab(action);
     return;
   }
   if (action.dataset.action === 'close-editor') {
@@ -310,6 +335,17 @@ root.addEventListener('change', (event) => {
 });
 
 root.addEventListener('keydown', (event) => {
+  const guideTab = event.target.closest?.('[data-guide-tab]');
+  if (guideTab && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+    event.preventDefault();
+    moveGuideTabFocus(guideTab, event.key);
+    return;
+  }
+  if (guideTab && ['Enter', ' ', 'Spacebar'].includes(event.key)) {
+    event.preventDefault();
+    activateGuideTab(guideTab);
+    return;
+  }
   if (event.target.dataset.action === 'rate' && event.key === 'Enter') {
     event.preventDefault();
     updateRate(event.target);
@@ -478,6 +514,16 @@ root.addEventListener('wheel', (event) => {
 
 root.addEventListener('scroll', (event) => {
   if (event.target.matches?.('.guide-carousel')) syncGuideTabToCarousel(event.target);
+}, true);
+
+root.addEventListener('error', (event) => {
+  const image = event.target.closest?.('.recommendation-media img');
+  const fallback = image?.closest('.recommendation-media')?.querySelector('[data-media-fallback]');
+  if (!image || !fallback) return;
+  image.hidden = true;
+  image.setAttribute('aria-hidden', 'true');
+  fallback.hidden = false;
+  fallback.setAttribute('aria-hidden', 'false');
 }, true);
 
 window.addEventListener('online', () => render({ preserveScroll: true }));

@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -8,21 +8,28 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = async (path) => JSON.parse(await readFile(path, 'utf8'));
 const sources = await readJson(join(root, 'scripts', 'evening-media-sources.json'));
 const catalog = await readJson(join(root, 'scripts', 'evening-media-catalog.json'));
+const contentDecisions = await readJson(join(root, 'scripts', 'evening-media-content-decisions.json'));
 const outputPath = join(root, 'scripts', 'evening-media-search-evidence.json');
+const partialPath = join(root, 'scripts', '.evening-media-search-evidence.partial.json');
+const previousReport = await readJson(outputPath);
+const previousById = new Map(previousReport.rows.map((row) => [row.id, row]));
 const illustrationIds = new Set(catalog.filter((item) => item.kind === 'illustration').map((item) => item.id));
+for (const decision of contentDecisions) {
+  if (decision.decision === 'needs-illustration') illustrationIds.add(decision.id);
+}
 const targets = sources.filter((item) => illustrationIds.has(item.id));
-const maxAttempts = 2;
+const maxAttempts = 1;
 
 if (targets.length !== illustrationIds.size) throw new Error('Illustration catalog and source decisions do not align');
 
-const requestWithCurl = (url) => new Promise((resolve) => {
+const requestWithCurl = (url, maxTimeSeconds = 30) => new Promise((resolve) => {
   const requestedAt = new Date().toISOString();
   const child = spawn('curl.exe', [
     '--silent',
     '--show-error',
     '--location',
     '--connect-timeout', '10',
-    '--max-time', '30',
+    '--max-time', String(maxTimeSeconds),
     '--user-agent', 'TravelAtlasMediaAudit/1.0 (venue search evidence)',
     '--write-out', '\n__HTTP_STATUS__:%{http_code}',
     url,
@@ -60,11 +67,11 @@ const requestWithCurl = (url) => new Promise((resolve) => {
 });
 
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
-const captureResponse = async (url) => {
+const captureResponse = async (url, { attemptLimit = maxAttempts, maxTimeSeconds = 30 } = {}) => {
   const attempts = [];
   let response;
-  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-    response = await requestWithCurl(url);
+  for (let attempt = 1; attempt <= attemptLimit; attempt += 1) {
+    response = await requestWithCurl(url, maxTimeSeconds);
     attempts.push({
       attempt,
       requestedAt: response.requestedAt,
@@ -73,7 +80,7 @@ const captureResponse = async (url) => {
       error: response.error,
     });
     if (response.outcome === 'success' || (response.httpStatus > 0 && response.httpStatus < 500 && response.httpStatus !== 429)) break;
-    if (attempt < maxAttempts) await sleep(500);
+    if (attempt < attemptLimit) await sleep(500);
   }
   return { ...response, attempts };
 };
@@ -112,6 +119,12 @@ const openverseUrl = (query) => {
   return url.href;
 };
 
+const bingUrl = (query) => {
+  const url = new URL('https://www.bing.com/search');
+  url.search = new URLSearchParams({ format: 'rss', q: query });
+  return url.href;
+};
+
 const responseIdentity = (body) => ({
   rawResponseBytes: body.length,
   rawResponseSha256: createHash('sha256').update(body).digest('hex'),
@@ -143,6 +156,33 @@ const parseOpenverse = (body) => {
       creator: candidate.creator || null,
       license: candidate.license ? `${candidate.license.toUpperCase()} ${candidate.license_version || ''}`.trim() : null,
     } : null,
+  };
+};
+
+const decodeXml = (value) => value
+  .replaceAll('&amp;', '&')
+  .replaceAll('&quot;', '"')
+  .replaceAll('&apos;', "'")
+  .replaceAll('&#39;', "'")
+  .replaceAll('&lt;', '<')
+  .replaceAll('&gt;', '>')
+  .replace(/&#(\d+);/g, (_, codePoint) => String.fromCodePoint(Number(codePoint)))
+  .trim();
+
+const rssValue = (item, tag) => {
+  const match = item.match(new RegExp(`<${tag}>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?</${tag}>`, 'i'));
+  return match ? decodeXml(match[1]) : '';
+};
+
+const parseBingRss = (body) => {
+  const xml = body.toString('utf8');
+  const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)];
+  const first = items[0]?.[1];
+  const title = first ? rssValue(first, 'title') : '';
+  const url = first ? rssValue(first, 'link') : '';
+  return {
+    resultCount: items.length,
+    topResult: title && /^https?:\/\//i.test(url) ? { title, url } : null,
   };
 };
 
@@ -183,7 +223,7 @@ const acceptanceFor = (source, response, parsed) => {
 };
 
 const captureService = async (source, service, query, requestUrl, parse) => {
-  const response = await captureResponse(requestUrl);
+  const response = await captureResponse(requestUrl, { attemptLimit: 1, maxTimeSeconds: 12 });
   let parsed = { resultCount: null, topCandidate: null };
   let parseError = '';
   if (response.outcome === 'success') {
@@ -210,12 +250,75 @@ const captureService = async (source, service, query, requestUrl, parse) => {
   };
 };
 
+const officialAcceptance = (response, parsed) => {
+  if (response.outcome !== 'success') {
+    return {
+      accepted: false,
+      reasonCode: 'official-discovery-request-failed',
+      reason: `The bounded official-source discovery request ended with ${response.outcome} / HTTP ${response.httpStatus}; no official media rights were accepted.`,
+    };
+  }
+  if (!parsed.topResult) {
+    return {
+      accepted: false,
+      reasonCode: 'official-discovery-no-result',
+      reason: 'The exact venue-and-city query returned no usable top result; no official media rights were accepted.',
+    };
+  }
+  return {
+    accepted: false,
+    reasonCode: 'official-result-rights-not-established',
+    reason: `The top web result "${parsed.topResult.title}" was recorded for discovery only; a search result does not grant adaptation and redistribution rights, so no official image was accepted.`,
+  };
+};
+
+const captureOfficial = async (source, city) => {
+  const query = source.researchQuery;
+  const venueName = source.researchInput.nameEn || source.researchInput.nameLocal || source.researchInput.name;
+  const requestUrl = bingUrl(query);
+  const response = await captureResponse(requestUrl, { attemptLimit: 1, maxTimeSeconds: 12 });
+  let parsed = { resultCount: null, topResult: null };
+  let parseError = '';
+  if (response.outcome === 'success') {
+    try {
+      parsed = parseBingRss(response.body);
+    } catch (error) {
+      response.outcome = 'transport-error';
+      parseError = `Invalid RSS response: ${error.message}`;
+    }
+  }
+  return {
+    service: 'bing-web-rss',
+    query,
+    venueName,
+    city,
+    requestedAt: response.requestedAt,
+    requestUrl,
+    httpStatus: response.httpStatus,
+    outcome: response.outcome,
+    ...responseIdentity(response.body),
+    resultCount: parsed.resultCount,
+    topResult: parsed.topResult,
+    attempts: response.attempts,
+    error: parseError || response.error,
+    acceptance: officialAcceptance(response, parsed),
+  };
+};
+
 const captureRow = async (source) => {
   const city = venueCity(source);
   const query = venueQuery(source, city);
-  const commons = await captureService(source, 'wikimedia-commons', query, commonsUrl(query), parseCommons);
-  const openverse = await captureService(source, 'openverse', query, openverseUrl(query), parseOpenverse);
-  await sleep(2_100);
+  const official = await captureOfficial(source, city);
+  const previous = previousById.get(source.id);
+  const reusableServices = previous?.services?.length === 2
+    && previous.services.every((service) => service.query === query);
+  const commons = reusableServices
+    ? previous.services[0]
+    : await captureService(source, 'wikimedia-commons', query, commonsUrl(query), parseCommons);
+  const openverse = reusableServices
+    ? previous.services[1]
+    : await captureService(source, 'openverse', query, openverseUrl(query), parseOpenverse);
+  await sleep(1_100);
   return {
     id: source.id,
     venue: {
@@ -225,35 +328,30 @@ const captureRow = async (source) => {
       city,
       category: source.researchInput.category,
     },
-    official: {
-      status: 'not-recorded',
-      sourceUrl: null,
-      reason: 'The canonical per-row research record does not identify a specific official venue source URL, so no official-source check is claimed.',
-    },
+    official,
     services: [commons, openverse],
   };
 };
 
-const runPool = async (items, concurrency, worker) => {
-  const results = new Array(items.length);
-  let nextIndex = 0;
-  await Promise.all(Array.from({ length: concurrency }, async () => {
-    while (nextIndex < items.length) {
-      const index = nextIndex;
-      nextIndex += 1;
-      results[index] = await worker(items[index]);
-      process.stdout.write(`CAPTURED ${index + 1}/${items.length} ${items[index].id}\n`);
-    }
-  }));
-  return results;
-};
-
-const rows = await runPool(targets, 1, captureRow);
+const partialReport = await readJson(partialPath).catch(() => ({ rows: [] }));
+const partialById = new Map(partialReport.rows.map((row) => [row.id, row]));
+const rows = [];
+for (const [index, source] of targets.entries()) {
+  const resumed = partialById.get(source.id);
+  const row = resumed?.official?.service === 'bing-web-rss'
+    && resumed.official.query === source.researchQuery
+    ? resumed
+    : await captureRow(source);
+  rows.push(row);
+  await writeFile(partialPath, `${JSON.stringify({ rows }, null, 2)}\n`, 'utf8');
+  process.stdout.write(`CAPTURED ${index + 1}/${targets.length} ${source.id}${row === resumed ? ' resumed' : ''}\n`);
+}
 const report = {
   generatedAt: new Date().toISOString(),
-  method: 'Bounded read-only Wikimedia Commons and Openverse API discovery; no Google or Tripadvisor media downloaded.',
+  method: 'Sequential official-first discovery via one bounded Bing Web RSS request per illustration. Existing exact-query Wikimedia Commons/Openverse captures were preserved; newly added illustration rows were captured after their official check. No Google or Tripadvisor media downloaded.',
   maxAttempts,
   rows,
 };
 await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
-process.stdout.write(`SEARCH_EVIDENCE_OK rows=${rows.length} services=${rows.length * 2} commonsSuccess=${rows.filter((row) => row.services[0].outcome === 'success').length} openverseSuccess=${rows.filter((row) => row.services[1].outcome === 'success').length}\n`);
+await rm(partialPath, { force: true });
+process.stdout.write(`SEARCH_EVIDENCE_OK rows=${rows.length} officialSuccess=${rows.filter((row) => row.official.outcome === 'success').length} services=${rows.length * 2} commonsSuccess=${rows.filter((row) => row.services[0].outcome === 'success').length} openverseSuccess=${rows.filter((row) => row.services[1].outcome === 'success').length}\n`);

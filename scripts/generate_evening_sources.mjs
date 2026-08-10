@@ -11,6 +11,18 @@ const illustrationDirectory = join(root, 'assets', 'evening', 'sources', 'illust
 const photoDirectory = join(root, 'assets', 'evening', 'sources', 'photos');
 const readJson = async (path) => JSON.parse(await readFile(path, 'utf8'));
 const fileExists = async (path) => access(path).then(() => true, () => false);
+const PHOTO_MODIFICATION_NOTE = 'Cropped to 3:2, resized to 1440×960, and converted to WebP.';
+const ILLUSTRATION_LICENSE_URL = 'assets/evening/sources/illustrations/LICENSE.md';
+const ILLUSTRATION_MODIFICATION_NOTE = 'Converted from the original SVG to 1440×960 WebP.';
+const LICENSE_URLS = new Map([
+  ['CC BY 2.0', 'https://creativecommons.org/licenses/by/2.0/'],
+  ['CC BY 2.5', 'https://creativecommons.org/licenses/by/2.5/'],
+  ['CC BY-SA 2.0', 'https://creativecommons.org/licenses/by-sa/2.0/'],
+  ['CC BY-SA 3.0', 'https://creativecommons.org/licenses/by-sa/3.0/'],
+  ['CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/'],
+  ['CC0 1.0', 'https://creativecommons.org/publicdomain/zero/1.0/'],
+  ['Public domain', 'https://creativecommons.org/publicdomain/mark/1.0/'],
+]);
 
 const cityByDate = {
   '2026-08-23': 'Rome Italy',
@@ -90,6 +102,8 @@ const sources = await Promise.all(queue.map(async (item) => {
   const photoBytes = status === 'verified-photo'
     ? await readFile(join(photoDirectory, `${item.id}.jpg`))
     : null;
+  const licenseUrl = status === 'verified-photo' ? LICENSE_URLS.get(research.license) : '';
+  if (status === 'verified-photo' && !licenseUrl) throw new Error(`${item.id} 缺少可信许可地址`);
   const provenanceStem = `scripts/evening-media-research/${country}`;
   const decision = `${item.query}: ${research.evidence}${downgradeReason ? ` ${downgradeReason}` : ''}`;
   const capturedEvidence = searchEvidenceById.get(item.id);
@@ -99,10 +113,7 @@ const sources = await Promise.all(queue.map(async (item) => {
   const researchChecks = capturedEvidence ? [
     {
       sourceClass: 'official',
-      query: item.query,
-      status: capturedEvidence.official.status,
-      sourceUrl: capturedEvidence.official.sourceUrl,
-      outcome: capturedEvidence.official.reason,
+      ...capturedEvidence.official,
     },
     ...capturedEvidence.services.map((service) => ({ sourceClass: service.service, ...service })),
   ] : [];
@@ -124,7 +135,9 @@ const sources = await Promise.all(queue.map(async (item) => {
     decision,
     directAssetUrl: research.directAssetUrl || '',
     license: research.license || '',
+    licenseUrl,
     credit: research.credit || '',
+    modificationNote: status === 'verified-photo' ? PHOTO_MODIFICATION_NOTE : '',
     alt: research.alt || '',
     verifiedAt: research.verifiedAt,
     ...(attemptRecord ? { downloadStatus: attemptRecord.finalOutcome, downloadAttemptCount: attemptRecord.attempts.length } : {}),
@@ -167,7 +180,9 @@ for (const source of sources) {
       sourceUrl: source.sourcePage,
       kind: 'venue-photo',
       license: source.license,
+      licenseUrl: source.licenseUrl,
       credit: source.credit,
+      modificationNote: source.modificationNote,
       alt: source.alt,
       verifiedAt: source.verifiedAt,
       sourceBytes: source.sourceBytes,
@@ -179,7 +194,8 @@ for (const source of sources) {
   const venue = recommendationById.get(source.id);
   const svg = generateIllustrationSvg(venue);
   if (svg !== generateIllustrationSvg(venue)) throw new Error(`${source.id} 插画生成不确定`);
-  const hash = createHash('sha256').update(svg).digest('hex');
+  const svgBytes = Buffer.from(svg, 'utf8');
+  const hash = createHash('sha256').update(svgBytes).digest('hex');
   if (illustrationHashes.has(hash)) throw new Error(`${source.id} 插画与其他插画完全相同`);
   illustrationHashes.add(hash);
   await writeFile(join(illustrationDirectory, `${source.id}.svg`), svg, 'utf8');
@@ -189,9 +205,13 @@ for (const source of sources) {
     sourceUrl: `https://travel-atlas.local/illustrations/${source.id}`,
     kind: 'illustration',
     license: 'CC BY 4.0',
+    licenseUrl: ILLUSTRATION_LICENSE_URL,
     credit: 'Travel Atlas',
+    modificationNote: ILLUSTRATION_MODIFICATION_NOTE,
     alt: `${venue.name}示意插画`,
     verifiedAt: source.verifiedAt,
+    sourceBytes: svgBytes.length,
+    sourceSha256: hash,
   });
 }
 

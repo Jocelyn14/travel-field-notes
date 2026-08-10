@@ -32,13 +32,16 @@ python -m http.server 4177
 
 媒体来源按安全顺序选择：先核验场所官方发布的可复用实景照片，再核验 Wikimedia Commons / Openverse 中身份与许可都明确的场所照片；无法确认场所身份、许可或稳定下载时，使用带“示意插画”标记的项目原创插画。不要复制 Google、Tripadvisor 等聚合平台图片，也不要把候选搜索结果当作已获许可的素材。
 
-更新 `scripts/evening-media-catalog.json` 及对应来源文件后，按以下顺序重建和校验：
+更新来源决策、检索证据或对应来源文件后，按以下顺序重建和校验：
 
 ```powershell
+npm.cmd run media:capture-search-evidence
+npm.cmd run media:sources
 npm.cmd run media:build
-node scripts/build_trip_data.mjs
+npm.cmd run data:build
 npm.cmd run media:audit
+npm.cmd run content:revision
 npm.cmd test
 ```
 
-`media:build` 会从受控来源文件生成 `assets/evening/*.webp` 与署名数据；`media:audit` 会阻止完全重复或近似重复的成品进入发布版本。每次媒体目录或元数据变化后，必须先重新生成 `data/trips.json`，再运行测试，确保页面与 Service Worker 缓存的是当前清单。
+新增或改变插画决策时，先用 `media:capture-search-evidence` 留下有界、只读的来源检索记录；`media:sources` 再把研究记录与内容决策整理为受控目录。`media:build` 会先核对来源文件的字节数与 SHA-256，再生成 `assets/evening/*.webp` 与署名数据；`media:audit` 会阻止目录缺项、多项、来源异常、成品缺失或重复进入发布版本。最后必须在测试前运行 `content:revision`，把当前 `data/trips.json` 与其中引用的媒体写入 Service Worker 的 v10 内容版本；`npm test` 会拒绝过期版本。

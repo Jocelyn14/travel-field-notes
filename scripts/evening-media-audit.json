@@ -1,5 +1,12 @@
 {
-  "generatedAt": "2026-08-10T09:30:42.503Z",
+  "generatedAt": "2026-08-10T13:02:22.672Z",
+  "counts": {
+    "recommendations": 136,
+    "photos": 18,
+    "illustrations": 118,
+    "missing": 0,
+    "sourceAnomalies": 0
+  },
   "media": [
     {
       "id": "it-r-pasta-corso",
@@ -634,8 +641,8 @@
     {
       "id": "jp-r-tsurutontan",
       "file": "assets/evening/jp-r-tsurutontan.webp",
-      "sha256": "c25911bf508bffeccc798372b7360662324ec9974f6b7455940839105f858dd0",
-      "differenceHash": "70e2cc96b6b6a69c"
+      "sha256": "ac269787da831645f7d3c30366e7c603849f523e673f358067f0844f6ffbfee7",
+      "differenceHash": "90b2b2c2d2e30282"
     },
     {
       "id": "jp-b-stellar",
@@ -754,8 +761,8 @@
     {
       "id": "jp-r-fuunji",
       "file": "assets/evening/jp-r-fuunji.webp",
-      "sha256": "826b51bca6607c895e247b86266cac283ea8bb3930bac6349b16655680730014",
-      "differenceHash": "c6073b2a2b338e09"
+      "sha256": "0548839d447f02c26bfb220430c6df3df6e3f2e2be6ed5e4bfb935496efb745a",
+      "differenceHash": "92caca60e2e28082"
     },
     {
       "id": "jp-r-sushi-ten",
@@ -818,6 +825,8 @@
       "differenceHash": "40d8e8dacac98082"
     }
   ],
+  "missing": [],
+  "sourceAnomalies": [],
   "exactDuplicates": [],
   "nearDuplicates": []
 }

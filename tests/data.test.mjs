@@ -35,12 +35,18 @@ test('every day has a local evening guide or airport waiting guide', async () =>
         else assert.ok([3, 5].includes(list.length), `${trip.id}.${guide.date}.${listName} 数量应为 3 或 5`);
         for (const recommendation of list) {
           for (const field of ['name', 'nameEn', 'nameLocal']) assert.ok(recommendation[field]?.trim());
-          for (const field of ['image', 'imageAlt', 'imageCredit', 'imageSource', 'practicalTips']) {
+          for (const field of ['image', 'imageAlt', 'imageCredit', 'imageSource', 'licenseUrl', 'modificationNote', 'practicalTips']) {
             assert.ok(recommendation[field]?.trim(), `${recommendation.id}.${field} 缺失`);
           }
           assert.ok(['venue-photo', 'illustration'].includes(recommendation.imageKind));
           assert.match(recommendation.verifiedAt, /^\d{4}-\d{2}-\d{2}$/);
           assert.ok(recommendation.license.trim());
+          if (recommendation.imageKind === 'illustration') {
+            assert.equal(recommendation.licenseUrl, 'assets/evening/sources/illustrations/LICENSE.md');
+          } else {
+            assert.match(recommendation.licenseUrl, /^https:\/\//);
+          }
+          assert.match(recommendation.modificationNote, /WebP/);
           assert.match(recommendation.image, /^assets\/evening\/.+\.webp$/);
           assert.match(recommendation.imageSource, /^https:\/\//);
           assert.ok(recommendation.highlights.length >= 3);
@@ -73,6 +79,7 @@ test('every evening recommendation has a usable local image and matching credit'
   const trips = JSON.parse(await readFile(dataUrl, 'utf8'));
   const creditsUrl = new URL('../assets/evening/credits.json', import.meta.url);
   const credits = JSON.parse(await readFile(creditsUrl, 'utf8'));
+  const catalog = JSON.parse(await readFile(new URL('../scripts/evening-media-catalog.json', import.meta.url), 'utf8'));
   const recommendations = trips.flatMap((trip) => trip.eveningGuides.flatMap((guide) => [
     ...guide.restaurants,
     ...guide.bars,
@@ -82,7 +89,13 @@ test('every evening recommendation has a usable local image and matching credit'
   for (const item of recommendations) {
     const imageUrl = new URL(`../${item.image}`, import.meta.url);
     assert.ok((await stat(imageUrl)).size > 8_000, `${item.id} 晚间图片无效`);
-    assert.ok(credits.some((credit) => credit.file === item.image), `${item.id} 缺少图片署名`);
+    const credit = credits.find((entry) => entry.file === item.image);
+    const catalogEntry = catalog.find((entry) => entry.id === item.id);
+    assert.ok(credit, `${item.id} 缺少图片署名`);
+    assert.equal(credit.licenseUrl, catalogEntry.licenseUrl);
+    assert.equal(credit.modificationNote, catalogEntry.modificationNote);
+    assert.equal(item.licenseUrl, catalogEntry.licenseUrl);
+    assert.equal(item.modificationNote, catalogEntry.modificationNote);
   }
 });
 
@@ -132,13 +145,27 @@ test('evening acquisition decisions cover every recommendation exactly once', as
         `${item.id} must record all required source classes`,
       );
       const [official, ...apiChecks] = item.researchChecks;
-      assert.equal(official.status, 'not-recorded');
-      assert.equal(official.sourceUrl, null);
+      assert.equal(official.service, 'bing-web-rss');
+      assert.equal(official.query, item.researchQuery);
+      assert.equal(official.venueName, item.researchInput.nameEn || item.researchInput.nameLocal || item.researchInput.name);
+      assert.ok(official.city.endsWith(' Italy') || official.city.endsWith(' Japan'));
+      assert.match(official.requestedAt, /^\d{4}-\d{2}-\d{2}T/);
+      assert.match(official.requestUrl, /^https:\/\/www\.bing\.com\/search\?/);
+      assert.ok(Number.isInteger(official.httpStatus));
+      assert.ok(['success', 'http-error', 'transport-error'].includes(official.outcome));
+      assert.match(official.rawResponseSha256, /^[a-f0-9]{64}$/);
+      assert.equal(official.acceptance.accepted, false);
+      if (official.topResult) {
+        assert.ok(official.topResult.title.trim());
+        assert.match(official.topResult.url, /^https?:\/\//);
+      }
       for (const check of apiChecks) {
         assert.ok(check.query.includes(item.researchInput.nameEn) || check.query.includes(item.researchInput.nameLocal));
         assert.match(check.requestedAt, /^\d{4}-\d{2}-\d{2}T/);
-        assert.equal(check.httpStatus, 200);
-        assert.equal(check.outcome, 'success');
+        assert.ok(Number.isInteger(check.httpStatus));
+        assert.ok(['success', 'http-error', 'transport-error'].includes(check.outcome));
+        if (check.outcome === 'success') assert.equal(check.httpStatus, 200);
+        else assert.ok(check.error.trim(), `${item.id} ${check.sourceClass} must record its failed outcome`);
         assert.match(check.rawResponseSha256, /^[a-f0-9]{64}$/);
         assert.match(check.requestUrl, /^https:\/\//);
         assert.equal(check.acceptance.accepted, false);
@@ -176,28 +203,61 @@ test('evening acquisition decisions cover every recommendation exactly once', as
       if (attempt.outcome === 'failed') assert.ok(attempt.error?.trim());
     }
     const source = sources.find((item) => item.id === target.id);
-    assert.equal(source.status, target.finalOutcome === 'downloaded' ? 'verified-photo' : 'needs-illustration');
+    const contentOverride = source.contentStatus === 'needs-illustration';
+    assert.equal(source.status, contentOverride
+      ? 'needs-illustration'
+      : target.finalOutcome === 'downloaded' ? 'verified-photo' : 'needs-illustration');
     if (target.finalOutcome === 'downloaded') {
-      assert.equal(target.sourceSha256, source.sourceSha256);
-      assert.equal(target.sourceBytes, source.sourceBytes);
       const successfulAttempt = target.attempts.find((attempt) => attempt.outcome === 'downloaded');
-      assert.equal(successfulAttempt.sha256, source.sourceSha256);
-      assert.equal(successfulAttempt.bytes, source.sourceBytes);
+      assert.equal(successfulAttempt.sha256, target.sourceSha256);
+      assert.equal(successfulAttempt.bytes, target.sourceBytes);
+      if (!contentOverride) {
+        assert.equal(target.sourceSha256, source.sourceSha256);
+        assert.equal(target.sourceBytes, source.sourceBytes);
+      }
     }
   }
 
-  const hagisoSource = sources.find((item) => item.id === 'jp-r-hagiso');
-  const hagisoCatalog = catalog.find((item) => item.id === 'jp-r-hagiso');
-  assert.equal(hagisoSource.status, 'needs-illustration');
-  assert.match(hagisoSource.decision, /menu close-up/i);
-  assert.equal(hagisoCatalog.kind, 'illustration');
+  for (const id of ['jp-r-hagiso', 'jp-r-tsurutontan', 'jp-r-fuunji']) {
+    const source = sources.find((item) => item.id === id);
+    const catalogEntry = catalog.find((item) => item.id === id);
+    assert.equal(source.status, 'needs-illustration', `${id} dish-only media must be downgraded`);
+    assert.match(source.decision, /(?:menu close-up|dish photo)/i);
+    assert.equal(catalogEntry.kind, 'illustration');
+  }
+  for (const id of ['jp-r-tsurutontan', 'jp-r-fuunji']) {
+    const source = sources.find((item) => item.id === id);
+    assert.equal(source.researchStatus, 'verified-photo');
+    assert.equal(source.downloadStatus, 'downloaded');
+    assert.match(source.originalEvidence, /dish photo was visually inspected/i);
+    assert.ok(source.decision.includes(source.originalEvidence), `${id} must retain original evidence in the final decision`);
+  }
 
   const illustrationLicense = await readFile(new URL('../assets/evening/sources/illustrations/LICENSE.md', import.meta.url), 'utf8');
   assert.match(illustrationLicense, /Creative Commons Attribution 4\.0 International/);
   assert.match(illustrationLicense, /https:\/\/creativecommons\.org\/licenses\/by\/4\.0\/legalcode/);
   for (const item of catalog.filter((entry) => entry.kind === 'illustration')) {
     assert.equal(item.license, 'CC BY 4.0');
+    assert.equal(item.licenseUrl, 'assets/evening/sources/illustrations/LICENSE.md');
     assert.equal(item.credit, 'Travel Atlas');
+    assert.equal(item.modificationNote, 'Converted from the original SVG to 1440×960 WebP.');
+  }
+  const expectedLicenseUrls = new Map([
+    ['CC BY 2.0', 'https://creativecommons.org/licenses/by/2.0/'],
+    ['CC BY 2.5', 'https://creativecommons.org/licenses/by/2.5/'],
+    ['CC BY-SA 2.0', 'https://creativecommons.org/licenses/by-sa/2.0/'],
+    ['CC BY-SA 3.0', 'https://creativecommons.org/licenses/by-sa/3.0/'],
+    ['CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/'],
+    ['CC0 1.0', 'https://creativecommons.org/publicdomain/zero/1.0/'],
+    ['Public domain', 'https://creativecommons.org/publicdomain/mark/1.0/'],
+  ]);
+  for (const item of catalog.filter((entry) => entry.kind === 'venue-photo')) {
+    assert.equal(item.licenseUrl, expectedLicenseUrls.get(item.license), `${item.id} must link its declared license`);
+    assert.equal(item.modificationNote, 'Cropped to 3:2, resized to 1440×960, and converted to WebP.');
+  }
+  for (const item of catalog) {
+    assert.ok(item.sourceBytes > 0, `${item.id}.sourceBytes missing`);
+    assert.match(item.sourceSha256, /^[a-f0-9]{64}$/, `${item.id}.sourceSha256 invalid`);
   }
 });
 
@@ -236,9 +296,21 @@ test('captured API evidence covers every delivered illustration with real venue 
   for (const row of evidence.rows) {
     assert.ok(row.venue.nameEn?.trim());
     assert.ok(row.venue.city?.trim());
-    assert.ok(['not-recorded', 'checked'].includes(row.official.status));
-    if (row.official.status === 'checked') assert.match(row.official.sourceUrl, /^https:\/\//);
-    else assert.equal(row.official.sourceUrl, null);
+    assert.equal(row.official.service, 'bing-web-rss');
+    assert.equal(row.official.venueName, row.venue.nameEn || row.venue.nameLocal || row.venue.name);
+    assert.equal(row.official.city, row.venue.city);
+    assert.ok(row.official.query.includes(row.venue.nameEn) || row.official.query.includes(row.venue.nameLocal));
+    assert.ok(row.official.query.includes(row.venue.city));
+    assert.match(row.official.requestedAt, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    assert.equal(row.official.outcome, 'success');
+    assert.equal(row.official.httpStatus, 200);
+    assert.match(row.official.requestUrl, /^https:\/\/www\.bing\.com\/search\?/);
+    assert.match(row.official.rawResponseSha256, /^[a-f0-9]{64}$/);
+    assert.ok(row.official.rawResponseBytes > 0);
+    assert.ok(row.official.topResult?.title?.trim());
+    assert.match(row.official.topResult.url, /^https?:\/\//);
+    assert.equal(row.official.acceptance.accepted, false);
+    assert.ok(row.official.acceptance.reasonCode?.trim());
     assert.deepEqual(row.services.map((item) => item.service), ['wikimedia-commons', 'openverse']);
     for (const service of row.services) {
       serviceQueries[service.service].add(service.query);
@@ -251,7 +323,8 @@ test('captured API evidence covers every delivered illustration with real venue 
       assert.ok(Number.isInteger(service.httpStatus));
       assert.ok(['success', 'http-error', 'transport-error'].includes(service.outcome));
       assert.match(service.rawResponseSha256, /^[a-f0-9]{64}$/);
-      assert.ok(service.rawResponseBytes > 0);
+      if (service.outcome === 'success') assert.ok(service.rawResponseBytes > 0);
+      else assert.ok(service.error?.trim());
       const requestUrl = new URL(service.requestUrl);
       if (service.service === 'wikimedia-commons') {
         assert.equal(requestUrl.hostname, 'commons.wikimedia.org');

@@ -165,14 +165,52 @@ function renderPlaceEditor(trip) {
   </section>`;
 }
 
+const recommendationFallbacks = {
+  restaurant: {
+    label: '餐盘',
+    drawing: '<circle cx="48" cy="48" r="24"/><circle cx="48" cy="48" r="14"/><path d="M18 22v52M12 22v16M18 22v16M24 22v16M78 22c-7 8-7 19 0 27v25"/>',
+  },
+  bar: {
+    label: '酒杯',
+    drawing: '<path d="M20 24h56L48 55 20 24ZM48 55v19M34 76h28M29 36h38"/><circle cx="69" cy="27" r="8"/>',
+  },
+  activity: {
+    label: '夜间活动',
+    drawing: '<path d="M60 22a27 27 0 1 0 14 45A23 23 0 0 1 60 22Z"/><path d="m28 28 2 5 5 2-5 2-2 5-2-5-5-2 5-2 2-5ZM70 20l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3Z"/>',
+  },
+};
+
+function renderRecommendationFallback(theme, imageAlt) {
+  const fallback = recommendationFallbacks[theme] ?? recommendationFallbacks.activity;
+  const fallbackAlt = `${imageAlt}未能加载，显示${fallback.label}线稿占位`;
+  return `<div class="recommendation-media-fallback" data-media-fallback="${theme}" role="img" aria-label="${escapeHtml(fallbackAlt)}" aria-hidden="true" hidden>
+        <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${fallback.drawing}</svg>
+        <span>${fallback.label}</span><small>图片暂不可用</small>
+      </div>`;
+}
+
 function renderRecommendation(item, theme, assetBase) {
-  const mediaLabel = item.imageKind === 'illustration' ? '示意插画' : '实景照片';
+  const isIllustration = item.imageKind === 'illustration';
+  const mediaLabel = isIllustration ? '示意插画' : '实景照片';
   const imageAlt = String(item.imageAlt).replaceAll('附近实景', mediaLabel);
   const tripadvisorScore = item.tripadvisorRating ? `<span>TA ${escapeHtml(item.tripadvisorRating)}</span>` : '';
+  const attribution = isIllustration
+    ? `<span class="recommendation-media-credit">项目插画：${escapeHtml(item.imageCredit)}</span>`
+    : `<span class="recommendation-media-credit">图片：${escapeHtml(item.imageCredit)}</span>`;
+  const modification = item.modificationNote
+    ? `<span class="recommendation-media-change">${escapeHtml(item.modificationNote)}</span>`
+    : '';
+  const illustrationLicense = item.licenseUrl || 'assets/evening/sources/illustrations/LICENSE.md';
+  const licenseUrl = isIllustration ? `${assetBase}${illustrationLicense}` : item.licenseUrl;
+  const licenseLink = `<a class="recommendation-media-license" href="${escapeHtml(licenseUrl)}" target="_blank" rel="noopener noreferrer"${isIllustration ? '' : ' data-external="true"'}>${escapeHtml(item.license || '图片许可')} 授权${icon('external')}</a>`;
+  const sourceLink = isIllustration
+    ? ''
+    : `<a class="recommendation-media-source" href="${escapeHtml(item.imageSource)}" target="_blank" rel="noopener noreferrer" data-external="true">图片来源${icon('external')}</a>`;
   return `<article class="recommendation-card" data-category-theme="${theme}">
     <figure class="recommendation-media">
       <img src="${escapeHtml(`${assetBase}${item.image}`)}" alt="${escapeHtml(imageAlt)}" loading="lazy" decoding="async">
-      <figcaption><span class="recommendation-media-kind">${mediaLabel}</span><span class="recommendation-media-credit">图片：${escapeHtml(item.imageCredit)}</span><a class="recommendation-media-source" href="${escapeHtml(item.imageSource)}" target="_blank" rel="noopener noreferrer" data-external="true">图片来源${icon('external')}</a></figcaption>
+      ${renderRecommendationFallback(theme, imageAlt)}
+      <figcaption class="recommendation-media-caption ${isIllustration ? 'is-illustration' : 'is-photo'}"><span class="recommendation-media-attribution"><span class="recommendation-media-kind">${mediaLabel}</span>${attribution}${modification}</span><span class="recommendation-media-actions">${sourceLink}${licenseLink}</span></figcaption>
     </figure>
     <div class="recommendation-body">
       <header><div><small>${escapeHtml(item.category)}</small><h4>${escapeHtml(item.name)}</h4><p lang="en">${escapeHtml(item.nameEn)}</p><p lang="und">${escapeHtml(item.nameLocal)}</p></div><strong>Google ${escapeHtml(item.googleRating)}</strong></header>
@@ -198,11 +236,11 @@ function renderEveningGuidePanel(trip, assetBase) {
         const guideId = escapeHtml(`evening-${guide.date}`);
         return `<article class="evening-guide" data-evening-guide-date="${escapeHtml(guide.date)}" hidden>
           <header><p>${escapeHtml(guide.date)} · LAST STOP</p><h3>${escapeHtml(anchor?.name ?? '')}附近</h3><span>左右滑动切换餐厅 / 酒吧 / 其他</span></header>
-          <nav class="guide-tabs" role="tablist" aria-label="晚间推荐分类"><button id="${guideId}-restaurants-tab" type="button" role="tab" aria-selected="true" aria-controls="${guideId}-restaurants-panel" data-action="guide-tab" data-guide-tab="restaurants">餐厅 ${guide.restaurants.length}</button><button id="${guideId}-bars-tab" type="button" role="tab" aria-selected="false" aria-controls="${guideId}-bars-panel" data-action="guide-tab" data-guide-tab="bars">酒吧 ${guide.bars.length}</button><button id="${guideId}-activities-tab" type="button" role="tab" aria-selected="false" aria-controls="${guideId}-activities-panel" data-action="guide-tab" data-guide-tab="activities">其他 ${guide.activities.length}</button></nav>
+          <nav class="guide-tabs" role="tablist" aria-label="晚间推荐分类" aria-orientation="horizontal"><button id="${guideId}-restaurants-tab" type="button" role="tab" aria-selected="true" tabindex="0" aria-controls="${guideId}-restaurants-panel" data-action="guide-tab" data-guide-tab="restaurants">餐厅 ${guide.restaurants.length}</button><button id="${guideId}-bars-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="${guideId}-bars-panel" data-action="guide-tab" data-guide-tab="bars">酒吧 ${guide.bars.length}</button><button id="${guideId}-activities-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="${guideId}-activities-panel" data-action="guide-tab" data-guide-tab="activities">其他 ${guide.activities.length}</button></nav>
           <div class="guide-carousel">
-            <section id="${guideId}-restaurants-panel" class="guide-page" role="tabpanel" aria-labelledby="${guideId}-restaurants-tab" data-guide-page="restaurants" data-category-theme="restaurant"><header><span>01</span><div><small>DINNER</small><h3>餐厅推荐</h3></div></header>${guide.restaurants.map((item) => renderRecommendation(item, 'restaurant', assetBase)).join('')}</section>
-            <section id="${guideId}-bars-panel" class="guide-page" role="tabpanel" aria-labelledby="${guideId}-bars-tab" data-guide-page="bars" data-category-theme="bar"><header><span>02</span><div><small>DRINKS</small><h3>酒吧推荐</h3></div></header>${guide.bars.map((item) => renderRecommendation(item, 'bar', assetBase)).join('')}</section>
-            <section id="${guideId}-activities-panel" class="guide-page" role="tabpanel" aria-labelledby="${guideId}-activities-tab" data-guide-page="activities" data-category-theme="activity"><header><span>03</span><div><small>AFTER DARK</small><h3>其他娱乐</h3></div></header>${guide.activities.map((item) => renderRecommendation(item, 'activity', assetBase)).join('')}</section>
+            <section id="${guideId}-restaurants-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-restaurants-tab" aria-hidden="false" data-guide-page="restaurants" data-category-theme="restaurant"><header><span>01</span><div><small>DINNER</small><h3>餐厅推荐</h3></div></header>${guide.restaurants.map((item) => renderRecommendation(item, 'restaurant', assetBase)).join('')}</section>
+            <section id="${guideId}-bars-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-bars-tab" aria-hidden="true" inert data-guide-page="bars" data-category-theme="bar"><header><span>02</span><div><small>DRINKS</small><h3>酒吧推荐</h3></div></header>${guide.bars.map((item) => renderRecommendation(item, 'bar', assetBase)).join('')}</section>
+            <section id="${guideId}-activities-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-activities-tab" aria-hidden="true" inert data-guide-page="activities" data-category-theme="activity"><header><span>03</span><div><small>AFTER DARK</small><h3>其他娱乐</h3></div></header>${guide.activities.map((item) => renderRecommendation(item, 'activity', assetBase)).join('')}</section>
           </div>
         </article>`;
       }).join('')}

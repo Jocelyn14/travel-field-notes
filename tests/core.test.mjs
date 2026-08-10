@@ -61,6 +61,8 @@ const validTrips = [
         imageCredit: 'Wikimedia Commons contributor',
         imageSource: `https://commons.wikimedia.org/wiki/File:restaurant-${index}.jpg`,
         license: 'CC BY-SA 4.0',
+        licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+        modificationNote: 'Cropped to 3:2, resized to 1440×960, and converted to WebP.',
         verifiedAt: '2026-08-10',
         highlights: ['适合体验当地晚餐氛围。', '从当天最后一站步行可达。'],
         practicalTips: '建议出发前确认营业时间并提前预约晚餐座位。',
@@ -86,6 +88,8 @@ const validTrips = [
         imageCredit: 'Wikimedia Commons contributor',
         imageSource: `https://commons.wikimedia.org/wiki/File:bar-${index}.jpg`,
         license: 'CC BY-SA 4.0',
+        licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+        modificationNote: 'Cropped to 3:2, resized to 1440×960, and converted to WebP.',
         verifiedAt: '2026-08-10',
         highlights: ['适合轻松喝一杯。', '从当天最后一站步行可达。'],
         practicalTips: '请确认当晚营业时间、最低消费和入场年龄要求。',
@@ -111,6 +115,8 @@ const validTrips = [
         imageCredit: 'Wikimedia Commons contributor',
         imageSource: `https://commons.wikimedia.org/wiki/File:activity-${index}.jpg`,
         license: 'CC BY-SA 4.0',
+        licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+        modificationNote: 'Cropped to 3:2, resized to 1440×960, and converted to WebP.',
         verifiedAt: '2026-08-10',
         highlights: ['提供有特色的夜间体验。', '可与晚餐或酒吧灵活组合。'],
         practicalTips: '请提前核对演出场次、预约规则和最晚入场时间。',
@@ -187,6 +193,14 @@ test('validateTrips enforces recommendation media provenance and uniqueness', ()
       error: 'trips[0].eveningGuides[0].restaurants[0].license 不能为空',
     },
     {
+      apply: (items) => { items.restaurants[0].licenseUrl = ' '; },
+      error: 'trips[0].eveningGuides[0].restaurants[0].licenseUrl 不能为空',
+    },
+    {
+      apply: (items) => { items.restaurants[0].modificationNote = ' '; },
+      error: 'trips[0].eveningGuides[0].restaurants[0].modificationNote 不能为空',
+    },
+    {
       apply: (items) => { items.restaurants[0].verifiedAt = '2026/08/10'; },
       error: 'trips[0].eveningGuides[0].restaurants[0].verifiedAt 必须是 YYYY-MM-DD',
     },
@@ -205,6 +219,27 @@ test('validateTrips enforces recommendation media provenance and uniqueness', ()
     apply(malformed[0].eveningGuides[0]);
     assert.ok(validateTrips(malformed).errors.includes(error));
   }
+});
+
+test('validateTrips detects recommendation media duplicates across trips', () => {
+  const secondTrip = structuredClone(validTrips[0]);
+  secondTrip.id = 'tokyo';
+  secondTrip.currency = 'JPY';
+  const secondRecommendations = secondTrip.eveningGuides.flatMap((guide) => [
+    ...guide.restaurants,
+    ...guide.bars,
+    ...guide.activities,
+  ]);
+  for (const recommendation of secondRecommendations) {
+    recommendation.id = `tokyo-${recommendation.id}`;
+    recommendation.image = recommendation.image.replace('assets/evening/', 'assets/evening/tokyo-');
+    recommendation.imageSource = `${recommendation.imageSource}?trip=tokyo`;
+  }
+  secondTrip.eveningGuides[0].bars[0].imageSource = validTrips[0].eveningGuides[0].restaurants[0].imageSource;
+
+  const result = validateTrips([validTrips[0], secondTrip]);
+
+  assert.ok(result.errors.includes('trips[1].eveningGuides[0].bars[0].imageSource 不得与其他推荐重复'));
 });
 
 test('calculateBudget returns local and CNY totals without live rates', () => {

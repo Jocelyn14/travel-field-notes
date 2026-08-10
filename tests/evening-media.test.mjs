@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { copyFile, mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -24,10 +24,20 @@ const validEntry = (id, sourceFile, sourceUrl) => ({
   sourceUrl,
   kind: 'venue-photo',
   license: 'CC BY-SA 4.0',
+  licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
   credit: 'Example photographer',
+  modificationNote: 'Cropped to 3:2, resized to 1440×960, and converted to WebP.',
   alt: `${id} 实景`,
   verifiedAt: '2026-08-10',
+  sourceBytes: 1,
+  sourceSha256: 'a'.repeat(64),
 });
+
+const createFixtureDirectory = async (t, prefix) => {
+  const directory = await mkdtemp(join(tmpdir(), prefix));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  return directory;
+};
 
 const writePng = async (directory, name, pixels) => {
   const file = join(directory, name);
@@ -41,6 +51,24 @@ const writeBuiltWebp = async (directory, id, pixels) => {
   const file = join(mediaDirectory, `${id}.webp`);
   await sharp(Buffer.from(pixels), { raw: { width: 9, height: 8, channels: 1 } }).webp({ lossless: true }).toFile(file);
   return file;
+};
+
+const withSourceIdentity = async (directory, entry) => {
+  const bytes = await readFile(join(directory, entry.sourceFile));
+  return {
+    ...entry,
+    sourceBytes: bytes.length,
+    sourceSha256: createHash('sha256').update(bytes).digest('hex'),
+  };
+};
+
+const writeTripsFixture = async (directory, ids) => {
+  const tripsPath = join(directory, 'trips.json');
+  const recommendations = ids.map((id) => ({ id }));
+  await writeFile(tripsPath, JSON.stringify([{
+    eveningGuides: [{ restaurants: recommendations, bars: [], activities: [] }],
+  }]));
+  return tripsPath;
 };
 
 test('evening media rejects a repeated source URL', () => {
@@ -64,8 +92,20 @@ test('evening media rejects a repeated source file', () => {
 test('evening media requires provenance fields and known recommendation IDs', () => {
   const missingLicense = validEntry('one', 'one.png', 'https://example.test/one');
   missingLicense.license = ' ';
+  const missingLicenseUrl = validEntry('one', 'one.png', 'https://example.test/one');
+  missingLicenseUrl.licenseUrl = ' ';
+  const missingModification = validEntry('one', 'one.png', 'https://example.test/one');
+  missingModification.modificationNote = ' ';
+  const invalidBytes = validEntry('one', 'one.png', 'https://example.test/one');
+  invalidBytes.sourceBytes = 0;
+  const invalidHash = validEntry('one', 'one.png', 'https://example.test/one');
+  invalidHash.sourceSha256 = 'not-a-hash';
 
   assert.throws(() => validateCatalog([missingLicense], ['one']), /license 不能为空/);
+  assert.throws(() => validateCatalog([missingLicenseUrl], ['one']), /licenseUrl 不能为空/);
+  assert.throws(() => validateCatalog([missingModification], ['one']), /modificationNote 不能为空/);
+  assert.throws(() => validateCatalog([invalidBytes], ['one']), /sourceBytes 必须是正整数/);
+  assert.throws(() => validateCatalog([invalidHash], ['one']), /sourceSha256 必须是 SHA-256/);
   assert.throws(
     () => validateCatalog([validEntry('unknown', 'one.png', 'https://example.test/one')], ['one']),
     /unknown 不在推荐列表中/,
@@ -86,16 +126,97 @@ test('difference hashes compare adjacent grayscale pixels as 64 bits', () => {
   assert.equal(hammingDistance('0f', '0e'), 1);
 });
 
-test('sha256 hashes the file bytes', async () => {
-  const directory = await mkdtemp(join(tmpdir(), 'evening-media-'));
+test('sha256 hashes the file bytes', async (t) => {
+  const directory = await createFixtureDirectory(t, 'evening-media-');
   const file = join(directory, 'bytes.txt');
   await writeFile(file, 'abc');
 
   assert.equal(await sha256(file), 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
 });
 
-test('media audit reports exact duplicates and near duplicates separately', async () => {
-  const directory = await mkdtemp(join(tmpdir(), 'evening-media-'));
+test('canonical recommendation IDs come from trip guides and reject cross-trip duplicates', async () => {
+  const { recommendationIdsFromTrips } = await import('../scripts/lib/evening_media.mjs');
+  assert.equal(typeof recommendationIdsFromTrips, 'function');
+  const trips = [
+    { eveningGuides: [{ restaurants: [{ id: 'one' }], bars: [{ id: 'two' }], activities: [] }] },
+    { eveningGuides: [{ restaurants: [], bars: [], activities: [{ id: 'three' }] }] },
+  ];
+
+  assert.deepEqual(recommendationIdsFromTrips(trips), ['one', 'two', 'three']);
+  trips[1].eveningGuides[0].activities[0].id = 'one';
+  assert.throws(() => recommendationIdsFromTrips(trips), /推荐 ID 不得重复/);
+});
+
+test('source identity is verified against committed bytes before media transforms', async (t) => {
+  const { verifyCatalogSources } = await import('../scripts/lib/evening_media.mjs');
+  assert.equal(typeof verifyCatalogSources, 'function');
+  const directory = await createFixtureDirectory(t, 'evening-source-');
+  const sourceFile = join(directory, 'one.svg');
+  await writeFile(sourceFile, 'abc');
+  const entry = {
+    ...validEntry('one', 'one.svg', 'https://example.test/one'),
+    sourceBytes: 3,
+    sourceSha256: createHash('sha256').update('abc').digest('hex'),
+  };
+
+  await assert.doesNotReject(verifyCatalogSources([entry], directory));
+  await writeFile(sourceFile, 'abd');
+  await assert.rejects(verifyCatalogSources([entry], directory), /sourceSha256 mismatch/);
+});
+
+test('media build rejects changed source bytes before overwriting transformed output', async (t) => {
+  const directory = await createFixtureDirectory(t, 'evening-build-integrity-');
+  const outputDirectory = join(directory, 'assets', 'evening');
+  await mkdir(outputDirectory, { recursive: true });
+  await writeFile(join(directory, 'one.svg'), '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="8"><rect width="9" height="8"/></svg>');
+  const catalogEntry = await withSourceIdentity(directory, {
+    ...validEntry('one', 'one.svg', 'https://example.test/one'),
+    kind: 'illustration',
+  });
+  const catalogPath = join(directory, 'catalog.json');
+  const tripsPath = await writeTripsFixture(directory, ['one']);
+  const existingOutput = join(outputDirectory, 'one.webp');
+  await writeFile(catalogPath, JSON.stringify([catalogEntry]));
+  await writeFile(join(directory, 'one.svg'), '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="8"><circle r="4"/></svg>');
+  await writeFile(existingOutput, 'keep-existing-output');
+
+  const result = spawnSync(process.execPath, [
+    'scripts/build_evening_media.mjs', '--catalog', catalogPath, '--trips', tripsPath,
+    '--root', directory, '--output', outputDirectory,
+  ], { cwd: new URL('..', import.meta.url), encoding: 'utf8' });
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /source(?:Bytes|Sha256) mismatch/);
+  assert.equal(await readFile(existingOutput, 'utf8'), 'keep-existing-output');
+});
+
+test('media build writes transformed output and complete credits after source verification', async (t) => {
+  const directory = await createFixtureDirectory(t, 'evening-build-success-');
+  const outputDirectory = join(directory, 'assets', 'evening');
+  await writeFile(join(directory, 'one.svg'), '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="8"><rect width="9" height="8" fill="#123456"/></svg>');
+  const catalogEntry = await withSourceIdentity(directory, {
+    ...validEntry('one', 'one.svg', 'https://example.test/one'),
+    kind: 'illustration',
+  });
+  const catalogPath = join(directory, 'catalog.json');
+  const tripsPath = await writeTripsFixture(directory, ['one']);
+  await writeFile(catalogPath, JSON.stringify([catalogEntry]));
+
+  const result = spawnSync(process.execPath, [
+    'scripts/build_evening_media.mjs', '--catalog', catalogPath, '--trips', tripsPath,
+    '--root', directory, '--output', outputDirectory,
+  ], { cwd: new URL('..', import.meta.url), encoding: 'utf8' });
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.ok((await readFile(join(outputDirectory, 'one.webp'))).length > 100);
+  const [credit] = JSON.parse(await readFile(join(outputDirectory, 'credits.json'), 'utf8'));
+  assert.equal(credit.licenseUrl, catalogEntry.licenseUrl);
+  assert.equal(credit.modificationNote, catalogEntry.modificationNote);
+  assert.equal(credit.sourceSha256, catalogEntry.sourceSha256);
+});
+
+test('media audit reports exact duplicates and near duplicates separately', async (t) => {
+  const directory = await createFixtureDirectory(t, 'evening-media-');
   const basePixels = Array.from({ length: 72 }, (_, index) => (index % 9 < 4 ? 20 : 220));
   const nearPixels = [...basePixels];
   nearPixels[1] = 30;
@@ -105,18 +226,20 @@ test('media audit reports exact duplicates and near duplicates separately', asyn
   await writeBuiltWebp(directory, 'one', basePixels);
   await writeBuiltWebp(directory, 'two', basePixels);
   await writeBuiltWebp(directory, 'three', nearPixels);
-  const catalog = [
+  const catalog = await Promise.all([
     validEntry('one', 'one.png', 'https://example.test/one'),
     validEntry('two', 'two.png', 'https://example.test/two'),
     validEntry('three', 'three.png', 'https://example.test/three'),
-  ];
+  ].map((entry) => withSourceIdentity(directory, entry)));
   const catalogPath = join(directory, 'catalog.json');
   const reportPath = join(directory, 'report.json');
+  const tripsPath = await writeTripsFixture(directory, ['one', 'two', 'three']);
   await writeFile(catalogPath, JSON.stringify(catalog));
 
   const result = spawnSync(process.execPath, [
     'scripts/audit_evening_media.mjs',
     '--catalog', catalogPath,
+    '--trips', tripsPath,
     '--root', directory,
     '--output', reportPath,
   ], { cwd: new URL('..', import.meta.url), encoding: 'utf8' });
@@ -129,8 +252,8 @@ test('media audit reports exact duplicates and near duplicates separately', asyn
   assert.ok(report.nearDuplicates.some((pair) => pair.ids.includes('one') && pair.ids.includes('three')));
 });
 
-test('media audit keeps non-identical near matches out of exact duplicates', async () => {
-  const directory = await mkdtemp(join(tmpdir(), 'evening-media-'));
+test('media audit keeps non-identical near matches out of exact duplicates', async (t) => {
+  const directory = await createFixtureDirectory(t, 'evening-media-');
   const basePixels = Array.from({ length: 72 }, (_, index) => (index % 9 < 4 ? 20 : 220));
   const nearPixels = [...basePixels];
   nearPixels[1] = 30;
@@ -138,17 +261,19 @@ test('media audit keeps non-identical near matches out of exact duplicates', asy
   await writePng(directory, 'two.png', Array(72).fill(240));
   await writeBuiltWebp(directory, 'one', basePixels);
   await writeBuiltWebp(directory, 'two', nearPixels);
-  const catalog = [
+  const catalog = await Promise.all([
     validEntry('one', 'one.png', 'https://example.test/one'),
     validEntry('two', 'two.png', 'https://example.test/two'),
-  ];
+  ].map((entry) => withSourceIdentity(directory, entry)));
   const catalogPath = join(directory, 'catalog.json');
   const reportPath = join(directory, 'report.json');
+  const tripsPath = await writeTripsFixture(directory, ['one', 'two']);
   await writeFile(catalogPath, JSON.stringify(catalog));
 
   const result = spawnSync(process.execPath, [
     'scripts/audit_evening_media.mjs',
     '--catalog', catalogPath,
+    '--trips', tripsPath,
     '--root', directory,
     '--output', reportPath,
   ], { cwd: new URL('..', import.meta.url), encoding: 'utf8' });
@@ -159,8 +284,73 @@ test('media audit keeps non-identical near matches out of exact duplicates', asy
   assert.equal(report.nearDuplicates.length, 1);
 });
 
-test('download retry rejects changed bytes without mutating successful history', async () => {
-  const directory = await mkdtemp(join(tmpdir(), 'evening-downloads-'));
+test('media audit rejects catalogs that are incomplete or extra against canonical trips', async (t) => {
+  const runCase = async (name, catalogIds, tripIds, expectedError) => {
+    const directory = await createFixtureDirectory(t, `evening-coverage-${name}-`);
+    const catalog = [];
+    for (const [index, id] of catalogIds.entries()) {
+      await writePng(directory, `${id}.png`, Array.from({ length: 72 }, (_, pixel) => (pixel * (index + 3) * 29) % 256));
+      await writeBuiltWebp(directory, id, Array.from({ length: 72 }, (_, pixel) => (pixel * (index + 5) * 37) % 256));
+      catalog.push(await withSourceIdentity(directory, validEntry(id, `${id}.png`, `https://example.test/${id}`)));
+    }
+    const catalogPath = join(directory, 'catalog.json');
+    const tripsPath = await writeTripsFixture(directory, tripIds);
+    const reportPath = join(directory, 'report.json');
+    await writeFile(catalogPath, JSON.stringify(catalog));
+
+    const result = spawnSync(process.execPath, [
+      'scripts/audit_evening_media.mjs', '--catalog', catalogPath, '--trips', tripsPath,
+      '--root', directory, '--output', reportPath,
+    ], { cwd: new URL('..', import.meta.url), encoding: 'utf8' });
+
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, expectedError);
+  };
+
+  await runCase('missing', ['one'], ['one', 'two'], /two 缺少媒体目录项/);
+  await runCase('extra', ['one', 'two'], ['one'], /two 不在推荐列表中/);
+});
+
+test('media audit reports photo, illustration, missing, and source-anomaly counts', async (t) => {
+  const directory = await createFixtureDirectory(t, 'evening-audit-counts-');
+  for (const [index, id] of ['one', 'two', 'three'].entries()) {
+    await writePng(directory, `${id}.png`, Array.from({ length: 72 }, (_, pixel) => (pixel * (index + 2) * 31) % 256));
+  }
+  await writeBuiltWebp(directory, 'one', Array.from({ length: 72 }, (_, index) => (index * 41) % 256));
+  await writeBuiltWebp(directory, 'three', Array.from({ length: 72 }, (_, index) => (index * 73) % 256));
+  const catalog = await Promise.all(['one', 'two', 'three'].map((id) => withSourceIdentity(
+    directory,
+    { ...validEntry(id, `${id}.png`, `https://example.test/${id}`), kind: id === 'two' ? 'illustration' : 'venue-photo' },
+  )));
+  const changedSource = Buffer.from(await readFile(join(directory, 'three.png')));
+  changedSource[20] ^= 0xff;
+  await writeFile(join(directory, 'three.png'), changedSource);
+  const catalogPath = join(directory, 'catalog.json');
+  const reportPath = join(directory, 'report.json');
+  const tripsPath = await writeTripsFixture(directory, ['one', 'two', 'three']);
+  await writeFile(catalogPath, JSON.stringify(catalog));
+
+  const result = spawnSync(process.execPath, [
+    'scripts/audit_evening_media.mjs', '--catalog', catalogPath, '--trips', tripsPath,
+    '--root', directory, '--output', reportPath,
+  ], { cwd: new URL('..', import.meta.url), encoding: 'utf8' });
+  assert.equal(result.status, 1);
+  const report = JSON.parse(await readFile(reportPath, 'utf8'));
+
+  assert.deepEqual(report.counts, {
+    recommendations: 3,
+    photos: 2,
+    illustrations: 1,
+    missing: 1,
+    sourceAnomalies: 1,
+  });
+  assert.deepEqual(report.missing.map((item) => item.id), ['two']);
+  assert.deepEqual(report.sourceAnomalies.map((item) => item.id), ['three']);
+  assert.match(result.stdout, /photos=2 illustrations=1 missing=1 sourceAnomalies=1/);
+});
+
+test('download retry rejects changed bytes without mutating successful history', async (t) => {
+  const directory = await createFixtureDirectory(t, 'evening-downloads-');
   const scriptsDirectory = join(directory, 'scripts');
   const researchDirectory = join(scriptsDirectory, 'evening-media-research');
   const photoDirectory = join(directory, 'assets', 'evening', 'sources', 'photos');
@@ -286,4 +476,40 @@ test('natural-wine and cocktail-bar WebPs remain perceptually distinct', async (
   };
 
   assert.ok(hammingDistance(await hashBuiltSvg(cocktail), await hashBuiltSvg(naturalWine)) > 6);
+});
+
+test('every illustration preserves a reproducible official-source discovery attempt', async () => {
+  const projectRoot = new URL('..', import.meta.url);
+  const [catalog, evidence, sources] = await Promise.all([
+    readFile(new URL('scripts/evening-media-catalog.json', projectRoot), 'utf8').then(JSON.parse),
+    readFile(new URL('scripts/evening-media-search-evidence.json', projectRoot), 'utf8').then(JSON.parse),
+    readFile(new URL('scripts/evening-media-sources.json', projectRoot), 'utf8').then(JSON.parse),
+  ]);
+  const illustrationIds = catalog.filter((item) => item.kind === 'illustration').map((item) => item.id).sort();
+  const evidenceById = new Map(evidence.rows.map((item) => [item.id, item]));
+  const sourcesById = new Map(sources.map((item) => [item.id, item]));
+
+  assert.equal(evidenceById.size, illustrationIds.length);
+  for (const id of illustrationIds) {
+    const row = evidenceById.get(id);
+    const official = row?.official;
+    assert.equal(official?.service, 'bing-web-rss', `${id} official service`);
+    assert.equal(official?.query, sourcesById.get(id).researchQuery, `${id} exact query`);
+    assert.equal(official?.venueName, row.venue.nameEn || row.venue.nameLocal || row.venue.name, `${id} venue name`);
+    assert.equal(official?.city, row.venue.city, `${id} city`);
+    assert.match(official?.requestedAt ?? '', /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, `${id} timestamp`);
+    assert.match(official?.requestUrl ?? '', /^https:\/\/www\.bing\.com\/search\?/, `${id} request URL`);
+    assert.ok(Number.isInteger(official?.httpStatus), `${id} HTTP outcome`);
+    assert.ok(['success', 'http-error', 'transport-error'].includes(official?.outcome), `${id} transport outcome`);
+    if (official?.topResult) {
+      assert.ok(official.topResult.title.trim(), `${id} top result title`);
+      assert.match(official.topResult.url, /^https?:\/\//, `${id} top result URL`);
+    }
+    assert.equal(official?.acceptance?.accepted, false, `${id} rights decision`);
+    assert.ok(official?.acceptance?.reasonCode, `${id} rights reason code`);
+
+    const generatedOfficial = sourcesById.get(id).researchChecks.find((check) => check.sourceClass === 'official');
+    assert.equal(generatedOfficial?.requestUrl, official.requestUrl, `${id} generated source decision`);
+    assert.deepEqual(generatedOfficial?.acceptance, official.acceptance, `${id} generated rights decision`);
+  }
 });
