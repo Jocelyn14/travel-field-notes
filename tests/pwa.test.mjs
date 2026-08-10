@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { runInNewContext } from 'node:vm';
 import { chromium } from 'playwright';
 
 const baseUrl = process.env.TRAVEL_ATLAS_BASE_URL ?? 'http://127.0.0.1:4177/';
@@ -7,11 +9,69 @@ const italyUrl = `${baseUrl}italy/`;
 const tokyoUrl = `${baseUrl}tokyo/`;
 const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
+async function openEveningImage(page, target) {
+  await page.locator(`[data-action="open-evening"][data-guide-date="${target.date}"]`).click();
+  const guide = page.locator(`[data-evening-guide-date="${target.date}"]`);
+  await guide.waitFor({ state: 'visible' });
+  if (target.tab !== 'restaurants') await guide.locator(`[data-guide-tab="${target.tab}"]`).click();
+  const image = guide.locator(`img[src$="assets/evening/${target.image}"]`);
+  await image.waitFor({ state: 'visible' });
+  assert.ok(await image.evaluate((node) => node.complete && node.naturalWidth > 0), `${target.label} should be available`);
+}
+
+test('navigation cache writes extend the service worker event lifetime without delaying the response', async () => {
+  const listeners = {};
+  let failCacheWrite;
+  let cacheWriteFinished = false;
+  const cacheWrite = new Promise((_, reject) => {
+    failCacheWrite = () => {
+      cacheWriteFinished = true;
+      reject(new Error('cache write failed'));
+    };
+  });
+  const networkResponse = { clone: () => ({}) };
+  const workerSource = await readFile(new URL('../sw.js', import.meta.url), 'utf8');
+
+  runInNewContext(workerSource, {
+    URL,
+    fetch: () => Promise.resolve(networkResponse),
+    caches: {
+      open: () => Promise.resolve({ put: () => cacheWrite }),
+    },
+    self: {
+      location: { origin: 'https://travel.test' },
+      addEventListener: (type, listener) => { listeners[type] = listener; },
+    },
+  });
+
+  const lifetimePromises = [];
+  let responsePromise;
+  listeners.fetch({
+    request: { method: 'GET', mode: 'navigate', url: 'https://travel.test/italy/' },
+    respondWith: (promise) => { responsePromise = promise; },
+    waitUntil: (promise) => { lifetimePromises.push(promise); },
+  });
+
+  const response = await responsePromise;
+  const responseFinishedBeforeCacheWrite = !cacheWriteFinished;
+
+  assert.equal(response, networkResponse);
+  assert.equal(responseFinishedBeforeCacheWrite, true, 'navigation response should not wait for the cache write');
+  assert.equal(lifetimePromises.length, 1, 'navigation cache write should extend the fetch event lifetime');
+  failCacheWrite();
+  await assert.rejects(lifetimePromises[0], /cache write failed/, 'cache write failures should remain observable');
+  assert.equal(cacheWriteFinished, true);
+});
+
 test('unique Italy venue photos and Tokyo illustrations reload offline after first visit', async () => {
   const browser = await chromium.launch({ headless: true, executablePath: chromePath });
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const italyPage = await context.newPage();
   const tokyoPage = await context.newPage();
+  const targets = [
+    { page: italyPage, url: italyUrl, date: '2026-08-23', tab: 'activities', image: 'it-a-opera-roma.webp', heading: /意大利/, label: 'Italy venue photo' },
+    { page: tokyoPage, url: tokyoUrl, date: '2026-10-05', tab: 'restaurants', image: 'jp-r-hakushu.webp', heading: /东京/, label: 'Tokyo illustration' },
+  ];
   const errors = [];
   for (const page of [italyPage, tokyoPage]) {
     page.on('pageerror', (error) => errors.push(error.message));
@@ -19,34 +79,26 @@ test('unique Italy venue photos and Tokyo illustrations reload offline after fir
   }
 
   try {
-    for (const [page, url] of [[italyPage, italyUrl], [tokyoPage, tokyoUrl]]) {
-      await page.goto(url, { waitUntil: 'networkidle' });
+    const recommendationSources = [];
+    for (const target of targets) {
+      await target.page.goto(target.url, { waitUntil: 'networkidle' });
+      const page = target.page;
       await page.locator('[data-app-ready="true"]').waitFor();
       await page.evaluate(() => navigator.serviceWorker.ready);
-      const recommendationSources = await page.locator('.recommendation-media img').evaluateAll((images) => images.map((image) => image.src));
-      assert.ok(recommendationSources.length > 0, `${url} should render recommendation media`);
-      assert.equal(new Set(recommendationSources).size, recommendationSources.length, `${url} recommendation image sources should be unique`);
+      recommendationSources.push(...await page.locator('.recommendation-media img').evaluateAll((images) => images.map((image) => image.src)));
+      await openEveningImage(page, target);
     }
+    assert.ok(recommendationSources.length > 0, 'both destinations should render recommendation media');
+    assert.equal(new Set(recommendationSources).size, recommendationSources.length, 'recommendation image sources should be unique across both destinations');
 
     await context.setOffline(true);
 
-    await italyPage.reload({ waitUntil: 'domcontentloaded' });
-    await italyPage.locator('[data-app-ready="true"]').waitFor();
-    assert.match(await italyPage.getByRole('heading', { level: 1 }).textContent(), /意大利/);
-    await italyPage.locator('[data-action="open-evening"][data-guide-date="2026-08-23"]').click();
-    const italyGuide = italyPage.locator('[data-evening-guide-date="2026-08-23"]');
-    await italyGuide.locator('[data-guide-tab="activities"]').click();
-    const italyVenuePhoto = italyGuide.locator('img[src$="assets/evening/it-a-opera-roma.webp"]');
-    await italyVenuePhoto.waitFor({ state: 'visible' });
-    assert.ok(await italyVenuePhoto.evaluate((image) => image.complete && image.naturalWidth > 0), 'Italy venue photo should be available offline');
-
-    await tokyoPage.reload({ waitUntil: 'domcontentloaded' });
-    await tokyoPage.locator('[data-app-ready="true"]').waitFor();
-    assert.match(await tokyoPage.getByRole('heading', { level: 1 }).textContent(), /东京/);
-    await tokyoPage.locator('[data-action="open-evening"][data-guide-date="2026-10-05"]').click();
-    const tokyoIllustration = tokyoPage.locator('[data-evening-guide-date="2026-10-05"] img[src$="assets/evening/jp-r-hakushu.webp"]');
-    await tokyoIllustration.waitFor({ state: 'visible' });
-    assert.ok(await tokyoIllustration.evaluate((image) => image.complete && image.naturalWidth > 0), 'Tokyo illustration should be available offline');
+    for (const target of targets) {
+      await target.page.reload({ waitUntil: 'domcontentloaded' });
+      await target.page.locator('[data-app-ready="true"]').waitFor();
+      assert.match(await target.page.getByRole('heading', { level: 1 }).textContent(), target.heading);
+      await openEveningImage(target.page, { ...target, label: `${target.label} offline` });
+    }
     assert.equal(errors.length, 0, errors.join('\n'));
   } finally {
     await browser.close();
