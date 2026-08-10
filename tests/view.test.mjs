@@ -115,20 +115,27 @@ test('Tokyo flight cards show confirmed route, terminals and local times', () =>
 });
 
 test('every day opens a horizontally paged evening or airport guide', () => {
-  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
-  const html = renderApp([trips[1]], state, true, { standalone: true, assetBase: '../' });
+  const tokyoTrip = structuredClone(trips[1]);
+  tokyoTrip.eveningGuides[0].restaurants[0].imageKind = 'illustration';
+  const state = normalizePersistedState({ activeTripId: 'tokyo' }, [tokyoTrip]);
+  const html = renderApp([tokyoTrip], state, true, { standalone: true, assetBase: '../' });
 
   assert.equal((html.match(/data-action="open-evening"/g) ?? []).length, trips[1].days.length);
   assert.match(html, /data-panel="evening-guide"/);
   assert.match(html, /class="guide-carousel"/);
-  assert.match(html, /class="evening-route-mark"/);
+  assert.doesNotMatch(html, /evening-route-mark/);
+  assert.match(html, /class="evening-location-mark"/);
   assert.match(html, /data-guide-page="restaurants"/);
   assert.match(html, /data-guide-page="bars"/);
   assert.match(html, /data-guide-tab="activities">其他 5/);
   assert.match(html, /data-guide-page="activities"/);
   assert.match(html, /其他娱乐/);
   assert.match(html, /class="recommendation-media"/);
-  assert.match(html, /<figcaption><span>附近实景 · 图片：/);
+  assert.doesNotMatch(html, /附近实景/);
+  assert.match(html, /class="recommendation-media-kind">实景照片</);
+  assert.match(html, /class="recommendation-media-kind">示意插画</);
+  assert.match(html, /class="recommendation-media-credit">/);
+  assert.match(html, /class="recommendation-media-source"/);
   assert.match(html, /loading="lazy"/);
   assert.match(html, /class="recommendation-highlights"/);
   assert.match(html, /class="recommendation-tips"/);

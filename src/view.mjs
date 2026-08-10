@@ -90,7 +90,7 @@ function renderDay(day, currency, index, locale, assetBase, eveningGuide) {
     <div class="timeline" data-day-timeline="${escapeHtml(day.date)}">${day.places.map((place, placeIndex) => renderPlace(place, currency, placeIndex, day.date, locale, assetBase)).join('')}</div>
     <button class="add-place-button" type="button" data-action="add-place" data-day-date="${escapeHtml(day.date)}"><span>＋</span><strong>添加新的行程</strong><small>联网搜索可自动补全，也可手动填写</small></button>
     <button class="evening-launch${isAirportGuide ? ' is-airport' : ''}" type="button" data-action="open-evening" data-guide-date="${escapeHtml(day.date)}">
-      <span class="evening-route-mark" aria-hidden="true"><svg viewBox="0 0 72 72" fill="none"><path d="M24 13a15 15 0 1 0 13 23A18 18 0 0 1 24 13Z"/><path d="M15 54c10-9 17 7 28-2 6-5 8-1 14-7"/><circle cx="15" cy="54" r="3"/><circle cx="57" cy="45" r="3"/></svg></span>
+      <span class="evening-location-mark" aria-hidden="true"><svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M36 61S18 44 18 29a18 18 0 1 1 36 0c0 15-18 32-18 32Z"/><path d="M40 22a8 8 0 1 0 8 12 9 9 0 0 1-8-12Z"/></svg></span>
       <span class="evening-launch-copy"><span>EVENING / ${dayDate.monthDay}</span><strong>${guideLabel}</strong>${guideMeta}</span>
       <span class="evening-launch-arrow" aria-hidden="true">→</span>
     </button>
@@ -166,11 +166,13 @@ function renderPlaceEditor(trip) {
 }
 
 function renderRecommendation(item, theme, assetBase) {
+  const mediaLabel = item.imageKind === 'illustration' ? '示意插画' : '实景照片';
+  const imageAlt = String(item.imageAlt).replaceAll('附近实景', mediaLabel);
   const tripadvisorScore = item.tripadvisorRating ? `<span>TA ${escapeHtml(item.tripadvisorRating)}</span>` : '';
   return `<article class="recommendation-card" data-category-theme="${theme}">
     <figure class="recommendation-media">
-      <img src="${escapeHtml(`${assetBase}${item.image}`)}" alt="${escapeHtml(item.imageAlt)}" loading="lazy" decoding="async">
-      <figcaption><span>附近实景 · 图片：${escapeHtml(item.imageCredit)}</span><a href="${escapeHtml(item.imageSource)}" target="_blank" rel="noopener noreferrer" data-external="true">图片来源${icon('external')}</a></figcaption>
+      <img src="${escapeHtml(`${assetBase}${item.image}`)}" alt="${escapeHtml(imageAlt)}" loading="lazy" decoding="async">
+      <figcaption><span class="recommendation-media-kind">${mediaLabel}</span><span class="recommendation-media-credit">图片：${escapeHtml(item.imageCredit)}</span><a class="recommendation-media-source" href="${escapeHtml(item.imageSource)}" target="_blank" rel="noopener noreferrer" data-external="true">图片来源${icon('external')}</a></figcaption>
     </figure>
     <div class="recommendation-body">
       <header><div><small>${escapeHtml(item.category)}</small><h4>${escapeHtml(item.name)}</h4><p lang="en">${escapeHtml(item.nameEn)}</p><p lang="und">${escapeHtml(item.nameLocal)}</p></div><strong>Google ${escapeHtml(item.googleRating)}</strong></header>
