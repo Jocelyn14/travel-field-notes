@@ -30,7 +30,7 @@ test('navigation cache writes bind to the fetch event synchronously without dela
       reject(new Error('cache write failed'));
     };
   });
-  const networkResponse = { clone: () => ({}) };
+  const networkResponse = { ok: true, clone: () => ({}) };
   const fallbackResponse = { offline: true };
   const workerSource = await readFile(new URL('../sw.js', import.meta.url), 'utf8');
 
@@ -72,8 +72,48 @@ test('navigation cache writes bind to the fetch event synchronously without dela
   assert.equal(response, networkResponse);
   assert.equal(responseFinishedBeforeCacheWrite, true, 'navigation response should not wait for the cache write');
   failCacheWrite();
-  await assert.rejects(lifetimePromises[0], /cache write failed/, 'cache write failures should not replace or hide behind a successful response');
+  await assert.doesNotReject(lifetimePromises[0], 'cache write failures should be contained outside the successful response path');
   assert.equal(cacheWriteFinished, true);
+});
+
+test('navigation response is cloned before waiting for the cache to open', async () => {
+  const listeners = {};
+  let openCache;
+  let cachedBody;
+  const cacheReady = new Promise((resolve) => {
+    openCache = () => resolve({
+      put: async (_request, response) => { cachedBody = await response.text(); },
+    });
+  });
+  const networkResponse = new Response('online navigation');
+  const workerSource = await readFile(new URL('../sw.js', import.meta.url), 'utf8');
+
+  runInNewContext(workerSource, {
+    URL,
+    fetch: () => Promise.resolve(networkResponse),
+    caches: {
+      open: () => cacheReady,
+      match: () => Promise.resolve({ offline: true }),
+    },
+    self: {
+      location: { origin: 'https://travel.test' },
+      addEventListener: (type, listener) => { listeners[type] = listener; },
+    },
+  });
+
+  const lifetimePromises = [];
+  let responsePromise;
+  listeners.fetch({
+    request: { method: 'GET', mode: 'navigate', url: 'https://travel.test/italy/' },
+    respondWith: (promise) => { responsePromise = promise; },
+    waitUntil: (promise) => { lifetimePromises.push(promise); },
+  });
+
+  const response = await responsePromise;
+  assert.equal(await response.text(), 'online navigation', 'respondWith should be free to consume the original body');
+  openCache();
+  await assert.doesNotReject(lifetimePromises[0], 'cache write should use a clone captured before the original body is consumed');
+  assert.equal(cachedBody, 'online navigation');
 });
 
 test('failed navigation resolves the destination-specific cached response', async () => {
