@@ -3,7 +3,7 @@ import {
   cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=a11desk5';
+} from './core.mjs?v=a11desk6';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -12,10 +12,10 @@ import {
   reorderPlace,
   restorePlace,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=a11desk5';
-import { searchPlace } from './search.mjs?v=a11desk5';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk5';
-import { renderApp } from './view.mjs?v=a11desk5';
+} from './itinerary.mjs?v=a11desk6';
+import { searchPlace } from './search.mjs?v=a11desk6';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk6';
+import { renderApp } from './view.mjs?v=a11desk6';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -644,7 +644,7 @@ window.addEventListener('hashchange', () => activateAppView(viewFromHash(), { up
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=a11desk5', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=a11desk6', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);

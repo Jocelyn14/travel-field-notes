@@ -2507,6 +2507,26 @@ body.panel-open {
   border-top: 1px solid var(--line);
 }
 
+.todos-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin: clamp(2rem, 5vw, 3.5rem) 0 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.todos-heading .kicker {
+  margin: 0;
+}
+
+.todos-heading h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.65rem, 5vw, 2.4rem);
+  line-height: 1;
+}
+
 .custom-todo-row .check-row {
   border-top: 0;
 }

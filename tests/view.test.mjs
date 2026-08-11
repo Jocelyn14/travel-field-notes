@@ -61,6 +61,16 @@ test('checklist renders persisted custom todos and an add form', () => {
   assert.match(html, /data-action="todo-delete"/);
 });
 
+test('checklist uses a plain title without completion count and labels todos after reservations', () => {
+  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
+  const html = renderApp(trips, state, true);
+  const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
+
+  assert.match(checklist, /<h2 id="checklist-title">清单<\/h2>/);
+  assert.doesNotMatch(checklist, />\d+\/\d+</);
+  assert.match(checklist, /预约与凭证[\s\S]*TODOS[\s\S]*Yeah\.[\s\S]*class="checklist-grid"/);
+});
+
 test('renderApp exposes editable planned amounts', () => {
   const state = normalizePersistedState({ activeTripId: 'italy', budgetPlans: { 'italy-transit': 456 } }, trips);
   const html = renderApp(trips, state, true);
@@ -110,7 +120,7 @@ test('renderApp places the four practical travel groups before departure checkli
 
     assert.ok(positions.every((position) => position >= 0));
     assert.deepEqual([...positions].sort((a, b) => a - b), positions);
-    assert.ok(positions.at(-1) < html.indexOf('出发刻度'));
+    assert.ok(positions.at(-1) < html.indexOf('清单'));
     assert.match(html, /href="tel:[+0-9-]+"/);
     assert.match(html, /data-external="true" target="_blank" rel="noopener noreferrer"/);
     assert.match(html, /核验于 2026-08-11/);

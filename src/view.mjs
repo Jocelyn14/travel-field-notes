@@ -1,5 +1,5 @@
-import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk5';
-import { applyItineraryEdits } from './itinerary.mjs?v=a11desk5';
+import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk6';
+import { applyItineraryEdits } from './itinerary.mjs?v=a11desk6';
 
 const moneyFormatters = new Map();
 
@@ -329,13 +329,11 @@ function renderBudget(trip, state) {
 }
 
 function renderChecklist(trip, state) {
-  const allItems = trip.checklist.flatMap((group) => group.items);
   const customTodos = state.customTodos ?? [];
-  const completed = allItems.filter((item) => state.checklist[item.id]).length + customTodos.filter((todo) => todo.checked).length;
-  const total = allItems.length + customTodos.length;
   return `<section class="content-section" id="checklist" aria-labelledby="checklist-title">
-    <header class="section-heading section-heading--split"><div><p class="kicker">CHECKLIST / 03</p><h2 id="checklist-title">出发刻度</h2></div><strong>${completed}/${total}</strong></header>
+    <header class="section-heading"><div><p class="kicker">CHECKLIST / 03</p><h2 id="checklist-title">清单</h2></div></header>
     ${renderReservations(trip, state)}
+    <header class="todos-heading"><p class="kicker">TODOS</p><h3>Yeah.</h3></header>
     <div class="checklist-grid">
       ${trip.checklist.map((group) => `<fieldset class="checklist-group"><legend>${escapeHtml(group.title)}</legend>
         ${group.items.map((item) => `<label class="check-row"><input type="checkbox" data-action="checklist" data-item-id="${escapeHtml(item.id)}"${state.checklist[item.id] ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label>`).join('')}
