@@ -76,7 +76,7 @@ test('separate travel pages stay responsive across target viewports', async () =
   }
 });
 
-test('both checklist tabs show destination-specific practical travel desks before departure items', async () => {
+test('both information tabs show destination-specific practical travel desks', async () => {
   const browser = await chromium.launch(launchOptions);
   try {
     for (const [url, expectedContact, absentContact] of [
@@ -84,13 +84,12 @@ test('both checklist tabs show destination-specific practical travel desks befor
       [tokyoUrl, '+81-3-6450-2195', '+39-3939110852'],
     ]) {
       const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-      await page.goto(`${url}#checklist`, { waitUntil: 'networkidle' });
+      await page.goto(`${url}#information`, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
-      const checklist = page.locator('#checklist');
-      assert.equal(await checklist.locator('.practical-card h3').allTextContents().then((items) => items.join('|')), '初访须知|常用 App / 官网|习俗与当期节庆|紧急联络');
-      assert.ok(await checklist.locator('.practical-desk').evaluate((desk, heading) => desk.compareDocumentPosition(heading) & Node.DOCUMENT_POSITION_FOLLOWING, await checklist.locator('#checklist-title').elementHandle()));
-      assert.equal(await checklist.locator(`a[href="tel:${expectedContact}"]`).count(), 1);
-      assert.equal(await checklist.locator(`a[href="tel:${absentContact}"]`).count(), 0);
+      const information = page.locator('#information');
+      assert.equal(await information.locator('.practical-card h3').allTextContents().then((items) => items.join('|')), '初访须知|常用 App / 官网|习俗与当期节庆|紧急联络');
+      assert.equal(await information.locator(`a[href="tel:${expectedContact}"]`).count(), 1);
+      assert.equal(await information.locator(`a[href="tel:${absentContact}"]`).count(), 0);
       await page.close();
     }
   } finally {
@@ -104,6 +103,7 @@ test('Italy and Tokyo management state are isolated and persist locally', async 
   try {
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
+    await page.locator('[data-app-tab="checklist"]').click();
     const reservation = page.locator('[data-action="reservation"]').first();
     await reservation.click();
     await assert.doesNotReject(() => reservation.getByText('已预订').waitFor());
@@ -116,13 +116,14 @@ test('Italy and Tokyo management state are isolated and persist locally', async 
 
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
-    assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '待预订');
     await page.locator('[data-app-tab="checklist"]').click();
+    assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '待预订');
     assert.equal(await page.locator('[data-action="checklist"]').first().isChecked(), false);
 
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     assert.equal(await page.locator('[data-app-ready="true"]').getAttribute('data-active-trip'), 'italy');
+    await page.locator('[data-app-tab="checklist"]').click();
     assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '已预订');
     await page.locator('[data-app-tab="budget"]').click();
     assert.equal(await page.locator('[data-action="rate"]').inputValue(), '8.5');
@@ -143,6 +144,10 @@ test('budget ledger accumulates, persists, deletes and stays destination-specifi
     await page.reload({ waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
 
+    const transitPlan = page.locator('[data-action="budget-plan"][data-budget-item-id="italy-transit"]');
+    await transitPlan.fill('456');
+    await transitPlan.blur();
+
     const transitForm = page.locator('[data-budget-item-id="italy-transit"] form');
     await transitForm.locator('[name="amount"]').fill('25');
     await transitForm.locator('[name="note"]').fill('机场快线');
@@ -154,6 +159,7 @@ test('budget ledger accumulates, persists, deletes and stays destination-specifi
     assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '37.5');
 
     await page.reload({ waitUntil: 'networkidle' });
+    assert.equal(await page.locator('[data-action="budget-plan"][data-budget-item-id="italy-transit"]').inputValue(), '456');
     assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '37.5');
     await page.locator('[data-budget-item-id="italy-transit"] [data-action="budget-entry-delete"]').click();
     assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '12.5');
@@ -171,13 +177,13 @@ test('offline external links stay on-page and explain what happened', async () =
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   try {
-    await page.goto(`${italyUrl}#checklist`, { waitUntil: 'networkidle' });
+    await page.goto(`${italyUrl}#information`, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await context.setOffline(true);
     await page.evaluate(() => window.dispatchEvent(new Event('offline')));
     await page.locator('.practical-desk [data-external="true"]').first().click();
     await assert.doesNotReject(() => page.getByText('当前离线，地图与官网需要联网后打开。').waitFor());
-    assert.equal(page.url(), `${italyUrl}#checklist`);
+    assert.equal(page.url(), `${italyUrl}#information`);
   } finally {
     await browser.close();
   }
@@ -202,12 +208,36 @@ test('in-app add drawer opens, saves and persists for both destinations', async 
       await panel.locator('[name="nameEn"]').fill('Private stop');
       await panel.locator('[name="nameLocal"]').fill(localName);
       await panel.locator('[name="address"]').fill('Test address');
+      await panel.locator('[name="time"]').fill('23:30');
       await panel.locator('.save-place').click();
       await page.locator(`[data-day-timeline="${date}"]`).getByText('私人兴趣点').waitFor();
       await page.reload({ waitUntil: 'networkidle' });
       await page.locator(`[data-day-timeline="${date}"]`).getByText('私人兴趣点').waitFor();
       await page.close();
     }
+  } finally {
+    await browser.close();
+  }
+});
+
+test('new stops are time-sorted and overlapping times require parallel confirmation', async () => {
+  const browser = await chromium.launch(launchOptions);
+  const page = await browser.newPage({ viewport: { width: 878, height: 720 } });
+  try {
+    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
+    await page.locator('[data-action="add-place"][data-day-date="2026-10-05"]').click();
+    const panel = page.locator('[data-panel="place-editor"]');
+    for (const [name, value] of [['name', '并行测试景点'], ['nameEn', 'Parallel stop'], ['nameLocal', '並行スポット'], ['address', 'Tokyo']]) {
+      await panel.locator(`[name="${name}"]`).fill(value);
+    }
+    await panel.locator('[name="time"]').fill('15:30');
+    await panel.locator('.save-place').click();
+    await panel.locator('[data-conflict-prompt]').waitFor({ state: 'visible' });
+    await panel.locator('[data-action="confirm-conflict"]').click();
+    const item = page.locator('.timeline-item', { hasText: '并行测试景点' });
+    await item.waitFor();
+    assert.equal(await item.locator('.timeline-time strong').textContent(), '15:30');
+    assert.equal(await item.evaluate((node) => node.closest('.timeline-group')?.dataset.parallelGroup), 'true');
   } finally {
     await browser.close();
   }
@@ -617,7 +647,7 @@ test('mobile app views, fixed navigation, accommodation copying and evening top 
       await page.locator(`[data-accommodation-date="${date}"]`).getByText('Hotel Test Roma').waitFor();
     }
 
-    for (const view of ['overview', 'budget', 'checklist', 'itinerary']) {
+    for (const view of ['overview', 'itinerary', 'information', 'checklist', 'budget']) {
       await page.locator(`.bottom-nav [data-app-tab="${view}"]`).click();
       assert.equal(await page.locator('[data-app-view]:visible').count(), 1);
       assert.equal(await page.locator('[data-app-view]:visible').getAttribute('data-app-view'), view);
@@ -626,6 +656,7 @@ test('mobile app views, fixed navigation, accommodation copying and evening top 
     const navBottom = await page.locator('.bottom-nav').evaluate((node) => innerHeight - node.getBoundingClientRect().bottom);
     assert.ok(Math.abs(navBottom) <= 1, `fixed nav bottom offset ${navBottom}`);
 
+    await page.locator('.bottom-nav [data-app-tab="itinerary"]').click();
     await page.locator('[data-action="open-evening"][data-guide-date="2026-08-23"]').click();
     const guide = page.locator('[data-evening-guide-date="2026-08-23"]');
     await guide.evaluate((node) => { node.scrollTop = 600; });

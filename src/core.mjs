@@ -265,6 +265,17 @@ export function buildGoogleMapsSearchUrl(name, address) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query).replace(/%20/g, '%20')}`;
 }
 
+export function buildGoogleMapsDirectionsUrl(origin, destination) {
+  const url = new URL('https://www.google.com/maps/dir/');
+  url.search = new URLSearchParams({
+    api: '1',
+    origin: String(origin ?? '').trim(),
+    destination: String(destination ?? '').trim(),
+    travelmode: 'transit',
+  });
+  return url.href;
+}
+
 export function normalizePersistedState(rawState, trips) {
   const state = isRecord(rawState) ? rawState : {};
   const tripIds = new Set(trips.map((trip) => trip.id));
@@ -293,6 +304,9 @@ export function normalizePersistedState(rawState, trips) {
       amount: Number(entry.amount),
       note: typeof entry.note === 'string' ? entry.note.trim() : '',
     }));
+  const budgetPlans = Object.fromEntries(Object.entries(isRecord(state.budgetPlans) ? state.budgetPlans : {})
+    .filter(([id, amount]) => budgetItemIds.has(id) && Number.isFinite(Number(amount)) && Number(amount) >= 0)
+    .map(([id, amount]) => [id, Number(amount)]));
   const accommodations = Object.fromEntries(Object.entries(isRecord(state.accommodations) ? state.accommodations : {})
     .filter(([date, stay]) => tripDates.has(date) && isRecord(stay) && isNonEmptyString(stay.name))
     .map(([date, stay]) => [date, {
@@ -318,6 +332,7 @@ export function normalizePersistedState(rawState, trips) {
     reservations,
     checklist,
     budgetEntries,
+    budgetPlans,
     accommodations,
     itinerary: { customPlaces, deletedPlaceIds, dayOrder, placeOverrides },
   };

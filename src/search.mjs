@@ -7,11 +7,33 @@ function wikipediaUrl(language, query) {
     generator: 'search',
     gsrsearch: query,
     gsrlimit: '1',
-    prop: 'extracts|coordinates',
+    prop: 'extracts|coordinates|pageimages',
     exintro: '1',
     explaintext: '1',
+    piprop: 'original|thumbnail',
+    pithumbsize: '960',
   });
   return url;
+}
+
+async function reverseGeocode(coordinates, fetcher) {
+  if (!coordinates) return '';
+  const url = new URL('https://nominatim.openstreetmap.org/reverse');
+  url.search = new URLSearchParams({
+    format: 'jsonv2',
+    lat: String(coordinates.lat),
+    lon: String(coordinates.lon),
+    zoom: '18',
+    'accept-language': 'zh-CN,zh,en',
+  });
+  try {
+    const response = await fetcher(url);
+    if (!response.ok) return '';
+    const result = await response.json();
+    return result.display_name ?? '';
+  } catch {
+    return '';
+  }
 }
 
 async function searchLanguage(language, query, fetcher) {
@@ -33,16 +55,22 @@ export async function searchPlace(query, tripId, fetcher = fetch) {
   const primary = zh ?? local ?? en;
   if (!primary) throw new Error(`没有找到“${normalizedQuery}”，请换一个关键词或手动填写`);
   const coordinates = primary.coordinates?.[0] ?? en?.coordinates?.[0] ?? local?.coordinates?.[0];
+  const address = await reverseGeocode(coordinates, fetcher);
   const mapQuery = coordinates ? `${coordinates.lat},${coordinates.lon}` : primary.title;
   const maps = new URL('https://www.google.com/maps/search/');
   maps.search = new URLSearchParams({ api: '1', query: mapQuery });
+  const imagePage = zh?.original || zh?.thumbnail ? zh : local?.original || local?.thumbnail ? local : en;
+  const imageLanguage = imagePage === zh ? 'zh' : imagePage === local ? localLanguage : 'en';
+  const image = imagePage?.original?.source ?? imagePage?.thumbnail?.source ?? '';
 
   return {
     name: zh?.title ?? primary.title,
     nameEn: en?.title ?? primary.title,
     nameLocal: local?.title ?? primary.title,
     note: zh?.extract ?? en?.extract ?? local?.extract ?? '',
-    address: coordinates ? `${coordinates.lat.toFixed(5)}, ${coordinates.lon.toFixed(5)}` : primary.title,
+    address: address || (coordinates ? `${coordinates.lat.toFixed(5)}, ${coordinates.lon.toFixed(5)}` : primary.title),
     maps: maps.href,
+    image,
+    imageSource: imagePage ? `https://${imageLanguage}.wikipedia.org/wiki/${encodeURIComponent(imagePage.title.replaceAll(' ', '_'))}` : '',
   };
 }

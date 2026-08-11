@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {
   RESERVATION_STATUSES,
   buildGoogleMapsSearchUrl,
+  buildGoogleMapsDirectionsUrl,
   calculateBudget,
   cycleReservationStatus,
   normalizePersistedState,
@@ -353,6 +354,7 @@ test('normalizePersistedState migrates older data and removes unknown trip keys'
     reservations: { 'colosseum-ticket': '已付款' },
     checklist: { passport: true },
     budgetEntries: [{ id: 'expense-1', budgetItemId: 'ticket', amount: 24.5, note: '博物馆' }],
+    budgetPlans: {},
     accommodations: {},
     itinerary: {
       customPlaces: {},
@@ -361,6 +363,14 @@ test('normalizePersistedState migrates older data and removes unknown trip keys'
       placeOverrides: {},
     },
   });
+});
+
+test('normalizePersistedState keeps valid planned budget overrides', () => {
+  const normalized = normalizePersistedState({
+    activeTripId: 'italy',
+    budgetPlans: { ticket: 420, missing: 9, food: -1 },
+  }, validTrips);
+  assert.deepEqual(normalized.budgetPlans, { ticket: 420 });
 });
 
 test('normalizePersistedState keeps accommodation only for trip dates', () => {
@@ -381,4 +391,12 @@ test('buildGoogleMapsSearchUrl encodes the place name and address', () => {
     buildGoogleMapsSearchUrl('浅草寺', '2 Chome-3-1 Asakusa, 台东区'),
     'https://www.google.com/maps/search/?api=1&query=%E6%B5%85%E8%8D%89%E5%AF%BA%202%20Chome-3-1%20Asakusa%2C%20%E5%8F%B0%E4%B8%9C%E5%8C%BA',
   );
+});
+
+test('buildGoogleMapsDirectionsUrl opens transit directions between two places', () => {
+  const url = buildGoogleMapsDirectionsUrl('浅草寺 台东区', '东京站 千代田区');
+  assert.match(url, /^https:\/\/www\.google\.com\/maps\/dir\/\?api=1/);
+  assert.match(url, /origin=/);
+  assert.match(url, /destination=/);
+  assert.match(url, /travelmode=transit/);
 });

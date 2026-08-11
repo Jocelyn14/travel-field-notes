@@ -10,8 +10,14 @@ test('searchPlace merges Chinese, English and local-language Wikipedia results',
     it: { query: { pages: { 3: { title: 'Galleria Borghese', extract: 'Museo italiano.' } } } },
   };
   const fetcher = async (url) => {
-    const language = new URL(url).hostname.split('.')[0];
-    return { ok: true, json: async () => responses[language] };
+    const parsed = new URL(url);
+    if (parsed.hostname === 'nominatim.openstreetmap.org') {
+      return { ok: true, json: async () => ({ display_name: 'Piazzale Scipione Borghese, Roma, Italia' }) };
+    }
+    const language = parsed.hostname.split('.')[0];
+    const response = structuredClone(responses[language]);
+    if (language === 'zh') response.query.pages[1].original = { source: 'https://upload.wikimedia.org/example.jpg' };
+    return { ok: true, json: async () => response };
   };
 
   const result = await searchPlace('Galleria Borghese', 'italy', fetcher);
@@ -20,6 +26,9 @@ test('searchPlace merges Chinese, English and local-language Wikipedia results',
   assert.equal(result.nameLocal, 'Galleria Borghese');
   assert.match(result.maps, /41\.914%2C12\.492/);
   assert.equal(result.note, '罗马的重要美术馆。');
+  assert.equal(result.address, 'Piazzale Scipione Borghese, Roma, Italia');
+  assert.equal(result.image, 'https://upload.wikimedia.org/example.jpg');
+  assert.match(result.imageSource, /zh\.wikipedia\.org/);
 });
 
 test('searchPlace returns a readable error when no language finds a result', async () => {

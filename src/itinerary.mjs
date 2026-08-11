@@ -18,6 +18,33 @@ function minutesToTime(value) {
   return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
 }
 
+function endMinutes(place) {
+  return timeToMinutes(place.time) + Number(place.durationMinutes ?? 0);
+}
+
+export function findScheduleConflicts(places, candidate) {
+  const candidateStart = timeToMinutes(candidate.time);
+  const candidateEnd = endMinutes(candidate);
+  return places.filter((place) => place.id !== candidate.id
+    && candidateStart < endMinutes(place)
+    && timeToMinutes(place.time) < candidateEnd);
+}
+
+export function groupOverlappingPlaces(places) {
+  const sorted = places
+    .map((place, sourceIndex) => ({ place, sourceIndex }))
+    .sort((a, b) => timeToMinutes(a.place.time) - timeToMinutes(b.place.time) || a.sourceIndex - b.sourceIndex)
+    .map(({ place }) => place);
+  const groups = [];
+  for (const place of sorted) {
+    const group = groups.at(-1);
+    const groupEnd = group ? Math.max(...group.map(endMinutes)) : -1;
+    if (group && timeToMinutes(place.time) < groupEnd) group.push(place);
+    else groups.push([place]);
+  }
+  return groups;
+}
+
 function orderPlaces(places, orderedIds = []) {
   const ranks = new Map(orderedIds.map((id, index) => [id, index]));
   return places
@@ -85,11 +112,18 @@ export function recalculateDay(day) {
   return { day: nextDay, changedIds, conflicts };
 }
 
-export function addCustomPlace(itineraryState, date, place) {
+export function addCustomPlace(itineraryState, date, place, trip) {
   const state = cloneItinerary(itineraryState);
   state.customPlaces[place.id] = { ...structuredClone(place), dayDate: date };
-  const currentOrder = state.dayOrder[date] ?? [];
-  if (!currentOrder.includes(place.id)) state.dayOrder[date] = [...currentOrder, place.id];
+  if (trip) {
+    const day = applyItineraryEdits(trip, state).days.find((item) => item.date === date);
+    state.dayOrder[date] = [...(day?.places ?? [])]
+      .sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time))
+      .map((item) => item.id);
+  } else {
+    const currentOrder = state.dayOrder[date] ?? [];
+    if (!currentOrder.includes(place.id)) state.dayOrder[date] = [...currentOrder, place.id];
+  }
   return state;
 }
 

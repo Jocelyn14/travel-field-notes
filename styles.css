@@ -546,7 +546,7 @@ svg.icon {
 
 .itinerary-heading {
   display: grid;
-  grid-template-columns: 44px 1fr;
+  grid-template-columns: 1fr;
   gap: 16px;
   align-items: start;
   margin-bottom: 26px;
@@ -618,7 +618,7 @@ svg.icon {
 
 .section-heading {
   display: grid;
-  grid-template-columns: 44px 1fr;
+  grid-template-columns: 1fr;
   gap: 16px;
   align-items: start;
   margin-bottom: 42px;
@@ -635,7 +635,7 @@ svg.icon {
 }
 
 .section-heading--day {
-  grid-template-columns: 44px 96px 1fr;
+  grid-template-columns: 96px 1fr;
 }
 
 .section-heading--day h2 {
@@ -666,6 +666,36 @@ svg.icon {
   position: relative;
   display: grid;
   gap: var(--timeline-gap);
+}
+
+.timeline-group {
+  position: relative;
+  display: grid;
+  gap: var(--timeline-gap);
+}
+
+.timeline-group.is-parallel {
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(300px, 1fr);
+  gap: 12px;
+  overflow-x: auto;
+  padding: 26px 0 8px;
+  scroll-snap-type: x proximity;
+}
+
+.timeline-group.is-parallel .timeline-item {
+  scroll-snap-align: start;
+}
+
+.timeline-group.is-parallel .timeline-item::after {
+  content: "时间冲突 · 并行";
+  position: absolute;
+  top: -22px;
+  right: 0;
+  color: var(--accent);
+  font-family: var(--utility);
+  font-size: 9px;
+  letter-spacing: .08em;
 }
 
 .timeline::before {
@@ -771,18 +801,53 @@ svg.icon {
 }
 
 .place-photo {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
   min-height: 120px;
   align-self: stretch;
-  object-fit: cover;
   background: var(--paper-deep);
-  background-image: var(--place-image);
-  background-position: center;
-  background-size: cover;
+  overflow: hidden;
+}
+
+.place-photo > img {
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+  object-fit: cover;
   filter: saturate(.88) contrast(1.02);
 }
+
+.place-photo-fallback:not([hidden]) {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+  place-items: center;
+  background: color-mix(in srgb, var(--accent) 8%, var(--paper));
+  font-size: 42px;
+}
+
+.commute-link {
+  position: absolute;
+  z-index: 3;
+  top: -48px;
+  left: 63px;
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--secondary);
+  text-decoration: none;
+  font-size: 10px;
+}
+
+.commute-link .icon { width: 16px; height: 16px; }
 
 .place-card[open] {
   border-color: var(--ink);
@@ -898,6 +963,20 @@ svg.icon {
 .place-note {
   font-size: 12px !important;
 }
+
+.conflict-prompt {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 18px;
+  padding: 16px;
+  border: 1px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--paper));
+}
+
+.conflict-prompt p { margin: 0; color: var(--ink-soft); font-size: 12px; }
+.conflict-prompt > div { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.conflict-prompt button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--ink); background: var(--paper); color: var(--ink); }
+.conflict-prompt button:last-child { background: var(--accent); color: white; }
 
 .schedule-editor {
   margin: 18px 0;
@@ -2080,6 +2159,25 @@ body.panel-open {
   gap: 2px;
 }
 
+.budget-plan-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.budget-plan-control input {
+  width: 92px;
+  min-height: 44px;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  text-align: right;
+}
+
 .budget-row small {
   color: var(--ink-soft);
   font-size: 10px;
@@ -2184,7 +2282,7 @@ body.panel-open {
 }
 
 .section-heading--split {
-  grid-template-columns: 44px 1fr auto;
+  grid-template-columns: 1fr auto;
 }
 
 .section-heading--split > strong {
@@ -2477,7 +2575,7 @@ body.panel-open {
   bottom: 0;
   left: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   min-height: calc(68px + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   overflow: hidden;
@@ -2777,7 +2875,7 @@ body.panel-open {
   }
 
   .itinerary-heading {
-    grid-template-columns: 54px 1fr;
+    grid-template-columns: 1fr;
   }
 
   .day-jump {
@@ -2849,8 +2947,8 @@ body.panel-open {
     right: 28px;
     bottom: 28px;
     left: auto;
-    grid-template-columns: repeat(4, 70px);
-    width: 280px;
+    grid-template-columns: repeat(5, 70px);
+    width: 350px;
   }
 
   .site-footer {

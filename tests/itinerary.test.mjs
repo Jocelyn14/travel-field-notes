@@ -4,6 +4,8 @@ import assert from 'node:assert/strict';
 import {
   addCustomPlace,
   applyItineraryEdits,
+  findScheduleConflicts,
+  groupOverlappingPlaces,
   recalculateDay,
   removePlace,
   reorderPlace,
@@ -63,4 +65,19 @@ test('itinerary edits merge custom places, order, overrides and deletion', () =>
 
   state = restorePlace(state, 'b');
   assert.deepEqual(applyItineraryEdits(trip, state).days[0].places.map((place) => place.id), ['a', 'custom', 'b', 'ticket']);
+});
+
+test('adding a custom place inserts it by its entered time', () => {
+  const state = addCustomPlace(emptyState(), '2026-08-23', {
+    id: 'custom', time: '10:00', durationMinutes: 30, travelMinutes: 0, timeMode: 'fixed',
+  }, trip);
+  assert.deepEqual(applyItineraryEdits(trip, state).days[0].places.map((place) => place.id), ['a', 'custom', 'b', 'ticket']);
+});
+
+test('schedule conflicts are detected and grouped for parallel display', () => {
+  const day = structuredClone(trip.days[0]);
+  const candidate = { id: 'custom', time: '09:30', durationMinutes: 60 };
+  assert.deepEqual(findScheduleConflicts(day.places, candidate).map((place) => place.id), ['a']);
+  const groups = groupOverlappingPlaces([...day.places, candidate]);
+  assert.deepEqual(groups.map((group) => group.map((place) => place.id)), [['a', 'custom'], ['b'], ['ticket']]);
 });

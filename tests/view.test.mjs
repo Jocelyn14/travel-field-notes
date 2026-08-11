@@ -16,7 +16,7 @@ test('renderApp includes every agreed section and safe external links', () => {
   const state = normalizePersistedState({ activeTripId: 'italy', rates: { italy: 8.35 } }, trips);
   const html = renderApp(trips, state, true);
 
-  for (const id of ['overview', 'itinerary', 'reservations', 'budget', 'checklist']) {
+  for (const id of ['overview', 'itinerary', 'information', 'reservations', 'budget', 'checklist']) {
     assert.match(html, new RegExp(`id="${id}"`));
   }
   assert.match(html, /data-trip-id="italy"/);
@@ -25,6 +25,24 @@ test('renderApp includes every agreed section and safe external links', () => {
   assert.match(html, /data-action="reservation"/);
   assert.match(html, /data-action="checklist"/);
   assert.match(html, /target="_blank" rel="noopener noreferrer"/);
+});
+
+test('renderApp uses the five requested tabs and groups reservations with the checklist', () => {
+  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
+  const html = renderApp(trips, state, true);
+  const tabs = [...html.matchAll(/data-app-tab="([^"]+)"/g)].map((match) => match[1]).slice(-5);
+  assert.deepEqual(tabs, ['overview', 'itinerary', 'information', 'checklist', 'budget']);
+  const overview = html.slice(html.indexOf('data-app-view="overview"'), html.indexOf('data-app-view="itinerary"'));
+  const checklist = html.slice(html.indexOf('data-app-view="checklist"'), html.indexOf('</main>'));
+  assert.doesNotMatch(overview, /预约与凭证/);
+  assert.match(checklist, /预约与凭证/);
+  assert.doesNotMatch(html, /class="section-index"/);
+});
+
+test('renderApp exposes editable planned amounts', () => {
+  const state = normalizePersistedState({ activeTripId: 'italy', budgetPlans: { 'italy-transit': 456 } }, trips);
+  const html = renderApp(trips, state, true);
+  assert.match(html, /data-action="budget-plan"[^>]*data-budget-item-id="italy-transit"[^>]*value="456"/);
 });
 
 test('renderApp presents destination literature and three concrete highlights', () => {
@@ -122,11 +140,29 @@ test('itinerary cards expose local photos, trilingual names and cultural guidanc
   const firstPlace = trips[0].days[0].places[0];
 
   assert.match(html, new RegExp(`data-place-id="${firstPlace.id}"`));
-  assert.match(html, new RegExp(`--place-image:url\\('\\.\\./${firstPlace.image}'\\)`));
+  assert.match(html, new RegExp(`src="\\.\\./${firstPlace.image}"`));
   assert.match(html, new RegExp(firstPlace.nameEn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   assert.match(html, /class="place-name-local" lang="it"/);
   assert.match(html, /class="culture-note"/);
   assert.match(html, /class="tips-note"/);
+});
+
+test('place details keep one attraction introduction and move transit into map direction links', () => {
+  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
+  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
+  assert.match(html, /景点简介/);
+  assert.doesNotMatch(html, /class="place-note"/);
+  assert.doesNotMatch(html, /class="transit-note"/);
+  assert.match(html, /class="commute-link"/);
+  assert.match(html, /https:\/\/www\.google\.com\/maps\/dir\/\?api=1&amp;origin=/);
+  assert.match(html, /class="place-photo-fallback"/);
+});
+
+test('place editor contains an in-app conflict confirmation prompt', () => {
+  const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
+  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
+  assert.match(html, /data-conflict-prompt/);
+  assert.match(html, /data-action="confirm-conflict"/);
 });
 
 test('every day renders reorder, delete, schedule and add controls', () => {
@@ -158,15 +194,16 @@ test('itinerary details start collapsed and deletion is exposed only by swipe ra
   assert.match(html, /class="delete-place"/);
 });
 
-test('bottom navigation targets four exclusive app views', () => {
+test('bottom navigation targets five exclusive app views', () => {
   const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
   const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
   assert.match(html, /data-app-view="overview"/);
   assert.match(html, /data-app-view="itinerary" hidden/);
+  assert.match(html, /data-app-view="information" hidden/);
   assert.match(html, /data-app-view="budget" hidden/);
   assert.match(html, /data-app-view="checklist" hidden/);
   const bottomNav = html.match(/<nav class="bottom-nav"[\s\S]*?<\/nav>/)?.[0] ?? '';
-  assert.equal((bottomNav.match(/data-action="app-tab"/g) ?? []).length, 4);
+  assert.equal((bottomNav.match(/data-action="app-tab"/g) ?? []).length, 5);
 });
 
 test('place editor uses an in-app drawer instead of the native dialog element', () => {

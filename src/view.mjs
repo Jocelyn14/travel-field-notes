@@ -1,5 +1,5 @@
-import { calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk3';
-import { applyItineraryEdits } from './itinerary.mjs?v=a11desk3';
+import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk4';
+import { applyItineraryEdits, groupOverlappingPlaces } from './itinerary.mjs?v=a11desk4';
 
 const moneyFormatters = new Map();
 
@@ -98,9 +98,16 @@ function renderDay(day, currency, index, locale, assetBase, eveningGuide, accomm
   const guideMeta = isAirportGuide
     ? '<small>餐饮 · 休息 · 登机缓冲</small>'
     : '<small><i>餐厅</i><i>酒吧</i><i>其他</i></small>';
+  const groups = groupOverlappingPlaces(day.places);
+  const orderedPlaces = groups.flat();
+  let placeIndex = 0;
+  const timeline = groups.map((group) => `<div class="timeline-group${group.length > 1 ? ' is-parallel' : ''}"${group.length > 1 ? ' data-parallel-group="true"' : ''}>${group.map((place) => {
+    const currentIndex = placeIndex++;
+    return renderPlace(place, currency, currentIndex, day.date, locale, assetBase, orderedPlaces[currentIndex - 1], group.length > 1);
+  }).join('')}</div>`).join('');
   return `<article class="day-block" id="day-${escapeHtml(day.date)}" data-day-date="${escapeHtml(day.date)}">
-    <header class="section-heading section-heading--day"><span class="section-index">${String(index + 1).padStart(2, '0')}</span><div><p class="kicker">DAY ${String(index + 1).padStart(2, '0')} / ${dayDate.year}</p><h2>${dayDate.monthDay}</h2></div><div><strong>${escapeHtml(day.title)}</strong><span>${escapeHtml(day.subtitle)}</span></div></header>
-    <div class="timeline" data-day-timeline="${escapeHtml(day.date)}">${day.places.map((place, placeIndex) => renderPlace(place, currency, placeIndex, day.date, locale, assetBase)).join('')}</div>
+    <header class="section-heading section-heading--day"><div><p class="kicker">DAY ${String(index + 1).padStart(2, '0')} / ${dayDate.year}</p><h2>${dayDate.monthDay}</h2></div><div><strong>${escapeHtml(day.title)}</strong><span>${escapeHtml(day.subtitle)}</span></div></header>
+    <div class="timeline" data-day-timeline="${escapeHtml(day.date)}">${timeline}</div>
     ${renderAccommodation(day, accommodation, tripEnd)}
     <button class="add-place-button" type="button" data-action="add-place" data-day-date="${escapeHtml(day.date)}"><span>＋</span><strong>添加新的行程</strong><small>联网搜索可自动补全，也可手动填写</small></button>
     <button class="evening-launch${isAirportGuide ? ' is-airport' : ''}" type="button" data-action="open-evening" data-guide-date="${escapeHtml(day.date)}">
@@ -111,37 +118,38 @@ function renderDay(day, currency, index, locale, assetBase, eveningGuide, accomm
   </article>`;
 }
 
-function renderPlace(place, currency, index, dayDate, locale, assetBase) {
+function renderPlace(place, currency, index, dayDate, locale, assetBase, previousPlace, isParallel) {
   const link = (href, label) => href ? `<a class="text-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" data-external="true">${escapeHtml(label)}${icon('external')}</a>` : '';
+  const placeImage = /^https:\/\//.test(place.image ?? '') ? place.image : `${assetBase}${place.image}`;
+  const commuteLink = previousPlace ? `<a class="commute-link" href="${escapeHtml(buildGoogleMapsDirectionsUrl(`${previousPlace.name} ${previousPlace.address}`, `${place.name} ${place.address}`))}" target="_blank" rel="noopener noreferrer" data-external="true" aria-label="从 ${escapeHtml(previousPlace.name)} 导航到 ${escapeHtml(place.name)}">${icon('route')}<span>通勤导航</span></a>` : '';
   const flight = place.flight ? `<div class="flight-strip" aria-label="${escapeHtml(place.flight.flightNumber)} 航班信息">
     <div><span>${escapeHtml(place.flight.departure)}</span><strong>${escapeHtml(place.flight.origin)}</strong></div>
     <p><b>${escapeHtml(place.flight.flightNumber)}</b><i aria-hidden="true">→</i><small>${Math.floor(place.flight.durationMinutes / 60)}H ${place.flight.durationMinutes % 60 ? `${place.flight.durationMinutes % 60}M` : ''}</small></p>
     <div><span>${escapeHtml(place.flight.arrival)}</span><strong>${escapeHtml(place.flight.destination)}</strong></div>
     <footer>${escapeHtml(place.flight.cabin)} · ${escapeHtml(place.flight.aircraft)}${place.flight.meal ? ' · 含餐食' : ''}</footer>
   </div>` : '';
-  return `<article class="timeline-item" data-place-id="${escapeHtml(place.id)}" data-day-date="${escapeHtml(dayDate)}" draggable="true" tabindex="0" aria-label="${escapeHtml(place.name)}，可拖动重新排序">
+  return `<article class="timeline-item${isParallel ? ' is-parallel' : ''}" data-place-id="${escapeHtml(place.id)}" data-day-date="${escapeHtml(dayDate)}" draggable="true" tabindex="0" aria-label="${escapeHtml(place.name)}，可拖动重新排序">
+    ${commuteLink}
     <button class="delete-place" type="button" data-action="delete-place" data-place-id="${escapeHtml(place.id)}" aria-label="删除 ${escapeHtml(place.name)}">删除</button>
     <div class="timeline-time"><strong>${escapeHtml(place.time)}</strong><span>${place.durationMinutes} MIN</span></div>
     <button class="timeline-node drag-handle" type="button" data-action="drag-place" aria-label="拖动 ${escapeHtml(place.name)}；键盘可按 Alt 加上下箭头"><b>${String(index + 1).padStart(2, '0')}</b><i aria-hidden="true">⋮⋮</i></button>
     <details class="place-card">
       <summary>
-        <span class="place-photo" role="img" aria-label="${escapeHtml(place.imageAlt)}" style="--place-image:url('${escapeHtml(`${assetBase}${place.image}`)}')"></span>
+        <span class="place-photo"><img src="${escapeHtml(placeImage)}" alt="${escapeHtml(place.imageAlt)}"><span class="place-photo-fallback" role="img" aria-label="地点图片暂不可用" hidden>${escapeHtml(place.imageFallback || place.emoji || '📍')}</span></span>
         <div class="place-title"><span class="eyebrow">${escapeHtml(place.category)} · ${place.cost ? formatMoney(place.cost, currency) : '免费'}</span><h3>${escapeHtml(place.name)}</h3><span class="place-name-en" lang="en">${escapeHtml(place.nameEn)}</span><span class="place-name-local" lang="${locale}">${escapeHtml(place.nameLocal)}</span></div>
         <span class="expand-label">详情</span>
       </summary>
       <div class="place-detail">
         <p class="place-address">${icon('pin')}<span>${escapeHtml(place.address)}</span></p>
         ${flight}
-        <section class="culture-note"><strong>历史与文化</strong><p>${escapeHtml(place.culture || place.note)}</p></section>
-        <section class="tips-note"><strong>参观提示</strong><p>${escapeHtml(place.tips)}</p></section>
-        <p class="place-note">${escapeHtml(place.note)}</p>
-        <div class="transit-note"><span>下一段</span>${escapeHtml(place.transit)}</div>
+        <section class="culture-note"><strong>景点简介</strong><p>${escapeHtml(place.culture || place.note)}</p></section>
+        ${place.tips && place.tips !== (place.culture || place.note) ? `<section class="tips-note"><strong>参观提示</strong><p>${escapeHtml(place.tips)}</p></section>` : ''}
         <details class="schedule-editor">
           <summary data-action="edit-schedule">调整时间</summary>
           <div class="schedule-grid">
             <label>开始时间<input type="time" value="${escapeHtml(place.time)}" data-action="place-time" data-place-id="${escapeHtml(place.id)}"></label>
             <label>停留分钟<input type="number" min="5" step="5" inputmode="numeric" value="${Number(place.durationMinutes)}" data-action="place-duration" data-place-id="${escapeHtml(place.id)}"></label>
-            <label>去下一站<input type="number" min="0" step="5" inputmode="numeric" value="${Number(place.travelMinutes)}" data-action="place-travel" data-place-id="${escapeHtml(place.id)}"></label>
+            <label>通勤分钟<input type="number" min="0" step="5" inputmode="numeric" value="${Number(place.travelMinutes)}" data-action="place-travel" data-place-id="${escapeHtml(place.id)}"></label>
             <label class="time-mode"><input type="checkbox" ${place.timeMode === 'fixed' ? 'checked' : ''} data-action="place-fixed" data-place-id="${escapeHtml(place.id)}">锁定开始时间</label>
           </div>
         </details>
@@ -173,6 +181,7 @@ function renderPlaceEditor(trip) {
         <label class="editor-wide">地址<input name="address" required></label>
         <label class="editor-wide">简介<textarea name="note" rows="3"></textarea></label>
       </div>
+      <div class="conflict-prompt" data-conflict-prompt hidden role="alertdialog" aria-labelledby="conflict-title"><strong id="conflict-title">时间有冲突</strong><p data-conflict-message></p><div><button type="button" data-action="cancel-conflict">返回修改</button><button type="button" data-action="confirm-conflict">仍然添加，并行展示</button></div></div>
       <footer><button type="button" data-action="close-editor">取消</button><button class="save-place" type="submit" value="save">保存并加入当天</button></footer>
     </form>
   </section>`;
@@ -263,7 +272,7 @@ function renderEveningGuidePanel(trip, assetBase) {
 
 function renderReservations(trip, state) {
   return `<section class="content-section" id="reservations" aria-labelledby="reservation-title">
-    <header class="section-heading"><span class="section-index">03</span><div><p class="kicker">RESERVATIONS</p><h2 id="reservation-title">预约与凭证</h2></div></header>
+    <header class="section-heading"><div><p class="kicker">RESERVATIONS</p><h2 id="reservation-title">预约与凭证</h2></div></header>
     <div class="reservation-grid">
       ${trip.reservations.map((reservation) => {
         const status = state.reservations[reservation.id] ?? RESERVATION_STATUSES[0];
@@ -292,10 +301,11 @@ function renderEditorial(trip) {
 function renderBudget(trip, state) {
   const rate = Number(state.rates[trip.id] ?? trip.defaultRate);
   const entries = state.budgetEntries ?? [];
-  const totals = calculateBudget(trip.budget, rate, entries);
+  const budget = trip.budget.map((item) => ({ ...item, planned: state.budgetPlans?.[item.id] ?? item.planned }));
+  const totals = calculateBudget(budget, rate, entries);
   const progress = totals.planned ? Math.min((totals.paid / totals.planned) * 100, 100) : 0;
   return `<section class="content-section" id="budget" aria-labelledby="budget-title">
-    <header class="section-heading"><span class="section-index">04</span><div><p class="kicker">BUDGET</p><h2 id="budget-title">预算刻度</h2></div></header>
+    <header class="section-heading"><div><p class="kicker">SPENDING</p><h2 id="budget-title">花销</h2></div></header>
     <div class="budget-panel">
       <div class="budget-total">
         <div><span>计划预算</span><strong>${formatMoney(totals.planned, trip.currency)}</strong><small>约 ¥${totals.cnyPlanned.toLocaleString('zh-CN')}</small></div>
@@ -304,12 +314,12 @@ function renderBudget(trip, state) {
       <div class="progress-track" aria-label="已支付 ${Math.round(progress)}%"><span style="width:${progress}%"></span></div>
       <label class="rate-control"><span>人民币参考汇率</span><input data-action="rate" data-trip-id="${escapeHtml(trip.id)}" type="number" inputmode="decimal" min="0" step="0.001" value="${escapeHtml(rate)}"><small>1 ${trip.currency} = <b>${escapeHtml(rate)}</b> CNY · 手动设置</small></label>
       <div class="budget-list">
-        ${trip.budget.map((item) => {
+        ${budget.map((item) => {
           const itemTotal = totals.categoryTotals[item.id] ?? 0;
           const itemProgress = item.planned ? Math.min((itemTotal / item.planned) * 100, 100) : 0;
           const itemEntries = entries.filter((entry) => entry.budgetItemId === item.id);
           return `<article class="budget-row" data-budget-item-id="${escapeHtml(item.id)}">
-            <div class="budget-row__summary"><span>${escapeHtml(item.category)}<small>${escapeHtml(item.label)}</small></span><div><b>${formatMoney(itemTotal, trip.currency)}</b><small>/ ${formatMoney(item.planned, trip.currency)}</small></div></div>
+            <div class="budget-row__summary"><span>${escapeHtml(item.category)}<small>${escapeHtml(item.label)}</small></span><div><b>${formatMoney(itemTotal, trip.currency)}</b><label class="budget-plan-control">计划 <input data-action="budget-plan" data-budget-item-id="${escapeHtml(item.id)}" type="number" inputmode="decimal" min="0" step="1" value="${escapeHtml(item.planned)}" aria-label="${escapeHtml(item.category)}计划预算"></label></div></div>
             <i><em style="width:${itemProgress}%"></em></i>
             <div class="budget-entries">${itemEntries.map((entry) => `<div class="budget-entry"><span><b>${escapeHtml(entry.note || '未填写备注')}</b><small>${formatMoney(entry.amount, trip.currency)}</small></span><button type="button" data-action="budget-entry-delete" data-budget-entry-id="${escapeHtml(entry.id)}" aria-label="删除 ${escapeHtml(entry.note || '未填写备注')} 支出">删除</button></div>`).join('')}</div>
             <form class="budget-entry-form" data-action="budget-entry-add" data-budget-item-id="${escapeHtml(item.id)}">
@@ -328,8 +338,8 @@ function renderChecklist(trip, state) {
   const allItems = trip.checklist.flatMap((group) => group.items);
   const completed = allItems.filter((item) => state.checklist[item.id]).length;
   return `<section class="content-section" id="checklist" aria-labelledby="checklist-title">
-    ${renderPracticalInfo(trip.practicalInfo)}
-    <header class="section-heading section-heading--split"><span class="section-index">05</span><div><p class="kicker">CHECKLIST</p><h2 id="checklist-title">出发刻度</h2></div><strong>${completed}/${allItems.length}</strong></header>
+    ${renderReservations(trip, state)}
+    <header class="section-heading section-heading--split"><div><p class="kicker">CHECKLIST</p><h2 id="checklist-title">出发刻度</h2></div><strong>${completed}/${allItems.length}</strong></header>
     <div class="checklist-grid">
       ${trip.checklist.map((group) => `<fieldset class="checklist-group"><legend>${escapeHtml(group.title)}</legend>
         ${group.items.map((item) => `<label class="check-row"><input type="checkbox" data-action="checklist" data-item-id="${escapeHtml(item.id)}"${state.checklist[item.id] ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label>`).join('')}
@@ -355,8 +365,9 @@ function renderBottomNav() {
   return `<nav class="bottom-nav" aria-label="页面导航">
     <a href="#overview" data-action="app-tab" data-app-tab="overview" aria-current="page">${icon('compass')}<span>总览</span></a>
     <a href="#itinerary" data-action="app-tab" data-app-tab="itinerary">${icon('route')}<span>行程</span></a>
-    <a href="#budget" data-action="app-tab" data-app-tab="budget">${icon('wallet')}<span>预算</span></a>
+    <a href="#information" data-action="app-tab" data-app-tab="information">${icon('pin')}<span>信息</span></a>
     <a href="#checklist" data-action="app-tab" data-app-tab="checklist">${icon('check')}<span>清单</span></a>
+    <a href="#budget" data-action="app-tab" data-app-tab="budget">${icon('wallet')}<span>花销</span></a>
   </nav>`;
 }
 
@@ -392,17 +403,22 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
           ${renderRoute(trip)}
         </section>
 
-        ${renderReservations(trip, state)}
       </div>
       </section>
 
       <section class="app-view" data-app-view="itinerary" hidden>
       <div class="content-wrap">
         <section class="content-section itinerary-section" id="itinerary" aria-labelledby="itinerary-title">
-          <header class="itinerary-heading"><span class="section-index">02</span><div><p class="kicker">DAILY ROUTES</p><h2 id="itinerary-title">逐日行程</h2></div></header>
+          <header class="itinerary-heading"><div><p class="kicker">DAILY ROUTES</p><h2 id="itinerary-title">逐日行程</h2></div></header>
           ${renderDayJump(trip.days)}
           <div class="days-stack">${trip.days.map((day, index) => renderDay(day, trip.currency, index, localLanguage, assetBase, trip.eveningGuides.find((guide) => guide.date === day.date), state.accommodations[day.date], trip.dates.end)).join('')}</div>
         </section>
+      </div>
+      </section>
+
+      <section class="app-view" data-app-view="information" hidden>
+      <div class="content-wrap" id="information">
+        ${renderPracticalInfo(trip.practicalInfo)}
       </div>
       </section>
 

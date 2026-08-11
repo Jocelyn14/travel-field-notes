@@ -3,19 +3,20 @@ import {
   cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=a11desk3';
+} from './core.mjs?v=a11desk4';
 import {
   addCustomPlace,
   applyItineraryEdits,
+  findScheduleConflicts,
   recalculateDay,
   removePlace,
   reorderPlace,
   restorePlace,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=a11desk3';
-import { searchPlace } from './search.mjs?v=a11desk3';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk3';
-import { renderApp } from './view.mjs?v=a11desk3';
+} from './itinerary.mjs?v=a11desk4';
+import { searchPlace } from './search.mjs?v=a11desk4';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk4';
+import { renderApp } from './view.mjs?v=a11desk4';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -66,7 +67,7 @@ function render({ preserveScroll = false } = {}) {
   if (preserveScroll) window.scrollTo({ top: scrollY });
 }
 
-const APP_VIEWS = new Set(['overview', 'itinerary', 'budget', 'checklist']);
+const APP_VIEWS = new Set(['overview', 'itinerary', 'information', 'checklist', 'budget']);
 
 function viewFromHash() {
   const target = location.hash.slice(1);
@@ -155,6 +156,9 @@ function openPlaceEditor(date, trigger) {
   form.reset();
   form.elements.dayDate.value = date;
   form.dataset.searchResult = '';
+  delete form.dataset.conflictConfirmed;
+  const conflictPrompt = form.querySelector('[data-conflict-prompt]');
+  if (conflictPrompt) conflictPrompt.hidden = true;
   form.querySelector('[data-search-status]').textContent = navigator.onLine
     ? '搜索结果会自动填入下方，所有内容仍可修改。'
     : '当前离线，请手动填写；联网后可使用自动搜索。';
@@ -164,6 +168,15 @@ function openPlaceEditor(date, trigger) {
   if (backdrop) backdrop.hidden = false;
   document.body.classList.add('panel-open');
   requestAnimationFrame(() => form.elements.search.focus());
+}
+
+function placeEmoji(name = '') {
+  if (/寺|神社|temple|shrine/i.test(name)) return '⛩️';
+  if (/博物|美术|museum|gallery/i.test(name)) return '🏛️';
+  if (/公园|庭园|花园|park|garden/i.test(name)) return '🌿';
+  if (/市场|集市|market/i.test(name)) return '🛍️';
+  if (/餐厅|咖啡|restaurant|cafe/i.test(name)) return '🍽️';
+  return '📍';
 }
 
 function closeEveningGuide() {
@@ -311,6 +324,18 @@ root.addEventListener('click', (event) => {
     closePlaceEditor();
     return;
   }
+  if (action.dataset.action === 'cancel-conflict') {
+    const form = action.closest('form');
+    delete form.dataset.conflictConfirmed;
+    action.closest('[data-conflict-prompt]').hidden = true;
+    return;
+  }
+  if (action.dataset.action === 'confirm-conflict') {
+    const form = action.closest('form');
+    form.dataset.conflictConfirmed = 'true';
+    form.requestSubmit();
+    return;
+  }
   if (action.dataset.action === 'delete-place') {
     undoDeletedId = action.dataset.placeId;
     state.itinerary = removePlace(state.itinerary, undoDeletedId);
@@ -334,11 +359,11 @@ root.addEventListener('click', (event) => {
       return;
     }
     action.disabled = true;
-    status.textContent = '正在搜索 Wikipedia 与地点坐标…';
+    status.textContent = '正在搜索 Wikipedia、公开地点资料与 Google Maps…';
     searchPlace(query, state.activeTripId).then((result) => {
       for (const field of ['name', 'nameEn', 'nameLocal', 'address', 'note']) form.elements[field].value = result[field] ?? '';
       form.dataset.searchResult = JSON.stringify(result);
-      status.textContent = '已自动补全名称、简介与坐标，请检查后保存。';
+      status.textContent = '已自动补全名称、景点简介、地址与图片，请检查后保存。';
     }).catch((error) => {
       status.textContent = error.message;
     }).finally(() => { action.disabled = false; });
@@ -352,6 +377,12 @@ root.addEventListener('change', (event) => {
     commit({ preserveScroll: true });
   }
   if (action === 'rate') updateRate(event.target);
+  if (action === 'budget-plan') {
+    const amount = Math.max(0, Number(event.target.value) || 0);
+    state.budgetPlans[event.target.dataset.budgetItemId] = amount;
+    commit({ preserveScroll: true });
+    showToast('计划预算已更新。');
+  }
   if (['place-time', 'place-duration', 'place-travel', 'place-fixed'].includes(action)) {
     const item = event.target.closest('.timeline-item');
     const placeId = event.target.dataset.placeId;
@@ -386,7 +417,7 @@ root.addEventListener('keydown', (event) => {
   const item = event.target.closest?.('.timeline-item');
   if (item && event.altKey && ['ArrowUp', 'ArrowDown'].includes(event.key)) {
     event.preventDefault();
-    const items = [...item.parentElement.querySelectorAll('.timeline-item')];
+    const items = [...item.closest('[data-day-timeline]').querySelectorAll('.timeline-item')];
     const currentIndex = items.indexOf(item);
     const targetIndex = currentIndex + (event.key === 'ArrowUp' ? -1 : 1);
     if (targetIndex >= 0 && targetIndex < items.length) movePlace(item.dataset.placeId, item.dataset.dayDate, targetIndex);
@@ -455,26 +486,37 @@ root.addEventListener('submit', (event) => {
     time: values.time,
     durationMinutes: Number(values.durationMinutes),
     travelMinutes: Number(values.travelMinutes),
-    timeMode: 'flexible',
+    timeMode: 'fixed',
     address: values.address.trim(),
     cost: 0,
     transit: '请补充前往下一站的交通方式。',
     note: values.note.trim() || '私人兴趣地点，具体安排待补充。',
     culture: values.note.trim() || '这是后续加入的私人兴趣地点。',
     tips: '开放时间、休馆日、票价与预约规则请在出发前再次核对。',
-    image: 'assets/places/placeholder.svg',
-    imageAlt: `${values.name.trim()}的图片占位`,
+    image: searchResult.image || '',
+    imageSource: searchResult.imageSource || '',
+    imageFallback: placeEmoji(values.name.trim()),
+    imageAlt: `${values.name.trim()}实景图片`,
     links: {
       maps: searchResult.maps || buildGoogleMapsSearchUrl(values.name, values.address),
       official: '',
       booking: '',
     },
   };
-  state.itinerary = addCustomPlace(state.itinerary, values.dayDate, place);
-  recalculateAndStore(values.dayDate);
+  const editedDay = applyItineraryEdits(currentTrip(), state.itinerary).days.find((day) => day.date === values.dayDate);
+  const conflicts = findScheduleConflicts(editedDay?.places ?? [], place);
+  if (conflicts.length && form.dataset.conflictConfirmed !== 'true') {
+    const prompt = form.querySelector('[data-conflict-prompt]');
+    prompt.querySelector('[data-conflict-message]').textContent =
+      `与 ${conflicts.map((item) => `${item.time} ${item.name}`).join('、')} 时间重叠。仍要添加时将并行展示。`;
+    prompt.hidden = false;
+    prompt.focus();
+    return;
+  }
+  state.itinerary = addCustomPlace(state.itinerary, values.dayDate, place, currentTrip());
   closePlaceEditor();
   commit({ preserveScroll: true });
-  showToast('新行程已加入并自动顺延时间。');
+  showToast(conflicts.length ? '新行程已按时间并行加入。' : '新行程已按时间顺序加入。');
 });
 
 root.addEventListener('dragstart', (event) => {
@@ -498,7 +540,7 @@ root.addEventListener('drop', (event) => {
   if (!target) return;
   event.preventDefault();
   const placeId = event.dataTransfer.getData('text/plain');
-  const items = [...target.parentElement.querySelectorAll('.timeline-item')];
+  const items = [...target.closest('[data-day-timeline]').querySelectorAll('.timeline-item')];
   movePlace(placeId, target.dataset.dayDate, items.indexOf(target));
 });
 
@@ -549,7 +591,7 @@ root.addEventListener('pointermove', (event) => {
     return;
   }
   event.preventDefault();
-  const items = [...pointerGesture.item.parentElement.querySelectorAll('.timeline-item')];
+  const items = [...pointerGesture.item.closest('[data-day-timeline]').querySelectorAll('.timeline-item')];
   pointerGesture.targetIndex = items.findIndex((item) => event.clientY < item.getBoundingClientRect().top + item.getBoundingClientRect().height / 2);
   if (pointerGesture.targetIndex < 0) pointerGesture.targetIndex = items.length - 1;
   items.forEach((item, index) => item.classList.toggle('is-drop-target', index === pointerGesture.targetIndex));
@@ -589,8 +631,9 @@ root.addEventListener('scroll', (event) => {
 }, true);
 
 root.addEventListener('error', (event) => {
-  const image = event.target.closest?.('.recommendation-media img');
-  const fallback = image?.closest('.recommendation-media')?.querySelector('[data-media-fallback]');
+  const image = event.target.closest?.('.recommendation-media img, .place-photo img');
+  const fallback = image?.closest('.recommendation-media, .place-photo')
+    ?.querySelector('[data-media-fallback], .place-photo-fallback');
   if (!image || !fallback) return;
   image.hidden = true;
   image.setAttribute('aria-hidden', 'true');
@@ -604,7 +647,7 @@ window.addEventListener('hashchange', () => activateAppView(viewFromHash(), { up
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=a11desk3', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=a11desk4', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);
