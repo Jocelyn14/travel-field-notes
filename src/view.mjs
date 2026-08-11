@@ -1,5 +1,5 @@
-import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk8';
-import { applyItineraryEdits } from './itinerary.mjs?v=a11desk8';
+import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk9';
+import { applyItineraryEdits } from './itinerary.mjs?v=a11desk9';
 
 const moneyFormatters = new Map();
 
@@ -30,17 +30,8 @@ function formatDate(date) {
   return { year, monthDay: `${month}.${day}` };
 }
 
-function balanceTitleLines(value) {
-  const characters = [...String(value ?? '').trim()];
-  if (characters.length < 8) return [characters.join('')];
-  const midpoint = characters.length / 2;
-  const punctuationBreaks = characters
-    .map((character, index) => ('，；：、'.includes(character) ? index + 1 : -1))
-    .filter((index) => index > 0 && index < characters.length);
-  const breakAt = punctuationBreaks.length
-    ? punctuationBreaks.reduce((best, index) => (Math.abs(index - midpoint) < Math.abs(best - midpoint) ? index : best))
-    : Math.round(midpoint);
-  return [characters.slice(0, breakAt).join(''), characters.slice(breakAt).join('')];
+function displayTitle(text) {
+  return `<span class="display-title" data-balance-title="true">${escapeHtml(text)}</span>`;
 }
 
 function icon(name) {
@@ -176,20 +167,20 @@ function renderPlaceEditor(trip) {
   return `<div class="panel-backdrop" data-panel-backdrop hidden></div>
   <section class="place-editor-panel" id="place-editor" data-panel="place-editor" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="place-editor-title" hidden>
     <form class="place-editor-form" data-action="place-form">
-      <header><div><p class="kicker">NEW ITINERARY STOP</p><h2 id="place-editor-title">添加行程</h2></div><button type="button" data-action="close-editor" aria-label="关闭">×</button></header>
+      <header><div><p class="kicker">NEW ITINERARY STOP</p><h2 id="place-editor-title">${displayTitle('添加行程')}</h2></div><button type="button" data-action="close-editor" aria-label="关闭">×</button></header>
       <input type="hidden" name="dayDate">
       <label class="search-field"><span>搜索景点或地点</span><div><input name="search" autocomplete="off" placeholder="例如：Galleria Borghese / 根津神社"><button type="button" data-action="search-place">联网搜索</button></div><small data-search-status>搜索结果会自动填入下方，所有内容仍可修改。</small></label>
       <div class="editor-grid">
-        <label>中文名称<input name="name" required></label>
-        <label>English<input name="nameEn" required></label>
-        <label>${localeLabel}<input name="nameLocal" required></label>
-        <div class="editor-schedule-row">
-          <label>开始时间<input name="time" type="time" value="09:00" required></label>
-          <label>停留分钟<input name="durationMinutes" type="number" min="5" step="5" value="60" required></label>
-          <label>到下一站分钟<input name="travelMinutes" type="number" min="0" step="5" value="20" required></label>
+        <label class="editor-field editor-field--full">中文名称<input name="name" required></label>
+        <label class="editor-field editor-field--full">English<input name="nameEn" required></label>
+        <label class="editor-field editor-field--full">${localeLabel}<input name="nameLocal" required></label>
+        <div class="editor-field-group editor-field-group--compact">
+          <label class="editor-field">开始时间<input name="time" type="time" value="09:00" required></label>
+          <label class="editor-field">停留分钟<input name="durationMinutes" type="number" min="5" step="5" value="60" required></label>
+          <label class="editor-field">到下一站分钟<input name="travelMinutes" type="number" min="0" step="5" value="20" required></label>
         </div>
-        <label class="editor-wide">地址<input name="address" required></label>
-        <label class="editor-wide">景点简介（50 字以内）<textarea name="note" rows="3" maxlength="50"></textarea></label>
+        <label class="editor-field editor-field--full">地址<input name="address" required></label>
+        <label class="editor-field editor-field--full">景点简介（50 字以内）<textarea name="note" rows="3" maxlength="50"></textarea></label>
       </div>
       <footer><button type="button" data-action="close-editor">取消</button><button class="save-place" type="submit" value="save">保存并加入当天</button></footer>
     </form>
@@ -257,7 +248,7 @@ function renderEveningGuidePanel(trip, assetBase) {
   const allPlaces = new Map(trip.days.flatMap((day) => day.places).map((place) => [place.id, place]));
   return `<div class="evening-backdrop" data-evening-backdrop hidden></div>
   <section class="evening-guide-panel" data-panel="evening-guide" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="evening-guide-title" hidden>
-    <header class="evening-panel-head"><div><p class="kicker">AFTER HOURS</p><h2 id="evening-guide-title">今晚的选择</h2><small>公开评分初筛于 2026-08-10，实时评分与营业时间请出发前复查</small></div><button type="button" data-action="close-evening" aria-label="关闭晚间选择">×</button></header>
+    <header class="evening-panel-head"><div><p class="kicker">AFTER HOURS</p><h2 id="evening-guide-title">${displayTitle('今晚的选择')}</h2><small>公开评分初筛于 2026-08-10，实时评分与营业时间请出发前复查</small></div><button type="button" data-action="close-evening" aria-label="关闭晚间选择">×</button></header>
     <div class="evening-guides">
       ${trip.eveningGuides.map((guide) => {
         const anchor = allPlaces.get(guide.anchorPlaceId);
@@ -281,7 +272,7 @@ function renderEveningGuidePanel(trip, assetBase) {
 
 function renderReservations(trip, state) {
   return `<section class="content-section" id="reservations" aria-labelledby="reservation-title">
-    <header class="section-heading"><div><p class="kicker">RESERVATIONS</p><h2 id="reservation-title">预约与凭证</h2></div></header>
+    <header class="section-heading"><div><p class="kicker">RESERVATIONS</p><h2 id="reservation-title">${displayTitle('预约与凭证')}</h2></div></header>
     <div class="reservation-grid">
       ${trip.reservations.map((reservation) => {
         const status = state.reservations[reservation.id] ?? RESERVATION_STATUSES[0];
@@ -298,10 +289,9 @@ function renderReservations(trip, state) {
 
 function renderEditorial(trip) {
   const editorial = trip.editorial;
-  const translationLines = balanceTitleLines(editorial.translation);
   return `<div class="intro-copy intro-copy--editorial">
     <p class="kicker">FIELD BRIEF / 01</p>
-    <blockquote class="trip-quote"><p aria-label="${escapeHtml(editorial.translation)}">${translationLines.map((line) => `<span class="trip-quote-line">${escapeHtml(line)}</span>`).join('')}</p><span lang="${trip.id === 'italy' ? 'it' : 'ja'}">${escapeHtml(editorial.quote)}</span><cite>— ${escapeHtml(editorial.author)} · ${escapeHtml(editorial.work)}</cite></blockquote>
+    <blockquote class="trip-quote"><p>${displayTitle(editorial.translation)}</p><span lang="${trip.id === 'italy' ? 'it' : 'ja'}">${escapeHtml(editorial.quote)}</span><cite>— ${escapeHtml(editorial.author)} · ${escapeHtml(editorial.work)}</cite></blockquote>
     <div class="trip-highlights" aria-label="旅程高光">
       ${editorial.highlights.map((highlight, index) => `<article class="trip-highlight"><i>${String(index + 1).padStart(2, '0')}</i><div><h3>${escapeHtml(highlight.title)}</h3><p>${escapeHtml(highlight.description)}</p></div></article>`).join('')}
     </div>
@@ -315,7 +305,7 @@ function renderBudget(trip, state) {
   const totals = calculateBudget(budget, rate, entries);
   const progress = totals.planned ? Math.min((totals.paid / totals.planned) * 100, 100) : 0;
   return `<section class="content-section" id="budget" aria-labelledby="budget-title">
-    <header class="page-heading"><p class="kicker">SPENDING / 04</p><h2 id="budget-title">花销</h2></header>
+    <header class="page-heading"><p class="kicker">SPENDING / 04</p><h2 id="budget-title">${displayTitle('花销')}</h2></header>
     <div class="budget-panel">
       <div class="budget-total">
         <div><span>计划预算</span><strong>${formatMoney(totals.planned, trip.currency)}</strong><small>约 ¥${totals.cnyPlanned.toLocaleString('zh-CN')}</small></div>
@@ -347,25 +337,25 @@ function renderBudget(trip, state) {
 function renderChecklist(trip, state) {
   const customTodos = state.customTodos ?? [];
   return `<section class="content-section" id="checklist" aria-labelledby="checklist-title">
-    <header class="section-heading"><div><p class="kicker">CHECKLIST / 03</p><h2 id="checklist-title">清单</h2></div></header>
+    <header class="section-heading"><div><p class="kicker">CHECKLIST / 03</p><h2 id="checklist-title">${displayTitle('清单')}</h2></div></header>
     ${renderReservations(trip, state)}
     <header class="todos-heading"><p class="kicker">TODOS</p><h3>Yeah.</h3></header>
-    <section class="custom-todos-panel" aria-label="自定义待办">
-      <div class="custom-todo-list">${customTodos.map((todo) => `<div class="custom-todo-row"><label class="check-row"><input type="checkbox" data-action="custom-todo" data-item-id="${escapeHtml(todo.id)}"${todo.checked ? ' checked' : ''}><span>${escapeHtml(todo.label)}</span><i>${icon('check')}</i></label><button type="button" data-action="todo-delete" data-item-id="${escapeHtml(todo.id)}" aria-label="删除 ${escapeHtml(todo.label)}">删除</button></div>`).join('')}</div>
-      <form class="todo-add-form" data-action="todo-add"><label><span>添加新的 Todo</span><input name="label" type="text" maxlength="80" required placeholder="例如：打印酒店确认单"></label><button type="submit">添加</button></form>
-    </section>
     <div class="checklist-grid">
       ${trip.checklist.map((group) => `<fieldset class="checklist-group"><legend>${escapeHtml(group.title)}</legend>
         ${group.items.map((item) => `<label class="check-row"><input type="checkbox" data-action="checklist" data-item-id="${escapeHtml(item.id)}"${state.checklist[item.id] ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label>`).join('')}
       </fieldset>`).join('')}
     </div>
+    <section class="custom-todos-panel" aria-label="自定义待办">
+      <form class="todo-add-form" data-action="todo-add"><label><span>添加新的 Todo</span><input name="label" type="text" maxlength="80" required placeholder="例如：打印酒店确认单"></label><button type="submit">添加</button></form>
+      <div class="custom-todo-list">${customTodos.map((todo) => `<div class="custom-todo-row"><label class="check-row"><input type="checkbox" data-action="custom-todo" data-item-id="${escapeHtml(todo.id)}"${todo.checked ? ' checked' : ''}><span>${escapeHtml(todo.label)}</span><i>${icon('check')}</i></label><button type="button" data-action="todo-delete" data-item-id="${escapeHtml(todo.id)}" aria-label="删除 ${escapeHtml(todo.label)}">删除</button></div>`).join('')}</div>
+    </section>
   </section>`;
 }
 
 function renderPracticalInfo(info) {
   const renderNotes = (items) => items.map((item) => `<li><strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.description)}</p>${item.url ? `<a href="${escapeHtml(item.url)}" data-external="true" target="_blank" rel="noopener noreferrer">查看官方信息 ${icon('external')}</a>` : ''}</li>`).join('');
   return `<section class="practical-desk" aria-labelledby="practical-desk-title">
-    <header class="practical-desk__heading"><div><p class="kicker">LOCAL INFO</p><h2 id="practical-desk-title">抵达前，先认识这里</h2></div><small>信息核验于 ${escapeHtml(info.verifiedAt)}</small></header>
+    <header class="practical-desk__heading"><div><p class="kicker">LOCAL INFO</p><h2 id="practical-desk-title">${displayTitle('抵达前，先认识这里')}</h2></div><small>信息核验于 ${escapeHtml(info.verifiedAt)}</small></header>
     <div class="practical-grid">
       <article class="practical-card practical-card--essentials"><span class="practical-card__index">01</span><div><p class="kicker">FIRST VISIT</p><h3>初访须知</h3></div><ul>${renderNotes(info.essentials)}</ul></article>
       <article class="practical-card practical-card--resources"><span class="practical-card__index">02</span><div><p class="kicker">TOOLS & LINKS</p><h3>常用 App / 官网</h3></div><ul>${info.resources.map((resource) => `<li><a href="${escapeHtml(resource.url)}" data-external="true" target="_blank" rel="noopener noreferrer"><span><strong>${escapeHtml(resource.name)}</strong><small>${escapeHtml(resource.description)}</small></span>${icon('external')}</a></li>`).join('')}</ul></article>
@@ -403,7 +393,7 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
           <p class="coordinate">${escapeHtml(trip.coordinates)}</p>
           <div class="sample-badge">初版 · 可继续补充</div>
           <p class="hero-index">ATLAS / ${trip.id === 'italy' ? '01' : '02'}</p>
-          <h1>${escapeHtml(trip.title)}<small>${escapeHtml(trip.latinTitle)}</small></h1>
+          <h1>${displayTitle(trip.title)}<small>${escapeHtml(trip.latinTitle)}</small></h1>
           <p class="hero-summary">${escapeHtml(trip.summary)}</p>
           <a class="primary-link" href="#itinerary" data-action="app-tab" data-app-tab="itinerary">查看每日路线 ${icon('arrow')}</a>
         </div>
@@ -423,7 +413,7 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
       <section class="app-view" data-app-view="itinerary" hidden>
       <div class="content-wrap">
         <section class="content-section itinerary-section" id="itinerary" aria-labelledby="itinerary-title">
-          <header class="page-heading itinerary-heading"><p class="kicker">DAILY ROUTES / 02</p><h2 id="itinerary-title">逐日行程</h2></header>
+          <header class="page-heading itinerary-heading"><p class="kicker">DAILY ROUTES / 02</p><h2 id="itinerary-title">${displayTitle('逐日行程')}</h2></header>
           ${renderDayJump(trip.days)}
           <div class="days-stack">${trip.days.map((day, index) => renderDay(day, trip.currency, index, localLanguage, assetBase, trip.eveningGuides.find((guide) => guide.date === day.date), state.accommodations[day.date], trip.dates.end)).join('')}</div>
         </section>

@@ -59,7 +59,8 @@ test('checklist renders persisted custom todos and an add form', () => {
   assert.match(html, /打印酒店确认单/);
   assert.match(html, /data-action="custom-todo"[^>]*checked/);
   assert.match(html, /data-action="todo-delete"/);
-  assert.match(html, /class="custom-todos-panel"[\s\S]*打印酒店确认单[\s\S]*data-action="todo-add"/);
+  const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
+  assert.match(checklist, /class="checklist-grid"[\s\S]*data-action="todo-add"[\s\S]*打印酒店确认单/);
   assert.doesNotMatch(html, /<fieldset class="checklist-group custom-todos"/);
 });
 
@@ -68,7 +69,7 @@ test('checklist uses a plain title without completion count and labels todos aft
   const html = renderApp(trips, state, true);
   const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
 
-  assert.match(checklist, /<h2 id="checklist-title">清单<\/h2>/);
+  assert.match(checklist, /<h2 id="checklist-title">[\s\S]*清单[\s\S]*<\/h2>/);
   assert.doesNotMatch(checklist, />\d+\/\d+</);
   assert.match(checklist, /预约与凭证[\s\S]*TODOS[\s\S]*Yeah\.[\s\S]*class="checklist-grid"/);
 });
@@ -86,7 +87,8 @@ test('renderApp presents destination literature and three concrete highlights', 
 
     assert.match(html, new RegExp(trip.editorial.quote.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     assert.match(html, new RegExp(trip.editorial.author));
-    assert.equal((html.match(/class="trip-quote-line"/g) ?? []).length, 2);
+    assert.match(html, /data-balance-title="true"/);
+    assert.doesNotMatch(html, /class="trip-quote-line"/);
     assert.equal((html.match(/class="trip-highlight"/g) ?? []).length, 3);
     assert.doesNotMatch(html, /先排必去|这份初版|兴趣空位/);
   }
@@ -264,7 +266,17 @@ test('place editor uses an in-app drawer instead of the native dialog element', 
   assert.match(html, /aria-hidden="true"/);
   assert.doesNotMatch(html, /<dialog/);
   assert.match(html, /textarea name="note"[^>]*maxlength="50"/);
-  assert.match(html, /class="editor-schedule-row"[\s\S]*name="time"[\s\S]*name="durationMinutes"[\s\S]*name="travelMinutes"/);
+  assert.match(html, /class="editor-field editor-field--full"[\s\S]*name="name"/);
+  assert.match(html, /class="editor-field-group editor-field-group--compact"[\s\S]*name="time"[\s\S]*name="durationMinutes"[\s\S]*name="travelMinutes"/);
+  assert.equal((html.match(/class="editor-field editor-field--full"/g) ?? []).length, 5);
+});
+
+test('all display titles opt into one shared responsive title system', () => {
+  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
+  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
+  for (const title of ['东京', '逐日行程', '抵达前，先认识这里', '预约与凭证', '清单', '花销', '添加行程', '今晚的选择']) {
+    assert.match(html, new RegExp(`data-balance-title="true"[^>]*>${title.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}`));
+  }
 });
 
 test('Tokyo flight cards show confirmed route, terminals and local times', () => {

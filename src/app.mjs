@@ -3,7 +3,7 @@ import {
   cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=a11desk8';
+} from './core.mjs?v=a11desk9';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -13,10 +13,11 @@ import {
   restorePlace,
   sortDayByTime,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=a11desk8';
-import { searchPlace } from './search.mjs?v=a11desk8';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk8';
-import { renderApp } from './view.mjs?v=a11desk8';
+} from './itinerary.mjs?v=a11desk9';
+import { searchPlace } from './search.mjs?v=a11desk9';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk9';
+import { renderApp } from './view.mjs?v=a11desk9';
+import { applyBalancedTitles, watchBalancedTitles } from './typography.mjs?v=a11desk9';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -64,6 +65,7 @@ function render({ preserveScroll = false } = {}) {
   root.dataset.activeTrip = state.activeTripId;
   root.setAttribute('aria-busy', 'false');
   activateAppView(viewFromHash(), { updateHash: false, scroll: false });
+  watchBalancedTitles(root);
   if (preserveScroll) window.scrollTo({ top: scrollY });
 }
 
@@ -85,6 +87,7 @@ function activateAppView(view, { updateHash = true, scroll = true } = {}) {
     if (tab.dataset.appTab === nextView) tab.setAttribute('aria-current', 'page');
     else tab.removeAttribute('aria-current');
   });
+  requestAnimationFrame(() => applyBalancedTitles(root));
   if (updateHash && location.hash !== `#${nextView}`) history.pushState(null, '', `#${nextView}`);
   if (scroll) window.scrollTo({ top: 0, behavior: 'auto' });
 }
@@ -655,7 +658,7 @@ window.addEventListener('hashchange', () => activateAppView(viewFromHash(), { up
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=a11desk8', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=a11desk9', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);

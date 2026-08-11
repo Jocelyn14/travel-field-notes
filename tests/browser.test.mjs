@@ -259,10 +259,13 @@ test('custom checklist todos can be added, checked, deleted and persist', async 
     const row = page.locator('.custom-todo-row', { hasText: '打印酒店确认单' });
     assert.equal(await row.locator('xpath=ancestor::*[contains(@class,"custom-todos-panel")]').count(), 1);
     const todoLayout = await page.locator('.custom-todos-panel').evaluate((panel) => ({
-      panelBottom: panel.getBoundingClientRect().bottom,
-      checklistTop: document.querySelector('.checklist-grid').getBoundingClientRect().top,
+      checklistBottom: document.querySelector('.checklist-grid').getBoundingClientRect().bottom,
+      formTop: panel.querySelector('.todo-add-form').getBoundingClientRect().top,
+      formBottom: panel.querySelector('.todo-add-form').getBoundingClientRect().bottom,
+      firstTodoTop: panel.querySelector('.custom-todo-row').getBoundingClientRect().top,
     }));
-    assert.ok(todoLayout.panelBottom <= todoLayout.checklistTop);
+    assert.ok(todoLayout.checklistBottom <= todoLayout.formTop, JSON.stringify(todoLayout));
+    assert.ok(todoLayout.formBottom <= todoLayout.firstTodoTop, JSON.stringify(todoLayout));
     await row.locator('[data-action="custom-todo"]').check();
     await page.reload({ waitUntil: 'networkidle' });
     const persisted = page.locator('.custom-todo-row', { hasText: '打印酒店确认单' });
@@ -275,25 +278,39 @@ test('custom checklist todos can be added, checked, deleted and persist', async 
   }
 });
 
-test('mobile editor timing controls and editorial quote stay balanced at Pro widths', async () => {
+test('shared display titles and editor field grid stay balanced at Pro widths', async () => {
   const browser = await chromium.launch(launchOptions);
   try {
-    for (const width of [393, 430]) {
-      const page = await browser.newPage({ viewport: { width, height: 932 } });
-      await page.goto(`${italyUrl}#overview`, { waitUntil: 'networkidle' });
-      const lineWidths = await page.locator('.trip-quote-line').evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().width));
-      assert.equal(lineWidths.length, 2);
-      assert.ok(Math.min(...lineWidths) / Math.max(...lineWidths) >= 0.7, `${width}px quote lines are imbalanced: ${lineWidths}`);
-      await page.locator('.bottom-nav [data-app-tab="itinerary"]').click();
-      await page.locator('[data-action="add-place"]').first().click();
-      const sizes = await page.locator('.editor-schedule-row').evaluate((row) => {
-        const panel = row.closest('.place-editor-panel');
-        const inputs = [...row.querySelectorAll('input')].map((input) => input.getBoundingClientRect().width);
-        return { panel: panel.getBoundingClientRect().width, inputs };
-      });
-      assert.ok(sizes.inputs[0] < sizes.panel * 0.45, `${width}px time input is too wide`);
-      assert.ok(Math.max(...sizes.inputs) - Math.min(...sizes.inputs) < 28, `${width}px timing fields are visually uneven`);
-      await page.close();
+    for (const url of [italyUrl, tokyoUrl]) {
+      for (const width of [393, 430]) {
+        const page = await browser.newPage({ viewport: { width, height: 932 } });
+        await page.goto(`${url}#overview`, { waitUntil: 'networkidle' });
+        const titleResults = await page.locator('[data-balance-title="true"]:visible').evaluateAll((nodes) => nodes.map((node) => {
+          const widths = [...node.querySelectorAll('.display-title__line')].map((line) => line.getBoundingClientRect().width);
+          return { text: node.getAttribute('aria-label') || node.textContent, widths };
+        }));
+        for (const title of titleResults.filter(({ widths }) => widths.length > 1)) {
+          assert.ok(Math.min(...title.widths) / Math.max(...title.widths) >= 0.62, `${width}px title is imbalanced: ${JSON.stringify(title)}`);
+        }
+        await page.locator('.bottom-nav [data-app-tab="itinerary"]').click();
+        await page.locator('[data-action="add-place"]').first().click();
+        const sizes = await page.locator('.editor-grid').evaluate((grid) => {
+          const full = [...grid.querySelectorAll('.editor-field--full')].map((field) => ({
+            left: field.getBoundingClientRect().left,
+            right: field.getBoundingClientRect().right,
+            inputHeight: field.querySelector('input, textarea').getBoundingClientRect().height,
+          }));
+          const compact = [...grid.querySelectorAll('.editor-field-group--compact input')].map((input) => ({
+            width: input.getBoundingClientRect().width,
+            height: input.getBoundingClientRect().height,
+          }));
+          return { full, compact };
+        });
+        assert.ok(sizes.full.every((field) => Math.abs(field.left - sizes.full[0].left) < 1 && Math.abs(field.right - sizes.full[0].right) < 1));
+        assert.ok(Math.max(...sizes.compact.map(({ width: value }) => value)) - Math.min(...sizes.compact.map(({ width: value }) => value)) < 1);
+        assert.ok(sizes.compact.every(({ height }) => Math.abs(height - sizes.full[0].inputHeight) < 1));
+        await page.close();
+      }
     }
   } finally {
     await browser.close();
