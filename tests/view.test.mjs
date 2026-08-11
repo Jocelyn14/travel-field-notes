@@ -61,6 +61,22 @@ test('renderApp exposes category expense forms, entries and automatic totals', (
   assert.match(html, /data-budget-remaining="1712\.5"/);
 });
 
+test('renderApp places the four practical travel groups before departure checklist in the confirmed order', () => {
+  for (const trip of trips) {
+    const state = normalizePersistedState({ activeTripId: trip.id }, [trip]);
+    const html = renderApp([trip], state, true, { standalone: true, assetBase: '../' });
+    const headings = ['初访须知', '常用 App / 官网', '习俗与当期节庆', '紧急联络'];
+    const positions = headings.map((heading) => html.indexOf(heading));
+
+    assert.ok(positions.every((position) => position >= 0));
+    assert.deepEqual([...positions].sort((a, b) => a - b), positions);
+    assert.ok(positions.at(-1) < html.indexOf('出发刻度'));
+    assert.match(html, /href="tel:[+0-9-]+"/);
+    assert.match(html, /data-external="true" target="_blank" rel="noopener noreferrer"/);
+    assert.match(html, /核验于 2026-08-11/);
+  }
+});
+
 test('renderApp presents every day with a jump link and full timeline', () => {
   const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
   const html = renderApp(trips, state, true);

@@ -315,11 +315,25 @@ function renderChecklist(trip, state) {
   const allItems = trip.checklist.flatMap((group) => group.items);
   const completed = allItems.filter((item) => state.checklist[item.id]).length;
   return `<section class="content-section" id="checklist" aria-labelledby="checklist-title">
+    ${renderPracticalInfo(trip.practicalInfo)}
     <header class="section-heading section-heading--split"><span class="section-index">05</span><div><p class="kicker">CHECKLIST</p><h2 id="checklist-title">出发刻度</h2></div><strong>${completed}/${allItems.length}</strong></header>
     <div class="checklist-grid">
       ${trip.checklist.map((group) => `<fieldset class="checklist-group"><legend>${escapeHtml(group.title)}</legend>
         ${group.items.map((item) => `<label class="check-row"><input type="checkbox" data-action="checklist" data-item-id="${escapeHtml(item.id)}"${state.checklist[item.id] ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label>`).join('')}
       </fieldset>`).join('')}
+    </div>
+  </section>`;
+}
+
+function renderPracticalInfo(info) {
+  const renderNotes = (items) => items.map((item) => `<li><strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.description)}</p>${item.url ? `<a href="${escapeHtml(item.url)}" data-external="true" target="_blank" rel="noopener noreferrer">查看官方信息 ${icon('external')}</a>` : ''}</li>`).join('');
+  return `<section class="practical-desk" aria-labelledby="practical-desk-title">
+    <header class="practical-desk__heading"><div><p class="kicker">TRAVEL DESK / 04</p><h2 id="practical-desk-title">抵达前，先认识这里</h2></div><small>信息核验于 ${escapeHtml(info.verifiedAt)}</small></header>
+    <div class="practical-grid">
+      <article class="practical-card practical-card--essentials"><span class="practical-card__index">01</span><div><p class="kicker">FIRST VISIT</p><h3>初访须知</h3></div><ul>${renderNotes(info.essentials)}</ul></article>
+      <article class="practical-card practical-card--resources"><span class="practical-card__index">02</span><div><p class="kicker">TOOLS & LINKS</p><h3>常用 App / 官网</h3></div><ul>${info.resources.map((resource) => `<li><a href="${escapeHtml(resource.url)}" data-external="true" target="_blank" rel="noopener noreferrer"><span><strong>${escapeHtml(resource.name)}</strong><small>${escapeHtml(resource.description)}</small></span>${icon('external')}</a></li>`).join('')}</ul></article>
+      <article class="practical-card practical-card--customs"><span class="practical-card__index">03</span><div><p class="kicker">LOCAL RHYTHM</p><h3>习俗与当期节庆</h3></div><ul>${renderNotes(info.customs)}</ul></article>
+      <article class="practical-card practical-card--emergency"><span class="practical-card__index">04</span><div><p class="kicker">HELP & SAFETY</p><h3>紧急联络</h3></div><ul>${info.emergencyContacts.map((contact) => `<li><div><strong>${escapeHtml(contact.label)}</strong><p>${escapeHtml(contact.note)}</p><a href="${escapeHtml(contact.sourceUrl)}" data-external="true" target="_blank" rel="noopener noreferrer">官方来源 ${icon('external')}</a></div><a class="call-link" href="tel:${escapeHtml(contact.phone)}" aria-label="拨打 ${escapeHtml(contact.label)} ${escapeHtml(contact.phone)}"><small>一键拨号</small><b>${escapeHtml(contact.phone)}</b></a></li>`).join('')}</ul></article>
     </div>
   </section>`;
 }
