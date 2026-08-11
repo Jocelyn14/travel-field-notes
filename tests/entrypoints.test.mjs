@@ -14,16 +14,16 @@ test('root directory links to two separate destination pages', async () => {
 test('Italy entry point is pinned to Italy and shared root assets', async () => {
   const html = await readProjectFile('italy/index.html');
   assert.match(html, /<html[^>]+data-trip-id="italy"/);
-  assert.match(html, /href="\.\.\/styles\.css"/);
-  assert.match(html, /src="\.\.\/src\/app\.mjs"/);
+  assert.match(html, /href="\.\.\/styles\.css\?v=4f5afb35"/);
+  assert.match(html, /src="\.\.\/src\/app\.mjs\?v=4f5afb35"/);
   assert.match(html, /href="manifest\.webmanifest"/);
 });
 
 test('Tokyo entry point is pinned to Tokyo and shared root assets', async () => {
   const html = await readProjectFile('tokyo/index.html');
   assert.match(html, /<html[^>]+data-trip-id="tokyo"/);
-  assert.match(html, /href="\.\.\/styles\.css"/);
-  assert.match(html, /src="\.\.\/src\/app\.mjs"/);
+  assert.match(html, /href="\.\.\/styles\.css\?v=4f5afb35"/);
+  assert.match(html, /src="\.\.\/src\/app\.mjs\?v=4f5afb35"/);
   assert.match(html, /href="manifest\.webmanifest"/);
 });
 
