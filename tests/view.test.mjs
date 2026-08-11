@@ -86,6 +86,7 @@ test('renderApp presents destination literature and three concrete highlights', 
 
     assert.match(html, new RegExp(trip.editorial.quote.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     assert.match(html, new RegExp(trip.editorial.author));
+    assert.equal((html.match(/class="trip-quote-line"/g) ?? []).length, 2);
     assert.equal((html.match(/class="trip-highlight"/g) ?? []).length, 3);
     assert.doesNotMatch(html, /先排必去|这份初版|兴趣空位/);
   }
@@ -263,6 +264,7 @@ test('place editor uses an in-app drawer instead of the native dialog element', 
   assert.match(html, /aria-hidden="true"/);
   assert.doesNotMatch(html, /<dialog/);
   assert.match(html, /textarea name="note"[^>]*maxlength="50"/);
+  assert.match(html, /class="editor-schedule-row"[\s\S]*name="time"[\s\S]*name="durationMinutes"[\s\S]*name="travelMinutes"/);
 });
 
 test('Tokyo flight cards show confirmed route, terminals and local times', () => {

@@ -412,21 +412,28 @@ svg.icon {
 }
 
 .trip-quote p {
-  max-width: 13ch;
+  max-width: 100%;
   margin: 0;
-  font-size: clamp(36px, 9vw, 62px);
+  font-size: clamp(32px, 8.8vw, 62px);
   font-weight: 560;
   letter-spacing: -.055em;
   line-height: 1.08;
 }
 
-.trip-quote span,
+.trip-quote > span,
 .trip-quote cite {
   display: block;
   margin-top: 14px;
   color: var(--ink-soft);
   font-size: 13px;
   font-style: normal;
+}
+
+.trip-quote-line {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  white-space: nowrap;
 }
 
 .trip-quote cite {
@@ -1249,10 +1256,17 @@ svg.icon {
 .evening-guide-panel {
   position: fixed;
   z-index: 76;
-  inset: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
+  top: 50%;
+  right: 10px;
+  bottom: auto;
+  left: 10px;
+  display: flex;
+  max-height: min(calc(100svh - 20px), 900px);
+  flex-direction: column;
   width: min(calc(100% - 20px), 960px);
   margin: 0 auto;
   overflow: hidden;
+  transform: translateY(-50%);
   border: 1px solid var(--evening-ink);
   background: var(--evening-paper);
   color: var(--evening-ink);
@@ -1307,10 +1321,12 @@ svg.icon {
 
 .evening-guides,
 .evening-guide {
-  height: calc(100% - 112px);
+  height: auto;
+  min-height: 0;
 }
 
 .evening-guide {
+  max-height: calc(100svh - 132px);
   overflow: auto;
 }
 
@@ -1888,6 +1904,13 @@ body.panel-open {
 .editor-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.editor-schedule-row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -3183,6 +3206,12 @@ body.panel-open {
   .schedule-grid,
   .editor-grid {
     grid-template-columns: 1fr;
+  }
+
+  .editor-schedule-row {
+    grid-column: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .editor-wide {

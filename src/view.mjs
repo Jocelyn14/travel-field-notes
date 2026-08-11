@@ -1,5 +1,5 @@
-import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk7';
-import { applyItineraryEdits } from './itinerary.mjs?v=a11desk7';
+import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk8';
+import { applyItineraryEdits } from './itinerary.mjs?v=a11desk8';
 
 const moneyFormatters = new Map();
 
@@ -28,6 +28,19 @@ function escapeHtml(value = '') {
 function formatDate(date) {
   const [year, month, day] = date.split('-');
   return { year, monthDay: `${month}.${day}` };
+}
+
+function balanceTitleLines(value) {
+  const characters = [...String(value ?? '').trim()];
+  if (characters.length < 8) return [characters.join('')];
+  const midpoint = characters.length / 2;
+  const punctuationBreaks = characters
+    .map((character, index) => ('，；：、'.includes(character) ? index + 1 : -1))
+    .filter((index) => index > 0 && index < characters.length);
+  const breakAt = punctuationBreaks.length
+    ? punctuationBreaks.reduce((best, index) => (Math.abs(index - midpoint) < Math.abs(best - midpoint) ? index : best))
+    : Math.round(midpoint);
+  return [characters.slice(0, breakAt).join(''), characters.slice(breakAt).join('')];
 }
 
 function icon(name) {
@@ -170,9 +183,11 @@ function renderPlaceEditor(trip) {
         <label>中文名称<input name="name" required></label>
         <label>English<input name="nameEn" required></label>
         <label>${localeLabel}<input name="nameLocal" required></label>
-        <label>开始时间<input name="time" type="time" value="09:00" required></label>
-        <label>停留分钟<input name="durationMinutes" type="number" min="5" step="5" value="60" required></label>
-        <label>到下一站分钟<input name="travelMinutes" type="number" min="0" step="5" value="20" required></label>
+        <div class="editor-schedule-row">
+          <label>开始时间<input name="time" type="time" value="09:00" required></label>
+          <label>停留分钟<input name="durationMinutes" type="number" min="5" step="5" value="60" required></label>
+          <label>到下一站分钟<input name="travelMinutes" type="number" min="0" step="5" value="20" required></label>
+        </div>
         <label class="editor-wide">地址<input name="address" required></label>
         <label class="editor-wide">景点简介（50 字以内）<textarea name="note" rows="3" maxlength="50"></textarea></label>
       </div>
@@ -283,9 +298,10 @@ function renderReservations(trip, state) {
 
 function renderEditorial(trip) {
   const editorial = trip.editorial;
+  const translationLines = balanceTitleLines(editorial.translation);
   return `<div class="intro-copy intro-copy--editorial">
     <p class="kicker">FIELD BRIEF / 01</p>
-    <blockquote class="trip-quote"><p>${escapeHtml(editorial.translation)}</p><span lang="${trip.id === 'italy' ? 'it' : 'ja'}">${escapeHtml(editorial.quote)}</span><cite>— ${escapeHtml(editorial.author)} · ${escapeHtml(editorial.work)}</cite></blockquote>
+    <blockquote class="trip-quote"><p aria-label="${escapeHtml(editorial.translation)}">${translationLines.map((line) => `<span class="trip-quote-line">${escapeHtml(line)}</span>`).join('')}</p><span lang="${trip.id === 'italy' ? 'it' : 'ja'}">${escapeHtml(editorial.quote)}</span><cite>— ${escapeHtml(editorial.author)} · ${escapeHtml(editorial.work)}</cite></blockquote>
     <div class="trip-highlights" aria-label="旅程高光">
       ${editorial.highlights.map((highlight, index) => `<article class="trip-highlight"><i>${String(index + 1).padStart(2, '0')}</i><div><h3>${escapeHtml(highlight.title)}</h3><p>${escapeHtml(highlight.description)}</p></div></article>`).join('')}
     </div>

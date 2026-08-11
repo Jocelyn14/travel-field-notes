@@ -253,6 +253,9 @@ test('custom checklist todos can be added, checked, deleted and persist', async 
     await page.goto(`${italyUrl}#checklist`, { waitUntil: 'networkidle' });
     await page.locator('[data-action="todo-add"] [name="label"]').fill('打印酒店确认单');
     await page.locator('[data-action="todo-add"]').getByRole('button', { name: '添加' }).click();
+    await page.locator('[data-action="todo-add"] [name="label"]').fill('下载离线地图');
+    await page.locator('[data-action="todo-add"]').getByRole('button', { name: '添加' }).click();
+    assert.deepEqual(await page.locator('.custom-todo-row .check-row span').allTextContents(), ['打印酒店确认单', '下载离线地图']);
     const row = page.locator('.custom-todo-row', { hasText: '打印酒店确认单' });
     assert.equal(await row.locator('xpath=ancestor::*[contains(@class,"custom-todos-panel")]').count(), 1);
     const todoLayout = await page.locator('.custom-todos-panel').evaluate((panel) => ({
@@ -266,6 +269,48 @@ test('custom checklist todos can be added, checked, deleted and persist', async 
     assert.equal(await persisted.locator('[data-action="custom-todo"]').isChecked(), true);
     await persisted.locator('[data-action="todo-delete"]').click();
     assert.equal(await page.locator('.custom-todo-row', { hasText: '打印酒店确认单' }).count(), 0);
+    assert.deepEqual(await page.locator('.custom-todo-row .check-row span').allTextContents(), ['下载离线地图']);
+  } finally {
+    await browser.close();
+  }
+});
+
+test('mobile editor timing controls and editorial quote stay balanced at Pro widths', async () => {
+  const browser = await chromium.launch(launchOptions);
+  try {
+    for (const width of [393, 430]) {
+      const page = await browser.newPage({ viewport: { width, height: 932 } });
+      await page.goto(`${italyUrl}#overview`, { waitUntil: 'networkidle' });
+      const lineWidths = await page.locator('.trip-quote-line').evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().width));
+      assert.equal(lineWidths.length, 2);
+      assert.ok(Math.min(...lineWidths) / Math.max(...lineWidths) >= 0.7, `${width}px quote lines are imbalanced: ${lineWidths}`);
+      await page.locator('.bottom-nav [data-app-tab="itinerary"]').click();
+      await page.locator('[data-action="add-place"]').first().click();
+      const sizes = await page.locator('.editor-schedule-row').evaluate((row) => {
+        const panel = row.closest('.place-editor-panel');
+        const inputs = [...row.querySelectorAll('input')].map((input) => input.getBoundingClientRect().width);
+        return { panel: panel.getBoundingClientRect().width, inputs };
+      });
+      assert.ok(sizes.inputs[0] < sizes.panel * 0.45, `${width}px time input is too wide`);
+      assert.ok(Math.max(...sizes.inputs) - Math.min(...sizes.inputs) < 28, `${width}px timing fields are visually uneven`);
+      await page.close();
+    }
+  } finally {
+    await browser.close();
+  }
+});
+
+test('short AFTER HOURS content keeps the modal below the viewport height', async () => {
+  const browser = await chromium.launch(launchOptions);
+  const page = await browser.newPage({ viewport: { width: 393, height: 852 } });
+  try {
+    await page.goto(`${italyUrl}#itinerary`, { waitUntil: 'networkidle' });
+    await page.locator('[data-action="open-evening"][data-guide-date="2026-08-30"]').click();
+    const dimensions = await page.locator('[data-panel="evening-guide"]:visible').evaluate((panel) => ({
+      height: panel.getBoundingClientRect().height,
+      viewport: innerHeight,
+    }));
+    assert.ok(dimensions.height < dimensions.viewport - 40, JSON.stringify(dimensions));
   } finally {
     await browser.close();
   }
