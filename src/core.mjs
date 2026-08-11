@@ -1,6 +1,6 @@
 export const RESERVATION_STATUSES = ['待预订', '已预订', '已付款', '凭证已存'];
 export const BUDGET_CATEGORIES = ['交通', '住宿', '餐饮', '门票', '购物'];
-export const STATE_VERSION = 2;
+export const STATE_VERSION = 3;
 
 const isRecord = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 const isHttpsUrl = (value) => typeof value === 'string' && value.startsWith('https://');
@@ -185,17 +185,32 @@ export function validateTrips(trips) {
   return { ok: errors.length === 0, errors };
 }
 
-export function calculateBudget(items, cnyRate) {
+export function calculateBudget(items, cnyRate, entries) {
   const planned = items.reduce((sum, item) => sum + Number(item.planned || 0), 0);
-  const paid = items.reduce((sum, item) => sum + Number(item.paid || 0), 0);
+  const hasLedger = Array.isArray(entries);
+  const categoryTotals = hasLedger
+    ? Object.fromEntries(items.map((item) => [item.id, Number(item.paid || 0)]))
+    : null;
+  if (hasLedger) {
+    for (const entry of entries) {
+      if (Object.hasOwn(categoryTotals, entry.budgetItemId)) {
+        categoryTotals[entry.budgetItemId] += Number(entry.amount || 0);
+      }
+    }
+  }
+  const paid = hasLedger
+    ? Object.values(categoryTotals).reduce((sum, amount) => sum + amount, 0)
+    : items.reduce((sum, item) => sum + Number(item.paid || 0), 0);
   const rate = Number.isFinite(Number(cnyRate)) ? Number(cnyRate) : 0;
-  return {
+  const totals = {
     planned,
     paid,
     remaining: Math.max(planned - paid, 0),
     cnyPlanned: Math.round(planned * rate * 100) / 100,
     cnyPaid: Math.round(paid * rate * 100) / 100,
   };
+  if (hasLedger) totals.categoryTotals = categoryTotals;
+  return totals;
 }
 
 export function cycleReservationStatus(currentStatus) {
@@ -213,6 +228,7 @@ export function normalizePersistedState(rawState, trips) {
   const tripIds = new Set(trips.map((trip) => trip.id));
   const reservationIds = new Set(trips.flatMap((trip) => trip.reservations.map((item) => item.id)));
   const checklistIds = new Set(trips.flatMap((trip) => trip.checklist.flatMap((group) => group.items.map((item) => item.id))));
+  const budgetItemIds = new Set(trips.flatMap((trip) => trip.budget.map((item) => item.id)));
 
   const rates = Object.fromEntries(Object.entries(isRecord(state.rates) ? state.rates : {})
     .filter(([id, rate]) => tripIds.has(id) && Number.isFinite(Number(rate))));
@@ -220,6 +236,20 @@ export function normalizePersistedState(rawState, trips) {
     .filter(([id, status]) => reservationIds.has(id) && RESERVATION_STATUSES.includes(status)));
   const checklist = Object.fromEntries(Object.entries(isRecord(state.checklist) ? state.checklist : {})
     .filter(([id, checked]) => checklistIds.has(id) && typeof checked === 'boolean'));
+  const seenBudgetEntryIds = new Set();
+  const budgetEntries = (Array.isArray(state.budgetEntries) ? state.budgetEntries : [])
+    .filter((entry) => {
+      if (!isRecord(entry) || !isNonEmptyString(entry.id) || seenBudgetEntryIds.has(entry.id)) return false;
+      if (!budgetItemIds.has(entry.budgetItemId) || !Number.isFinite(Number(entry.amount)) || Number(entry.amount) <= 0) return false;
+      seenBudgetEntryIds.add(entry.id);
+      return true;
+    })
+    .map((entry) => ({
+      id: entry.id,
+      budgetItemId: entry.budgetItemId,
+      amount: Number(entry.amount),
+      note: typeof entry.note === 'string' ? entry.note.trim() : '',
+    }));
   const rawItinerary = isRecord(state.itinerary) ? state.itinerary : {};
   const customPlaces = Object.fromEntries(Object.entries(isRecord(rawItinerary.customPlaces) ? rawItinerary.customPlaces : {})
     .filter(([id, place]) => isRecord(place) && place.id === id && isNonEmptyString(place.dayDate)));
@@ -237,6 +267,7 @@ export function normalizePersistedState(rawState, trips) {
     rates,
     reservations,
     checklist,
+    budgetEntries,
     itinerary: { customPlaces, deletedPlaceIds, dayOrder, placeOverrides },
   };
 }

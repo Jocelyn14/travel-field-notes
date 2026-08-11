@@ -280,6 +280,26 @@ test('calculateBudget returns local and CNY totals without live rates', () => {
   });
 });
 
+test('calculateBudget adds ledger entries to category and overall spending', () => {
+  const items = [
+    { id: 'transit', planned: 100, paid: 10 },
+    { id: 'food', planned: 50, paid: 0 },
+  ];
+  const entries = [
+    { id: 'expense-1', budgetItemId: 'transit', amount: 20, note: '火车' },
+    { id: 'expense-2', budgetItemId: 'food', amount: 15.5, note: '晚餐' },
+  ];
+
+  assert.deepEqual(calculateBudget(items, 8, entries), {
+    planned: 150,
+    paid: 45.5,
+    remaining: 104.5,
+    cnyPlanned: 1200,
+    cnyPaid: 364,
+    categoryTotals: { transit: 30, food: 15.5 },
+  });
+});
+
 test('cycleReservationStatus follows the fixed four-state sequence', () => {
   assert.deepEqual(RESERVATION_STATUSES, ['待预订', '已预订', '已付款', '凭证已存']);
   assert.equal(cycleReservationStatus('待预订'), '已预订');
@@ -294,14 +314,21 @@ test('normalizePersistedState migrates older data and removes unknown trip keys'
     rates: { italy: 8.1, missing: 1 },
     reservations: { 'colosseum-ticket': '已付款', invalid: '未知' },
     checklist: { passport: true, invalid: true },
+    budgetEntries: [
+      { id: 'expense-1', budgetItemId: 'ticket', amount: 24.5, note: '博物馆' },
+      { id: 'expense-2', budgetItemId: 'missing', amount: 99, note: '未知分类' },
+      { id: 'expense-3', budgetItemId: 'ticket', amount: 0, note: '非法金额' },
+      { id: 'expense-1', budgetItemId: 'ticket', amount: 30, note: '重复编号' },
+    ],
   }, validTrips);
 
   assert.deepEqual(migrated, {
-    version: 2,
+    version: 3,
     activeTripId: 'italy',
     rates: { italy: 8.1 },
     reservations: { 'colosseum-ticket': '已付款' },
     checklist: { passport: true },
+    budgetEntries: [{ id: 'expense-1', budgetItemId: 'ticket', amount: 24.5, note: '博物馆' }],
     itinerary: {
       customPlaces: {},
       deletedPlaceIds: {},
