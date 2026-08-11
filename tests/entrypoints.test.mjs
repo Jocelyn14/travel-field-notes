@@ -36,3 +36,14 @@ test('each destination has an independently installable manifest', async () => {
   assert.equal(tokyo.start_url, './');
   assert.notEqual(italy.name, tokyo.name);
 });
+
+test('the application requests the versioned trip dataset', async () => {
+  const app = await readProjectFile('src/app.mjs');
+  const worker = await readProjectFile('sw.js');
+
+  assert.match(app, /data\/trips\.json\?v=4f5afb35/);
+  for (const moduleName of ['core', 'itinerary', 'search', 'interaction', 'view']) {
+    assert.match(app, new RegExp(`\\./${moduleName}\\.mjs\\?v=4f5afb35`));
+  }
+  assert.match(worker, /\.\/data\/trips\.json\?v=4f5afb35/);
+});

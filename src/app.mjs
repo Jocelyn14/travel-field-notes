@@ -3,7 +3,7 @@ import {
   cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs';
+} from './core.mjs?v=4f5afb35';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -12,10 +12,10 @@ import {
   reorderPlace,
   restorePlace,
   updatePlaceSchedule,
-} from './itinerary.mjs';
-import { searchPlace } from './search.mjs';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs';
-import { renderApp } from './view.mjs';
+} from './itinerary.mjs?v=4f5afb35';
+import { searchPlace } from './search.mjs?v=4f5afb35';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=4f5afb35';
+import { renderApp } from './view.mjs?v=4f5afb35';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -557,7 +557,7 @@ window.addEventListener('offline', () => render({ preserveScroll: true }));
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=4f5afb35', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);

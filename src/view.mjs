@@ -1,5 +1,5 @@
-import { calculateBudget, RESERVATION_STATUSES } from './core.mjs';
-import { applyItineraryEdits } from './itinerary.mjs';
+import { calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=4f5afb35';
+import { applyItineraryEdits } from './itinerary.mjs?v=4f5afb35';
 
 const moneyFormatters = new Map();
 
