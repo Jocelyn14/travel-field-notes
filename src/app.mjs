@@ -3,7 +3,7 @@ import {
   cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=4f5afb35';
+} from './core.mjs?v=8ecf38d';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -12,10 +12,10 @@ import {
   reorderPlace,
   restorePlace,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=4f5afb35';
-import { searchPlace } from './search.mjs?v=4f5afb35';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=4f5afb35';
-import { renderApp } from './view.mjs?v=4f5afb35';
+} from './itinerary.mjs?v=8ecf38d';
+import { searchPlace } from './search.mjs?v=8ecf38d';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=8ecf38d';
+import { renderApp } from './view.mjs?v=8ecf38d';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -557,7 +557,7 @@ window.addEventListener('offline', () => render({ preserveScroll: true }));
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=4f5afb35', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=8ecf38d', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);
