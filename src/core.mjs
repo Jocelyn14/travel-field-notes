@@ -1,6 +1,6 @@
 export const RESERVATION_STATUSES = ['待预订', '已预订', '已付款', '凭证已存'];
 export const BUDGET_CATEGORIES = ['交通', '住宿', '餐饮', '门票', '购物'];
-export const STATE_VERSION = 3;
+export const STATE_VERSION = 4;
 
 const isRecord = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 const isHttpsUrl = (value) => typeof value === 'string' && value.startsWith('https://');
@@ -271,6 +271,7 @@ export function normalizePersistedState(rawState, trips) {
   const reservationIds = new Set(trips.flatMap((trip) => trip.reservations.map((item) => item.id)));
   const checklistIds = new Set(trips.flatMap((trip) => trip.checklist.flatMap((group) => group.items.map((item) => item.id))));
   const budgetItemIds = new Set(trips.flatMap((trip) => trip.budget.map((item) => item.id)));
+  const tripDates = new Set(trips.flatMap((trip) => trip.days.map((day) => day.date)));
 
   const rates = Object.fromEntries(Object.entries(isRecord(state.rates) ? state.rates : {})
     .filter(([id, rate]) => tripIds.has(id) && Number.isFinite(Number(rate))));
@@ -292,6 +293,13 @@ export function normalizePersistedState(rawState, trips) {
       amount: Number(entry.amount),
       note: typeof entry.note === 'string' ? entry.note.trim() : '',
     }));
+  const accommodations = Object.fromEntries(Object.entries(isRecord(state.accommodations) ? state.accommodations : {})
+    .filter(([date, stay]) => tripDates.has(date) && isRecord(stay) && isNonEmptyString(stay.name))
+    .map(([date, stay]) => [date, {
+      name: stay.name.trim(),
+      address: typeof stay.address === 'string' ? stay.address.trim() : '',
+      maps: isHttpsUrl(stay.maps) ? stay.maps : '',
+    }]));
   const rawItinerary = isRecord(state.itinerary) ? state.itinerary : {};
   const customPlaces = Object.fromEntries(Object.entries(isRecord(rawItinerary.customPlaces) ? rawItinerary.customPlaces : {})
     .filter(([id, place]) => isRecord(place) && place.id === id && isNonEmptyString(place.dayDate)));
@@ -310,6 +318,7 @@ export function normalizePersistedState(rawState, trips) {
     reservations,
     checklist,
     budgetEntries,
+    accommodations,
     itinerary: { customPlaces, deletedPlaceIds, dayOrder, placeOverrides },
   };
 }

@@ -172,8 +172,8 @@ test('unique Italy venue photos and Tokyo illustrations reload offline after fir
   const italyPage = await context.newPage();
   const tokyoPage = await context.newPage();
   const targets = [
-    { page: italyPage, url: italyUrl, date: '2026-08-23', tab: 'activities', image: 'it-a-opera-roma.webp', heading: /意大利/, label: 'Italy venue photo' },
-    { page: tokyoPage, url: tokyoUrl, date: '2026-10-05', tab: 'restaurants', image: 'jp-r-hakushu.webp', heading: /东京/, label: 'Tokyo illustration' },
+    { page: italyPage, url: `${italyUrl}#itinerary`, tripId: 'italy', date: '2026-08-23', tab: 'activities', image: 'it-a-opera-roma.webp', label: 'Italy venue photo' },
+    { page: tokyoPage, url: `${tokyoUrl}#itinerary`, tripId: 'tokyo', date: '2026-10-05', tab: 'restaurants', image: 'jp-r-hakushu.webp', label: 'Tokyo illustration' },
   ];
   const errors = [];
   for (const page of [italyPage, tokyoPage]) {
@@ -199,7 +199,7 @@ test('unique Italy venue photos and Tokyo illustrations reload offline after fir
     for (const target of targets) {
       await target.page.reload({ waitUntil: 'domcontentloaded' });
       await target.page.locator('[data-app-ready="true"]').waitFor();
-      assert.match(await target.page.getByRole('heading', { level: 1 }).textContent(), target.heading);
+      assert.equal(await target.page.locator('[data-app-ready="true"]').getAttribute('data-active-trip'), target.tripId);
       await openEveningImage(target.page, { ...target, label: `${target.label} offline` });
     }
     assert.equal(errors.length, 0, errors.join('\n'));

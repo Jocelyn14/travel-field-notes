@@ -1,5 +1,5 @@
-import { calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk2';
-import { applyItineraryEdits } from './itinerary.mjs?v=a11desk2';
+import { calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk3';
+import { applyItineraryEdits } from './itinerary.mjs?v=a11desk3';
 
 const moneyFormatters = new Map();
 
@@ -78,7 +78,20 @@ function renderDayJump(days) {
   </nav>`;
 }
 
-function renderDay(day, currency, index, locale, assetBase, eveningGuide) {
+function renderAccommodation(day, stay, tripEnd) {
+  const mapLink = stay?.maps ? `<a href="${escapeHtml(stay.maps)}" target="_blank" rel="noopener noreferrer" data-external="true">Google Maps${icon('external')}</a>` : '';
+  return `<details class="accommodation-card" data-accommodation-date="${escapeHtml(day.date)}">
+    <summary><span>${icon('pin')}</span><div><small>STAY / ${escapeHtml(day.date)}</small><strong>${escapeHtml(stay?.name || '待补充住宿')}</strong>${stay?.address ? `<p>${escapeHtml(stay.address)}</p>` : '<p>填写一次，可复制到连续多天</p>'}</div><b>填写</b></summary>
+    <form data-action="accommodation-form" data-day-date="${escapeHtml(day.date)}">
+      <label>酒店 / 民宿名称<input name="name" value="${escapeHtml(stay?.name || '')}" required placeholder="例如 Hotel Artemide"></label>
+      <label>地址<input name="address" value="${escapeHtml(stay?.address || '')}" placeholder="街道、城市或邮编"></label>
+      <label>复制到（含当天）<input name="copyThrough" type="date" min="${escapeHtml(day.date)}" max="${escapeHtml(tripEnd)}" value="${escapeHtml(day.date)}"></label>
+      <footer>${mapLink}<button type="submit">保存住宿</button></footer>
+    </form>
+  </details>`;
+}
+
+function renderDay(day, currency, index, locale, assetBase, eveningGuide, accommodation, tripEnd) {
   const dayDate = formatDate(day.date);
   const isAirportGuide = eveningGuide?.mode === 'airport';
   const guideLabel = isAirportGuide ? '机场候机指南' : '今晚怎么过';
@@ -88,6 +101,7 @@ function renderDay(day, currency, index, locale, assetBase, eveningGuide) {
   return `<article class="day-block" id="day-${escapeHtml(day.date)}" data-day-date="${escapeHtml(day.date)}">
     <header class="section-heading section-heading--day"><span class="section-index">${String(index + 1).padStart(2, '0')}</span><div><p class="kicker">DAY ${String(index + 1).padStart(2, '0')} / ${dayDate.year}</p><h2>${dayDate.monthDay}</h2></div><div><strong>${escapeHtml(day.title)}</strong><span>${escapeHtml(day.subtitle)}</span></div></header>
     <div class="timeline" data-day-timeline="${escapeHtml(day.date)}">${day.places.map((place, placeIndex) => renderPlace(place, currency, placeIndex, day.date, locale, assetBase)).join('')}</div>
+    ${renderAccommodation(day, accommodation, tripEnd)}
     <button class="add-place-button" type="button" data-action="add-place" data-day-date="${escapeHtml(day.date)}"><span>＋</span><strong>添加新的行程</strong><small>联网搜索可自动补全，也可手动填写</small></button>
     <button class="evening-launch${isAirportGuide ? ' is-airport' : ''}" type="button" data-action="open-evening" data-guide-date="${escapeHtml(day.date)}">
       <span class="evening-location-mark" aria-hidden="true"><svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M36 61S18 44 18 29a18 18 0 1 1 36 0c0 15-18 32-18 32Z"/><path d="M40 22a8 8 0 1 0 8 12 9 9 0 0 1-8-12Z"/></svg></span>
@@ -107,10 +121,9 @@ function renderPlace(place, currency, index, dayDate, locale, assetBase) {
   </div>` : '';
   return `<article class="timeline-item" data-place-id="${escapeHtml(place.id)}" data-day-date="${escapeHtml(dayDate)}" draggable="true" tabindex="0" aria-label="${escapeHtml(place.name)}，可拖动重新排序">
     <button class="delete-place" type="button" data-action="delete-place" data-place-id="${escapeHtml(place.id)}" aria-label="删除 ${escapeHtml(place.name)}">删除</button>
-    <button class="place-menu" type="button" data-action="place-menu" aria-label="显示 ${escapeHtml(place.name)} 的删除操作" aria-expanded="false">•••</button>
     <div class="timeline-time"><strong>${escapeHtml(place.time)}</strong><span>${place.durationMinutes} MIN</span></div>
     <button class="timeline-node drag-handle" type="button" data-action="drag-place" aria-label="拖动 ${escapeHtml(place.name)}；键盘可按 Alt 加上下箭头"><b>${String(index + 1).padStart(2, '0')}</b><i aria-hidden="true">⋮⋮</i></button>
-    <details class="place-card"${index === 0 ? ' open' : ''}>
+    <details class="place-card">
       <summary>
         <span class="place-photo" role="img" aria-label="${escapeHtml(place.imageAlt)}" style="--place-image:url('${escapeHtml(`${assetBase}${place.image}`)}')"></span>
         <div class="place-title"><span class="eyebrow">${escapeHtml(place.category)} · ${place.cost ? formatMoney(place.cost, currency) : '免费'}</span><h3>${escapeHtml(place.name)}</h3><span class="place-name-en" lang="en">${escapeHtml(place.nameEn)}</span><span class="place-name-local" lang="${locale}">${escapeHtml(place.nameLocal)}</span></div>
@@ -238,9 +251,9 @@ function renderEveningGuidePanel(trip, assetBase) {
           <header><p>${escapeHtml(guide.date)} · LAST STOP</p><h3>${escapeHtml(anchor?.name ?? '')}附近</h3><span>左右滑动切换餐厅 / 酒吧 / 其他</span></header>
           <nav class="guide-tabs" role="tablist" aria-label="晚间推荐分类" aria-orientation="horizontal"><button id="${guideId}-restaurants-tab" type="button" role="tab" aria-selected="true" tabindex="0" aria-controls="${guideId}-restaurants-panel" data-action="guide-tab" data-guide-tab="restaurants">餐厅 ${guide.restaurants.length}</button><button id="${guideId}-bars-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="${guideId}-bars-panel" data-action="guide-tab" data-guide-tab="bars">酒吧 ${guide.bars.length}</button><button id="${guideId}-activities-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="${guideId}-activities-panel" data-action="guide-tab" data-guide-tab="activities">其他 ${guide.activities.length}</button></nav>
           <div class="guide-carousel">
-            <section id="${guideId}-restaurants-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-restaurants-tab" aria-hidden="false" data-guide-page="restaurants" data-category-theme="restaurant"><header><span>01</span><div><small>DINNER</small><h3>餐厅推荐</h3></div></header>${guide.restaurants.map((item) => renderRecommendation(item, 'restaurant', assetBase)).join('')}</section>
-            <section id="${guideId}-bars-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-bars-tab" aria-hidden="true" inert data-guide-page="bars" data-category-theme="bar"><header><span>02</span><div><small>DRINKS</small><h3>酒吧推荐</h3></div></header>${guide.bars.map((item) => renderRecommendation(item, 'bar', assetBase)).join('')}</section>
-            <section id="${guideId}-activities-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-activities-tab" aria-hidden="true" inert data-guide-page="activities" data-category-theme="activity"><header><span>03</span><div><small>AFTER DARK</small><h3>其他娱乐</h3></div></header>${guide.activities.map((item) => renderRecommendation(item, 'activity', assetBase)).join('')}</section>
+            <section id="${guideId}-restaurants-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-restaurants-tab" aria-hidden="false" data-guide-page="restaurants" data-category-theme="restaurant"><header><span>01</span><div><small>DINNER</small><h3>餐厅推荐</h3></div></header>${guide.restaurants.map((item) => renderRecommendation(item, 'restaurant', assetBase)).join('')}<button class="guide-top-link" type="button" data-action="guide-top">返回顶部 ↑</button></section>
+            <section id="${guideId}-bars-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-bars-tab" aria-hidden="true" inert data-guide-page="bars" data-category-theme="bar"><header><span>02</span><div><small>DRINKS</small><h3>酒吧推荐</h3></div></header>${guide.bars.map((item) => renderRecommendation(item, 'bar', assetBase)).join('')}<button class="guide-top-link" type="button" data-action="guide-top">返回顶部 ↑</button></section>
+            <section id="${guideId}-activities-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-activities-tab" aria-hidden="true" inert data-guide-page="activities" data-category-theme="activity"><header><span>03</span><div><small>AFTER DARK</small><h3>其他娱乐</h3></div></header>${guide.activities.map((item) => renderRecommendation(item, 'activity', assetBase)).join('')}<button class="guide-top-link" type="button" data-action="guide-top">返回顶部 ↑</button></section>
           </div>
         </article>`;
       }).join('')}
@@ -340,10 +353,10 @@ function renderPracticalInfo(info) {
 
 function renderBottomNav() {
   return `<nav class="bottom-nav" aria-label="页面导航">
-    <a href="#overview">${icon('compass')}<span>总览</span></a>
-    <a href="#itinerary">${icon('route')}<span>行程</span></a>
-    <a href="#budget">${icon('wallet')}<span>预算</span></a>
-    <a href="#checklist">${icon('check')}<span>清单</span></a>
+    <a href="#overview" data-action="app-tab" data-app-tab="overview" aria-current="page">${icon('compass')}<span>总览</span></a>
+    <a href="#itinerary" data-action="app-tab" data-app-tab="itinerary">${icon('route')}<span>行程</span></a>
+    <a href="#budget" data-action="app-tab" data-app-tab="budget">${icon('wallet')}<span>预算</span></a>
+    <a href="#checklist" data-action="app-tab" data-app-tab="checklist">${icon('check')}<span>清单</span></a>
   </nav>`;
 }
 
@@ -358,6 +371,7 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
     ${renderSiteHeader(trips, trip, standalone)}
     ${!isOnline ? '<div class="offline-banner" role="status">当前离线，攻略仍可阅读；地图与官网将在联网后打开。</div>' : ''}
     <main id="top">
+      <section class="app-view" data-app-view="overview">
       <section class="hero" id="overview" style="--hero-image:url('${escapeHtml(`${assetBase}${trip.hero}`)}')">
         <div class="hero-image" role="img" aria-label="${escapeHtml(trip.title)}旅行氛围图"></div>
         <div class="hero-contours" aria-hidden="true"></div>
@@ -367,7 +381,7 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
           <p class="hero-index">ATLAS / ${trip.id === 'italy' ? '01' : '02'}</p>
           <h1>${escapeHtml(trip.title)}<small>${escapeHtml(trip.latinTitle)}</small></h1>
           <p class="hero-summary">${escapeHtml(trip.summary)}</p>
-          <a class="primary-link" href="#itinerary">查看每日路线 ${icon('arrow')}</a>
+          <a class="primary-link" href="#itinerary" data-action="app-tab" data-app-tab="itinerary">查看每日路线 ${icon('arrow')}</a>
         </div>
         <div class="hero-meta"><span>${icon('calendar')} ${escapeHtml(trip.dates.start)} — ${escapeHtml(trip.dates.end)}</span><span>${icon('pin')} ${trip.days.length} 天初版行程</span></div>
       </section>
@@ -378,17 +392,32 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
           ${renderRoute(trip)}
         </section>
 
+        ${renderReservations(trip, state)}
+      </div>
+      </section>
+
+      <section class="app-view" data-app-view="itinerary" hidden>
+      <div class="content-wrap">
         <section class="content-section itinerary-section" id="itinerary" aria-labelledby="itinerary-title">
           <header class="itinerary-heading"><span class="section-index">02</span><div><p class="kicker">DAILY ROUTES</p><h2 id="itinerary-title">逐日行程</h2></div></header>
           ${renderDayJump(trip.days)}
-          <div class="days-stack">${trip.days.map((day, index) => renderDay(day, trip.currency, index, localLanguage, assetBase, trip.eveningGuides.find((guide) => guide.date === day.date))).join('')}</div>
+          <div class="days-stack">${trip.days.map((day, index) => renderDay(day, trip.currency, index, localLanguage, assetBase, trip.eveningGuides.find((guide) => guide.date === day.date), state.accommodations[day.date], trip.dates.end)).join('')}</div>
         </section>
+      </div>
+      </section>
 
-        ${renderReservations(trip, state)}
+      <section class="app-view" data-app-view="budget" hidden>
+      <div class="content-wrap">
         ${renderBudget(trip, state)}
+      </div>
+      </section>
+
+      <section class="app-view" data-app-view="checklist" hidden>
+      <div class="content-wrap">
         ${renderChecklist(trip, state)}
         <footer class="site-footer"><span>FIELD NOTES / TRAVEL ATLAS</span><p>这是可继续补充的第一版行程；开放时间、票价、班次与预约名额请在出发前再次核实。</p><a href="#top">返回顶部 ↑</a></footer>
       </div>
+      </section>
     </main>
     ${renderBottomNav()}
     ${renderPlaceEditor(trip)}

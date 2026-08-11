@@ -347,18 +347,32 @@ test('normalizePersistedState migrates older data and removes unknown trip keys'
   }, validTrips);
 
   assert.deepEqual(migrated, {
-    version: 3,
+    version: 4,
     activeTripId: 'italy',
     rates: { italy: 8.1 },
     reservations: { 'colosseum-ticket': '已付款' },
     checklist: { passport: true },
     budgetEntries: [{ id: 'expense-1', budgetItemId: 'ticket', amount: 24.5, note: '博物馆' }],
+    accommodations: {},
     itinerary: {
       customPlaces: {},
       deletedPlaceIds: {},
       dayOrder: {},
       placeOverrides: {},
     },
+  });
+});
+
+test('normalizePersistedState keeps accommodation only for trip dates', () => {
+  const normalized = normalizePersistedState({
+    activeTripId: 'italy',
+    accommodations: {
+      '2026-08-27': { name: 'Hotel Roma', address: 'Via Roma 1', maps: 'https://maps.google.com/example' },
+      '2030-01-01': { name: 'Unknown', address: 'Nowhere' },
+    },
+  }, validTrips);
+  assert.deepEqual(normalized.accommodations, {
+    '2026-08-27': { name: 'Hotel Roma', address: 'Via Roma 1', maps: 'https://maps.google.com/example' },
   });
 });
 

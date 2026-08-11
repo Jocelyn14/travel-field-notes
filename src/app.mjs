@@ -3,7 +3,7 @@ import {
   cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=a11desk2';
+} from './core.mjs?v=a11desk3';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -12,10 +12,10 @@ import {
   reorderPlace,
   restorePlace,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=a11desk2';
-import { searchPlace } from './search.mjs?v=a11desk2';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk2';
-import { renderApp } from './view.mjs?v=a11desk2';
+} from './itinerary.mjs?v=a11desk3';
+import { searchPlace } from './search.mjs?v=a11desk3';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk3';
+import { renderApp } from './view.mjs?v=a11desk3';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -62,7 +62,30 @@ function render({ preserveScroll = false } = {}) {
   root.dataset.appReady = 'true';
   root.dataset.activeTrip = state.activeTripId;
   root.setAttribute('aria-busy', 'false');
+  activateAppView(viewFromHash(), { updateHash: false, scroll: false });
   if (preserveScroll) window.scrollTo({ top: scrollY });
+}
+
+const APP_VIEWS = new Set(['overview', 'itinerary', 'budget', 'checklist']);
+
+function viewFromHash() {
+  const target = location.hash.slice(1);
+  if (APP_VIEWS.has(target)) return target;
+  if (target.startsWith('day-')) return 'itinerary';
+  return 'overview';
+}
+
+function activateAppView(view, { updateHash = true, scroll = true } = {}) {
+  const nextView = APP_VIEWS.has(view) ? view : 'overview';
+  root.querySelectorAll('[data-app-view]').forEach((panel) => {
+    panel.hidden = panel.dataset.appView !== nextView;
+  });
+  root.querySelectorAll('[data-app-tab]').forEach((tab) => {
+    if (tab.dataset.appTab === nextView) tab.setAttribute('aria-current', 'page');
+    else tab.removeAttribute('aria-current');
+  });
+  if (updateHash && location.hash !== `#${nextView}`) history.pushState(null, '', `#${nextView}`);
+  if (scroll) window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
 function commit(options) {
@@ -102,7 +125,6 @@ function movePlace(placeId, date, targetIndex) {
 
 function setDeleteRail(item, isOpen) {
   item?.classList.toggle('is-swiped', isOpen);
-  item?.querySelector('[data-action="place-menu"]')?.setAttribute('aria-expanded', String(isOpen));
 }
 
 function closeOtherDeleteRails(exceptItem = null) {
@@ -248,6 +270,11 @@ root.addEventListener('click', (event) => {
 
   const action = event.target.closest('[data-action]');
   if (!action) return;
+  if (action.dataset.action === 'app-tab') {
+    event.preventDefault();
+    activateAppView(action.dataset.appTab);
+    return;
+  }
   if (action.dataset.action === 'reservation') {
     const id = action.dataset.reservationId;
     state.reservations[id] = cycleReservationStatus(state.reservations[id] ?? '待预订');
@@ -276,6 +303,10 @@ root.addEventListener('click', (event) => {
     activateGuideTab(action);
     return;
   }
+  if (action.dataset.action === 'guide-top') {
+    action.closest('[data-evening-guide-date]')?.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
   if (action.dataset.action === 'close-editor') {
     closePlaceEditor();
     return;
@@ -285,13 +316,6 @@ root.addEventListener('click', (event) => {
     state.itinerary = removePlace(state.itinerary, undoDeletedId);
     commit({ preserveScroll: true });
     showToast('这条行程已删除。', '撤销');
-    return;
-  }
-  if (action.dataset.action === 'place-menu') {
-    const item = action.closest('.timeline-item');
-    const wasOpen = item?.classList.contains('is-swiped') ?? false;
-    closeOtherDeleteRails(item);
-    setDeleteRail(item, !wasOpen);
     return;
   }
   if (action.dataset.action === 'undo-delete' && undoDeletedId) {
@@ -377,6 +401,25 @@ root.addEventListener('keydown', (event) => {
 });
 
 root.addEventListener('submit', (event) => {
+  const accommodationForm = event.target.closest('[data-action="accommodation-form"]');
+  if (accommodationForm) {
+    event.preventDefault();
+    const values = Object.fromEntries(new FormData(accommodationForm));
+    const startDate = accommodationForm.dataset.dayDate;
+    const copyThrough = values.copyThrough >= startDate ? values.copyThrough : startDate;
+    const stay = {
+      name: String(values.name ?? '').trim(),
+      address: String(values.address ?? '').trim(),
+    };
+    if (!stay.name) return;
+    stay.maps = buildGoogleMapsSearchUrl(stay.name, stay.address);
+    for (const day of currentTrip().days) {
+      if (day.date >= startDate && day.date <= copyThrough) state.accommodations[day.date] = { ...stay };
+    }
+    commit({ preserveScroll: true });
+    showToast(startDate === copyThrough ? '住宿信息已保存。' : '住宿信息已复制到所选日期。');
+    return;
+  }
   const budgetForm = event.target.closest('[data-action="budget-entry-add"]');
   if (budgetForm) {
     event.preventDefault();
@@ -557,10 +600,11 @@ root.addEventListener('error', (event) => {
 
 window.addEventListener('online', () => render({ preserveScroll: true }));
 window.addEventListener('offline', () => render({ preserveScroll: true }));
+window.addEventListener('hashchange', () => activateAppView(viewFromHash(), { updateHash: false }));
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=a11desk2', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=a11desk3', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);

@@ -12,7 +12,7 @@ async function openTokyoEveningGuide(viewport = { width: 390, height: 844 }) {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport });
   try {
-    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
+    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await page.locator('[data-action="open-evening"][data-guide-date="2026-10-05"]').click();
     const guide = page.locator('[data-evening-guide-date="2026-10-05"]');
@@ -107,21 +107,26 @@ test('Italy and Tokyo management state are isolated and persist locally', async 
     const reservation = page.locator('[data-action="reservation"]').first();
     await reservation.click();
     await assert.doesNotReject(() => reservation.getByText('已预订').waitFor());
+    await page.locator('[data-app-tab="budget"]').click();
     const rate = page.locator('[data-action="rate"]');
     await rate.fill('8.5');
     await rate.press('Enter');
+    await page.locator('[data-app-tab="checklist"]').click();
     await page.locator('[data-action="checklist"]').first().check();
 
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '待预订');
+    await page.locator('[data-app-tab="checklist"]').click();
     assert.equal(await page.locator('[data-action="checklist"]').first().isChecked(), false);
 
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     assert.equal(await page.locator('[data-app-ready="true"]').getAttribute('data-active-trip'), 'italy');
     assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '已预订');
+    await page.locator('[data-app-tab="budget"]').click();
     assert.equal(await page.locator('[data-action="rate"]').inputValue(), '8.5');
+    await page.locator('[data-app-tab="checklist"]').click();
     assert.equal(await page.locator('[data-action="checklist"]').first().isChecked(), true);
     assert.deepEqual(await page.evaluate(() => Object.keys(localStorage).sort()), ['travel-atlas-state:italy', 'travel-atlas-state:tokyo']);
   } finally {
@@ -133,7 +138,7 @@ test('budget ledger accumulates, persists, deletes and stays destination-specifi
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   try {
-    await page.goto(italyUrl, { waitUntil: 'networkidle' });
+    await page.goto(`${italyUrl}#budget`, { waitUntil: 'networkidle' });
     await page.evaluate(() => localStorage.clear());
     await page.reload({ waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
@@ -153,7 +158,7 @@ test('budget ledger accumulates, persists, deletes and stays destination-specifi
     await page.locator('[data-budget-item-id="italy-transit"] [data-action="budget-entry-delete"]').click();
     assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '12.5');
 
-    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
+    await page.goto(`${tokyoUrl}#budget`, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '0');
   } finally {
@@ -166,13 +171,13 @@ test('offline external links stay on-page and explain what happened', async () =
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   try {
-    await page.goto(italyUrl, { waitUntil: 'networkidle' });
+    await page.goto(`${italyUrl}#checklist`, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await context.setOffline(true);
     await page.evaluate(() => window.dispatchEvent(new Event('offline')));
-    await page.locator('[data-external="true"]').first().click();
+    await page.locator('.practical-desk [data-external="true"]').first().click();
     await assert.doesNotReject(() => page.getByText('当前离线，地图与官网需要联网后打开。').waitFor());
-    assert.equal(page.url(), italyUrl);
+    assert.equal(page.url(), `${italyUrl}#checklist`);
   } finally {
     await browser.close();
   }
@@ -187,7 +192,7 @@ test('in-app add drawer opens, saves and persists for both destinations', async 
       [tokyoUrl, '2026-10-05', '個人スポット'],
     ]) {
       const page = await context.newPage();
-      await page.goto(url, { waitUntil: 'networkidle' });
+      await page.goto(`${url}#itinerary`, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
       await page.locator(`[data-action="add-place"][data-day-date="${date}"]`).click();
       const panel = page.locator('[data-panel="place-editor"]');
@@ -208,11 +213,11 @@ test('in-app add drawer opens, saves and persists for both destinations', async 
   }
 });
 
-test('delete rail works with desktop pointer, explicit menu and undo', async () => {
+test('delete rail works with horizontal gesture and undo without an extra menu', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 878, height: 720 } });
   try {
-    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
+    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     const item = page.locator('.timeline-item').first();
     const start = { pointerId: 7, pointerType: 'mouse', clientX: 720, clientY: 300, bubbles: true };
@@ -222,16 +227,9 @@ test('delete rail works with desktop pointer, explicit menu and undo', async () 
     await assert.doesNotReject(() => item.evaluate((node) => {
       if (!node.classList.contains('is-swiped')) throw new Error('delete rail not revealed');
     }));
-    assert.equal(await item.locator('[data-action="place-menu"]').getAttribute('aria-expanded'), 'true');
-
-    await item.locator('[data-action="place-menu"]').click();
-    assert.equal(await item.evaluate((node) => node.classList.contains('is-swiped')), false);
-    assert.equal(await item.locator('[data-action="place-menu"]').getAttribute('aria-expanded'), 'false');
-    await item.locator('[data-action="place-menu"]').click();
-    assert.equal(await item.evaluate((node) => node.classList.contains('is-swiped')), true);
-    assert.equal(await item.locator('[data-action="place-menu"]').getAttribute('aria-expanded'), 'true');
+    assert.equal(await item.locator('[data-action="place-menu"]').count(), 0);
     const count = await page.locator('.timeline-item').count();
-    await item.locator('[data-action="delete-place"]').click({ force: true });
+    await item.locator('[data-action="delete-place"]').click({ position: { x: 60, y: 30 } });
     assert.equal(await page.locator('.timeline-item').count(), count - 1);
     await page.locator('[data-action="undo-delete"]').click();
     assert.equal(await page.locator('.timeline-item').count(), count);
@@ -245,7 +243,7 @@ test('timeline spacing stays relaxed without overflow at target viewports', asyn
   try {
     for (const viewport of [{ width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
       const page = await browser.newPage({ viewport });
-      await page.goto(italyUrl, { waitUntil: 'networkidle' });
+      await page.goto(`${italyUrl}#itinerary`, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
       const geometry = await page.locator('[data-day-timeline]').first().evaluate((timeline) => {
         const items = [...timeline.querySelectorAll('.timeline-item')];
@@ -272,7 +270,7 @@ test('daily evening guide opens, switches horizontally and shows airport-only de
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   try {
-    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
+    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await page.locator('[data-action="open-evening"][data-guide-date="2026-10-05"]').click();
     const panel = page.locator('[data-panel="evening-guide"]');
@@ -303,7 +301,7 @@ test('editorial evening cards keep approved treatments across target viewports',
   try {
     for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
       const page = await browser.newPage({ viewport });
-      await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
+      await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
 
       const airportMark = page.locator('.evening-launch.is-airport .evening-location-mark').first();
@@ -433,7 +431,7 @@ test('Italy and Tokyo evening modals fit 768px with readable compact attribution
   try {
     for (const url of [italyUrl, tokyoUrl]) {
       const page = await browser.newPage({ viewport: { width: 768, height: 1024 } });
-      await page.goto(url, { waitUntil: 'networkidle' });
+      await page.goto(`${url}#itinerary`, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
       await page.locator('[data-action="open-evening"]').first().click();
       const panel = page.locator('[data-panel="evening-guide"]');
@@ -599,11 +597,50 @@ test('evening tab selection follows direct carousel scrolling', async () => {
   }
 });
 
+test('mobile app views, fixed navigation, accommodation copying and evening top link work together', async () => {
+  const browser = await chromium.launch(launchOptions);
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  try {
+    await page.goto(`${italyUrl}#itinerary`, { waitUntil: 'networkidle' });
+    await page.evaluate(() => localStorage.clear());
+    await page.reload({ waitUntil: 'networkidle' });
+    assert.equal(await page.locator('.place-card[open]').count(), 0);
+    assert.equal(await page.locator('[data-action="place-menu"]').count(), 0);
+
+    const stay = page.locator('[data-accommodation-date="2026-08-23"]');
+    await stay.locator('summary').click();
+    await stay.locator('[name="name"]').fill('Hotel Test Roma');
+    await stay.locator('[name="address"]').fill('Via Roma 1');
+    await stay.locator('[name="copyThrough"]').fill('2026-08-25');
+    await stay.getByRole('button', { name: '保存住宿' }).click();
+    for (const date of ['2026-08-23', '2026-08-24', '2026-08-25']) {
+      await page.locator(`[data-accommodation-date="${date}"]`).getByText('Hotel Test Roma').waitFor();
+    }
+
+    for (const view of ['overview', 'budget', 'checklist', 'itinerary']) {
+      await page.locator(`.bottom-nav [data-app-tab="${view}"]`).click();
+      assert.equal(await page.locator('[data-app-view]:visible').count(), 1);
+      assert.equal(await page.locator('[data-app-view]:visible').getAttribute('data-app-view'), view);
+    }
+    await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+    const navBottom = await page.locator('.bottom-nav').evaluate((node) => innerHeight - node.getBoundingClientRect().bottom);
+    assert.ok(Math.abs(navBottom) <= 1, `fixed nav bottom offset ${navBottom}`);
+
+    await page.locator('[data-action="open-evening"][data-guide-date="2026-08-23"]').click();
+    const guide = page.locator('[data-evening-guide-date="2026-08-23"]');
+    await guide.evaluate((node) => { node.scrollTop = 600; });
+    await guide.locator('[data-guide-page="restaurants"] [data-action="guide-top"]').click({ force: true });
+    await page.waitForFunction(() => document.querySelector('[data-evening-guide-date="2026-08-23"]')?.scrollTop < 2);
+  } finally {
+    await browser.close();
+  }
+});
+
 test('reordering updates times and the recalculated time remains editable', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 878, height: 720 } });
   try {
-    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
+    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
     await page.evaluate(() => localStorage.clear());
     await page.reload({ waitUntil: 'networkidle' });
     const day = page.locator('[data-day-timeline="2026-10-09"]');

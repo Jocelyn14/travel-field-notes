@@ -142,6 +142,33 @@ test('every day renders reorder, delete, schedule and add controls', () => {
   assert.match(html, /data-action="place-travel"/);
 });
 
+test('every day ends with an accommodation form that can copy a multi-day stay', () => {
+  const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
+  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
+  assert.equal((html.match(/data-action="accommodation-form"/g) ?? []).length, trips[0].days.length);
+  assert.match(html, /name="copyThrough"/);
+  assert.match(html, /待补充住宿/);
+});
+
+test('itinerary details start collapsed and deletion is exposed only by swipe rail', () => {
+  const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
+  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
+  assert.doesNotMatch(html, /<details class="place-card" open>/);
+  assert.doesNotMatch(html, /data-action="place-menu"/);
+  assert.match(html, /class="delete-place"/);
+});
+
+test('bottom navigation targets four exclusive app views', () => {
+  const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
+  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
+  assert.match(html, /data-app-view="overview"/);
+  assert.match(html, /data-app-view="itinerary" hidden/);
+  assert.match(html, /data-app-view="budget" hidden/);
+  assert.match(html, /data-app-view="checklist" hidden/);
+  const bottomNav = html.match(/<nav class="bottom-nav"[\s\S]*?<\/nav>/)?.[0] ?? '';
+  assert.equal((bottomNav.match(/data-action="app-tab"/g) ?? []).length, 4);
+});
+
 test('place editor uses an in-app drawer instead of the native dialog element', () => {
   const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
   const html = renderApp([trips[1]], state, true, { standalone: true, assetBase: '../' });
@@ -178,6 +205,7 @@ test('every day opens a horizontally paged evening or airport guide', () => {
   assert.match(html, /data-guide-page="restaurants"/);
   assert.match(html, /data-guide-page="bars"/);
   assert.match(html, /data-guide-tab="activities">其他 5/);
+  assert.equal((html.match(/data-action="guide-top"/g) ?? []).length, trips[1].eveningGuides.filter((guide) => guide.mode !== 'airport').length * 3);
   assert.match(html, /data-guide-page="activities"/);
   assert.match(html, /其他娱乐/);
   assert.match(html, /class="recommendation-media"/);
