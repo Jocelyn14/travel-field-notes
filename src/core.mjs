@@ -290,6 +290,14 @@ export function normalizePersistedState(rawState, trips) {
     .filter(([id, status]) => reservationIds.has(id) && RESERVATION_STATUSES.includes(status)));
   const checklist = Object.fromEntries(Object.entries(isRecord(state.checklist) ? state.checklist : {})
     .filter(([id, checked]) => checklistIds.has(id) && typeof checked === 'boolean'));
+  const seenTodoIds = new Set();
+  const customTodos = (Array.isArray(state.customTodos) ? state.customTodos : [])
+    .filter((todo) => {
+      if (!isRecord(todo) || !isNonEmptyString(todo.id) || !isNonEmptyString(todo.label) || seenTodoIds.has(todo.id)) return false;
+      seenTodoIds.add(todo.id);
+      return true;
+    })
+    .map((todo) => ({ id: todo.id, label: todo.label.trim(), checked: todo.checked === true }));
   const seenBudgetEntryIds = new Set();
   const budgetEntries = (Array.isArray(state.budgetEntries) ? state.budgetEntries : [])
     .filter((entry) => {
@@ -331,6 +339,7 @@ export function normalizePersistedState(rawState, trips) {
     rates,
     reservations,
     checklist,
+    customTodos,
     budgetEntries,
     budgetPlans,
     accommodations,

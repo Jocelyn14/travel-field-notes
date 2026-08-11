@@ -1,5 +1,5 @@
-import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk4';
-import { applyItineraryEdits, groupOverlappingPlaces } from './itinerary.mjs?v=a11desk4';
+import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk5';
+import { applyItineraryEdits } from './itinerary.mjs?v=a11desk5';
 
 const moneyFormatters = new Map();
 
@@ -98,13 +98,8 @@ function renderDay(day, currency, index, locale, assetBase, eveningGuide, accomm
   const guideMeta = isAirportGuide
     ? '<small>餐饮 · 休息 · 登机缓冲</small>'
     : '<small><i>餐厅</i><i>酒吧</i><i>其他</i></small>';
-  const groups = groupOverlappingPlaces(day.places);
-  const orderedPlaces = groups.flat();
-  let placeIndex = 0;
-  const timeline = groups.map((group) => `<div class="timeline-group${group.length > 1 ? ' is-parallel' : ''}"${group.length > 1 ? ' data-parallel-group="true"' : ''}>${group.map((place) => {
-    const currentIndex = placeIndex++;
-    return renderPlace(place, currency, currentIndex, day.date, locale, assetBase, orderedPlaces[currentIndex - 1], group.length > 1);
-  }).join('')}</div>`).join('');
+  const orderedPlaces = day.places;
+  const timeline = orderedPlaces.map((place, placeIndex) => `<div class="timeline-group">${renderPlace(place, currency, placeIndex, day.date, locale, assetBase, orderedPlaces[placeIndex - 1], false)}</div>`).join('');
   return `<article class="day-block" id="day-${escapeHtml(day.date)}" data-day-date="${escapeHtml(day.date)}">
     <header class="section-heading section-heading--day"><div><p class="kicker">DAY ${String(index + 1).padStart(2, '0')} / ${dayDate.year}</p><h2>${dayDate.monthDay}</h2></div><div><strong>${escapeHtml(day.title)}</strong><span>${escapeHtml(day.subtitle)}</span></div></header>
     <div class="timeline" data-day-timeline="${escapeHtml(day.date)}">${timeline}</div>
@@ -181,7 +176,6 @@ function renderPlaceEditor(trip) {
         <label class="editor-wide">地址<input name="address" required></label>
         <label class="editor-wide">简介<textarea name="note" rows="3"></textarea></label>
       </div>
-      <div class="conflict-prompt" data-conflict-prompt hidden role="alertdialog" aria-labelledby="conflict-title"><strong id="conflict-title">时间有冲突</strong><p data-conflict-message></p><div><button type="button" data-action="cancel-conflict">返回修改</button><button type="button" data-action="confirm-conflict">仍然添加，并行展示</button></div></div>
       <footer><button type="button" data-action="close-editor">取消</button><button class="save-place" type="submit" value="save">保存并加入当天</button></footer>
     </form>
   </section>`;
@@ -305,7 +299,7 @@ function renderBudget(trip, state) {
   const totals = calculateBudget(budget, rate, entries);
   const progress = totals.planned ? Math.min((totals.paid / totals.planned) * 100, 100) : 0;
   return `<section class="content-section" id="budget" aria-labelledby="budget-title">
-    <header class="section-heading"><div><p class="kicker">SPENDING</p><h2 id="budget-title">花销</h2></div></header>
+    <header class="page-heading"><p class="kicker">SPENDING / 04</p><h2 id="budget-title">花销</h2></header>
     <div class="budget-panel">
       <div class="budget-total">
         <div><span>计划预算</span><strong>${formatMoney(totals.planned, trip.currency)}</strong><small>约 ¥${totals.cnyPlanned.toLocaleString('zh-CN')}</small></div>
@@ -336,22 +330,26 @@ function renderBudget(trip, state) {
 
 function renderChecklist(trip, state) {
   const allItems = trip.checklist.flatMap((group) => group.items);
-  const completed = allItems.filter((item) => state.checklist[item.id]).length;
+  const customTodos = state.customTodos ?? [];
+  const completed = allItems.filter((item) => state.checklist[item.id]).length + customTodos.filter((todo) => todo.checked).length;
+  const total = allItems.length + customTodos.length;
   return `<section class="content-section" id="checklist" aria-labelledby="checklist-title">
+    <header class="section-heading section-heading--split"><div><p class="kicker">CHECKLIST / 03</p><h2 id="checklist-title">出发刻度</h2></div><strong>${completed}/${total}</strong></header>
     ${renderReservations(trip, state)}
-    <header class="section-heading section-heading--split"><div><p class="kicker">CHECKLIST</p><h2 id="checklist-title">出发刻度</h2></div><strong>${completed}/${allItems.length}</strong></header>
     <div class="checklist-grid">
       ${trip.checklist.map((group) => `<fieldset class="checklist-group"><legend>${escapeHtml(group.title)}</legend>
         ${group.items.map((item) => `<label class="check-row"><input type="checkbox" data-action="checklist" data-item-id="${escapeHtml(item.id)}"${state.checklist[item.id] ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label>`).join('')}
       </fieldset>`).join('')}
+      ${customTodos.length ? `<fieldset class="checklist-group custom-todos"><legend>我的待办</legend>${customTodos.map((todo) => `<div class="custom-todo-row"><label class="check-row"><input type="checkbox" data-action="custom-todo" data-item-id="${escapeHtml(todo.id)}"${todo.checked ? ' checked' : ''}><span>${escapeHtml(todo.label)}</span><i>${icon('check')}</i></label><button type="button" data-action="todo-delete" data-item-id="${escapeHtml(todo.id)}" aria-label="删除 ${escapeHtml(todo.label)}">删除</button></div>`).join('')}</fieldset>` : ''}
     </div>
+    <form class="todo-add-form" data-action="todo-add"><label><span>添加新的 Todo</span><input name="label" type="text" maxlength="80" required placeholder="例如：打印酒店确认单"></label><button type="submit">添加</button></form>
   </section>`;
 }
 
 function renderPracticalInfo(info) {
   const renderNotes = (items) => items.map((item) => `<li><strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.description)}</p>${item.url ? `<a href="${escapeHtml(item.url)}" data-external="true" target="_blank" rel="noopener noreferrer">查看官方信息 ${icon('external')}</a>` : ''}</li>`).join('');
   return `<section class="practical-desk" aria-labelledby="practical-desk-title">
-    <header class="practical-desk__heading"><div><p class="kicker">TRAVEL DESK / 04</p><h2 id="practical-desk-title">抵达前，先认识这里</h2></div><small>信息核验于 ${escapeHtml(info.verifiedAt)}</small></header>
+    <header class="practical-desk__heading"><div><p class="kicker">LOCAL INFO</p><h2 id="practical-desk-title">抵达前，先认识这里</h2></div><small>信息核验于 ${escapeHtml(info.verifiedAt)}</small></header>
     <div class="practical-grid">
       <article class="practical-card practical-card--essentials"><span class="practical-card__index">01</span><div><p class="kicker">FIRST VISIT</p><h3>初访须知</h3></div><ul>${renderNotes(info.essentials)}</ul></article>
       <article class="practical-card practical-card--resources"><span class="practical-card__index">02</span><div><p class="kicker">TOOLS & LINKS</p><h3>常用 App / 官网</h3></div><ul>${info.resources.map((resource) => `<li><a href="${escapeHtml(resource.url)}" data-external="true" target="_blank" rel="noopener noreferrer"><span><strong>${escapeHtml(resource.name)}</strong><small>${escapeHtml(resource.description)}</small></span>${icon('external')}</a></li>`).join('')}</ul></article>
@@ -365,7 +363,6 @@ function renderBottomNav() {
   return `<nav class="bottom-nav" aria-label="页面导航">
     <a href="#overview" data-action="app-tab" data-app-tab="overview" aria-current="page">${icon('compass')}<span>总览</span></a>
     <a href="#itinerary" data-action="app-tab" data-app-tab="itinerary">${icon('route')}<span>行程</span></a>
-    <a href="#information" data-action="app-tab" data-app-tab="information">${icon('pin')}<span>信息</span></a>
     <a href="#checklist" data-action="app-tab" data-app-tab="checklist">${icon('check')}<span>清单</span></a>
     <a href="#budget" data-action="app-tab" data-app-tab="budget">${icon('wallet')}<span>花销</span></a>
   </nav>`;
@@ -402,6 +399,7 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
           ${renderEditorial(trip)}
           ${renderRoute(trip)}
         </section>
+        ${renderPracticalInfo(trip.practicalInfo)}
 
       </div>
       </section>
@@ -409,16 +407,10 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
       <section class="app-view" data-app-view="itinerary" hidden>
       <div class="content-wrap">
         <section class="content-section itinerary-section" id="itinerary" aria-labelledby="itinerary-title">
-          <header class="itinerary-heading"><div><p class="kicker">DAILY ROUTES</p><h2 id="itinerary-title">逐日行程</h2></div></header>
+          <header class="page-heading itinerary-heading"><p class="kicker">DAILY ROUTES / 02</p><h2 id="itinerary-title">逐日行程</h2></header>
           ${renderDayJump(trip.days)}
           <div class="days-stack">${trip.days.map((day, index) => renderDay(day, trip.currency, index, localLanguage, assetBase, trip.eveningGuides.find((guide) => guide.date === day.date), state.accommodations[day.date], trip.dates.end)).join('')}</div>
         </section>
-      </div>
-      </section>
-
-      <section class="app-view" data-app-view="information" hidden>
-      <div class="content-wrap" id="information">
-        ${renderPracticalInfo(trip.practicalInfo)}
       </div>
       </section>
 
@@ -431,7 +423,6 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
       <section class="app-view" data-app-view="checklist" hidden>
       <div class="content-wrap">
         ${renderChecklist(trip, state)}
-        <footer class="site-footer"><span>FIELD NOTES / TRAVEL ATLAS</span><p>这是可继续补充的第一版行程；开放时间、票价、班次与预约名额请在出发前再次核实。</p><a href="#top">返回顶部 ↑</a></footer>
       </div>
       </section>
     </main>

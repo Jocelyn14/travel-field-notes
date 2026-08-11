@@ -3,20 +3,19 @@ import {
   cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=a11desk4';
+} from './core.mjs?v=a11desk5';
 import {
   addCustomPlace,
   applyItineraryEdits,
-  findScheduleConflicts,
   recalculateDay,
   removePlace,
   reorderPlace,
   restorePlace,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=a11desk4';
-import { searchPlace } from './search.mjs?v=a11desk4';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk4';
-import { renderApp } from './view.mjs?v=a11desk4';
+} from './itinerary.mjs?v=a11desk5';
+import { searchPlace } from './search.mjs?v=a11desk5';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk5';
+import { renderApp } from './view.mjs?v=a11desk5';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -67,7 +66,7 @@ function render({ preserveScroll = false } = {}) {
   if (preserveScroll) window.scrollTo({ top: scrollY });
 }
 
-const APP_VIEWS = new Set(['overview', 'itinerary', 'information', 'checklist', 'budget']);
+const APP_VIEWS = new Set(['overview', 'itinerary', 'checklist', 'budget']);
 
 function viewFromHash() {
   const target = location.hash.slice(1);
@@ -156,9 +155,6 @@ function openPlaceEditor(date, trigger) {
   form.reset();
   form.elements.dayDate.value = date;
   form.dataset.searchResult = '';
-  delete form.dataset.conflictConfirmed;
-  const conflictPrompt = form.querySelector('[data-conflict-prompt]');
-  if (conflictPrompt) conflictPrompt.hidden = true;
   form.querySelector('[data-search-status]').textContent = navigator.onLine
     ? '搜索结果会自动填入下方，所有内容仍可修改。'
     : '当前离线，请手动填写；联网后可使用自动搜索。';
@@ -324,16 +320,10 @@ root.addEventListener('click', (event) => {
     closePlaceEditor();
     return;
   }
-  if (action.dataset.action === 'cancel-conflict') {
-    const form = action.closest('form');
-    delete form.dataset.conflictConfirmed;
-    action.closest('[data-conflict-prompt]').hidden = true;
-    return;
-  }
-  if (action.dataset.action === 'confirm-conflict') {
-    const form = action.closest('form');
-    form.dataset.conflictConfirmed = 'true';
-    form.requestSubmit();
+  if (action.dataset.action === 'todo-delete') {
+    state.customTodos = state.customTodos.filter((todo) => todo.id !== action.dataset.itemId);
+    commit({ preserveScroll: true });
+    showToast('Todo 已删除。');
     return;
   }
   if (action.dataset.action === 'delete-place') {
@@ -374,6 +364,11 @@ root.addEventListener('change', (event) => {
   const action = event.target.dataset.action;
   if (action === 'checklist') {
     state.checklist[event.target.dataset.itemId] = event.target.checked;
+    commit({ preserveScroll: true });
+  }
+  if (action === 'custom-todo') {
+    const todo = state.customTodos.find((item) => item.id === event.target.dataset.itemId);
+    if (todo) todo.checked = event.target.checked;
     commit({ preserveScroll: true });
   }
   if (action === 'rate') updateRate(event.target);
@@ -432,6 +427,17 @@ root.addEventListener('keydown', (event) => {
 });
 
 root.addEventListener('submit', (event) => {
+  const todoForm = event.target.closest('[data-action="todo-add"]');
+  if (todoForm) {
+    event.preventDefault();
+    const label = String(new FormData(todoForm).get('label') ?? '').trim();
+    if (!label) return;
+    state.customTodos.push({ id: `todo-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, label, checked: false });
+    todoForm.reset();
+    commit({ preserveScroll: true });
+    showToast('Todo 已添加。');
+    return;
+  }
   const accommodationForm = event.target.closest('[data-action="accommodation-form"]');
   if (accommodationForm) {
     event.preventDefault();
@@ -486,7 +492,7 @@ root.addEventListener('submit', (event) => {
     time: values.time,
     durationMinutes: Number(values.durationMinutes),
     travelMinutes: Number(values.travelMinutes),
-    timeMode: 'fixed',
+    timeMode: 'flexible',
     address: values.address.trim(),
     cost: 0,
     transit: '请补充前往下一站的交通方式。',
@@ -503,20 +509,11 @@ root.addEventListener('submit', (event) => {
       booking: '',
     },
   };
-  const editedDay = applyItineraryEdits(currentTrip(), state.itinerary).days.find((day) => day.date === values.dayDate);
-  const conflicts = findScheduleConflicts(editedDay?.places ?? [], place);
-  if (conflicts.length && form.dataset.conflictConfirmed !== 'true') {
-    const prompt = form.querySelector('[data-conflict-prompt]');
-    prompt.querySelector('[data-conflict-message]').textContent =
-      `与 ${conflicts.map((item) => `${item.time} ${item.name}`).join('、')} 时间重叠。仍要添加时将并行展示。`;
-    prompt.hidden = false;
-    prompt.focus();
-    return;
-  }
-  state.itinerary = addCustomPlace(state.itinerary, values.dayDate, place, currentTrip());
+  state.itinerary = addCustomPlace(state.itinerary, values.dayDate, place);
+  recalculateAndStore(values.dayDate);
   closePlaceEditor();
   commit({ preserveScroll: true });
-  showToast(conflicts.length ? '新行程已按时间并行加入。' : '新行程已按时间顺序加入。');
+  showToast('新行程已加入，后续时间已自动顺延。');
 });
 
 root.addEventListener('dragstart', (event) => {
@@ -647,7 +644,7 @@ window.addEventListener('hashchange', () => activateAppView(viewFromHash(), { up
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=a11desk4', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=a11desk5', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);

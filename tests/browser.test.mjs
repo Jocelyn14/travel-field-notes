@@ -76,7 +76,7 @@ test('separate travel pages stay responsive across target viewports', async () =
   }
 });
 
-test('both information tabs show destination-specific practical travel desks', async () => {
+test('both overview tabs show destination-specific practical travel desks', async () => {
   const browser = await chromium.launch(launchOptions);
   try {
     for (const [url, expectedContact, absentContact] of [
@@ -84,9 +84,9 @@ test('both information tabs show destination-specific practical travel desks', a
       [tokyoUrl, '+81-3-6450-2195', '+39-3939110852'],
     ]) {
       const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-      await page.goto(`${url}#information`, { waitUntil: 'networkidle' });
+      await page.goto(`${url}#overview`, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
-      const information = page.locator('#information');
+      const information = page.locator('[data-app-view="overview"]');
       assert.equal(await information.locator('.practical-card h3').allTextContents().then((items) => items.join('|')), '初访须知|常用 App / 官网|习俗与当期节庆|紧急联络');
       assert.equal(await information.locator(`a[href="tel:${expectedContact}"]`).count(), 1);
       assert.equal(await information.locator(`a[href="tel:${absentContact}"]`).count(), 0);
@@ -177,13 +177,13 @@ test('offline external links stay on-page and explain what happened', async () =
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   try {
-    await page.goto(`${italyUrl}#information`, { waitUntil: 'networkidle' });
+    await page.goto(`${italyUrl}#overview`, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await context.setOffline(true);
     await page.evaluate(() => window.dispatchEvent(new Event('offline')));
     await page.locator('.practical-desk [data-external="true"]').first().click();
     await assert.doesNotReject(() => page.getByText('当前离线，地图与官网需要联网后打开。').waitFor());
-    assert.equal(page.url(), `${italyUrl}#information`);
+    assert.equal(page.url(), `${italyUrl}#overview`);
   } finally {
     await browser.close();
   }
@@ -220,7 +220,7 @@ test('in-app add drawer opens, saves and persists for both destinations', async 
   }
 });
 
-test('new stops are time-sorted and overlapping times require parallel confirmation', async () => {
+test('new stops save without conflict prompts and times are automatically sequenced', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 878, height: 720 } });
   try {
@@ -232,12 +232,30 @@ test('new stops are time-sorted and overlapping times require parallel confirmat
     }
     await panel.locator('[name="time"]').fill('15:30');
     await panel.locator('.save-place').click();
-    await panel.locator('[data-conflict-prompt]').waitFor({ state: 'visible' });
-    await panel.locator('[data-action="confirm-conflict"]').click();
     const item = page.locator('.timeline-item', { hasText: '并行测试景点' });
     await item.waitFor();
-    assert.equal(await item.locator('.timeline-time strong').textContent(), '15:30');
-    assert.equal(await item.evaluate((node) => node.closest('.timeline-group')?.dataset.parallelGroup), 'true');
+    assert.equal(await panel.count(), 1);
+    assert.equal(await page.locator('[data-conflict-prompt]').count(), 0);
+    assert.notEqual(await item.evaluate((node) => node.closest('.timeline-group')?.dataset.parallelGroup), 'true');
+  } finally {
+    await browser.close();
+  }
+});
+
+test('custom checklist todos can be added, checked, deleted and persist', async () => {
+  const browser = await chromium.launch(launchOptions);
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  try {
+    await page.goto(`${italyUrl}#checklist`, { waitUntil: 'networkidle' });
+    await page.locator('[data-action="todo-add"] [name="label"]').fill('打印酒店确认单');
+    await page.locator('[data-action="todo-add"]').getByRole('button', { name: '添加' }).click();
+    const row = page.locator('.custom-todo-row', { hasText: '打印酒店确认单' });
+    await row.locator('[data-action="custom-todo"]').check();
+    await page.reload({ waitUntil: 'networkidle' });
+    const persisted = page.locator('.custom-todo-row', { hasText: '打印酒店确认单' });
+    assert.equal(await persisted.locator('[data-action="custom-todo"]').isChecked(), true);
+    await persisted.locator('[data-action="todo-delete"]').click();
+    assert.equal(await page.locator('.custom-todo-row', { hasText: '打印酒店确认单' }).count(), 0);
   } finally {
     await browser.close();
   }
@@ -291,6 +309,19 @@ test('timeline spacing stays relaxed without overflow at target viewports', asyn
       assert.ok(geometry.overflow <= 0, `overflow ${geometry.overflow}px at ${viewport.width}`);
       await page.close();
     }
+  } finally {
+    await browser.close();
+  }
+});
+
+test('mobile day date and summary columns do not overlap', async () => {
+  const browser = await chromium.launch(launchOptions);
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  try {
+    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
+    const heading = page.locator('.section-heading--day').first();
+    const boxes = await heading.locator(':scope > div').evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect()).map(({ left, right, top, bottom }) => ({ left, right, top, bottom })));
+    assert.ok(boxes[0].right <= boxes[1].left, `date ends at ${boxes[0].right}, summary starts at ${boxes[1].left}`);
   } finally {
     await browser.close();
   }
@@ -647,7 +678,7 @@ test('mobile app views, fixed navigation, accommodation copying and evening top 
       await page.locator(`[data-accommodation-date="${date}"]`).getByText('Hotel Test Roma').waitFor();
     }
 
-    for (const view of ['overview', 'itinerary', 'information', 'checklist', 'budget']) {
+    for (const view of ['overview', 'itinerary', 'checklist', 'budget']) {
       await page.locator(`.bottom-nav [data-app-tab="${view}"]`).click();
       assert.equal(await page.locator('[data-app-view]:visible').count(), 1);
       assert.equal(await page.locator('[data-app-view]:visible').getAttribute('data-app-view'), view);

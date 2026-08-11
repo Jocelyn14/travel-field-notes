@@ -560,6 +560,20 @@ svg.icon {
   line-height: 1.08;
 }
 
+.page-heading {
+  display: grid;
+  gap: 0;
+  margin-bottom: 42px;
+}
+
+.page-heading h2 {
+  margin: 0;
+  font-size: clamp(32px, 9vw, 58px);
+  font-weight: 560;
+  letter-spacing: -.055em;
+  line-height: 1.08;
+}
+
 .day-jump {
   display: grid;
   grid-auto-columns: minmax(112px, 1fr);
@@ -2333,7 +2347,7 @@ body.panel-open {
   min-width: 0;
   padding: 20px;
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--white) 92%, var(--accent));
+  background: var(--white);
 }
 
 .practical-card__index {
@@ -2486,6 +2500,60 @@ body.panel-open {
   letter-spacing: .08em;
 }
 
+.custom-todo-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: stretch;
+  border-top: 1px solid var(--line);
+}
+
+.custom-todo-row .check-row {
+  border-top: 0;
+}
+
+.custom-todo-row > button {
+  min-width: 58px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+}
+
+.todo-add-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.todo-add-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--ink-soft);
+  font-size: 11px;
+}
+
+.todo-add-form input,
+.todo-add-form button {
+  min-height: 48px;
+  border: 1px solid var(--line);
+  font: inherit;
+}
+
+.todo-add-form input {
+  width: 100%;
+  padding: 0 14px;
+  background: var(--white);
+}
+
+.todo-add-form button {
+  align-self: end;
+  padding: 0 22px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
 .check-row {
   clear: both;
   display: grid;
@@ -2575,7 +2643,7 @@ body.panel-open {
   bottom: 0;
   left: 0;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   min-height: calc(68px + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   overflow: hidden;
@@ -2883,11 +2951,11 @@ body.panel-open {
   }
 
   .section-heading {
-    grid-template-columns: 54px 1fr;
+    grid-template-columns: 1fr;
   }
 
   .section-heading--day {
-    grid-template-columns: 54px 130px 1fr;
+    grid-template-columns: 130px 1fr;
   }
 
   .section-heading--day h2 {
@@ -2947,8 +3015,8 @@ body.panel-open {
     right: 28px;
     bottom: 28px;
     left: auto;
-    grid-template-columns: repeat(5, 70px);
-    width: 350px;
+    grid-template-columns: repeat(4, 70px);
+    width: 280px;
   }
 
   .site-footer {
@@ -3019,7 +3087,7 @@ body.panel-open {
   }
 
   .section-heading--day {
-    grid-template-columns: 38px 84px 1fr;
+    grid-template-columns: 84px 1fr;
     gap: 10px;
   }
 

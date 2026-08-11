@@ -353,6 +353,7 @@ test('normalizePersistedState migrates older data and removes unknown trip keys'
     rates: { italy: 8.1 },
     reservations: { 'colosseum-ticket': '已付款' },
     checklist: { passport: true },
+    customTodos: [],
     budgetEntries: [{ id: 'expense-1', budgetItemId: 'ticket', amount: 24.5, note: '博物馆' }],
     budgetPlans: {},
     accommodations: {},
@@ -371,6 +372,17 @@ test('normalizePersistedState keeps valid planned budget overrides', () => {
     budgetPlans: { ticket: 420, missing: 9, food: -1 },
   }, validTrips);
   assert.deepEqual(normalized.budgetPlans, { ticket: 420 });
+});
+
+test('normalizePersistedState keeps valid custom todos', () => {
+  const normalized = normalizePersistedState({
+    activeTripId: 'italy',
+    customTodos: [
+      { id: 'todo-1', label: '打印预约单', checked: true },
+      { id: 'todo-2', label: '  ', checked: false },
+    ],
+  }, validTrips);
+  assert.deepEqual(normalized.customTodos, [{ id: 'todo-1', label: '打印预约单', checked: true }]);
 });
 
 test('normalizePersistedState keeps accommodation only for trip dates', () => {

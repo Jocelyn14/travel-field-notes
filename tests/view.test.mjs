@@ -16,7 +16,7 @@ test('renderApp includes every agreed section and safe external links', () => {
   const state = normalizePersistedState({ activeTripId: 'italy', rates: { italy: 8.35 } }, trips);
   const html = renderApp(trips, state, true);
 
-  for (const id of ['overview', 'itinerary', 'information', 'reservations', 'budget', 'checklist']) {
+  for (const id of ['overview', 'itinerary', 'reservations', 'budget', 'checklist']) {
     assert.match(html, new RegExp(`id="${id}"`));
   }
   assert.match(html, /data-trip-id="italy"/);
@@ -27,16 +27,38 @@ test('renderApp includes every agreed section and safe external links', () => {
   assert.match(html, /target="_blank" rel="noopener noreferrer"/);
 });
 
-test('renderApp uses the five requested tabs and groups reservations with the checklist', () => {
+test('renderApp uses four tabs, keeps information in overview and reservations in checklist', () => {
   const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
   const html = renderApp(trips, state, true);
-  const tabs = [...html.matchAll(/data-app-tab="([^"]+)"/g)].map((match) => match[1]).slice(-5);
-  assert.deepEqual(tabs, ['overview', 'itinerary', 'information', 'checklist', 'budget']);
+  const tabs = [...html.matchAll(/data-app-tab="([^"]+)"/g)].map((match) => match[1]).slice(-4);
+  assert.deepEqual(tabs, ['overview', 'itinerary', 'checklist', 'budget']);
   const overview = html.slice(html.indexOf('data-app-view="overview"'), html.indexOf('data-app-view="itinerary"'));
   const checklist = html.slice(html.indexOf('data-app-view="checklist"'), html.indexOf('</main>'));
   assert.doesNotMatch(overview, /预约与凭证/);
+  assert.match(overview, /抵达前，先认识这里/);
   assert.match(checklist, /预约与凭证/);
   assert.doesNotMatch(html, /class="section-index"/);
+});
+
+test('four tabs use unified numbered brief headings without a checklist footer', () => {
+  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
+  const html = renderApp(trips, state, true);
+  for (const heading of ['FIELD BRIEF / 01', 'DAILY ROUTES / 02', 'CHECKLIST / 03', 'SPENDING / 04']) {
+    assert.match(html, new RegExp(heading.replace('/', '\\/')));
+  }
+  assert.doesNotMatch(html, /FIELD NOTES \/ TRAVEL ATLAS/);
+});
+
+test('checklist renders persisted custom todos and an add form', () => {
+  const state = normalizePersistedState({
+    activeTripId: 'tokyo',
+    customTodos: [{ id: 'todo-1', label: '打印酒店确认单', checked: true }],
+  }, trips);
+  const html = renderApp(trips, state, true);
+  assert.match(html, /data-action="todo-add"/);
+  assert.match(html, /打印酒店确认单/);
+  assert.match(html, /data-action="custom-todo"[^>]*checked/);
+  assert.match(html, /data-action="todo-delete"/);
 });
 
 test('renderApp exposes editable planned amounts', () => {
@@ -158,11 +180,11 @@ test('place details keep one attraction introduction and move transit into map d
   assert.match(html, /class="place-photo-fallback"/);
 });
 
-test('place editor contains an in-app conflict confirmation prompt', () => {
+test('place editor saves without a conflict confirmation prompt', () => {
   const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
   const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
-  assert.match(html, /data-conflict-prompt/);
-  assert.match(html, /data-action="confirm-conflict"/);
+  assert.doesNotMatch(html, /data-conflict-prompt/);
+  assert.doesNotMatch(html, /data-action="confirm-conflict"/);
 });
 
 test('every day renders reorder, delete, schedule and add controls', () => {
@@ -194,16 +216,16 @@ test('itinerary details start collapsed and deletion is exposed only by swipe ra
   assert.match(html, /class="delete-place"/);
 });
 
-test('bottom navigation targets five exclusive app views', () => {
+test('bottom navigation targets four exclusive app views', () => {
   const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
   const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
   assert.match(html, /data-app-view="overview"/);
   assert.match(html, /data-app-view="itinerary" hidden/);
-  assert.match(html, /data-app-view="information" hidden/);
+  assert.doesNotMatch(html, /data-app-view="information"/);
   assert.match(html, /data-app-view="budget" hidden/);
   assert.match(html, /data-app-view="checklist" hidden/);
   const bottomNav = html.match(/<nav class="bottom-nav"[\s\S]*?<\/nav>/)?.[0] ?? '';
-  assert.equal((bottomNav.match(/data-action="app-tab"/g) ?? []).length, 5);
+  assert.equal((bottomNav.match(/data-action="app-tab"/g) ?? []).length, 4);
 });
 
 test('place editor uses an in-app drawer instead of the native dialog element', () => {
