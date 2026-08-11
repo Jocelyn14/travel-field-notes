@@ -30,6 +30,21 @@ export function validateTrips(trips) {
     if (!isRecord(trip.theme) || !isNonEmptyString(trip.theme.accent) || !isNonEmptyString(trip.theme.secondary)) {
       errors.push(`${tripPath}.theme 必须包含 accent 和 secondary`);
     }
+    const editorial = trip.editorial;
+    for (const field of ['quote', 'translation', 'author', 'work']) {
+      if (!isNonEmptyString(editorial?.[field])) errors.push(`${tripPath}.editorial.${field} 不能为空`);
+    }
+    if (!Array.isArray(editorial?.highlights) || editorial.highlights.length !== 3) {
+      errors.push(`${tripPath}.editorial.highlights 必须恰好包含 3 项`);
+    } else {
+      editorial.highlights.forEach((highlight, highlightIndex) => {
+        const highlightPath = `${tripPath}.editorial.highlights[${highlightIndex}]`;
+        if (!isNonEmptyString(highlight?.title)) errors.push(`${highlightPath}.title 不能为空`);
+        if (!isNonEmptyString(highlight?.description) || highlight.description.trim().length < 20) {
+          errors.push(`${highlightPath}.description 至少需要 20 个字符`);
+        }
+      });
+    }
 
     if (!Array.isArray(trip.days) || trip.days.length === 0) {
       errors.push(`${tripPath}.days 必须是非空数组`);

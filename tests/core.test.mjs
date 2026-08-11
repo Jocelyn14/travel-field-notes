@@ -16,6 +16,17 @@ const validTrips = [
     title: '意大利',
     dates: { start: '2026-08-26', end: '2026-08-31' },
     currency: 'EUR',
+    editorial: {
+      quote: 'A sufficiently long literary quotation.',
+      translation: '一段足够完整的中文译意。',
+      author: '作者姓名',
+      work: '作品名称',
+      highlights: [
+        { title: '高光一', description: '第一段足够具体且长度满足要求的旅行高光场景描述。' },
+        { title: '高光二', description: '第二段足够具体且长度满足要求的旅行高光场景描述。' },
+        { title: '高光三', description: '第三段足够具体且长度满足要求的旅行高光场景描述。' },
+      ],
+    },
     theme: { accent: '#C65D3B', secondary: '#6E7B58' },
     days: [
       {
@@ -139,6 +150,23 @@ const validTrips = [
 
 test('validateTrips accepts the agreed travel data contract', () => {
   assert.deepEqual(validateTrips(validTrips), { ok: true, errors: [] });
+});
+
+test('validateTrips requires complete destination editorial copy', () => {
+  const invalidTrips = structuredClone(validTrips);
+  invalidTrips[0].editorial = {
+    quote: '',
+    translation: '译文',
+    author: '作者',
+    work: '作品',
+    highlights: [{ title: '高光', description: '太短' }],
+  };
+
+  const result = validateTrips(invalidTrips);
+
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some((error) => error.includes('trips[0].editorial.quote')));
+  assert.ok(result.errors.some((error) => error.includes('trips[0].editorial.highlights')));
 });
 
 test('validateTrips reports readable paths for malformed fields', () => {

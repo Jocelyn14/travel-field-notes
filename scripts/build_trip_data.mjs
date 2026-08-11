@@ -319,6 +319,17 @@ const EVENING_ACTIVITY_BY_DATE = {
 };
 
 const italy = {
+  editorial: {
+    quote: 'E quindi uscimmo a riveder le stelle.',
+    translation: '于是我们走出幽暗，再一次看见群星。',
+    author: '但丁·阿利吉耶里',
+    work: '《神曲·地狱篇》',
+    highlights: [
+      { title: '罗马晨光', description: '清晨从斗兽场走进古罗马广场，让两千年的石墙在第一束金色日光里慢慢显形。' },
+      { title: '阿诺河暮色', description: '傍晚站上米开朗琪罗广场，看佛罗伦萨穹顶、老桥与阿诺河一起沉进托斯卡纳的暖光。' },
+      { title: '第勒尼安海', description: '从那不勒斯乘船抵达卡普里，在海风、悬崖与深蓝海面之间收获整段旅程最明亮的一天。' },
+    ],
+  },
   id: 'italy', title: '意大利', latinTitle: 'ITALIA / ROMA · FIRENZE · NAPOLI', sample: false,
   hero: 'assets/italy-hero.webp', coordinates: '41.9028° N · 12.4964° E',
   summary: '八天串联罗马、佛罗伦萨、比萨、那不勒斯、卡普里与庞贝；第一次到访先抓住古典建筑、文艺复兴与海湾风景。',
@@ -487,6 +498,17 @@ const italy = {
 };
 
 const tokyo = {
+  editorial: {
+    quote: '日々旅にして旅を栖とす。',
+    translation: '日日皆在旅途，便以旅途为栖居。',
+    author: '松尾芭蕉',
+    work: '《奥之细道》',
+    highlights: [
+      { title: '浅草清晨', description: '在人潮抵达之前穿过雷门与仲见世，让晨光、香烟和五重塔组成第一次认识东京的画面。' },
+      { title: '旧物与时间', description: '从东京国立博物馆走到谷中，再去下北泽与高圆寺，在寺院、旧宅和复古小店里触摸城市的旧时间。' },
+      { title: '霓虹夜航', description: '从涩谷天空俯瞰密集灯火，最后走入新宿的霓虹、塔罗与夜间小店，感受东京在入夜后彻底醒来。' },
+    ],
+  },
   id: 'tokyo', title: '东京', latinTitle: 'TOKYO / 東京', sample: false,
   hero: 'assets/tokyo-hero.webp', coordinates: '35.6762° N · 139.6503° E',
   summary: '六天第一次东京：经典城市地标打底，再把寺庙、博物馆、塔罗与复古街区编进同一条铁路坐标。',

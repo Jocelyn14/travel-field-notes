@@ -455,3 +455,23 @@ test('planned data covers every budget category and checklist group', async () =
     assert.deepEqual(trip.checklist.map((group) => group.title), ['证件', '行李', '出发前事项']);
   }
 });
+
+test('each destination opens with an attributed literary quote and three trip highlights', async () => {
+  const trips = JSON.parse(await readFile(dataUrl, 'utf8'));
+  const [italy, tokyo] = trips;
+
+  assert.equal(italy.editorial.quote, 'E quindi uscimmo a riveder le stelle.');
+  assert.equal(italy.editorial.author, '但丁·阿利吉耶里');
+  assert.equal(tokyo.editorial.quote, '日々旅にして旅を栖とす。');
+  assert.equal(tokyo.editorial.author, '松尾芭蕉');
+
+  for (const trip of trips) {
+    assert.ok(trip.editorial.translation.length >= 8);
+    assert.ok(trip.editorial.work.length >= 3);
+    assert.equal(trip.editorial.highlights.length, 3);
+    for (const highlight of trip.editorial.highlights) {
+      assert.ok(highlight.title.length >= 3);
+      assert.ok(highlight.description.length >= 20);
+    }
+  }
+});
