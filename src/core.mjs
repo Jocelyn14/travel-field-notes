@@ -180,6 +180,48 @@ export function validateTrips(trips) {
       });
     }
     if (!Array.isArray(trip.checklist)) errors.push(`${tripPath}.checklist 必须是数组`);
+    const practicalInfo = trip.practicalInfo;
+    if (!isRecord(practicalInfo)) {
+      errors.push(`${tripPath}.practicalInfo 必须是对象`);
+    } else {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(practicalInfo.verifiedAt ?? '')) {
+        errors.push(`${tripPath}.practicalInfo.verifiedAt 必须是 YYYY-MM-DD`);
+      }
+      for (const listName of ['essentials', 'customs']) {
+        const list = practicalInfo[listName];
+        if (!Array.isArray(list) || list.length < 3) {
+          errors.push(`${tripPath}.practicalInfo.${listName} 至少包含 3 项`);
+          continue;
+        }
+        list.forEach((item, itemIndex) => {
+          const itemPath = `${tripPath}.practicalInfo.${listName}[${itemIndex}]`;
+          if (!isNonEmptyString(item?.title)) errors.push(`${itemPath}.title 不能为空`);
+          if (!isNonEmptyString(item?.description)) errors.push(`${itemPath}.description 不能为空`);
+          if (item?.url && !isHttpsUrl(item.url)) errors.push(`${itemPath}.url 必须使用 https://`);
+        });
+      }
+      if (!Array.isArray(practicalInfo.resources) || practicalInfo.resources.length < 3) {
+        errors.push(`${tripPath}.practicalInfo.resources 至少包含 3 项`);
+      } else {
+        practicalInfo.resources.forEach((resource, resourceIndex) => {
+          const resourcePath = `${tripPath}.practicalInfo.resources[${resourceIndex}]`;
+          if (!isNonEmptyString(resource?.name)) errors.push(`${resourcePath}.name 不能为空`);
+          if (!isNonEmptyString(resource?.description)) errors.push(`${resourcePath}.description 不能为空`);
+          if (!isHttpsUrl(resource?.url)) errors.push(`${resourcePath}.url 必须使用 https://`);
+        });
+      }
+      if (!Array.isArray(practicalInfo.emergencyContacts) || practicalInfo.emergencyContacts.length < 4) {
+        errors.push(`${tripPath}.practicalInfo.emergencyContacts 至少包含 4 项`);
+      } else {
+        practicalInfo.emergencyContacts.forEach((contact, contactIndex) => {
+          const contactPath = `${tripPath}.practicalInfo.emergencyContacts[${contactIndex}]`;
+          if (!isNonEmptyString(contact?.label)) errors.push(`${contactPath}.label 不能为空`);
+          if (!/^\+?[0-9][0-9-]+$/.test(contact?.phone ?? '')) errors.push(`${contactPath}.phone 格式无效`);
+          if (!isNonEmptyString(contact?.note)) errors.push(`${contactPath}.note 不能为空`);
+          if (!isHttpsUrl(contact?.sourceUrl)) errors.push(`${contactPath}.sourceUrl 必须使用 https://`);
+        });
+      }
+    }
   });
 
   return { ok: errors.length === 0, errors };
