@@ -43,6 +43,14 @@ async function searchLanguage(language, query, fetcher) {
   return Object.values(data.query?.pages ?? {})[0] ?? null;
 }
 
+export function summarizeExtract(value, maxLength = 50) {
+  const text = String(value ?? '').replace(/\s+/g, ' ').trim();
+  if (text.length <= maxLength) return text;
+  const sentenceEnd = [...text].findIndex((character) => '。！？.!?'.includes(character));
+  if (sentenceEnd >= 0 && sentenceEnd + 1 <= maxLength) return text.slice(0, sentenceEnd + 1);
+  return `${text.slice(0, Math.max(0, maxLength - 1)).trimEnd()}…`;
+}
+
 export async function searchPlace(query, tripId, fetcher = fetch) {
   const normalizedQuery = String(query ?? '').trim();
   if (!normalizedQuery) throw new Error('请输入要搜索的景点或地点');
@@ -67,7 +75,7 @@ export async function searchPlace(query, tripId, fetcher = fetch) {
     name: zh?.title ?? primary.title,
     nameEn: en?.title ?? primary.title,
     nameLocal: local?.title ?? primary.title,
-    note: zh?.extract ?? en?.extract ?? local?.extract ?? '',
+    note: summarizeExtract(zh?.extract ?? en?.extract ?? local?.extract ?? ''),
     address: address || (coordinates ? `${coordinates.lat.toFixed(5)}, ${coordinates.lon.toFixed(5)}` : primary.title),
     maps: maps.href,
     image,

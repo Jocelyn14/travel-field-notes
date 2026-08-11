@@ -237,6 +237,10 @@ test('new stops save without conflict prompts and times are automatically sequen
     assert.equal(await panel.count(), 1);
     assert.equal(await page.locator('[data-conflict-prompt]').count(), 0);
     assert.notEqual(await item.evaluate((node) => node.closest('.timeline-group')?.dataset.parallelGroup), 'true');
+    const orderedTimes = await page.locator('[data-day-timeline="2026-10-05"] .timeline-time strong').allTextContents();
+    assert.deepEqual(orderedTimes, [...orderedTimes].sort());
+    const orderedNames = await page.locator('[data-day-timeline="2026-10-05"] .place-title h3').allTextContents();
+    assert.equal(orderedTimes[orderedNames.indexOf('并行测试景点')], '15:30');
   } finally {
     await browser.close();
   }
@@ -250,6 +254,12 @@ test('custom checklist todos can be added, checked, deleted and persist', async 
     await page.locator('[data-action="todo-add"] [name="label"]').fill('打印酒店确认单');
     await page.locator('[data-action="todo-add"]').getByRole('button', { name: '添加' }).click();
     const row = page.locator('.custom-todo-row', { hasText: '打印酒店确认单' });
+    assert.equal(await row.locator('xpath=ancestor::*[contains(@class,"custom-todos-panel")]').count(), 1);
+    const todoLayout = await page.locator('.custom-todos-panel').evaluate((panel) => ({
+      panelBottom: panel.getBoundingClientRect().bottom,
+      checklistTop: document.querySelector('.checklist-grid').getBoundingClientRect().top,
+    }));
+    assert.ok(todoLayout.panelBottom <= todoLayout.checklistTop);
     await row.locator('[data-action="custom-todo"]').check();
     await page.reload({ waitUntil: 'networkidle' });
     const persisted = page.locator('.custom-todo-row', { hasText: '打印酒店确认单' });
@@ -693,6 +703,19 @@ test('mobile app views, fixed navigation, accommodation copying and evening top 
     await guide.evaluate((node) => { node.scrollTop = 600; });
     await guide.locator('[data-guide-page="restaurants"] [data-action="guide-top"]').click({ force: true });
     await page.waitForFunction(() => document.querySelector('[data-evening-guide-date="2026-08-23"]')?.scrollTop < 2);
+    const restaurantGap = await guide.evaluate((node) => {
+      const activePage = node.querySelector('[data-guide-page="restaurants"]');
+      const topLink = activePage.querySelector('[data-action="guide-top"]');
+      return activePage.getBoundingClientRect().bottom - topLink.getBoundingClientRect().bottom;
+    });
+    assert.ok(restaurantGap <= 2, `restaurant carousel leaves ${restaurantGap}px blank space`);
+    await guide.locator('[data-guide-tab="activities"]').click();
+    await page.waitForFunction(() => {
+      const guide = document.querySelector('[data-evening-guide-date="2026-08-23"]');
+      const carousel = guide?.querySelector('.guide-carousel');
+      const page = guide?.querySelector('[data-guide-page="activities"]');
+      return carousel && page && Math.abs(carousel.getBoundingClientRect().height - page.scrollHeight) <= 2;
+    });
   } finally {
     await browser.close();
   }

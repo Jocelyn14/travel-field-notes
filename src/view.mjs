@@ -1,5 +1,5 @@
-import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk6';
-import { applyItineraryEdits } from './itinerary.mjs?v=a11desk6';
+import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk7';
+import { applyItineraryEdits } from './itinerary.mjs?v=a11desk7';
 
 const moneyFormatters = new Map();
 
@@ -81,10 +81,10 @@ function renderDayJump(days) {
 function renderAccommodation(day, stay, tripEnd) {
   const mapLink = stay?.maps ? `<a href="${escapeHtml(stay.maps)}" target="_blank" rel="noopener noreferrer" data-external="true">Google Maps${icon('external')}</a>` : '';
   return `<details class="accommodation-card" data-accommodation-date="${escapeHtml(day.date)}">
-    <summary><span>${icon('pin')}</span><div><small>STAY / ${escapeHtml(day.date)}</small><strong>${escapeHtml(stay?.name || '待补充住宿')}</strong>${stay?.address ? `<p>${escapeHtml(stay.address)}</p>` : '<p>填写一次，可复制到连续多天</p>'}</div><b>填写</b></summary>
+    <summary><span>${icon('pin')}</span><div><small>STAY / ${escapeHtml(day.date)}</small><strong>${escapeHtml(stay?.name || '待补充住宿')}</strong>${stay?.address ? `<p>${escapeHtml(stay.address)}</p>` : ''}</div><b>${stay ? '修改' : '补充'}</b></summary>
     <form data-action="accommodation-form" data-day-date="${escapeHtml(day.date)}">
       <label>酒店 / 民宿名称<input name="name" value="${escapeHtml(stay?.name || '')}" required placeholder="例如 Hotel Artemide"></label>
-      <label>地址<input name="address" value="${escapeHtml(stay?.address || '')}" placeholder="街道、城市或邮编"></label>
+      <label>地址<input name="address" value="${escapeHtml(stay?.address || '')}" required placeholder="街道、城市或邮编"></label>
       <label>复制到（含当天）<input name="copyThrough" type="date" min="${escapeHtml(day.date)}" max="${escapeHtml(tripEnd)}" value="${escapeHtml(day.date)}"></label>
       <footer>${mapLink}<button type="submit">保存住宿</button></footer>
     </form>
@@ -174,7 +174,7 @@ function renderPlaceEditor(trip) {
         <label>停留分钟<input name="durationMinutes" type="number" min="5" step="5" value="60" required></label>
         <label>到下一站分钟<input name="travelMinutes" type="number" min="0" step="5" value="20" required></label>
         <label class="editor-wide">地址<input name="address" required></label>
-        <label class="editor-wide">简介<textarea name="note" rows="3"></textarea></label>
+        <label class="editor-wide">景点简介（50 字以内）<textarea name="note" rows="3" maxlength="50"></textarea></label>
       </div>
       <footer><button type="button" data-action="close-editor">取消</button><button class="save-place" type="submit" value="save">保存并加入当天</button></footer>
     </form>
@@ -334,13 +334,15 @@ function renderChecklist(trip, state) {
     <header class="section-heading"><div><p class="kicker">CHECKLIST / 03</p><h2 id="checklist-title">清单</h2></div></header>
     ${renderReservations(trip, state)}
     <header class="todos-heading"><p class="kicker">TODOS</p><h3>Yeah.</h3></header>
+    <section class="custom-todos-panel" aria-label="自定义待办">
+      <div class="custom-todo-list">${customTodos.map((todo) => `<div class="custom-todo-row"><label class="check-row"><input type="checkbox" data-action="custom-todo" data-item-id="${escapeHtml(todo.id)}"${todo.checked ? ' checked' : ''}><span>${escapeHtml(todo.label)}</span><i>${icon('check')}</i></label><button type="button" data-action="todo-delete" data-item-id="${escapeHtml(todo.id)}" aria-label="删除 ${escapeHtml(todo.label)}">删除</button></div>`).join('')}</div>
+      <form class="todo-add-form" data-action="todo-add"><label><span>添加新的 Todo</span><input name="label" type="text" maxlength="80" required placeholder="例如：打印酒店确认单"></label><button type="submit">添加</button></form>
+    </section>
     <div class="checklist-grid">
       ${trip.checklist.map((group) => `<fieldset class="checklist-group"><legend>${escapeHtml(group.title)}</legend>
         ${group.items.map((item) => `<label class="check-row"><input type="checkbox" data-action="checklist" data-item-id="${escapeHtml(item.id)}"${state.checklist[item.id] ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label>`).join('')}
       </fieldset>`).join('')}
-      ${customTodos.length ? `<fieldset class="checklist-group custom-todos"><legend>我的待办</legend>${customTodos.map((todo) => `<div class="custom-todo-row"><label class="check-row"><input type="checkbox" data-action="custom-todo" data-item-id="${escapeHtml(todo.id)}"${todo.checked ? ' checked' : ''}><span>${escapeHtml(todo.label)}</span><i>${icon('check')}</i></label><button type="button" data-action="todo-delete" data-item-id="${escapeHtml(todo.id)}" aria-label="删除 ${escapeHtml(todo.label)}">删除</button></div>`).join('')}</fieldset>` : ''}
     </div>
-    <form class="todo-add-form" data-action="todo-add"><label><span>添加新的 Todo</span><input name="label" type="text" maxlength="80" required placeholder="例如：打印酒店确认单"></label><button type="submit">添加</button></form>
   </section>`;
 }
 

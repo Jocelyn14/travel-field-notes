@@ -35,3 +35,16 @@ test('searchPlace returns a readable error when no language finds a result', asy
   const fetcher = async () => ({ ok: true, json: async () => ({ query: { pages: {} } }) });
   await assert.rejects(() => searchPlace('missing', 'tokyo', fetcher), /没有找到/);
 });
+
+test('searchPlace distills long Wikipedia extracts to at most 50 characters', async () => {
+  const extract = '这是一段很长的景点介绍，包含建筑历史、城市背景与参观特色。第二句继续补充大量不需要直接展示的百科内容。';
+  const fetcher = async (url) => {
+    const parsed = new URL(url);
+    if (parsed.hostname === 'nominatim.openstreetmap.org') return { ok: true, json: async () => ({ display_name: '测试地址' }) };
+    return { ok: true, json: async () => ({ query: { pages: { 1: { title: '测试景点', extract } } } }) };
+  };
+
+  const result = await searchPlace('测试景点', 'tokyo', fetcher);
+  assert.ok(result.note.length <= 50);
+  assert.equal(result.note, '这是一段很长的景点介绍，包含建筑历史、城市背景与参观特色。');
+});

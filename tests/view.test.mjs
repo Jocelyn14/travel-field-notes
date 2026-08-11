@@ -59,6 +59,8 @@ test('checklist renders persisted custom todos and an add form', () => {
   assert.match(html, /打印酒店确认单/);
   assert.match(html, /data-action="custom-todo"[^>]*checked/);
   assert.match(html, /data-action="todo-delete"/);
+  assert.match(html, /class="custom-todos-panel"[\s\S]*打印酒店确认单[\s\S]*data-action="todo-add"/);
+  assert.doesNotMatch(html, /<fieldset class="checklist-group custom-todos"/);
 });
 
 test('checklist uses a plain title without completion count and labels todos after reservations', () => {
@@ -216,6 +218,20 @@ test('every day ends with an accommodation form that can copy a multi-day stay',
   assert.equal((html.match(/data-action="accommodation-form"/g) ?? []).length, trips[0].days.length);
   assert.match(html, /name="copyThrough"/);
   assert.match(html, /待补充住宿/);
+  assert.match(html, /name="address"[^>]*required/);
+});
+
+test('saved accommodation summary shows only hotel name, full address and an edit label', () => {
+  const state = normalizePersistedState({
+    activeTripId: 'italy',
+    accommodations: { '2026-08-23': { name: 'Hotel Artemide', address: 'Via Nazionale 22, 00184 Roma RM, Italy', maps: 'https://maps.example/' } },
+  }, trips);
+  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
+  const card = html.match(/<details class="accommodation-card" data-accommodation-date="2026-08-23">[\s\S]*?<\/details>/)?.[0] ?? '';
+  assert.match(card, /Hotel Artemide/);
+  assert.match(card, /Via Nazionale 22, 00184 Roma RM, Italy/);
+  assert.match(card, /<b>修改<\/b>/);
+  assert.doesNotMatch(card, /填写一次，可复制到连续多天/);
 });
 
 test('itinerary details start collapsed and deletion is exposed only by swipe rail', () => {
@@ -246,6 +262,7 @@ test('place editor uses an in-app drawer instead of the native dialog element', 
   assert.match(html, /data-panel-backdrop/);
   assert.match(html, /aria-hidden="true"/);
   assert.doesNotMatch(html, /<dialog/);
+  assert.match(html, /textarea name="note"[^>]*maxlength="50"/);
 });
 
 test('Tokyo flight cards show confirmed route, terminals and local times', () => {

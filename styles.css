@@ -1393,6 +1393,7 @@ svg.icon {
 
 .guide-carousel {
   display: flex;
+  align-items: flex-start;
   width: 100%;
   overflow-x: auto;
   overflow-y: visible;
@@ -1407,7 +1408,7 @@ svg.icon {
   flex: 0 0 100%;
   gap: 14px;
   align-content: start;
-  padding: 0 24px 18px;
+  padding: 0 24px;
   scroll-snap-align: start;
 }
 
@@ -2504,6 +2505,25 @@ body.panel-open {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: stretch;
+  border-top: 1px solid var(--line);
+}
+
+.custom-todos-panel {
+  margin-bottom: 22px;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.custom-todo-list:empty {
+  display: none;
+}
+
+.custom-todo-list + .todo-add-form {
+  margin: 0;
+  padding: 14px;
+}
+
+.custom-todo-list:not(:empty) + .todo-add-form {
   border-top: 1px solid var(--line);
 }
 

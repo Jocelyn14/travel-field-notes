@@ -115,15 +115,20 @@ export function recalculateDay(day) {
 export function addCustomPlace(itineraryState, date, place, trip) {
   const state = cloneItinerary(itineraryState);
   state.customPlaces[place.id] = { ...structuredClone(place), dayDate: date };
-  if (trip) {
-    const day = applyItineraryEdits(trip, state).days.find((item) => item.date === date);
-    state.dayOrder[date] = [...(day?.places ?? [])]
-      .sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time))
-      .map((item) => item.id);
-  } else {
+  if (trip) return sortDayByTime(state, trip, date);
+  else {
     const currentOrder = state.dayOrder[date] ?? [];
     if (!currentOrder.includes(place.id)) state.dayOrder[date] = [...currentOrder, place.id];
   }
+  return state;
+}
+
+export function sortDayByTime(itineraryState, trip, date) {
+  const state = cloneItinerary(itineraryState);
+  const day = applyItineraryEdits(trip, state).days.find((item) => item.date === date);
+  state.dayOrder[date] = [...(day?.places ?? [])]
+    .sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time))
+    .map((item) => item.id);
   return state;
 }
 

@@ -10,6 +10,7 @@ import {
   removePlace,
   reorderPlace,
   restorePlace,
+  sortDayByTime,
   updatePlaceSchedule,
 } from '../src/itinerary.mjs';
 
@@ -72,6 +73,12 @@ test('adding a custom place inserts it by its entered time', () => {
     id: 'custom', time: '10:00', durationMinutes: 30, travelMinutes: 0, timeMode: 'fixed',
   }, trip);
   assert.deepEqual(applyItineraryEdits(trip, state).days[0].places.map((place) => place.id), ['a', 'custom', 'b', 'ticket']);
+});
+
+test('sorting a day after a time edit reorders the complete itinerary', () => {
+  let state = updatePlaceSchedule(emptyState(), 'b', { time: '08:30', timeMode: 'fixed' });
+  state = sortDayByTime(state, trip, '2026-08-23');
+  assert.deepEqual(applyItineraryEdits(trip, state).days[0].places.map((place) => place.id), ['b', 'a', 'ticket']);
 });
 
 test('schedule conflicts are detected and grouped for parallel display', () => {

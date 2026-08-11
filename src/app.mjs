@@ -3,7 +3,7 @@ import {
   cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=a11desk6';
+} from './core.mjs?v=a11desk7';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -11,11 +11,12 @@ import {
   removePlace,
   reorderPlace,
   restorePlace,
+  sortDayByTime,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=a11desk6';
-import { searchPlace } from './search.mjs?v=a11desk6';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk6';
-import { renderApp } from './view.mjs?v=a11desk6';
+} from './itinerary.mjs?v=a11desk7';
+import { searchPlace } from './search.mjs?v=a11desk7';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk7';
+import { renderApp } from './view.mjs?v=a11desk7';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -105,6 +106,7 @@ function recalculateAndStore(date) {
   for (const place of result.day.places) {
     state.itinerary = updatePlaceSchedule(state.itinerary, place.id, { time: place.time });
   }
+  state.itinerary = sortDayByTime(state.itinerary, trip, date);
   return result.conflicts;
 }
 
@@ -199,6 +201,9 @@ function selectGuideTab(guide, selectedPage) {
     page.setAttribute('aria-hidden', String(!isSelected));
     page.toggleAttribute('inert', !isSelected);
   });
+  const carousel = guide.querySelector('.guide-carousel');
+  const selected = guide.querySelector(`[data-guide-page="${selectedPage}"]`);
+  if (carousel && selected) carousel.style.height = `${selected.scrollHeight}px`;
 }
 
 function activateGuideTab(tab) {
@@ -255,7 +260,11 @@ function openEveningGuide(date, trigger) {
   const backdrop = root.querySelector('[data-evening-backdrop]');
   if (backdrop) backdrop.hidden = false;
   document.body.classList.add('panel-open');
-  requestAnimationFrame(() => panel.querySelector('[data-action="close-evening"]')?.focus());
+  requestAnimationFrame(() => {
+    const selectedPage = guide.querySelector('[data-guide-tab][aria-selected="true"]')?.dataset.guideTab;
+    if (selectedPage) selectGuideTab(guide, selectedPage);
+    panel.querySelector('[data-action="close-evening"]')?.focus();
+  });
 }
 
 function updateRate(input) {
@@ -389,6 +398,7 @@ root.addEventListener('change', (event) => {
     if (action === 'place-travel') override = { travelMinutes: Math.max(0, Number(event.target.value) || 0) };
     if (action === 'place-fixed') override = { timeMode: event.target.checked ? 'fixed' : 'flexible' };
     state.itinerary = updatePlaceSchedule(state.itinerary, placeId, override);
+    if (action === 'place-time') state.itinerary = sortDayByTime(state.itinerary, currentTrip(), date);
     finishScheduleChange(date);
   }
 });
@@ -483,6 +493,7 @@ root.addEventListener('submit', (event) => {
   const values = Object.fromEntries(new FormData(form));
   const searchResult = form.dataset.searchResult ? JSON.parse(form.dataset.searchResult) : {};
   const id = `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+  const summary = String(values.note ?? '').replace(/\s+/g, ' ').trim().slice(0, 50);
   const place = {
     id,
     name: values.name.trim(),
@@ -492,12 +503,12 @@ root.addEventListener('submit', (event) => {
     time: values.time,
     durationMinutes: Number(values.durationMinutes),
     travelMinutes: Number(values.travelMinutes),
-    timeMode: 'flexible',
+    timeMode: 'fixed',
     address: values.address.trim(),
     cost: 0,
     transit: '请补充前往下一站的交通方式。',
-    note: values.note.trim() || '私人兴趣地点，具体安排待补充。',
-    culture: values.note.trim() || '这是后续加入的私人兴趣地点。',
+    note: summary || '私人兴趣地点，具体安排待补充。',
+    culture: summary || '这是后续加入的私人兴趣地点。',
     tips: '开放时间、休馆日、票价与预约规则请在出发前再次核对。',
     image: searchResult.image || '',
     imageSource: searchResult.imageSource || '',
@@ -509,7 +520,7 @@ root.addEventListener('submit', (event) => {
       booking: '',
     },
   };
-  state.itinerary = addCustomPlace(state.itinerary, values.dayDate, place);
+  state.itinerary = addCustomPlace(state.itinerary, values.dayDate, place, currentTrip());
   recalculateAndStore(values.dayDate);
   closePlaceEditor();
   commit({ preserveScroll: true });
@@ -644,7 +655,7 @@ window.addEventListener('hashchange', () => activateAppView(viewFromHash(), { up
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=a11desk6', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=a11desk7', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);
