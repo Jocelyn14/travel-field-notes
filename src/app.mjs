@@ -251,6 +251,12 @@ root.addEventListener('click', (event) => {
     commit({ preserveScroll: true });
     return;
   }
+  if (action.dataset.action === 'budget-entry-delete') {
+    state.budgetEntries = state.budgetEntries.filter((entry) => entry.id !== action.dataset.budgetEntryId);
+    commit({ preserveScroll: true });
+    showToast('这笔支出已删除。');
+    return;
+  }
   if (action.dataset.action === 'add-place') {
     openPlaceEditor(action.dataset.dayDate, action);
     return;
@@ -368,6 +374,26 @@ root.addEventListener('keydown', (event) => {
 });
 
 root.addEventListener('submit', (event) => {
+  const budgetForm = event.target.closest('[data-action="budget-entry-add"]');
+  if (budgetForm) {
+    event.preventDefault();
+    const values = Object.fromEntries(new FormData(budgetForm));
+    const amount = Number(values.amount);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      showToast('请输入大于 0 的支出金额。');
+      return;
+    }
+    state.budgetEntries.push({
+      id: `expense-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      budgetItemId: budgetForm.dataset.budgetItemId,
+      amount,
+      note: String(values.note ?? '').trim(),
+    });
+    budgetForm.reset();
+    commit({ preserveScroll: true });
+    showToast('支出已记录并计入总额。');
+    return;
+  }
   const form = event.target.closest('[data-action="place-form"]');
   if (!form) return;
   event.preventDefault();

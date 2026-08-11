@@ -107,6 +107,38 @@ test('Italy and Tokyo management state are isolated and persist locally', async 
   }
 });
 
+test('budget ledger accumulates, persists, deletes and stays destination-specific', async () => {
+  const browser = await chromium.launch(launchOptions);
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  try {
+    await page.goto(italyUrl, { waitUntil: 'networkidle' });
+    await page.evaluate(() => localStorage.clear());
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.locator('[data-app-ready="true"]').waitFor();
+
+    const transitForm = page.locator('[data-budget-item-id="italy-transit"] form');
+    await transitForm.locator('[name="amount"]').fill('25');
+    await transitForm.locator('[name="note"]').fill('机场快线');
+    await transitForm.getByRole('button', { name: /记一笔/ }).click();
+
+    const foodForm = page.locator('[data-budget-item-id="italy-food"] form');
+    await foodForm.locator('[name="amount"]').fill('12.5');
+    await foodForm.getByRole('button', { name: /记一笔/ }).click();
+    assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '37.5');
+
+    await page.reload({ waitUntil: 'networkidle' });
+    assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '37.5');
+    await page.locator('[data-budget-item-id="italy-transit"] [data-action="budget-entry-delete"]').click();
+    assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '12.5');
+
+    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
+    await page.locator('[data-app-ready="true"]').waitFor();
+    assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '0');
+  } finally {
+    await browser.close();
+  }
+});
+
 test('offline external links stay on-page and explain what happened', async () => {
   const browser = await chromium.launch(launchOptions);
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });

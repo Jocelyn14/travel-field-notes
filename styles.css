@@ -407,6 +407,72 @@ svg.icon {
   color: var(--ink-soft);
 }
 
+.trip-quote {
+  margin: 0;
+}
+
+.trip-quote p {
+  max-width: 13ch;
+  margin: 0;
+  font-size: clamp(36px, 9vw, 62px);
+  font-weight: 560;
+  letter-spacing: -.055em;
+  line-height: 1.08;
+}
+
+.trip-quote span,
+.trip-quote cite {
+  display: block;
+  margin-top: 14px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-style: normal;
+}
+
+.trip-quote cite {
+  margin-top: 6px;
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.trip-highlights {
+  display: grid;
+  gap: 0;
+  margin-top: 34px;
+  border-top: 1px solid var(--line);
+}
+
+.trip-highlight {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 12px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.trip-highlight i {
+  color: var(--accent);
+  font-family: var(--utility);
+  font-size: 13px;
+  font-style: normal;
+}
+
+.trip-highlight h3,
+.trip-highlight p {
+  margin: 0;
+}
+
+.trip-highlight h3 {
+  font-size: 16px;
+}
+
+.trip-highlight p {
+  margin-top: 5px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
 .route-board {
   align-self: start;
   border: 1px solid var(--ink);
@@ -1967,21 +2033,22 @@ body.panel-open {
 
 .budget-row {
   display: grid;
-  grid-template-columns: 1fr auto;
   gap: 10px;
-  padding: 15px 0 11px;
+  padding: 20px 0;
   border-bottom: 1px solid var(--line);
 }
 
-.budget-row > span,
-.budget-row > div {
+.budget-row__summary {
   display: grid;
-  gap: 2px;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: baseline;
 }
 
-.budget-row > div {
-  grid-template-columns: auto auto;
-  align-items: baseline;
+.budget-row__summary > span,
+.budget-row__summary > div {
+  display: grid;
+  gap: 2px;
 }
 
 .budget-row small {
@@ -1990,7 +2057,6 @@ body.panel-open {
 }
 
 .budget-row i {
-  grid-column: 1 / -1;
   display: block;
   height: 3px;
   overflow: hidden;
@@ -2001,6 +2067,91 @@ body.panel-open {
   display: block;
   height: 100%;
   background: var(--secondary);
+}
+
+.budget-entries {
+  display: grid;
+  gap: 6px;
+}
+
+.budget-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 7px 8px 7px 12px;
+  background: var(--paper);
+}
+
+.budget-entry span {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+
+.budget-entry button {
+  min-width: 52px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+}
+
+.budget-entry-form {
+  display: grid;
+  grid-template-columns: minmax(90px, .7fr) minmax(120px, 1.3fr) auto;
+  gap: 8px;
+  align-items: end;
+}
+
+.budget-entry-form label {
+  display: grid;
+  gap: 4px;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.budget-entry-form input,
+.budget-entry-form button {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+}
+
+.budget-entry-form input {
+  padding: 0 10px;
+}
+
+.budget-entry-form button {
+  width: auto;
+  padding: 0 14px;
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.budget-entry-form :focus-visible,
+.budget-entry button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 70%, white);
+  outline-offset: 2px;
+}
+
+@media (max-width: 520px) {
+  .budget-entry-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .budget-entry-form button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
 }
 
 .section-heading--split {

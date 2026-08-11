@@ -27,6 +27,40 @@ test('renderApp includes every agreed section and safe external links', () => {
   assert.match(html, /target="_blank" rel="noopener noreferrer"/);
 });
 
+test('renderApp presents destination literature and three concrete highlights', () => {
+  for (const trip of trips) {
+    const state = normalizePersistedState({ activeTripId: trip.id }, [trip]);
+    const html = renderApp([trip], state, true, { standalone: true, assetBase: '../' });
+
+    assert.match(html, new RegExp(trip.editorial.quote.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    assert.match(html, new RegExp(trip.editorial.author));
+    assert.equal((html.match(/class="trip-highlight"/g) ?? []).length, 3);
+    assert.doesNotMatch(html, /先排必去|这份初版|兴趣空位/);
+  }
+});
+
+test('renderApp exposes category expense forms, entries and automatic totals', () => {
+  const trip = trips[0];
+  const state = normalizePersistedState({
+    activeTripId: trip.id,
+    rates: { italy: 8 },
+    budgetEntries: [
+      { id: 'expense-a', budgetItemId: 'italy-transit', amount: 25, note: '机场快线' },
+      { id: 'expense-b', budgetItemId: 'italy-food', amount: 12.5, note: '' },
+    ],
+  }, [trip]);
+  const html = renderApp([trip], state, true, { standalone: true, assetBase: '../' });
+
+  assert.equal((html.match(/data-action="budget-entry-add"/g) ?? []).length, 5);
+  assert.match(html, /name="amount"/);
+  assert.match(html, /name="note"/);
+  assert.match(html, /机场快线/);
+  assert.match(html, /未填写备注/);
+  assert.equal((html.match(/data-action="budget-entry-delete"/g) ?? []).length, 2);
+  assert.match(html, /data-budget-recorded="37\.5"/);
+  assert.match(html, /data-budget-remaining="1712\.5"/);
+});
+
 test('renderApp presents every day with a jump link and full timeline', () => {
   const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
   const html = renderApp(trips, state, true);

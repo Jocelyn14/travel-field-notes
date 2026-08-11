@@ -265,23 +265,46 @@ function renderReservations(trip, state) {
   </section>`;
 }
 
+function renderEditorial(trip) {
+  const editorial = trip.editorial;
+  return `<div class="intro-copy intro-copy--editorial">
+    <p class="kicker">FIELD BRIEF / 01</p>
+    <blockquote class="trip-quote"><p>${escapeHtml(editorial.translation)}</p><span lang="${trip.id === 'italy' ? 'it' : 'ja'}">${escapeHtml(editorial.quote)}</span><cite>— ${escapeHtml(editorial.author)} · ${escapeHtml(editorial.work)}</cite></blockquote>
+    <div class="trip-highlights" aria-label="旅程高光">
+      ${editorial.highlights.map((highlight, index) => `<article class="trip-highlight"><i>${String(index + 1).padStart(2, '0')}</i><div><h3>${escapeHtml(highlight.title)}</h3><p>${escapeHtml(highlight.description)}</p></div></article>`).join('')}
+    </div>
+  </div>`;
+}
+
 function renderBudget(trip, state) {
   const rate = Number(state.rates[trip.id] ?? trip.defaultRate);
-  const totals = calculateBudget(trip.budget, rate);
+  const entries = state.budgetEntries ?? [];
+  const totals = calculateBudget(trip.budget, rate, entries);
   const progress = totals.planned ? Math.min((totals.paid / totals.planned) * 100, 100) : 0;
   return `<section class="content-section" id="budget" aria-labelledby="budget-title">
     <header class="section-heading"><span class="section-index">04</span><div><p class="kicker">BUDGET</p><h2 id="budget-title">预算刻度</h2></div></header>
     <div class="budget-panel">
       <div class="budget-total">
         <div><span>计划预算</span><strong>${formatMoney(totals.planned, trip.currency)}</strong><small>约 ¥${totals.cnyPlanned.toLocaleString('zh-CN')}</small></div>
-        <div><span>已经支付</span><strong>${formatMoney(totals.paid, trip.currency)}</strong><small>剩余 ${formatMoney(totals.remaining, trip.currency)}</small></div>
+        <div><span>已记录支出</span><strong data-budget-recorded="${totals.paid}">${formatMoney(totals.paid, trip.currency)}</strong><small data-budget-remaining="${totals.remaining}">剩余 ${formatMoney(totals.remaining, trip.currency)} · 约 ¥${totals.cnyPaid.toLocaleString('zh-CN')}</small></div>
       </div>
       <div class="progress-track" aria-label="已支付 ${Math.round(progress)}%"><span style="width:${progress}%"></span></div>
       <label class="rate-control"><span>人民币参考汇率</span><input data-action="rate" data-trip-id="${escapeHtml(trip.id)}" type="number" inputmode="decimal" min="0" step="0.001" value="${escapeHtml(rate)}"><small>1 ${trip.currency} = <b>${escapeHtml(rate)}</b> CNY · 手动设置</small></label>
       <div class="budget-list">
         ${trip.budget.map((item) => {
-          const itemProgress = item.planned ? Math.min((item.paid / item.planned) * 100, 100) : 0;
-          return `<div class="budget-row"><span>${escapeHtml(item.category)}<small>${escapeHtml(item.label)}</small></span><div><b>${formatMoney(item.paid, trip.currency)}</b><small>/ ${formatMoney(item.planned, trip.currency)}</small></div><i><em style="width:${itemProgress}%"></em></i></div>`;
+          const itemTotal = totals.categoryTotals[item.id] ?? 0;
+          const itemProgress = item.planned ? Math.min((itemTotal / item.planned) * 100, 100) : 0;
+          const itemEntries = entries.filter((entry) => entry.budgetItemId === item.id);
+          return `<article class="budget-row" data-budget-item-id="${escapeHtml(item.id)}">
+            <div class="budget-row__summary"><span>${escapeHtml(item.category)}<small>${escapeHtml(item.label)}</small></span><div><b>${formatMoney(itemTotal, trip.currency)}</b><small>/ ${formatMoney(item.planned, trip.currency)}</small></div></div>
+            <i><em style="width:${itemProgress}%"></em></i>
+            <div class="budget-entries">${itemEntries.map((entry) => `<div class="budget-entry"><span><b>${escapeHtml(entry.note || '未填写备注')}</b><small>${formatMoney(entry.amount, trip.currency)}</small></span><button type="button" data-action="budget-entry-delete" data-budget-entry-id="${escapeHtml(entry.id)}" aria-label="删除 ${escapeHtml(entry.note || '未填写备注')} 支出">删除</button></div>`).join('')}</div>
+            <form class="budget-entry-form" data-action="budget-entry-add" data-budget-item-id="${escapeHtml(item.id)}">
+              <label><span>金额</span><input name="amount" type="number" inputmode="decimal" min="0.01" step="0.01" required placeholder="0"></label>
+              <label><span>备注</span><input name="note" type="text" maxlength="40" placeholder="例如：机场快线"></label>
+              <button type="submit">+ 记一笔</button>
+            </form>
+          </article>`;
         }).join('')}
       </div>
     </div>
@@ -337,7 +360,7 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
 
       <div class="content-wrap">
         <section class="overview-grid" aria-label="旅程摘要">
-          <div class="intro-copy"><p class="kicker">FIELD BRIEF / 01</p><h2>先排必去，<br>再留出兴趣空位。</h2><p>这份初版按第一次到访的经典地标组织路线，并把时间、地点、下一段交通和关键链接放在同一视线里；后续可继续插入私人兴趣点。</p></div>
+          ${renderEditorial(trip)}
           ${renderRoute(trip)}
         </section>
 
