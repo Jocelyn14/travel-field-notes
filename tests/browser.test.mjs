@@ -76,6 +76,28 @@ test('separate travel pages stay responsive across target viewports', async () =
   }
 });
 
+test('both checklist tabs show destination-specific practical travel desks before departure items', async () => {
+  const browser = await chromium.launch(launchOptions);
+  try {
+    for (const [url, expectedContact, absentContact] of [
+      [italyUrl, '+39-3939110852', '+81-3-6450-2195'],
+      [tokyoUrl, '+81-3-6450-2195', '+39-3939110852'],
+    ]) {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.goto(`${url}#checklist`, { waitUntil: 'networkidle' });
+      await page.locator('[data-app-ready="true"]').waitFor();
+      const checklist = page.locator('#checklist');
+      assert.equal(await checklist.locator('.practical-card h3').allTextContents().then((items) => items.join('|')), '初访须知|常用 App / 官网|习俗与当期节庆|紧急联络');
+      assert.ok(await checklist.locator('.practical-desk').evaluate((desk, heading) => desk.compareDocumentPosition(heading) & Node.DOCUMENT_POSITION_FOLLOWING, await checklist.locator('#checklist-title').elementHandle()));
+      assert.equal(await checklist.locator(`a[href="tel:${expectedContact}"]`).count(), 1);
+      assert.equal(await checklist.locator(`a[href="tel:${absentContact}"]`).count(), 0);
+      await page.close();
+    }
+  } finally {
+    await browser.close();
+  }
+});
+
 test('Italy and Tokyo management state are isolated and persist locally', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });

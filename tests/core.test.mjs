@@ -142,6 +142,30 @@ const validTrips = [
       })),
       airportTips: [],
     }],
+    practicalInfo: {
+      verifiedAt: '2026-08-11',
+      essentials: [
+        { title: '交通', description: '提前确认车票与站台信息。' },
+        { title: '支付', description: '准备银行卡和少量现金备用。' },
+        { title: '天气', description: '每天查看天气与交通公告。' },
+      ],
+      resources: [
+        { name: '交通官网', description: '查询公共交通与实时运行信息。', url: 'https://example.com/transit' },
+        { name: '旅游官网', description: '查询景点开放和节庆活动信息。', url: 'https://example.com/travel' },
+        { name: '安全官网', description: '查询当地安全和紧急情况指南。', url: 'https://example.com/safety' },
+      ],
+      customs: [
+        { title: '公共礼仪', description: '在公共空间保持安静并遵守队列。' },
+        { title: '宗教场所', description: '遵守着装、拍摄与参观要求。' },
+        { title: '当期节庆', description: '活动日期须在出发前再次核对。' },
+      ],
+      emergencyContacts: [
+        { label: '警察', phone: '110', note: '紧急治安事件使用。', sourceUrl: 'https://example.com/police' },
+        { label: '急救', phone: '119', note: '紧急医疗情况使用。', sourceUrl: 'https://example.com/medical' },
+        { label: '使馆', phone: '+81-3-1234-5678', note: '领事保护与协助。', sourceUrl: 'https://example.com/embassy' },
+        { label: '热线', phone: '+86-10-12308', note: '全球领事保护热线。', sourceUrl: 'https://example.com/hotline' },
+      ],
+    },
     reservations: [{ id: 'colosseum-ticket', title: '斗兽场门票', placeId: 'colosseum' }],
     budget: [{ id: 'ticket', category: '门票', label: '景点门票', planned: 40, paid: 18 }],
     checklist: [{ id: 'docs', title: '证件', items: [{ id: 'passport', label: '护照' }] }],

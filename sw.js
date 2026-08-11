@@ -1,4 +1,4 @@
-const CONTENT_REVISION = '4f5afb3587db959a080dc65b70b6e048822a4f3e606a05092c046e69f48dd93a';
+const CONTENT_REVISION = '3195f97424344f7df7b586b1524918b9625527350c3097bcb1f4fdde829c96c1';
 const CACHE_NAME = `travel-atlas-v10-${CONTENT_REVISION}`;
 const APP_SHELL = [
   './',
@@ -9,15 +9,15 @@ const APP_SHELL = [
   './tokyo/',
   './tokyo/index.html',
   './tokyo/manifest.webmanifest',
-  './styles.css?v=8ecf38d',
+  './styles.css?v=a11desk2',
   './manifest.webmanifest',
-  './src/app.mjs?v=8ecf38d',
-  './src/core.mjs?v=8ecf38d',
-  './src/itinerary.mjs?v=8ecf38d',
-  './src/interaction.mjs?v=8ecf38d',
-  './src/search.mjs?v=8ecf38d',
-  './src/view.mjs?v=8ecf38d',
-  './data/trips.json?v=8ecf38d',
+  './src/app.mjs?v=a11desk2',
+  './src/core.mjs?v=a11desk2',
+  './src/itinerary.mjs?v=a11desk2',
+  './src/interaction.mjs?v=a11desk2',
+  './src/search.mjs?v=a11desk2',
+  './src/view.mjs?v=a11desk2',
+  './data/trips.json?v=a11desk2',
   './assets/italy-hero.webp',
   './assets/tokyo-hero.webp',
   './assets/icon.svg',

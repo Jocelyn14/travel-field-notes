@@ -3,7 +3,7 @@ import {
   cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=8ecf38d';
+} from './core.mjs?v=a11desk2';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -12,10 +12,10 @@ import {
   reorderPlace,
   restorePlace,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=8ecf38d';
-import { searchPlace } from './search.mjs?v=8ecf38d';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=8ecf38d';
-import { renderApp } from './view.mjs?v=8ecf38d';
+} from './itinerary.mjs?v=a11desk2';
+import { searchPlace } from './search.mjs?v=a11desk2';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk2';
+import { renderApp } from './view.mjs?v=a11desk2';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -176,8 +176,11 @@ function activateGuideTab(tab) {
   const page = guide?.querySelector(`[data-guide-page="${tab.dataset.guideTab}"]`);
   if (!guide || !carousel || !page) return;
   const pageIndex = [...carousel.querySelectorAll('[data-guide-page]')].indexOf(page);
+  const previousScrollBehavior = carousel.style.scrollBehavior;
+  carousel.style.scrollBehavior = 'auto';
+  carousel.scrollLeft = pageIndex * carousel.clientWidth;
+  carousel.style.scrollBehavior = previousScrollBehavior;
   selectGuideTab(guide, tab.dataset.guideTab);
-  carousel.scrollTo({ left: pageIndex * carousel.clientWidth, behavior: 'smooth' });
 }
 
 function moveGuideTabFocus(tab, key) {
@@ -557,7 +560,7 @@ window.addEventListener('offline', () => render({ preserveScroll: true }));
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=8ecf38d', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=a11desk2', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);
