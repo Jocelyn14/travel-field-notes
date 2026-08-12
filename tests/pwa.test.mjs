@@ -19,6 +19,14 @@ async function openEveningImage(page, target) {
   assert.ok(await image.evaluate((node) => node.complete && node.naturalWidth > 0), `${target.label} should be available`);
 }
 
+test('a new release forces the browser to discover a new service worker and cache namespace', async () => {
+  const appSource = await readFile(new URL('../src/app.mjs', import.meta.url), 'utf8');
+  const workerSource = await readFile(new URL('../sw.js', import.meta.url), 'utf8');
+
+  assert.match(appSource, /serviceWorker\.register\(new URL\('sw\.js\?v=a11desk14'/);
+  assert.match(workerSource, /travel-atlas-v12-/);
+});
+
 test('navigation cache writes bind to the fetch event synchronously without delaying the response', async () => {
   const listeners = {};
   let failCacheWrite;

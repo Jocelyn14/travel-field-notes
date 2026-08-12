@@ -2,7 +2,7 @@ import {
   buildGoogleMapsSearchUrl,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=a11desk12';
+} from './core.mjs?v=a11desk14';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -12,11 +12,11 @@ import {
   restorePlace,
   sortDayByTime,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=a11desk12';
-import { searchPlace } from './search.mjs?v=a11desk12';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk12';
-import { renderApp } from './view.mjs?v=a11desk12';
-import { applyBalancedTitles, watchBalancedTitles } from './typography.mjs?v=a11desk12';
+} from './itinerary.mjs?v=a11desk14';
+import { searchPlace } from './search.mjs?v=a11desk14';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk14';
+import { renderApp } from './view.mjs?v=a11desk14';
+import { applyBalancedTitles, watchBalancedTitles } from './typography.mjs?v=a11desk14';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -362,7 +362,12 @@ root.addEventListener('click', (event) => {
     return;
   }
   if (action.dataset.action === 'checklist-manage') {
-    if (checklistManaging) saveChecklistInputs();
+    if (checklistManaging) {
+      saveChecklistInputs();
+      checklistManaging = false;
+      render({ preserveScroll: true });
+      return;
+    }
     checklistManaging = !checklistManaging;
     const checklist = root.querySelector('#checklist');
     checklist?.classList.toggle('is-managing', checklistManaging);
@@ -727,7 +732,7 @@ window.addEventListener('hashchange', () => activateAppView(viewFromHash(), { up
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=a11desk12', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=a11desk14', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);
@@ -740,7 +745,7 @@ async function start() {
     saveState();
     render();
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register(new URL('sw.js', appRoot), { scope: appRoot.pathname }).catch(() => {});
+      navigator.serviceWorker.register(new URL('sw.js?v=a11desk14', appRoot), { scope: appRoot.pathname }).catch(() => {});
     }
   } catch (error) {
     root.setAttribute('aria-busy', 'false');

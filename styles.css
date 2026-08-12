@@ -2607,11 +2607,12 @@ body.panel-open {
 }
 
 .todos-label {
-  color: var(--secondary);
-  font-family: var(--display);
-  font-size: clamp(1.65rem, 5vw, 2.4rem);
-  line-height: 1;
-  letter-spacing: .08em;
+  color: var(--ink);
+  font-family: var(--utility);
+  font-size: clamp(1.2rem, 4vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: .025em;
 }
 .todos-heading button { min-height: 40px; border: 1px solid var(--secondary); background: transparent; color: var(--secondary); padding: 0 14px; font: inherit; }
 .todos-heading button[aria-expanded="true"] { background: var(--secondary); color: var(--white); }

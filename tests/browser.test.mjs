@@ -307,6 +307,27 @@ test('checklist normal and management modes keep add, edit, completion and remov
   }
 });
 
+test('touch users can tap any existing todo text, edit it, and save with the management button', async () => {
+  const browser = await chromium.launch(launchOptions);
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  const page = await context.newPage();
+  try {
+    await page.goto(`${italyUrl}#checklist`, { waitUntil: 'networkidle' });
+    await page.evaluate(() => localStorage.clear());
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.locator('[data-action="checklist-manage"]').tap();
+    const input = page.locator('[data-action="todo-edit-input"]').nth(1);
+    const itemId = await input.getAttribute('data-item-id');
+    await input.tap();
+    await input.fill('护照与签证复印件（已确认）');
+    assert.equal(await input.inputValue(), '护照与签证复印件（已确认）');
+    await page.locator('[data-action="checklist-manage"]').tap();
+    assert.equal(await page.locator(`[data-action="checklist"][data-item-id="${itemId}"] + span`).textContent(), '护照与签证复印件（已确认）');
+  } finally {
+    await browser.close();
+  }
+});
+
 test('shared display titles and editor field grid stay balanced at Pro widths', async () => {
   const browser = await chromium.launch(launchOptions);
   try {
