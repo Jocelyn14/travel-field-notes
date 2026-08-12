@@ -354,6 +354,7 @@ test('normalizePersistedState migrates older data and removes unknown trip keys'
     reservations: { 'colosseum-ticket': '已付款' },
     reservationRecords: { 'colosseum-ticket': { done: true, reference: '', paidAmount: 0, credentialUrl: '', note: '' } },
     checklist: { passport: true },
+    checklistLabels: {},
     deletedChecklistIds: [],
     customTodos: [],
     budgetEntries: [{ id: 'expense-1', budgetItemId: 'ticket', amount: 24.5, note: '博物馆' }],
@@ -385,6 +386,14 @@ test('normalizePersistedState keeps valid custom todos', () => {
     ],
   }, validTrips);
   assert.deepEqual(normalized.customTodos, [{ id: 'todo-1', label: '打印预约单', checked: true, category: 'other' }]);
+});
+
+test('normalizePersistedState keeps edited preset todo labels', () => {
+  const state = normalizePersistedState({
+    checklistLabels: { passport: '护照、签证与复印件', unknown: '忽略' },
+  }, validTrips);
+
+  assert.deepEqual(state.checklistLabels, { passport: '护照、签证与复印件' });
 });
 
 test('normalizePersistedState preserves supported custom todo categories', () => {

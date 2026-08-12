@@ -2,7 +2,7 @@ import {
   buildGoogleMapsSearchUrl,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=a11desk11';
+} from './core.mjs?v=a11desk12';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -12,11 +12,11 @@ import {
   restorePlace,
   sortDayByTime,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=a11desk11';
-import { searchPlace } from './search.mjs?v=a11desk11';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk11';
-import { renderApp } from './view.mjs?v=a11desk11';
-import { applyBalancedTitles, watchBalancedTitles } from './typography.mjs?v=a11desk11';
+} from './itinerary.mjs?v=a11desk12';
+import { searchPlace } from './search.mjs?v=a11desk12';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk12';
+import { renderApp } from './view.mjs?v=a11desk12';
+import { applyBalancedTitles, watchBalancedTitles } from './typography.mjs?v=a11desk12';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -28,6 +28,7 @@ let storageKey;
 let undoDeletedId = '';
 let pointerGesture = null;
 let panelState = null;
+let checklistManaging = false;
 
 function readState() {
   try {
@@ -63,6 +64,13 @@ function render({ preserveScroll = false } = {}) {
   root.dataset.appReady = 'true';
   root.dataset.activeTrip = state.activeTripId;
   root.setAttribute('aria-busy', 'false');
+  const checklist = root.querySelector('#checklist');
+  checklist?.classList.toggle('is-managing', checklistManaging);
+  const manageButton = checklist?.querySelector('[data-action="checklist-manage"]');
+  if (manageButton) {
+    manageButton.setAttribute('aria-expanded', String(checklistManaging));
+    manageButton.textContent = checklistManaging ? '完成' : '管理清单';
+  }
   activateAppView(viewFromHash(), { updateHash: false, scroll: false });
   watchBalancedTitles(root);
   if (preserveScroll) window.scrollTo({ top: scrollY });
@@ -98,6 +106,23 @@ function commit(options) {
 
 function currentTrip() {
   return trips.find((trip) => trip.id === state.activeTripId) ?? trips[0];
+}
+
+function saveChecklistInput(input) {
+  const label = input.value.trim();
+  if (!label) return false;
+  const id = input.dataset.itemId;
+  if (input.dataset.preset === 'true') state.checklistLabels[id] = label;
+  else {
+    const todo = state.customTodos.find((item) => item.id === id);
+    if (todo) todo.label = label;
+  }
+  return true;
+}
+
+function saveChecklistInputs() {
+  root.querySelectorAll('[data-action="todo-edit-input"]').forEach(saveChecklistInput);
+  saveState();
 }
 
 function recalculateAndStore(date) {
@@ -320,20 +345,31 @@ root.addEventListener('click', (event) => {
     showToast('Todo 已删除。');
     return;
   }
-  if (action.dataset.action === 'checklist-manage') {
-    const section = action.closest('[data-checklist-category]');
-    const active = section.classList.toggle('is-managing');
-    action.setAttribute('aria-expanded', String(active));
+  if (action.dataset.action === 'todo-remove') {
+    if (action.dataset.deleteAction === 'checklist-delete') {
+      state.deletedChecklistIds = [...new Set([...(state.deletedChecklistIds ?? []), action.dataset.itemId])];
+    } else {
+      state.customTodos = state.customTodos.filter((todo) => todo.id !== action.dataset.itemId);
+    }
+    commit({ preserveScroll: true });
     return;
   }
-  if (action.dataset.action === 'todo-edit') {
-    const id = action.dataset.itemId;
-    const current = action.closest('.checklist-item')?.querySelector('.check-row span')?.textContent ?? '';
-    const label = window.prompt('编辑项目', current)?.trim();
-    if (!label || action.dataset.preset === 'true') return;
-    const todo = state.customTodos.find((item) => item.id === id);
-    if (todo) todo.label = label;
-    commit({ preserveScroll: true });
+  if (action.dataset.action === 'todo-add-toggle') {
+    const form = action.nextElementSibling;
+    form.hidden = false;
+    action.hidden = true;
+    form.querySelector('input')?.focus();
+    return;
+  }
+  if (action.dataset.action === 'checklist-manage') {
+    if (checklistManaging) saveChecklistInputs();
+    checklistManaging = !checklistManaging;
+    const checklist = root.querySelector('#checklist');
+    checklist?.classList.toggle('is-managing', checklistManaging);
+    action.setAttribute('aria-expanded', String(checklistManaging));
+    action.textContent = checklistManaging ? '完成' : '管理清单';
+    checklist?.querySelectorAll('[data-action="todo-edit-input"]').forEach((input) => { input.readOnly = !checklistManaging; });
+    if (checklistManaging) checklist?.querySelector('[data-action="todo-edit-input"]')?.focus();
     return;
   }
   if (action.dataset.action === 'delete-place') {
@@ -404,7 +440,18 @@ root.addEventListener('change', (event) => {
   }
 });
 
+root.addEventListener('focusout', (event) => {
+  if (event.target.dataset.action !== 'todo-edit-input' || !checklistManaging) return;
+  if (saveChecklistInput(event.target)) saveState();
+});
+
 root.addEventListener('keydown', (event) => {
+  if (event.target.dataset.action === 'todo-edit-input' && event.key === 'Enter') {
+    event.preventDefault();
+    if (saveChecklistInput(event.target)) saveState();
+    event.target.blur();
+    return;
+  }
   const guideTab = event.target.closest?.('[data-guide-tab]');
   if (guideTab && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
     event.preventDefault();
@@ -578,14 +625,15 @@ root.addEventListener('dragend', () => {
 });
 
 root.addEventListener('pointerdown', (event) => {
-  const item = event.target.closest('.timeline-item');
+  const checklistItem = event.target.closest('.checklist-item');
+  const item = event.target.closest('.timeline-item') ?? checklistItem;
   if (!item) return;
   pointerGesture = {
     pointerId: event.pointerId,
     item,
     startX: event.clientX,
     startY: event.clientY,
-    mode: event.target.closest('[data-action="drag-place"]') ? 'reorder' : 'swipe',
+    mode: checklistItem ? 'checklist-swipe' : (event.target.closest('[data-action="drag-place"]') ? 'reorder' : 'swipe'),
     targetIndex: -1,
   };
   if (pointerGesture.mode === 'reorder') {
@@ -615,7 +663,7 @@ root.addEventListener('pointermove', (event) => {
   if (!pointerGesture || event.pointerId !== pointerGesture.pointerId) return;
   const dx = event.clientX - pointerGesture.startX;
   const dy = event.clientY - pointerGesture.startY;
-  if (pointerGesture.mode === 'swipe') {
+  if (pointerGesture.mode === 'swipe' || pointerGesture.mode === 'checklist-swipe') {
     if (dx < -18 && Math.abs(dx) > Math.abs(dy)) event.preventDefault();
     return;
   }
@@ -639,6 +687,12 @@ root.addEventListener('pointerup', (event) => {
   const dx = event.clientX - gesture.startX;
   const dy = event.clientY - gesture.startY;
   const result = classifyHorizontalGesture({ deltaX: dx, deltaY: dy, threshold: dx < 0 ? 52 : 32 });
+  if (gesture.mode === 'checklist-swipe') {
+    if (!checklistManaging) return;
+    root.querySelectorAll('.checklist-item.is-swiped').forEach((item) => { if (item !== gesture.item) item.classList.remove('is-swiped'); });
+    gesture.item.classList.toggle('is-swiped', result === 'reveal');
+    return;
+  }
   if (result === 'reveal') {
     closeOtherDeleteRails();
     setDeleteRail(gesture.item, true);
@@ -673,7 +727,7 @@ window.addEventListener('hashchange', () => activateAppView(viewFromHash(), { up
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=a11desk11', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=a11desk12', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);

@@ -1,5 +1,5 @@
-﻿import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk9';
-import { applyItineraryEdits } from './itinerary.mjs?v=a11desk9';
+import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk12';
+import { applyItineraryEdits } from './itinerary.mjs?v=a11desk12';
 
 const moneyFormatters = new Map();
 
@@ -350,12 +350,12 @@ function renderChecklist(trip, state) {
   ];
   return `<section class="content-section" id="checklist" aria-labelledby="checklist-title">
     <header class="section-heading"><div><p class="kicker">CHECKLIST / 03</p><h2 id="checklist-title">${displayTitle('清单')}</h2></div></header>
-    <header class="todos-heading"><p class="kicker">TODOS</p><h3>Yeah.</h3></header>
+    <header class="todos-heading"><span class="todos-label">TODOS</span><button type="button" data-action="checklist-manage" aria-expanded="false">管理清单</button></header>
     <div class="checklist-grid">
       ${categories.map((category) => {
         const custom = customTodos.filter((todo) => todo.category === category.id);
         const rows = [...category.items.filter((item) => !state.deletedChecklistIds?.includes(item.id)).map((item) => ({ ...item, preset: true })), ...custom];
-        return `<section class="checklist-group" data-checklist-category="${category.id}"><header><h3>${category.title}</h3><button type="button" data-action="checklist-manage" data-category="${category.id}" aria-expanded="false" aria-label="管理${category.title}清单">•••</button></header><div class="checklist-items">${rows.map((item) => `<div class="checklist-item"><label class="check-row"><input type="checkbox" data-action="${item.preset ? 'checklist' : 'custom-todo'}" data-item-id="${escapeHtml(item.id)}"${(item.preset ? state.checklist[item.id] : item.checked) ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label><div class="checklist-item-actions"><button type="button" data-action="todo-edit" data-item-id="${escapeHtml(item.id)}" data-preset="${item.preset ? 'true' : 'false'}">编辑</button><button type="button" data-action="${item.preset ? 'checklist-delete' : 'todo-delete'}" data-item-id="${escapeHtml(item.id)}">删除</button></div></div>`).join('')}</div><form class="todo-add-form" data-action="todo-add" data-category="${category.id}"><label><span>添加一项</span><input name="label" type="text" maxlength="80" required placeholder="写下新的准备事项"></label><button type="submit">添加</button></form></section>`;
+        return `<section class="checklist-group" data-checklist-category="${category.id}"><header><h3>${category.title}</h3><span>${rows.length} 项</span></header><div class="checklist-items">${rows.map((item) => { const label = item.preset ? (state.checklistLabels?.[item.id] ?? item.label) : item.label; return `<div class="checklist-item" data-item-id="${escapeHtml(item.id)}" data-preset="${item.preset ? 'true' : 'false'}"><label class="check-row"><input type="checkbox" data-action="${item.preset ? 'checklist' : 'custom-todo'}" data-item-id="${escapeHtml(item.id)}"${(item.preset ? state.checklist[item.id] : item.checked) ? ' checked' : ''}><span>${escapeHtml(label)}</span><i>${icon('check')}</i></label><div class="checklist-edit-row"><input data-action="todo-edit-input" data-item-id="${escapeHtml(item.id)}" data-preset="${item.preset ? 'true' : 'false'}" value="${escapeHtml(label)}" maxlength="80" readonly aria-label="编辑 ${escapeHtml(label)}"><button type="button" data-action="todo-remove" data-delete-action="${item.preset ? 'checklist-delete' : 'todo-delete'}" data-item-id="${escapeHtml(item.id)}" aria-label="移除">移除</button></div></div>`; }).join('')}</div><button class="todo-add-toggle" type="button" data-action="todo-add-toggle">＋ 添加一项</button><form class="todo-add-form" data-action="todo-add" data-category="${category.id}" hidden><label><span>添加一项</span><input name="label" type="text" maxlength="80" required placeholder="写下新的准备事项"></label><button type="submit">添加</button></form></section>`;
       }).join('')}
     </div>
   </section>`;

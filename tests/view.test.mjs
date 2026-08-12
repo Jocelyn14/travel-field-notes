@@ -59,22 +59,27 @@ test('checklist renders persisted custom todos and an add form', () => {
   assert.equal((html.match(/data-action="todo-add"/g) ?? []).length, 4);
   assert.match(html, /打印酒店确认单/);
   assert.match(html, /data-action="custom-todo"[^>]*checked/);
-  assert.match(html, /data-action="todo-delete"/);
+  assert.match(html, /data-action="todo-remove"/);
   const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
   assert.match(checklist, /class="checklist-grid"[\s\S]*打印酒店确认单[\s\S]*data-action="todo-add"/);
   assert.doesNotMatch(html, /<fieldset class="checklist-group custom-todos"/);
 });
 
-test('checklist uses four adaptive sections with section-level management', () => {
+test('checklist uses four visible sections with one global management control', () => {
   for (const trip of trips) {
     const state = normalizePersistedState({ activeTripId: trip.id }, [trip]);
     const html = renderApp([trip], state, true, { standalone: true, assetBase: '../' });
     const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
     for (const category of ['booking', 'documents', 'luggage', 'other']) {
       assert.match(checklist, new RegExp(`data-checklist-category="${category}"`));
-      assert.match(checklist, new RegExp(`data-action="checklist-manage"[^>]*data-category="${category}"`));
       assert.match(checklist, new RegExp(`data-action="todo-add"[^>]*data-category="${category}"`));
     }
+    assert.equal((checklist.match(/data-action="checklist-manage"/g) ?? []).length, 1);
+    assert.match(checklist, /class="todos-label">TODOS</);
+    assert.match(checklist, /data-action="todo-edit-input"/);
+    assert.match(checklist, /data-action="todo-remove"[^>]*aria-label="移除"/);
+    assert.match(checklist, /data-action="todo-add-toggle"[^>]*>＋ 添加一项/);
+    assert.doesNotMatch(checklist, /checklist-delete-rail/);
     assert.doesNotMatch(checklist, /class="reservation-files"|class="custom-todos-panel"/);
   }
 });
@@ -86,7 +91,7 @@ test('checklist uses a plain title without completion count and labels todos bef
 
   assert.match(checklist, /<h2 id="checklist-title">[\s\S]*清单[\s\S]*<\/h2>/);
   assert.doesNotMatch(checklist, />\d+\/\d+</);
-  assert.match(checklist, /TODOS[\s\S]*Yeah\.[\s\S]*class="checklist-grid"/);
+  assert.match(checklist, /TODOS[\s\S]*class="checklist-grid"/);
 });
 
 test('renderApp exposes editable planned amounts', () => {
@@ -154,7 +159,7 @@ test('renderApp replaces reservation files with booking todos', () => {
   assert.doesNotMatch(html, /RESERVATIONS|预约与凭证/);
   assert.match(html, /data-checklist-category="booking"/);
   assert.doesNotMatch(html, /name="reference"|name="credentialUrl"/);
-  assert.match(html, /data-action="checklist-delete"/);
+  assert.match(html, /data-action="todo-remove"/);
   assert.doesNotMatch(html, /初版 · 可继续补充|天初版行程/);
 });
 

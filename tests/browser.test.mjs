@@ -271,6 +271,42 @@ test('custom checklist todos can be added, checked, deleted and persist', async 
   }
 });
 
+test('checklist normal and management modes keep add, edit, completion and removal independent', async () => {
+  const browser = await chromium.launch(launchOptions);
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  try {
+    await page.goto(`${italyUrl}#checklist`, { waitUntil: 'networkidle' });
+    await page.evaluate(() => localStorage.clear());
+    await page.reload({ waitUntil: 'networkidle' });
+    const manage = page.locator('[data-action="checklist-manage"]');
+    assert.equal(await manage.count(), 1);
+    assert.equal(await page.locator('.todos-label').textContent(), 'TODOS');
+    const booking = page.locator('[data-checklist-category="booking"]');
+    const originalCount = Number((await booking.locator(':scope > header > span').textContent()).match(/\d+/)[0]);
+    await booking.locator('[data-action="todo-add-toggle"]').click();
+    await booking.locator('[data-action="todo-add"] input').fill('打印酒店确认单');
+    await booking.locator('[data-action="todo-add"] button[type="submit"]').click();
+    assert.equal(Number((await booking.locator(':scope > header > span').textContent()).match(/\d+/)[0]), originalCount + 1);
+    assert.equal(await booking.locator('[data-action="custom-todo"] + span').last().textContent(), '打印酒店确认单');
+    const checkbox = page.locator('[data-action="checklist"]').first();
+    await checkbox.check();
+    assert.equal(await checkbox.locator('~ i').evaluate((node) => getComputedStyle(node).backgroundColor), 'rgb(110, 123, 88)');
+    await manage.click();
+    assert.equal(await page.locator('[data-action="todo-add-toggle"]:visible').count(), 0);
+    const input = page.locator('[data-action="todo-edit-input"]').first();
+    assert.equal(await input.evaluate((node) => document.activeElement === node), true);
+    await input.fill('三城酒店确认单');
+    await input.press('Enter');
+    await page.reload({ waitUntil: 'networkidle' });
+    assert.equal(await page.locator('[data-action="checklist"] + span').first().textContent(), '三城酒店确认单');
+    await page.locator('[data-action="checklist-manage"]').click();
+    await page.locator('[data-action="todo-remove"]').first().click();
+    assert.equal(await page.locator('[data-action="checklist"] + span').filter({ hasText: '三城酒店确认单' }).count(), 0);
+  } finally {
+    await browser.close();
+  }
+});
+
 test('shared display titles and editor field grid stay balanced at Pro widths', async () => {
   const browser = await chromium.launch(launchOptions);
   try {
