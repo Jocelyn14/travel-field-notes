@@ -384,7 +384,20 @@ test('normalizePersistedState keeps valid custom todos', () => {
       { id: 'todo-2', label: '  ', checked: false },
     ],
   }, validTrips);
-  assert.deepEqual(normalized.customTodos, [{ id: 'todo-1', label: '打印预约单', checked: true }]);
+  assert.deepEqual(normalized.customTodos, [{ id: 'todo-1', label: '打印预约单', checked: true, category: 'other' }]);
+});
+
+test('normalizePersistedState preserves supported custom todo categories', () => {
+  const normalized = normalizePersistedState({ customTodos: [
+    { id: 'a', label: '确认预约', category: 'booking' },
+    { id: 'b', label: '带护照', category: 'documents' },
+    { id: 'c', label: '带雨具', category: 'luggage' },
+    { id: 'd', label: '查天气', category: 'invalid' },
+  ] }, validTrips);
+  assert.deepEqual(normalized.customTodos.map(({ id, category }) => ({ id, category })), [
+    { id: 'a', category: 'booking' }, { id: 'b', category: 'documents' },
+    { id: 'c', category: 'luggage' }, { id: 'd', category: 'other' },
+  ]);
 });
 
 test('normalizePersistedState keeps deleted preset todos and reservation files', () => {

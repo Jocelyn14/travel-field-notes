@@ -341,19 +341,23 @@ function renderBudget(trip, state) {
 
 function renderChecklist(trip, state) {
   const customTodos = state.customTodos ?? [];
+  const sourceGroups = new Map(trip.checklist.map((group) => [group.title, group.items]));
+  const categories = [
+    { id: 'booking', title: '预约', items: trip.reservations.map((item) => ({ id: `todo-${item.id}`, label: item.title })) },
+    { id: 'documents', title: '证件', items: sourceGroups.get('证件') ?? [] },
+    { id: 'luggage', title: '行李', items: sourceGroups.get('行李') ?? [] },
+    { id: 'other', title: '其他', items: sourceGroups.get('出发前事项') ?? [] },
+  ];
   return `<section class="content-section" id="checklist" aria-labelledby="checklist-title">
     <header class="section-heading"><div><p class="kicker">CHECKLIST / 03</p><h2 id="checklist-title">${displayTitle('清单')}</h2></div></header>
-    ${renderReservations(trip, state)}
     <header class="todos-heading"><p class="kicker">TODOS</p><h3>Yeah.</h3></header>
     <div class="checklist-grid">
-      ${trip.checklist.map((group) => `<fieldset class="checklist-group"><legend>${escapeHtml(group.title)}</legend>
-        ${group.items.filter((item) => !state.deletedChecklistIds?.includes(item.id)).map((item) => `<div class="preset-todo-row"><label class="check-row"><input type="checkbox" data-action="checklist" data-item-id="${escapeHtml(item.id)}"${state.checklist[item.id] ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label><button type="button" data-action="checklist-delete" data-item-id="${escapeHtml(item.id)}" aria-label="删除 ${escapeHtml(item.label)}">删除</button></div>`).join('')}
-      </fieldset>`).join('')}
+      ${categories.map((category) => {
+        const custom = customTodos.filter((todo) => todo.category === category.id);
+        const rows = [...category.items.filter((item) => !state.deletedChecklistIds?.includes(item.id)).map((item) => ({ ...item, preset: true })), ...custom];
+        return `<section class="checklist-group" data-checklist-category="${category.id}"><header><h3>${category.title}</h3><button type="button" data-action="checklist-manage" data-category="${category.id}" aria-expanded="false" aria-label="管理${category.title}清单">•••</button></header><div class="checklist-items">${rows.map((item) => `<div class="checklist-item"><label class="check-row"><input type="checkbox" data-action="${item.preset ? 'checklist' : 'custom-todo'}" data-item-id="${escapeHtml(item.id)}"${(item.preset ? state.checklist[item.id] : item.checked) ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label><div class="checklist-item-actions"><button type="button" data-action="todo-edit" data-item-id="${escapeHtml(item.id)}" data-preset="${item.preset ? 'true' : 'false'}">编辑</button><button type="button" data-action="${item.preset ? 'checklist-delete' : 'todo-delete'}" data-item-id="${escapeHtml(item.id)}">删除</button></div></div>`).join('')}</div><form class="todo-add-form" data-action="todo-add" data-category="${category.id}"><label><span>添加一项</span><input name="label" type="text" maxlength="80" required placeholder="写下新的准备事项"></label><button type="submit">添加</button></form></section>`;
+      }).join('')}
     </div>
-    <section class="custom-todos-panel" aria-label="自定义待办">
-      <form class="todo-add-form" data-action="todo-add"><label><span>添加新的 Todo</span><input name="label" type="text" maxlength="80" required placeholder="例如：打印酒店确认单"></label><button type="submit">添加</button></form>
-      <div class="custom-todo-list">${customTodos.map((todo) => `<div class="custom-todo-row"><label class="check-row"><input type="checkbox" data-action="custom-todo" data-item-id="${escapeHtml(todo.id)}"${todo.checked ? ' checked' : ''}><span>${escapeHtml(todo.label)}</span><i>${icon('check')}</i></label><button type="button" data-action="todo-delete" data-item-id="${escapeHtml(todo.id)}" aria-label="删除 ${escapeHtml(todo.label)}">删除</button></div>`).join('')}</div>
-    </section>
   </section>`;
 }
 

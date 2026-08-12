@@ -104,11 +104,8 @@ test('Italy and Tokyo management state are isolated and persist locally', async 
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await page.locator('[data-app-tab="checklist"]').click();
-    const reservation = page.locator('.reservation-card').first();
-    await reservation.locator('summary').click();
-    await reservation.locator('[name="done"]').check();
-    await reservation.locator('[name="reference"]').fill('IT-BOOKING-1');
-    await reservation.getByRole('button', { name: '保存资料' }).click();
+    const bookingTodo = page.locator('[data-checklist-category="booking"] [data-action="checklist"]').first();
+    await bookingTodo.check();
     await page.locator('[data-app-tab="budget"]').click();
     const rate = page.locator('[data-action="rate"]');
     await rate.fill('8.5');
@@ -119,17 +116,14 @@ test('Italy and Tokyo management state are isolated and persist locally', async 
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await page.locator('[data-app-tab="checklist"]').click();
-    assert.match(await page.locator('.reservation-card').first().locator('summary em').textContent(), /下一步/);
+    assert.equal(await page.locator('[data-checklist-category="booking"] [data-action="checklist"]').first().isChecked(), false);
     assert.equal(await page.locator('[data-action="checklist"]').first().isChecked(), false);
 
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     assert.equal(await page.locator('[data-app-ready="true"]').getAttribute('data-active-trip'), 'italy');
     await page.locator('[data-app-tab="checklist"]').click();
-    const persistedReservation = page.locator('.reservation-card').first();
-    assert.equal(await persistedReservation.locator('summary em').textContent(), '已处理');
-    await persistedReservation.locator('summary').click();
-    assert.equal(await persistedReservation.locator('[name="reference"]').inputValue(), 'IT-BOOKING-1');
+    assert.equal(await page.locator('[data-checklist-category="booking"] [data-action="checklist"]').first().isChecked(), true);
     await page.locator('[data-app-tab="budget"]').click();
     assert.equal(await page.locator('[data-action="rate"]').inputValue(), '8.5');
     await page.locator('[data-app-tab="checklist"]').click();
@@ -256,28 +250,22 @@ test('custom checklist todos can be added, checked, deleted and persist', async 
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   try {
     await page.goto(`${italyUrl}#checklist`, { waitUntil: 'networkidle' });
-    await page.locator('[data-action="todo-add"] [name="label"]').fill('打印酒店确认单');
-    await page.locator('[data-action="todo-add"]').getByRole('button', { name: '添加' }).click();
-    await page.locator('[data-action="todo-add"] [name="label"]').fill('下载离线地图');
-    await page.locator('[data-action="todo-add"]').getByRole('button', { name: '添加' }).click();
-    assert.deepEqual(await page.locator('.custom-todo-row .check-row span').allTextContents(), ['打印酒店确认单', '下载离线地图']);
-    const row = page.locator('.custom-todo-row', { hasText: '打印酒店确认单' });
-    assert.equal(await row.locator('xpath=ancestor::*[contains(@class,"custom-todos-panel")]').count(), 1);
-    const todoLayout = await page.locator('.custom-todos-panel').evaluate((panel) => ({
-      checklistBottom: document.querySelector('.checklist-grid').getBoundingClientRect().bottom,
-      formTop: panel.querySelector('.todo-add-form').getBoundingClientRect().top,
-      formBottom: panel.querySelector('.todo-add-form').getBoundingClientRect().bottom,
-      firstTodoTop: panel.querySelector('.custom-todo-row').getBoundingClientRect().top,
-    }));
-    assert.ok(todoLayout.checklistBottom <= todoLayout.formTop, JSON.stringify(todoLayout));
-    assert.ok(todoLayout.formBottom <= todoLayout.firstTodoTop, JSON.stringify(todoLayout));
+    const section = page.locator('[data-checklist-category="other"]');
+    await section.locator('[data-action="todo-add"] [name="label"]').fill('打印酒店确认单');
+    await section.locator('[data-action="todo-add"]').getByRole('button', { name: '添加' }).click();
+    await section.locator('[data-action="todo-add"] [name="label"]').fill('下载离线地图');
+    await section.locator('[data-action="todo-add"]').getByRole('button', { name: '添加' }).click();
+    assert.deepEqual(await section.locator('[data-action="custom-todo"] + span').allTextContents(), ['打印酒店确认单', '下载离线地图']);
+    const row = section.locator('.checklist-item', { hasText: '打印酒店确认单' });
     await row.locator('[data-action="custom-todo"]').check();
     await page.reload({ waitUntil: 'networkidle' });
-    const persisted = page.locator('.custom-todo-row', { hasText: '打印酒店确认单' });
+    const persistedSection = page.locator('[data-checklist-category="other"]');
+    const persisted = persistedSection.locator('.checklist-item', { hasText: '打印酒店确认单' });
     assert.equal(await persisted.locator('[data-action="custom-todo"]').isChecked(), true);
+    await persistedSection.locator('[data-action="checklist-manage"]').click();
     await persisted.locator('[data-action="todo-delete"]').click();
-    assert.equal(await page.locator('.custom-todo-row', { hasText: '打印酒店确认单' }).count(), 0);
-    assert.deepEqual(await page.locator('.custom-todo-row .check-row span').allTextContents(), ['下载离线地图']);
+    assert.equal(await persistedSection.locator('.checklist-item', { hasText: '打印酒店确认单' }).count(), 0);
+    assert.deepEqual(await persistedSection.locator('[data-action="custom-todo"] + span').allTextContents(), ['下载离线地图']);
   } finally {
     await browser.close();
   }

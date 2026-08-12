@@ -320,6 +320,22 @@ root.addEventListener('click', (event) => {
     showToast('Todo 已删除。');
     return;
   }
+  if (action.dataset.action === 'checklist-manage') {
+    const section = action.closest('[data-checklist-category]');
+    const active = section.classList.toggle('is-managing');
+    action.setAttribute('aria-expanded', String(active));
+    return;
+  }
+  if (action.dataset.action === 'todo-edit') {
+    const id = action.dataset.itemId;
+    const current = action.closest('.checklist-item')?.querySelector('.check-row span')?.textContent ?? '';
+    const label = window.prompt('编辑项目', current)?.trim();
+    if (!label || action.dataset.preset === 'true') return;
+    const todo = state.customTodos.find((item) => item.id === id);
+    if (todo) todo.label = label;
+    commit({ preserveScroll: true });
+    return;
+  }
   if (action.dataset.action === 'delete-place') {
     undoDeletedId = action.dataset.placeId;
     state.itinerary = removePlace(state.itinerary, undoDeletedId);
@@ -447,7 +463,7 @@ root.addEventListener('submit', (event) => {
     event.preventDefault();
     const label = String(new FormData(todoForm).get('label') ?? '').trim();
     if (!label) return;
-    state.customTodos.push({ id: `todo-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, label, checked: false });
+    state.customTodos.push({ id: `todo-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, label, checked: false, category: todoForm.dataset.category ?? 'other' });
     todoForm.reset();
     commit({ preserveScroll: true });
     showToast('Todo 已添加。');

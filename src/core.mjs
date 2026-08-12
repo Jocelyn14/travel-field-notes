@@ -281,6 +281,7 @@ export function normalizePersistedState(rawState, trips) {
   const tripIds = new Set(trips.map((trip) => trip.id));
   const reservationIds = new Set(trips.flatMap((trip) => trip.reservations.map((item) => item.id)));
   const checklistIds = new Set(trips.flatMap((trip) => trip.checklist.flatMap((group) => group.items.map((item) => item.id))));
+  for (const id of reservationIds) checklistIds.add(`todo-${id}`);
   const budgetItemIds = new Set(trips.flatMap((trip) => trip.budget.map((item) => item.id)));
   const tripDates = new Set(trips.flatMap((trip) => trip.days.map((day) => day.date)));
 
@@ -309,7 +310,12 @@ export function normalizePersistedState(rawState, trips) {
       seenTodoIds.add(todo.id);
       return true;
     })
-    .map((todo) => ({ id: todo.id, label: todo.label.trim(), checked: todo.checked === true }));
+    .map((todo) => ({
+      id: todo.id,
+      label: todo.label.trim(),
+      checked: todo.checked === true,
+      category: ['booking', 'documents', 'luggage', 'other'].includes(todo.category) ? todo.category : 'other',
+    }));
   const seenBudgetEntryIds = new Set();
   const budgetEntries = (Array.isArray(state.budgetEntries) ? state.budgetEntries : [])
     .filter((entry) => {

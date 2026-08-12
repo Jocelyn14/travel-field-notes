@@ -16,18 +16,18 @@ test('renderApp includes every agreed section and safe external links', () => {
   const state = normalizePersistedState({ activeTripId: 'italy', rates: { italy: 8.35 } }, trips);
   const html = renderApp(trips, state, true);
 
-  for (const id of ['overview', 'itinerary', 'reservations', 'budget', 'checklist']) {
+  for (const id of ['overview', 'itinerary', 'budget', 'checklist']) {
     assert.match(html, new RegExp(`id="${id}"`));
   }
   assert.match(html, /data-trip-id="italy"/);
   assert.match(html, /data-trip-id="tokyo"/);
   assert.doesNotMatch(html, /初版 · 可继续补充/);
-  assert.match(html, /data-action="reservation-form"/);
+  assert.match(html, /data-checklist-category="booking"/);
   assert.match(html, /data-action="checklist"/);
   assert.match(html, /target="_blank" rel="noopener noreferrer"/);
 });
 
-test('renderApp uses four tabs, keeps information in overview and reservations in checklist', () => {
+test('renderApp uses four tabs, keeps information in overview and booking todos in checklist', () => {
   const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
   const html = renderApp(trips, state, true);
   const tabs = [...html.matchAll(/data-app-tab="([^"]+)"/g)].map((match) => match[1]).slice(-4);
@@ -36,7 +36,7 @@ test('renderApp uses four tabs, keeps information in overview and reservations i
   const checklist = html.slice(html.indexOf('data-app-view="checklist"'), html.indexOf('</main>'));
   assert.doesNotMatch(overview, /预约与凭证/);
   assert.match(overview, /抵达前，先认识这里/);
-  assert.match(checklist, /aria-label="预约资料"/);
+  assert.match(checklist, /data-checklist-category="booking"/);
   assert.doesNotMatch(checklist, /预约与凭证|RESERVATIONS/);
   assert.doesNotMatch(html, /class="section-index"/);
 });
@@ -53,26 +53,40 @@ test('four tabs use unified numbered brief headings without a checklist footer',
 test('checklist renders persisted custom todos and an add form', () => {
   const state = normalizePersistedState({
     activeTripId: 'tokyo',
-    customTodos: [{ id: 'todo-1', label: '打印酒店确认单', checked: true }],
+    customTodos: [{ id: 'todo-1', label: '打印酒店确认单', checked: true, category: 'booking' }],
   }, trips);
   const html = renderApp(trips, state, true);
-  assert.match(html, /data-action="todo-add"/);
+  assert.equal((html.match(/data-action="todo-add"/g) ?? []).length, 4);
   assert.match(html, /打印酒店确认单/);
   assert.match(html, /data-action="custom-todo"[^>]*checked/);
   assert.match(html, /data-action="todo-delete"/);
   const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
-  assert.match(checklist, /class="checklist-grid"[\s\S]*data-action="todo-add"[\s\S]*打印酒店确认单/);
+  assert.match(checklist, /class="checklist-grid"[\s\S]*打印酒店确认单[\s\S]*data-action="todo-add"/);
   assert.doesNotMatch(html, /<fieldset class="checklist-group custom-todos"/);
 });
 
-test('checklist uses a plain title without completion count and labels todos after reservations', () => {
+test('checklist uses four adaptive sections with section-level management', () => {
+  for (const trip of trips) {
+    const state = normalizePersistedState({ activeTripId: trip.id }, [trip]);
+    const html = renderApp([trip], state, true, { standalone: true, assetBase: '../' });
+    const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
+    for (const category of ['booking', 'documents', 'luggage', 'other']) {
+      assert.match(checklist, new RegExp(`data-checklist-category="${category}"`));
+      assert.match(checklist, new RegExp(`data-action="checklist-manage"[^>]*data-category="${category}"`));
+      assert.match(checklist, new RegExp(`data-action="todo-add"[^>]*data-category="${category}"`));
+    }
+    assert.doesNotMatch(checklist, /class="reservation-files"|class="custom-todos-panel"/);
+  }
+});
+
+test('checklist uses a plain title without completion count and labels todos before four groups', () => {
   const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
   const html = renderApp(trips, state, true);
   const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
 
   assert.match(checklist, /<h2 id="checklist-title">[\s\S]*清单[\s\S]*<\/h2>/);
   assert.doesNotMatch(checklist, />\d+\/\d+</);
-  assert.match(checklist, /aria-label="预约资料"[\s\S]*TODOS[\s\S]*Yeah\.[\s\S]*class="checklist-grid"/);
+  assert.match(checklist, /TODOS[\s\S]*Yeah\.[\s\S]*class="checklist-grid"/);
 });
 
 test('renderApp exposes editable planned amounts', () => {
@@ -134,13 +148,12 @@ test('renderApp places the four practical travel groups before departure checkli
   }
 });
 
-test('renderApp simplifies checklist reservations and exposes editable travel files', () => {
+test('renderApp replaces reservation files with booking todos', () => {
   const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
   const html = renderApp(trips, state, true);
   assert.doesNotMatch(html, /RESERVATIONS|预约与凭证/);
-  assert.match(html, /data-action="reservation-form"/);
-  assert.match(html, /name="reference"/);
-  assert.match(html, /name="credentialUrl"/);
+  assert.match(html, /data-checklist-category="booking"/);
+  assert.doesNotMatch(html, /name="reference"|name="credentialUrl"/);
   assert.match(html, /data-action="checklist-delete"/);
   assert.doesNotMatch(html, /初版 · 可继续补充|天初版行程/);
 });

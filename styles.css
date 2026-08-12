@@ -2392,6 +2392,9 @@ body.panel-open {
   background: var(--white);
 }
 
+.practical-card--customs { align-content: start; }
+.practical-card--customs > ul { align-self: start; }
+
 .practical-card__index {
   display: grid;
   width: 44px;
@@ -2531,6 +2534,17 @@ body.panel-open {
   border: 1px solid var(--line);
   background: var(--white);
 }
+
+.checklist-group > header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.checklist-group > header h3 { margin: 0; font: 600 20px/1 var(--utility); }
+.checklist-group > header button { width: 44px; height: 44px; border: 0; background: transparent; font-size: 18px; }
+.checklist-item { display: grid; grid-template-columns: 1fr auto; }
+.checklist-item-actions { display: none; align-items: center; }
+.checklist-group.is-managing .checklist-item-actions { display: flex; }
+.checklist-item-actions button { min-height: 44px; border: 0; border-left: 1px solid var(--line); background: transparent; padding: 0 10px; }
+.checklist-item-actions button:last-child { color: #a53c31; }
+.check-row input:checked + span { color: var(--ink-soft); text-decoration: line-through; }
+.checklist-group .todo-add-form { padding: 14px; border-top: 1px solid var(--line); }
 
 .checklist-group legend {
   float: left;
@@ -3088,7 +3102,8 @@ body.panel-open {
   }
 
   .checklist-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
   }
 
   .practical-grid {
