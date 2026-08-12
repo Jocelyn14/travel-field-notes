@@ -1,6 +1,5 @@
 import {
   buildGoogleMapsSearchUrl,
-  cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
 } from './core.mjs?v=a11desk9';
@@ -211,14 +210,7 @@ function selectGuideTab(guide, selectedPage) {
 
 function activateGuideTab(tab) {
   const guide = tab.closest('[data-evening-guide-date]');
-  const carousel = guide?.querySelector('.guide-carousel');
-  const page = guide?.querySelector(`[data-guide-page="${tab.dataset.guideTab}"]`);
-  if (!guide || !carousel || !page) return;
-  const pageIndex = [...carousel.querySelectorAll('[data-guide-page]')].indexOf(page);
-  const previousScrollBehavior = carousel.style.scrollBehavior;
-  carousel.style.scrollBehavior = 'auto';
-  carousel.scrollLeft = pageIndex * carousel.clientWidth;
-  carousel.style.scrollBehavior = previousScrollBehavior;
+  if (!guide) return;
   selectGuideTab(guide, tab.dataset.guideTab);
 }
 
@@ -236,15 +228,6 @@ function moveGuideTabFocus(tab, key) {
   tabs[targetIndex].focus();
 }
 
-function syncGuideTabToCarousel(carousel) {
-  if (!carousel.clientWidth) return;
-  const pages = [...carousel.querySelectorAll('[data-guide-page]')];
-  const pageIndex = Math.max(0, Math.min(pages.length - 1, Math.round(carousel.scrollLeft / carousel.clientWidth)));
-  const selectedPage = pages[pageIndex]?.dataset.guidePage;
-  const guide = carousel.closest('[data-evening-guide-date]');
-  if (guide && selectedPage) selectGuideTab(guide, selectedPage);
-}
-
 function openEveningGuide(date, trigger) {
   const panel = root.querySelector('[data-panel="evening-guide"]');
   const guide = panel?.querySelector(`[data-evening-guide-date="${CSS.escape(date)}"]`);
@@ -254,7 +237,6 @@ function openEveningGuide(date, trigger) {
   panel.querySelectorAll('[data-evening-guide-date]').forEach((item) => { item.hidden = item !== guide; });
   const carousel = guide.querySelector('.guide-carousel');
   if (carousel) {
-    carousel.scrollLeft = 0;
     const firstPage = carousel.querySelector('[data-guide-page]')?.dataset.guidePage;
     if (firstPage) selectGuideTab(guide, firstPage);
   }
@@ -296,12 +278,6 @@ root.addEventListener('click', (event) => {
     activateAppView(action.dataset.appTab);
     return;
   }
-  if (action.dataset.action === 'reservation') {
-    const id = action.dataset.reservationId;
-    state.reservations[id] = cycleReservationStatus(state.reservations[id] ?? '待预订');
-    commit({ preserveScroll: true });
-    return;
-  }
   if (action.dataset.action === 'budget-entry-delete') {
     state.budgetEntries = state.budgetEntries.filter((entry) => entry.id !== action.dataset.budgetEntryId);
     commit({ preserveScroll: true });
@@ -334,6 +310,12 @@ root.addEventListener('click', (event) => {
   }
   if (action.dataset.action === 'todo-delete') {
     state.customTodos = state.customTodos.filter((todo) => todo.id !== action.dataset.itemId);
+    commit({ preserveScroll: true });
+    showToast('Todo 已删除。');
+    return;
+  }
+  if (action.dataset.action === 'checklist-delete') {
+    state.deletedChecklistIds = [...new Set([...(state.deletedChecklistIds ?? []), action.dataset.itemId])];
     commit({ preserveScroll: true });
     showToast('Todo 已删除。');
     return;
@@ -440,6 +422,26 @@ root.addEventListener('keydown', (event) => {
 });
 
 root.addEventListener('submit', (event) => {
+  const reservationForm = event.target.closest('[data-action="reservation-form"]');
+  if (reservationForm) {
+    event.preventDefault();
+    const values = Object.fromEntries(new FormData(reservationForm));
+    const credentialUrl = String(values.credentialUrl ?? '').trim();
+    if (credentialUrl && !credentialUrl.startsWith('https://')) {
+      showToast('凭证链接需要使用 https://。');
+      return;
+    }
+    state.reservationRecords[reservationForm.dataset.reservationId] = {
+      done: values.done === 'on',
+      reference: String(values.reference ?? '').trim(),
+      paidAmount: Math.max(0, Number(values.paidAmount) || 0),
+      credentialUrl,
+      note: String(values.note ?? '').trim(),
+    };
+    commit({ preserveScroll: true });
+    showToast('预约资料已保存。');
+    return;
+  }
   const todoForm = event.target.closest('[data-action="todo-add"]');
   if (todoForm) {
     event.preventDefault();
@@ -637,9 +639,6 @@ root.addEventListener('wheel', (event) => {
   setDeleteRail(item, event.deltaX > 0);
 }, { passive: false });
 
-root.addEventListener('scroll', (event) => {
-  if (event.target.matches?.('.guide-carousel')) syncGuideTabToCarousel(event.target);
-}, true);
 
 root.addEventListener('error', (event) => {
   const image = event.target.closest?.('.recommendation-media img, .place-photo img');

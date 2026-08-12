@@ -87,7 +87,7 @@ test('both overview tabs show destination-specific practical travel desks', asyn
       await page.goto(`${url}#overview`, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
       const information = page.locator('[data-app-view="overview"]');
-      assert.equal(await information.locator('.practical-card h3').allTextContents().then((items) => items.join('|')), '初访须知|常用 App / 官网|习俗与当期节庆|紧急联络');
+      assert.equal(await information.locator('.practical-card h3').allTextContents().then((items) => items.join('|')), '初访须知|常用 APP / 官网|习俗与当期节庆|紧急联络');
       assert.equal(await information.locator(`a[href="tel:${expectedContact}"]`).count(), 1);
       assert.equal(await information.locator(`a[href="tel:${absentContact}"]`).count(), 0);
       await page.close();
@@ -104,9 +104,11 @@ test('Italy and Tokyo management state are isolated and persist locally', async 
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await page.locator('[data-app-tab="checklist"]').click();
-    const reservation = page.locator('[data-action="reservation"]').first();
-    await reservation.click();
-    await assert.doesNotReject(() => reservation.getByText('已预订').waitFor());
+    const reservation = page.locator('.reservation-card').first();
+    await reservation.locator('summary').click();
+    await reservation.locator('[name="done"]').check();
+    await reservation.locator('[name="reference"]').fill('IT-BOOKING-1');
+    await reservation.getByRole('button', { name: '保存资料' }).click();
     await page.locator('[data-app-tab="budget"]').click();
     const rate = page.locator('[data-action="rate"]');
     await rate.fill('8.5');
@@ -117,14 +119,17 @@ test('Italy and Tokyo management state are isolated and persist locally', async 
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await page.locator('[data-app-tab="checklist"]').click();
-    assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '待预订');
+    assert.match(await page.locator('.reservation-card').first().locator('summary em').textContent(), /下一步/);
     assert.equal(await page.locator('[data-action="checklist"]').first().isChecked(), false);
 
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     assert.equal(await page.locator('[data-app-ready="true"]').getAttribute('data-active-trip'), 'italy');
     await page.locator('[data-app-tab="checklist"]').click();
-    assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '已预订');
+    const persistedReservation = page.locator('.reservation-card').first();
+    assert.equal(await persistedReservation.locator('summary em').textContent(), '已处理');
+    await persistedReservation.locator('summary').click();
+    assert.equal(await persistedReservation.locator('[name="reference"]').inputValue(), 'IT-BOOKING-1');
     await page.locator('[data-app-tab="budget"]').click();
     assert.equal(await page.locator('[data-action="rate"]').inputValue(), '8.5');
     await page.locator('[data-app-tab="checklist"]').click();
@@ -399,7 +404,7 @@ test('mobile day date and summary columns do not overlap', async () => {
   }
 });
 
-test('daily evening guide opens, switches horizontally and shows airport-only departure advice', async () => {
+test('daily evening guide opens, switches by click and shows airport-only departure advice', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   try {
@@ -413,8 +418,9 @@ test('daily evening guide opens, switches horizontally and shows airport-only de
     assert.equal(await firstGuide.locator('[data-guide-page="bars"] .recommendation-card').count(), 5);
     assert.equal(await firstGuide.locator('[data-guide-page="activities"] .recommendation-card').count(), 5);
     await firstGuide.locator('[data-guide-tab="activities"]').click();
-    await page.waitForTimeout(350);
-    assert.ok(await firstGuide.locator('.guide-carousel').evaluate((node) => node.scrollLeft > node.clientWidth * 1.5));
+    assert.equal(await firstGuide.locator('[data-guide-page="activities"]').getAttribute('aria-hidden'), 'false');
+    assert.equal(await firstGuide.locator('[data-guide-page="restaurants"]').getAttribute('aria-hidden'), 'true');
+    assert.equal(await firstGuide.locator('.guide-carousel').evaluate((node) => node.scrollWidth === node.clientWidth), true);
     await page.keyboard.press('Escape');
     await panel.waitFor({ state: 'hidden' });
 
@@ -518,8 +524,7 @@ test('editorial evening cards keep approved treatments across target viewports',
       assert.ok(await restaurant.locator('h4').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 20));
       assert.ok(await restaurant.locator('.recommendation-copy p').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 15));
       assert.ok(await restaurant.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-      await page.emulateMedia({ reducedMotion: 'reduce' });
-      assert.equal(await guide.locator('.guide-carousel').evaluate((node) => getComputedStyle(node).scrollBehavior), 'auto');
+      assert.equal(await guide.locator('.guide-carousel').evaluate((node) => node.scrollWidth === node.clientWidth), true);
       await page.close();
     }
   } finally {
@@ -573,9 +578,8 @@ test('Italy and Tokyo evening modals fit 768px with readable compact attribution
         await activeGuide.locator('[data-guide-tab="activities"]').click();
         await page.waitForFunction(() => {
           const guide = document.querySelector('[data-evening-guide-date]:not([hidden])');
-          const carousel = guide?.querySelector('.guide-carousel');
           return guide?.querySelector('[data-guide-tab="activities"]')?.getAttribute('aria-selected') === 'true'
-            && Math.abs(carousel.scrollLeft - carousel.clientWidth * 2) <= 1;
+            && guide?.querySelector('[data-guide-page="activities"]')?.getAttribute('aria-hidden') === 'false';
         });
       }
       const selectedPage = activeGuide.locator('[role="tabpanel"][aria-hidden="false"]');
@@ -624,10 +628,9 @@ test('evening tab selection persists after category click loses focus', async ()
     await activity.click();
     await page.waitForFunction(() => {
       const guideNode = document.querySelector('[data-evening-guide-date="2026-10-05"]');
-      const carousel = guideNode?.querySelector('.guide-carousel');
       const tab = guideNode?.querySelector('[data-guide-tab="activities"]');
       return tab?.getAttribute('aria-selected') === 'true'
-        && Math.abs(carousel.scrollLeft - carousel.clientWidth * 2) <= 1;
+        && guideNode?.querySelector('[data-guide-page="activities"]')?.getAttribute('aria-hidden') === 'false';
     });
     await page.locator('[data-action="close-evening"]').focus();
     assert.deepEqual(await tabTreatment(activity), {
@@ -635,7 +638,7 @@ test('evening tab selection persists after category click loses focus', async ()
       underlineColor: 'rgb(100, 112, 82)',
       underlineHeight: '2px',
     });
-    assert.equal((await tabTreatment(restaurant)).underlineColor, 'rgba(0, 0, 0, 0)');
+    assert.equal((await tabTreatment(restaurant)).underlineColor, 'rgb(168, 79, 61)');
   } finally {
     await browser.close();
   }
@@ -706,25 +709,19 @@ test('evening tabs support roving focus and manual keyboard activation', async (
   }
 });
 
-test('evening tab selection follows direct carousel scrolling', async () => {
+test('evening categories ignore horizontal scrolling and only change after tab activation', async () => {
   const { browser, page, guide } = await openTokyoEveningGuide();
   try {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     const carousel = guide.locator('.guide-carousel');
     await carousel.evaluate((node) => { node.scrollLeft = node.clientWidth; });
-    await page.waitForFunction(() => document.querySelector('[data-evening-guide-date="2026-10-05"] [data-guide-tab="bars"]')?.getAttribute('aria-selected') === 'true');
+    await page.waitForTimeout(50);
     const restaurant = guide.locator('[data-guide-tab="restaurants"]');
     const bar = guide.locator('[data-guide-tab="bars"]');
     assert.equal((await tabTreatment(restaurant)).underlineColor, 'rgba(0, 0, 0, 0)');
-    assert.deepEqual(await tabTreatment(bar), {
-      selected: 'true',
-      underlineColor: 'rgb(56, 91, 112)',
-      underlineHeight: '2px',
-    });
-    assert.equal(await guide.locator('[data-guide-page="restaurants"]').getAttribute('aria-hidden'), 'true');
-    assert.equal(await guide.locator('[data-guide-page="restaurants"]').getAttribute('inert'), '');
-    assert.equal(await guide.locator('[data-guide-page="bars"]').getAttribute('aria-hidden'), 'false');
-    assert.equal(await guide.locator('[data-guide-page="bars"]').getAttribute('inert'), null);
+    assert.equal((await tabTreatment(bar)).selected, 'false');
+    assert.equal(await guide.locator('[data-guide-page="restaurants"]').getAttribute('aria-hidden'), 'false');
+    assert.equal(await guide.locator('[data-guide-page="bars"]').getAttribute('aria-hidden'), 'true');
   } finally {
     await browser.close();
   }

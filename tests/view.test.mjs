@@ -21,8 +21,8 @@ test('renderApp includes every agreed section and safe external links', () => {
   }
   assert.match(html, /data-trip-id="italy"/);
   assert.match(html, /data-trip-id="tokyo"/);
-  assert.match(html, /初版 · 可继续补充/);
-  assert.match(html, /data-action="reservation"/);
+  assert.doesNotMatch(html, /初版 · 可继续补充/);
+  assert.match(html, /data-action="reservation-form"/);
   assert.match(html, /data-action="checklist"/);
   assert.match(html, /target="_blank" rel="noopener noreferrer"/);
 });
@@ -36,7 +36,8 @@ test('renderApp uses four tabs, keeps information in overview and reservations i
   const checklist = html.slice(html.indexOf('data-app-view="checklist"'), html.indexOf('</main>'));
   assert.doesNotMatch(overview, /预约与凭证/);
   assert.match(overview, /抵达前，先认识这里/);
-  assert.match(checklist, /预约与凭证/);
+  assert.match(checklist, /aria-label="预约资料"/);
+  assert.doesNotMatch(checklist, /预约与凭证|RESERVATIONS/);
   assert.doesNotMatch(html, /class="section-index"/);
 });
 
@@ -71,7 +72,7 @@ test('checklist uses a plain title without completion count and labels todos aft
 
   assert.match(checklist, /<h2 id="checklist-title">[\s\S]*清单[\s\S]*<\/h2>/);
   assert.doesNotMatch(checklist, />\d+\/\d+</);
-  assert.match(checklist, /预约与凭证[\s\S]*TODOS[\s\S]*Yeah\.[\s\S]*class="checklist-grid"/);
+  assert.match(checklist, /aria-label="预约资料"[\s\S]*TODOS[\s\S]*Yeah\.[\s\S]*class="checklist-grid"/);
 });
 
 test('renderApp exposes editable planned amounts', () => {
@@ -120,23 +121,35 @@ test('renderApp places the four practical travel groups before departure checkli
   for (const trip of trips) {
     const state = normalizePersistedState({ activeTripId: trip.id }, [trip]);
     const html = renderApp([trip], state, true, { standalone: true, assetBase: '../' });
-    const headings = ['初访须知', '常用 App / 官网', '习俗与当期节庆', '紧急联络'];
+    const headings = ['初访须知', '常用 APP / 官网', '习俗与当期节庆', '紧急联络'];
     const positions = headings.map((heading) => html.indexOf(heading));
 
     assert.ok(positions.every((position) => position >= 0));
     assert.deepEqual([...positions].sort((a, b) => a - b), positions);
     assert.ok(positions.at(-1) < html.indexOf('清单'));
     assert.match(html, /href="tel:[+0-9-]+"/);
-    assert.match(html, /data-external="true" target="_blank" rel="noopener noreferrer"/);
+    assert.match(html, /data-external="true"/);
+    assert.doesNotMatch(html, /data-external="true"[^>]*target="_blank"/);
     assert.match(html, /核验于 2026-08-11/);
   }
+});
+
+test('renderApp simplifies checklist reservations and exposes editable travel files', () => {
+  const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
+  const html = renderApp(trips, state, true);
+  assert.doesNotMatch(html, /RESERVATIONS|预约与凭证/);
+  assert.match(html, /data-action="reservation-form"/);
+  assert.match(html, /name="reference"/);
+  assert.match(html, /name="credentialUrl"/);
+  assert.match(html, /data-action="checklist-delete"/);
+  assert.doesNotMatch(html, /初版 · 可继续补充|天初版行程/);
 });
 
 test('renderApp presents every day with a jump link and full timeline', () => {
   const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
   const html = renderApp(trips, state, true);
 
-  assert.match(html, /8 天初版行程/);
+  assert.match(html, /8 天行程/);
   for (const day of trips[0].days) {
     assert.match(html, new RegExp(`data-day-date="${day.date}"`));
     assert.match(html, new RegExp(`href="#day-${day.date}"`));
@@ -274,7 +287,7 @@ test('place editor uses an in-app drawer instead of the native dialog element', 
 test('all display titles opt into one shared responsive title system', () => {
   const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
   const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
-  for (const title of ['东京', '逐日行程', '抵达前，先认识这里', '预约与凭证', '清单', '花销', '添加行程', '今晚的选择']) {
+  for (const title of ['东京', '逐日行程', '抵达前，先认识这里', '清单', '花销', '添加行程', '今晚的选择']) {
     assert.match(html, new RegExp(`data-balance-title="true"[^>]*>${title.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}`));
   }
 });

@@ -1417,25 +1417,19 @@ svg.icon {
 }
 
 .guide-carousel {
-  display: flex;
-  align-items: flex-start;
+  display: block;
   width: 100%;
-  overflow-x: auto;
-  overflow-y: visible;
-  overscroll-behavior-x: contain;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
+  overflow: visible;
 }
 
 .guide-page {
   display: grid;
-  flex: 0 0 100%;
   gap: 14px;
   align-content: start;
   padding: 0 24px;
-  scroll-snap-align: start;
 }
+
+.guide-page[aria-hidden="true"] { display: none; }
 
 .guide-top-link {
   justify-self: end;
@@ -2044,20 +2038,19 @@ body.panel-open {
 .checklist-grid {
   display: grid;
   gap: 10px;
+  clear: both;
 }
 
 .reservation-card {
-  display: grid;
-  grid-template-columns: 48px 1fr auto;
-  gap: 12px;
-  align-items: center;
+  display: block;
   min-height: 86px;
-  padding: 14px;
   border: 1px solid var(--line);
   background: var(--white);
   text-align: left;
-  cursor: pointer;
 }
+
+.reservation-card > summary { display: grid; grid-template-columns: 48px 1fr auto; gap: 12px; align-items: center; padding: 14px; cursor: pointer; list-style: none; }
+.reservation-card > summary::-webkit-details-marker { display: none; }
 
 .reservation-card:hover {
   border-color: var(--ink);
@@ -2073,7 +2066,7 @@ body.panel-open {
   color: var(--accent);
 }
 
-.reservation-card > span:nth-child(2) {
+.reservation-card > summary > span:nth-child(2) {
   display: grid;
   gap: 3px;
 }
@@ -2097,6 +2090,21 @@ body.panel-open {
   font-size: 10px;
   font-style: normal;
   font-weight: 700;
+}
+
+.reservation-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0 14px 14px; }
+.reservation-form label { display: grid; gap: 5px; font-size: 12px; }
+.reservation-form label:has(textarea), .reservation-form .reservation-done { grid-column: 1 / -1; }
+.reservation-form input, .reservation-form textarea { width: 100%; min-height: 44px; border: 1px solid var(--line); background: var(--paper); padding: 10px; font: inherit; }
+.reservation-form textarea { min-height: 80px; resize: vertical; }
+.reservation-form button { min-height: 44px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); }
+.preset-todo-row { display: flex; align-items: stretch; }
+.preset-todo-row .check-row { flex: 1; }
+.preset-todo-row > button { min-width: 58px; border: 0; border-left: 1px solid var(--line); background: transparent; color: var(--accent); }
+
+@media (max-width: 520px) {
+  .reservation-form { grid-template-columns: 1fr; }
+  .reservation-form label { grid-column: 1; }
 }
 
 .microcopy {
@@ -2516,6 +2524,7 @@ body.panel-open {
 }
 
 .checklist-group {
+  display: flow-root;
   min-width: 0;
   margin: 0;
   padding: 0;
@@ -2542,6 +2551,8 @@ body.panel-open {
 }
 
 .custom-todos-panel {
+  clear: both;
+  margin-top: 22px;
   margin-bottom: 22px;
   border: 1px solid var(--line);
   background: var(--white);

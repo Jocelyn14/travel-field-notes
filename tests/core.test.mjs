@@ -348,11 +348,13 @@ test('normalizePersistedState migrates older data and removes unknown trip keys'
   }, validTrips);
 
   assert.deepEqual(migrated, {
-    version: 4,
+    version: 5,
     activeTripId: 'italy',
     rates: { italy: 8.1 },
     reservations: { 'colosseum-ticket': '已付款' },
+    reservationRecords: { 'colosseum-ticket': { done: true, reference: '', paidAmount: 0, credentialUrl: '', note: '' } },
     checklist: { passport: true },
+    deletedChecklistIds: [],
     customTodos: [],
     budgetEntries: [{ id: 'expense-1', budgetItemId: 'ticket', amount: 24.5, note: '博物馆' }],
     budgetPlans: {},
@@ -383,6 +385,22 @@ test('normalizePersistedState keeps valid custom todos', () => {
     ],
   }, validTrips);
   assert.deepEqual(normalized.customTodos, [{ id: 'todo-1', label: '打印预约单', checked: true }]);
+});
+
+test('normalizePersistedState keeps deleted preset todos and reservation files', () => {
+  const normalized = normalizePersistedState({
+    activeTripId: 'italy',
+    deletedChecklistIds: ['passport', 'missing', 'passport'],
+    reservationRecords: {
+      'colosseum-ticket': { done: true, reference: 'ABC123', paidAmount: '48', credentialUrl: 'https://example.com/ticket', note: '二维码已存' },
+      missing: { done: true },
+    },
+  }, validTrips);
+
+  assert.deepEqual(normalized.deletedChecklistIds, ['passport']);
+  assert.deepEqual(normalized.reservationRecords, {
+    'colosseum-ticket': { done: true, reference: 'ABC123', paidAmount: 48, credentialUrl: 'https://example.com/ticket', note: '二维码已存' },
+  });
 });
 
 test('normalizePersistedState keeps accommodation only for trip dates', () => {

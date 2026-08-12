@@ -1,4 +1,4 @@
-import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk9';
+﻿import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=a11desk9';
 import { applyItineraryEdits } from './itinerary.mjs?v=a11desk9';
 
 const moneyFormatters = new Map();
@@ -83,7 +83,7 @@ function renderDayJump(days) {
 }
 
 function renderAccommodation(day, stay, tripEnd) {
-  const mapLink = stay?.maps ? `<a href="${escapeHtml(stay.maps)}" target="_blank" rel="noopener noreferrer" data-external="true">Google Maps${icon('external')}</a>` : '';
+  const mapLink = stay?.maps ? `<a href="${escapeHtml(stay.maps)}" data-external="true">Google Maps${icon('external')}</a>` : '';
   return `<details class="accommodation-card" data-accommodation-date="${escapeHtml(day.date)}">
     <summary><span>${icon('pin')}</span><div><small>STAY / ${escapeHtml(day.date)}</small><strong>${escapeHtml(stay?.name || '待补充住宿')}</strong>${stay?.address ? `<p>${escapeHtml(stay.address)}</p>` : ''}</div><b>${stay ? '修改' : '补充'}</b></summary>
     <form data-action="accommodation-form" data-day-date="${escapeHtml(day.date)}">
@@ -118,9 +118,9 @@ function renderDay(day, currency, index, locale, assetBase, eveningGuide, accomm
 }
 
 function renderPlace(place, currency, index, dayDate, locale, assetBase, previousPlace, isParallel) {
-  const link = (href, label) => href ? `<a class="text-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" data-external="true">${escapeHtml(label)}${icon('external')}</a>` : '';
+  const link = (href, label) => href ? `<a class="text-link" href="${escapeHtml(href)}" data-external="true">${escapeHtml(label)}${icon('external')}</a>` : '';
   const placeImage = /^https:\/\//.test(place.image ?? '') ? place.image : `${assetBase}${place.image}`;
-  const commuteLink = previousPlace ? `<a class="commute-link" href="${escapeHtml(buildGoogleMapsDirectionsUrl(`${previousPlace.name} ${previousPlace.address}`, `${place.name} ${place.address}`))}" target="_blank" rel="noopener noreferrer" data-external="true" aria-label="从 ${escapeHtml(previousPlace.name)} 导航到 ${escapeHtml(place.name)}">${icon('route')}<span>通勤导航</span></a>` : '';
+  const commuteLink = previousPlace ? `<a class="commute-link" href="${escapeHtml(buildGoogleMapsDirectionsUrl(`${previousPlace.name} ${previousPlace.address}`, `${place.name} ${place.address}`))}" data-external="true" aria-label="从 ${escapeHtml(previousPlace.name)} 导航到 ${escapeHtml(place.name)}">${icon('route')}<span>通勤导航</span></a>` : '';
   const flight = place.flight ? `<div class="flight-strip" aria-label="${escapeHtml(place.flight.flightNumber)} 航班信息">
     <div><span>${escapeHtml(place.flight.departure)}</span><strong>${escapeHtml(place.flight.origin)}</strong></div>
     <p><b>${escapeHtml(place.flight.flightNumber)}</b><i aria-hidden="true">→</i><small>${Math.floor(place.flight.durationMinutes / 60)}H ${place.flight.durationMinutes % 60 ? `${place.flight.durationMinutes % 60}M` : ''}</small></p>
@@ -227,7 +227,7 @@ function renderRecommendation(item, theme, assetBase) {
   const licenseLink = `<a class="recommendation-media-license" href="${escapeHtml(licenseUrl)}" target="_blank" rel="noopener noreferrer"${isIllustration ? '' : ' data-external="true"'}>${escapeHtml(item.license || '图片许可')} 授权${icon('external')}</a>`;
   const sourceLink = isIllustration
     ? ''
-    : `<a class="recommendation-media-source" href="${escapeHtml(item.imageSource)}" target="_blank" rel="noopener noreferrer" data-external="true">图片来源${icon('external')}</a>`;
+    : `<a class="recommendation-media-source" href="${escapeHtml(item.imageSource)}" data-external="true">图片来源${icon('external')}</a>`;
   return `<article class="recommendation-card" data-category-theme="${theme}">
     <figure class="recommendation-media">
       <img src="${escapeHtml(`${assetBase}${item.image}`)}" alt="${escapeHtml(imageAlt)}" loading="lazy" decoding="async">
@@ -239,7 +239,7 @@ function renderRecommendation(item, theme, assetBase) {
       <section class="recommendation-copy"><strong>这里有什么</strong><p>${escapeHtml(item.summary)}</p></section>
       <ul class="recommendation-highlights">${item.highlights.slice(1).map((text) => `<li>${escapeHtml(text)}</li>`).join('')}</ul>
       <p class="recommendation-tips"><strong>到访提醒</strong>${escapeHtml(item.practicalTips)}</p>
-      <footer><span>${escapeHtml(item.distanceText)}</span>${tripadvisorScore}<a href="${escapeHtml(item.links.maps)}" target="_blank" rel="noopener noreferrer" data-external="true">Google Maps${icon('external')}</a><a href="${escapeHtml(item.links.images)}" target="_blank" rel="noopener noreferrer" data-external="true">Google 图片${icon('external')}</a><a href="${escapeHtml(item.links.tripadvisor)}" target="_blank" rel="noopener noreferrer" data-external="true">Tripadvisor${icon('external')}</a></footer>
+      <footer><span>${escapeHtml(item.distanceText)}</span>${tripadvisorScore}<a href="${escapeHtml(item.links.maps)}" data-external="true">Google Maps${icon('external')}</a><a href="${escapeHtml(item.links.images)}" data-external="true">Google 图片${icon('external')}</a><a href="${escapeHtml(item.links.tripadvisor)}" data-external="true">Tripadvisor${icon('external')}</a></footer>
     </div>
   </article>`;
 }
@@ -257,7 +257,7 @@ function renderEveningGuidePanel(trip, assetBase) {
         }
         const guideId = escapeHtml(`evening-${guide.date}`);
         return `<article class="evening-guide" data-evening-guide-date="${escapeHtml(guide.date)}" hidden>
-          <header><p>${escapeHtml(guide.date)} · LAST STOP</p><h3>${escapeHtml(anchor?.name ?? '')}附近</h3><span>左右滑动切换餐厅 / 酒吧 / 其他</span></header>
+          <header><p>${escapeHtml(guide.date)} · LAST STOP</p><h3>${escapeHtml(anchor?.name ?? '')}附近</h3><span>点击切换餐厅 / 酒吧 / 其他，上下滑动浏览</span></header>
           <nav class="guide-tabs" role="tablist" aria-label="晚间推荐分类" aria-orientation="horizontal"><button id="${guideId}-restaurants-tab" type="button" role="tab" aria-selected="true" tabindex="0" aria-controls="${guideId}-restaurants-panel" data-action="guide-tab" data-guide-tab="restaurants">餐厅 ${guide.restaurants.length}</button><button id="${guideId}-bars-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="${guideId}-bars-panel" data-action="guide-tab" data-guide-tab="bars">酒吧 ${guide.bars.length}</button><button id="${guideId}-activities-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="${guideId}-activities-panel" data-action="guide-tab" data-guide-tab="activities">其他 ${guide.activities.length}</button></nav>
           <div class="guide-carousel">
             <section id="${guideId}-restaurants-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-restaurants-tab" aria-hidden="false" data-guide-page="restaurants" data-category-theme="restaurant"><header><span>01</span><div><small>DINNER</small><h3>餐厅推荐</h3></div></header>${guide.restaurants.map((item) => renderRecommendation(item, 'restaurant', assetBase)).join('')}<button class="guide-top-link" type="button" data-action="guide-top">返回顶部 ↑</button></section>
@@ -271,19 +271,24 @@ function renderEveningGuidePanel(trip, assetBase) {
 }
 
 function renderReservations(trip, state) {
-  return `<section class="content-section" id="reservations" aria-labelledby="reservation-title">
-    <header class="section-heading"><div><p class="kicker">RESERVATIONS</p><h2 id="reservation-title">${displayTitle('预约与凭证')}</h2></div></header>
+  return `<section class="reservation-files" id="reservations" aria-label="预约资料">
     <div class="reservation-grid">
       ${trip.reservations.map((reservation) => {
-        const status = state.reservations[reservation.id] ?? RESERVATION_STATUSES[0];
-        return `<button class="reservation-card" type="button" data-action="reservation" data-reservation-id="${escapeHtml(reservation.id)}">
+        const record = state.reservationRecords?.[reservation.id] ?? { done: false, reference: '', paidAmount: 0, credentialUrl: '', note: '' };
+        return `<details class="reservation-card" data-reservation-id="${escapeHtml(reservation.id)}"><summary>
           <span class="reservation-icon">${icon('ticket')}</span>
           <span><strong>${escapeHtml(reservation.title)}</strong><small>${escapeHtml(reservation.meta)}</small></span>
-          <em data-status>${escapeHtml(status)}</em>
-        </button>`;
+          <em>${record.done ? '已处理' : '下一步：确认预约'}</em>
+        </summary><form class="reservation-form" data-action="reservation-form" data-reservation-id="${escapeHtml(reservation.id)}">
+          <label class="reservation-done"><input type="checkbox" name="done"${record.done ? ' checked' : ''}> 已处理</label>
+          <label><span>订单 / 预约编号</span><input name="reference" type="text" maxlength="80" value="${escapeHtml(record.reference)}"></label>
+          <label><span>已付金额</span><input name="paidAmount" type="number" min="0" step="0.01" value="${escapeHtml(record.paidAmount || '')}"></label>
+          <label><span>凭证链接</span><input name="credentialUrl" type="url" placeholder="https://" value="${escapeHtml(record.credentialUrl)}"></label>
+          <label><span>备注</span><textarea name="note" maxlength="200">${escapeHtml(record.note)}</textarea></label>
+          <button type="submit">保存资料</button>
+        </form></details>`;
       }).join('')}
     </div>
-    <p class="microcopy">点击卡片依次更新：待预订 → 已预订 → 已付款 → 凭证已存</p>
   </section>`;
 }
 
@@ -342,7 +347,7 @@ function renderChecklist(trip, state) {
     <header class="todos-heading"><p class="kicker">TODOS</p><h3>Yeah.</h3></header>
     <div class="checklist-grid">
       ${trip.checklist.map((group) => `<fieldset class="checklist-group"><legend>${escapeHtml(group.title)}</legend>
-        ${group.items.map((item) => `<label class="check-row"><input type="checkbox" data-action="checklist" data-item-id="${escapeHtml(item.id)}"${state.checklist[item.id] ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label>`).join('')}
+        ${group.items.filter((item) => !state.deletedChecklistIds?.includes(item.id)).map((item) => `<div class="preset-todo-row"><label class="check-row"><input type="checkbox" data-action="checklist" data-item-id="${escapeHtml(item.id)}"${state.checklist[item.id] ? ' checked' : ''}><span>${escapeHtml(item.label)}</span><i>${icon('check')}</i></label><button type="button" data-action="checklist-delete" data-item-id="${escapeHtml(item.id)}" aria-label="删除 ${escapeHtml(item.label)}">删除</button></div>`).join('')}
       </fieldset>`).join('')}
     </div>
     <section class="custom-todos-panel" aria-label="自定义待办">
@@ -353,14 +358,14 @@ function renderChecklist(trip, state) {
 }
 
 function renderPracticalInfo(info) {
-  const renderNotes = (items) => items.map((item) => `<li><strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.description)}</p>${item.url ? `<a href="${escapeHtml(item.url)}" data-external="true" target="_blank" rel="noopener noreferrer">查看官方信息 ${icon('external')}</a>` : ''}</li>`).join('');
+  const renderNotes = (items) => items.map((item) => `<li><strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.description)}</p>${item.url ? `<a href="${escapeHtml(item.url)}" data-external="true">查看官方信息 ${icon('external')}</a>` : ''}</li>`).join('');
   return `<section class="practical-desk" aria-labelledby="practical-desk-title">
     <header class="practical-desk__heading"><div><p class="kicker">LOCAL INFO</p><h2 id="practical-desk-title">${displayTitle('抵达前，先认识这里')}</h2></div><small>信息核验于 ${escapeHtml(info.verifiedAt)}</small></header>
     <div class="practical-grid">
       <article class="practical-card practical-card--essentials"><span class="practical-card__index">01</span><div><p class="kicker">FIRST VISIT</p><h3>初访须知</h3></div><ul>${renderNotes(info.essentials)}</ul></article>
-      <article class="practical-card practical-card--resources"><span class="practical-card__index">02</span><div><p class="kicker">TOOLS & LINKS</p><h3>常用 App / 官网</h3></div><ul>${info.resources.map((resource) => `<li><a href="${escapeHtml(resource.url)}" data-external="true" target="_blank" rel="noopener noreferrer"><span><strong>${escapeHtml(resource.name)}</strong><small>${escapeHtml(resource.description)}</small></span>${icon('external')}</a></li>`).join('')}</ul></article>
+      <article class="practical-card practical-card--resources"><span class="practical-card__index">02</span><div><p class="kicker">TOOLS & LINKS</p><h3>常用 APP / 官网</h3></div><ul>${info.resources.map((resource) => `<li><a href="${escapeHtml(resource.url)}" data-external="true"><span><strong>${escapeHtml(resource.name)}</strong><small>${escapeHtml(resource.description)}</small></span>${icon('external')}</a></li>`).join('')}</ul></article>
       <article class="practical-card practical-card--customs"><span class="practical-card__index">03</span><div><p class="kicker">LOCAL RHYTHM</p><h3>习俗与当期节庆</h3></div><ul>${renderNotes(info.customs)}</ul></article>
-      <article class="practical-card practical-card--emergency"><span class="practical-card__index">04</span><div><p class="kicker">HELP & SAFETY</p><h3>紧急联络</h3></div><ul>${info.emergencyContacts.map((contact) => `<li><div><strong>${escapeHtml(contact.label)}</strong><p>${escapeHtml(contact.note)}</p><a href="${escapeHtml(contact.sourceUrl)}" data-external="true" target="_blank" rel="noopener noreferrer">官方来源 ${icon('external')}</a></div><a class="call-link" href="tel:${escapeHtml(contact.phone)}" aria-label="拨打 ${escapeHtml(contact.label)} ${escapeHtml(contact.phone)}"><small>一键拨号</small><b>${escapeHtml(contact.phone)}</b></a></li>`).join('')}</ul></article>
+      <article class="practical-card practical-card--emergency"><span class="practical-card__index">04</span><div><p class="kicker">HELP & SAFETY</p><h3>紧急联络</h3></div><ul>${info.emergencyContacts.map((contact) => `<li><div><strong>${escapeHtml(contact.label)}</strong><p>${escapeHtml(contact.note)}</p><a href="${escapeHtml(contact.sourceUrl)}" data-external="true">官方来源 ${icon('external')}</a></div><a class="call-link" href="tel:${escapeHtml(contact.phone)}" aria-label="拨打 ${escapeHtml(contact.label)} ${escapeHtml(contact.phone)}"><small>一键拨号</small><b>${escapeHtml(contact.phone)}</b></a></li>`).join('')}</ul></article>
     </div>
   </section>`;
 }
@@ -391,13 +396,12 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
         <div class="hero-contours" aria-hidden="true"></div>
         <div class="hero-copy">
           <p class="coordinate">${escapeHtml(trip.coordinates)}</p>
-          <div class="sample-badge">初版 · 可继续补充</div>
           <p class="hero-index">ATLAS / ${trip.id === 'italy' ? '01' : '02'}</p>
           <h1>${displayTitle(trip.title)}<small>${escapeHtml(trip.latinTitle)}</small></h1>
           <p class="hero-summary">${escapeHtml(trip.summary)}</p>
           <a class="primary-link" href="#itinerary" data-action="app-tab" data-app-tab="itinerary">查看每日路线 ${icon('arrow')}</a>
         </div>
-        <div class="hero-meta"><span>${icon('calendar')} ${escapeHtml(trip.dates.start)} — ${escapeHtml(trip.dates.end)}</span><span>${icon('pin')} ${trip.days.length} 天初版行程</span></div>
+        <div class="hero-meta"><span>${icon('calendar')} ${escapeHtml(trip.dates.start)} — ${escapeHtml(trip.dates.end)}</span><span>${icon('pin')} ${trip.days.length} 天行程</span></div>
       </section>
 
       <div class="content-wrap">

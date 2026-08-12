@@ -1,6 +1,6 @@
 export const RESERVATION_STATUSES = ['待预订', '已预订', '已付款', '凭证已存'];
 export const BUDGET_CATEGORIES = ['交通', '住宿', '餐饮', '门票', '购物'];
-export const STATE_VERSION = 4;
+export const STATE_VERSION = 5;
 
 const isRecord = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 const isHttpsUrl = (value) => typeof value === 'string' && value.startsWith('https://');
@@ -290,6 +290,18 @@ export function normalizePersistedState(rawState, trips) {
     .filter(([id, status]) => reservationIds.has(id) && RESERVATION_STATUSES.includes(status)));
   const checklist = Object.fromEntries(Object.entries(isRecord(state.checklist) ? state.checklist : {})
     .filter(([id, checked]) => checklistIds.has(id) && typeof checked === 'boolean'));
+  const deletedChecklistIds = [...new Set(Array.isArray(state.deletedChecklistIds) ? state.deletedChecklistIds : [])]
+    .filter((id) => checklistIds.has(id));
+  const reservationRecords = Object.fromEntries(Object.entries(isRecord(state.reservationRecords) ? state.reservationRecords : {})
+    .filter(([id, record]) => reservationIds.has(id) && isRecord(record))
+    .map(([id, record]) => [id, {
+      done: record.done === true,
+      reference: typeof record.reference === 'string' ? record.reference.trim() : '',
+      paidAmount: Number.isFinite(Number(record.paidAmount)) && Number(record.paidAmount) >= 0 ? Number(record.paidAmount) : 0,
+      credentialUrl: isHttpsUrl(record.credentialUrl) ? record.credentialUrl : '',
+      note: typeof record.note === 'string' ? record.note.trim() : '',
+    }]));
+  for (const [id, status] of Object.entries(reservations)) reservationRecords[id] ??= { done: status !== RESERVATION_STATUSES[0], reference: '', paidAmount: 0, credentialUrl: '', note: '' };
   const seenTodoIds = new Set();
   const customTodos = (Array.isArray(state.customTodos) ? state.customTodos : [])
     .filter((todo) => {
@@ -338,7 +350,9 @@ export function normalizePersistedState(rawState, trips) {
     activeTripId: tripIds.has(state.activeTripId) ? state.activeTripId : trips[0]?.id ?? '',
     rates,
     reservations,
+    reservationRecords,
     checklist,
+    deletedChecklistIds,
     customTodos,
     budgetEntries,
     budgetPlans,
