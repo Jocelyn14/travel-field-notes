@@ -2,7 +2,7 @@ import {
   buildGoogleMapsSearchUrl,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=a11desk9';
+} from './core.mjs?v=a11desk11';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -12,11 +12,11 @@ import {
   restorePlace,
   sortDayByTime,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=a11desk9';
-import { searchPlace } from './search.mjs?v=a11desk9';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk9';
-import { renderApp } from './view.mjs?v=a11desk9';
-import { applyBalancedTitles, watchBalancedTitles } from './typography.mjs?v=a11desk9';
+} from './itinerary.mjs?v=a11desk11';
+import { searchPlace } from './search.mjs?v=a11desk11';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=a11desk11';
+import { renderApp } from './view.mjs?v=a11desk11';
+import { applyBalancedTitles, watchBalancedTitles } from './typography.mjs?v=a11desk11';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -673,7 +673,7 @@ window.addEventListener('hashchange', () => activateAppView(viewFromHash(), { up
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=a11desk9', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=a11desk11', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);
