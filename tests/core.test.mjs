@@ -4,7 +4,6 @@ import assert from 'node:assert/strict';
 import {
   RESERVATION_STATUSES,
   buildGoogleMapsSearchUrl,
-  buildGoogleMapsDirectionsUrl,
   calculateBudget,
   cycleReservationStatus,
   normalizePersistedState,
@@ -143,30 +142,6 @@ const validTrips = [
       })),
       airportTips: [],
     }],
-    practicalInfo: {
-      verifiedAt: '2026-08-11',
-      essentials: [
-        { title: '交通', description: '提前确认车票与站台信息。' },
-        { title: '支付', description: '准备银行卡和少量现金备用。' },
-        { title: '天气', description: '每天查看天气与交通公告。' },
-      ],
-      resources: [
-        { name: '交通官网', description: '查询公共交通与实时运行信息。', url: 'https://example.com/transit' },
-        { name: '旅游官网', description: '查询景点开放和节庆活动信息。', url: 'https://example.com/travel' },
-        { name: '安全官网', description: '查询当地安全和紧急情况指南。', url: 'https://example.com/safety' },
-      ],
-      customs: [
-        { title: '公共礼仪', description: '在公共空间保持安静并遵守队列。' },
-        { title: '宗教场所', description: '遵守着装、拍摄与参观要求。' },
-        { title: '当期节庆', description: '活动日期须在出发前再次核对。' },
-      ],
-      emergencyContacts: [
-        { label: '警察', phone: '110', note: '紧急治安事件使用。', sourceUrl: 'https://example.com/police' },
-        { label: '急救', phone: '119', note: '紧急医疗情况使用。', sourceUrl: 'https://example.com/medical' },
-        { label: '使馆', phone: '+81-3-1234-5678', note: '领事保护与协助。', sourceUrl: 'https://example.com/embassy' },
-        { label: '热线', phone: '+86-10-12308', note: '全球领事保护热线。', sourceUrl: 'https://example.com/hotline' },
-      ],
-    },
     reservations: [{ id: 'colosseum-ticket', title: '斗兽场门票', placeId: 'colosseum' }],
     budget: [{ id: 'ticket', category: '门票', label: '景点门票', planned: 40, paid: 18 }],
     checklist: [{ id: 'docs', title: '证件', items: [{ id: 'passport', label: '护照' }] }],
@@ -348,18 +323,12 @@ test('normalizePersistedState migrates older data and removes unknown trip keys'
   }, validTrips);
 
   assert.deepEqual(migrated, {
-    version: 5,
+    version: 3,
     activeTripId: 'italy',
     rates: { italy: 8.1 },
     reservations: { 'colosseum-ticket': '已付款' },
-    reservationRecords: { 'colosseum-ticket': { done: true, reference: '', paidAmount: 0, credentialUrl: '', note: '' } },
     checklist: { passport: true },
-    checklistLabels: {},
-    deletedChecklistIds: [],
-    customTodos: [],
     budgetEntries: [{ id: 'expense-1', budgetItemId: 'ticket', amount: 24.5, note: '博物馆' }],
-    budgetPlans: {},
-    accommodations: {},
     itinerary: {
       customPlaces: {},
       deletedPlaceIds: {},
@@ -369,86 +338,9 @@ test('normalizePersistedState migrates older data and removes unknown trip keys'
   });
 });
 
-test('normalizePersistedState keeps valid planned budget overrides', () => {
-  const normalized = normalizePersistedState({
-    activeTripId: 'italy',
-    budgetPlans: { ticket: 420, missing: 9, food: -1 },
-  }, validTrips);
-  assert.deepEqual(normalized.budgetPlans, { ticket: 420 });
-});
-
-test('normalizePersistedState keeps valid custom todos', () => {
-  const normalized = normalizePersistedState({
-    activeTripId: 'italy',
-    customTodos: [
-      { id: 'todo-1', label: '打印预约单', checked: true },
-      { id: 'todo-2', label: '  ', checked: false },
-    ],
-  }, validTrips);
-  assert.deepEqual(normalized.customTodos, [{ id: 'todo-1', label: '打印预约单', checked: true, category: 'other' }]);
-});
-
-test('normalizePersistedState keeps edited preset todo labels', () => {
-  const state = normalizePersistedState({
-    checklistLabels: { passport: '护照、签证与复印件', unknown: '忽略' },
-  }, validTrips);
-
-  assert.deepEqual(state.checklistLabels, { passport: '护照、签证与复印件' });
-});
-
-test('normalizePersistedState preserves supported custom todo categories', () => {
-  const normalized = normalizePersistedState({ customTodos: [
-    { id: 'a', label: '确认预约', category: 'booking' },
-    { id: 'b', label: '带护照', category: 'documents' },
-    { id: 'c', label: '带雨具', category: 'luggage' },
-    { id: 'd', label: '查天气', category: 'invalid' },
-  ] }, validTrips);
-  assert.deepEqual(normalized.customTodos.map(({ id, category }) => ({ id, category })), [
-    { id: 'a', category: 'booking' }, { id: 'b', category: 'documents' },
-    { id: 'c', category: 'luggage' }, { id: 'd', category: 'other' },
-  ]);
-});
-
-test('normalizePersistedState keeps deleted preset todos and reservation files', () => {
-  const normalized = normalizePersistedState({
-    activeTripId: 'italy',
-    deletedChecklistIds: ['passport', 'missing', 'passport'],
-    reservationRecords: {
-      'colosseum-ticket': { done: true, reference: 'ABC123', paidAmount: '48', credentialUrl: 'https://example.com/ticket', note: '二维码已存' },
-      missing: { done: true },
-    },
-  }, validTrips);
-
-  assert.deepEqual(normalized.deletedChecklistIds, ['passport']);
-  assert.deepEqual(normalized.reservationRecords, {
-    'colosseum-ticket': { done: true, reference: 'ABC123', paidAmount: 48, credentialUrl: 'https://example.com/ticket', note: '二维码已存' },
-  });
-});
-
-test('normalizePersistedState keeps accommodation only for trip dates', () => {
-  const normalized = normalizePersistedState({
-    activeTripId: 'italy',
-    accommodations: {
-      '2026-08-27': { name: 'Hotel Roma', address: 'Via Roma 1', maps: 'https://maps.google.com/example' },
-      '2030-01-01': { name: 'Unknown', address: 'Nowhere' },
-    },
-  }, validTrips);
-  assert.deepEqual(normalized.accommodations, {
-    '2026-08-27': { name: 'Hotel Roma', address: 'Via Roma 1', maps: 'https://maps.google.com/example' },
-  });
-});
-
 test('buildGoogleMapsSearchUrl encodes the place name and address', () => {
   assert.equal(
     buildGoogleMapsSearchUrl('浅草寺', '2 Chome-3-1 Asakusa, 台东区'),
     'https://www.google.com/maps/search/?api=1&query=%E6%B5%85%E8%8D%89%E5%AF%BA%202%20Chome-3-1%20Asakusa%2C%20%E5%8F%B0%E4%B8%9C%E5%8C%BA',
   );
-});
-
-test('buildGoogleMapsDirectionsUrl opens transit directions between two places', () => {
-  const url = buildGoogleMapsDirectionsUrl('浅草寺 台东区', '东京站 千代田区');
-  assert.match(url, /^https:\/\/www\.google\.com\/maps\/dir\/\?api=1/);
-  assert.match(url, /origin=/);
-  assert.match(url, /destination=/);
-  assert.match(url, /travelmode=transit/);
 });

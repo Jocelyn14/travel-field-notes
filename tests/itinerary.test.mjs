@@ -4,13 +4,12 @@ import assert from 'node:assert/strict';
 import {
   addCustomPlace,
   applyItineraryEdits,
-  findScheduleConflicts,
-  groupOverlappingPlaces,
+  importItineraryPackage,
   recalculateDay,
   removePlace,
   reorderPlace,
   restorePlace,
-  sortDayByTime,
+  shouldApplyItineraryRelease,
   updatePlaceSchedule,
 } from '../src/itinerary.mjs';
 
@@ -28,6 +27,49 @@ const trip = {
 };
 
 const emptyState = () => ({ customPlaces: {}, deletedPlaceIds: {}, dayOrder: {}, placeOverrides: {} });
+
+test('importItineraryPackage replaces only itinerary data and preserves other state', () => {
+  const current = {
+    version: 4,
+    activeTripId: 'tokyo',
+    customTodos: [{ id: 'todo-1', label: '保留', checked: false }],
+    budgetEntries: [{ id: 'expense-1', budgetItemId: 'tokyo-food', amount: 100 }],
+    itinerary: emptyState(),
+  };
+  const payload = {
+    schema: 'fieldnotes-itinerary-import/v1',
+    tripId: 'tokyo',
+    itinerary: {
+      customPlaces: { x: { id: 'x', dayDate: '2026-10-05', time: '17:00' } },
+      deletedPlaceIds: { old: true },
+      dayOrder: { '2026-10-05': ['x'] },
+      placeOverrides: {},
+    },
+  };
+
+  const imported = importItineraryPackage(current, payload, 'tokyo');
+
+  assert.deepEqual(imported.itinerary, payload.itinerary);
+  assert.deepEqual(imported.customTodos, current.customTodos);
+  assert.deepEqual(imported.budgetEntries, current.budgetEntries);
+});
+
+test('importItineraryPackage rejects another destination', () => {
+  assert.throws(
+    () => importItineraryPackage({ itinerary: emptyState() }, {
+      schema: 'fieldnotes-itinerary-import/v1',
+      tripId: 'italy',
+      itinerary: emptyState(),
+    }, 'tokyo'),
+    /目的地不匹配/,
+  );
+});
+
+test('shouldApplyItineraryRelease applies a matching release only once', () => {
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'tokyov2e', appliedRelease: '' }), true);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'tokyov2e', appliedRelease: 'tokyov2e' }), false);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'italy', release: 'tokyov2e', appliedRelease: '' }), false);
+});
 
 test('recalculateDay cascades flexible times and preserves fixed anchors', () => {
   const result = recalculateDay(structuredClone(trip.days[0]));
@@ -68,23 +110,15 @@ test('itinerary edits merge custom places, order, overrides and deletion', () =>
   assert.deepEqual(applyItineraryEdits(trip, state).days[0].places.map((place) => place.id), ['a', 'custom', 'b', 'ticket']);
 });
 
-test('adding a custom place inserts it by its entered time', () => {
-  const state = addCustomPlace(emptyState(), '2026-08-23', {
-    id: 'custom', time: '10:00', durationMinutes: 30, travelMinutes: 0, timeMode: 'fixed',
-  }, trip);
-  assert.deepEqual(applyItineraryEdits(trip, state).days[0].places.map((place) => place.id), ['a', 'custom', 'b', 'ticket']);
-});
+test('itinerary edits apply imported day headings with the imported places', () => {
+  const state = emptyState();
+  state.dayOverrides = {
+    '2026-08-23': { city: '新城市', title: '新标题', subtitle: '新副标题' },
+  };
 
-test('sorting a day after a time edit reorders the complete itinerary', () => {
-  let state = updatePlaceSchedule(emptyState(), 'b', { time: '08:30', timeMode: 'fixed' });
-  state = sortDayByTime(state, trip, '2026-08-23');
-  assert.deepEqual(applyItineraryEdits(trip, state).days[0].places.map((place) => place.id), ['b', 'a', 'ticket']);
-});
+  const edited = applyItineraryEdits(trip, state);
 
-test('schedule conflicts are detected and grouped for parallel display', () => {
-  const day = structuredClone(trip.days[0]);
-  const candidate = { id: 'custom', time: '09:30', durationMinutes: 60 };
-  assert.deepEqual(findScheduleConflicts(day.places, candidate).map((place) => place.id), ['a']);
-  const groups = groupOverlappingPlaces([...day.places, candidate]);
-  assert.deepEqual(groups.map((group) => group.map((place) => place.id)), [['a', 'custom'], ['b'], ['ticket']]);
+  assert.equal(edited.days[0].city, '新城市');
+  assert.equal(edited.days[0].title, '新标题');
+  assert.equal(edited.days[0].subtitle, '新副标题');
 });

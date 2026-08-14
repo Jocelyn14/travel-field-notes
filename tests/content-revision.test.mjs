@@ -34,7 +34,7 @@ test('content revision check fails when trips or referenced media are stale', as
   await writeFile(join(directory, 'assets', 'evening.webp'), 'evening-v1');
   await writeFile(join(directory, 'sw.js'), [
     `const CONTENT_REVISION = '${'0'.repeat(64)}';`,
-    'const CACHE_NAME = `travel-atlas-v12-${CONTENT_REVISION}`;',
+    'const CACHE_NAME = `travel-atlas-v11-${CONTENT_REVISION}`;',
     '',
   ].join('\n'));
 
@@ -46,7 +46,7 @@ test('content revision check fails when trips or referenced media are stale', as
   assert.equal(updated.status, 0, updated.stderr);
   const worker = await readFile(join(directory, 'sw.js'), 'utf8');
   assert.match(worker, /const CONTENT_REVISION = '[a-f0-9]{64}';/);
-  assert.match(worker, /travel-atlas-v12-\$\{CONTENT_REVISION\}/);
+  assert.match(worker, /travel-atlas-v11-\$\{CONTENT_REVISION\}/);
   assert.equal(runRevision(directory, '--check').status, 0);
   await writeFile(join(directory, 'data', 'trips.json'), `${JSON.stringify(trips, null, 2)}\n`);
   assert.equal(runRevision(directory, '--check').status, 0, 'JSON formatting must not change the semantic content revision');

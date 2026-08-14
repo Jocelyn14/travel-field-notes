@@ -22,82 +22,9 @@ test('renderApp includes every agreed section and safe external links', () => {
   assert.match(html, /data-trip-id="italy"/);
   assert.match(html, /data-trip-id="tokyo"/);
   assert.doesNotMatch(html, /初版 · 可继续补充/);
-  assert.match(html, /data-checklist-category="booking"/);
+  assert.match(html, /data-checklist-category="reservation"/);
   assert.match(html, /data-action="checklist"/);
   assert.match(html, /target="_blank" rel="noopener noreferrer"/);
-});
-
-test('renderApp uses four tabs, keeps information in overview and booking todos in checklist', () => {
-  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
-  const html = renderApp(trips, state, true);
-  const tabs = [...html.matchAll(/data-app-tab="([^"]+)"/g)].map((match) => match[1]).slice(-4);
-  assert.deepEqual(tabs, ['overview', 'itinerary', 'checklist', 'budget']);
-  const overview = html.slice(html.indexOf('data-app-view="overview"'), html.indexOf('data-app-view="itinerary"'));
-  const checklist = html.slice(html.indexOf('data-app-view="checklist"'), html.indexOf('</main>'));
-  assert.doesNotMatch(overview, /预约与凭证/);
-  assert.match(overview, /抵达前，先认识这里/);
-  assert.match(checklist, /data-checklist-category="booking"/);
-  assert.doesNotMatch(checklist, /预约与凭证|RESERVATIONS/);
-  assert.doesNotMatch(html, /class="section-index"/);
-});
-
-test('four tabs use unified numbered brief headings without a checklist footer', () => {
-  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
-  const html = renderApp(trips, state, true);
-  for (const heading of ['FIELD BRIEF / 01', 'DAILY ROUTES / 02', 'CHECKLIST / 03', 'SPENDING / 04']) {
-    assert.match(html, new RegExp(heading.replace('/', '\\/')));
-  }
-  assert.doesNotMatch(html, /FIELD NOTES \/ TRAVEL ATLAS/);
-});
-
-test('checklist renders persisted custom todos and an add form', () => {
-  const state = normalizePersistedState({
-    activeTripId: 'tokyo',
-    customTodos: [{ id: 'todo-1', label: '打印酒店确认单', checked: true, category: 'booking' }],
-  }, trips);
-  const html = renderApp(trips, state, true);
-  assert.equal((html.match(/data-action="todo-add"/g) ?? []).length, 4);
-  assert.match(html, /打印酒店确认单/);
-  assert.match(html, /data-action="custom-todo"[^>]*checked/);
-  assert.match(html, /data-action="todo-remove"/);
-  const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
-  assert.match(checklist, /class="checklist-grid"[\s\S]*打印酒店确认单[\s\S]*data-action="todo-add"/);
-  assert.doesNotMatch(html, /<fieldset class="checklist-group custom-todos"/);
-});
-
-test('checklist uses four visible sections with one global management control', () => {
-  for (const trip of trips) {
-    const state = normalizePersistedState({ activeTripId: trip.id }, [trip]);
-    const html = renderApp([trip], state, true, { standalone: true, assetBase: '../' });
-    const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
-    for (const category of ['booking', 'documents', 'luggage', 'other']) {
-      assert.match(checklist, new RegExp(`data-checklist-category="${category}"`));
-      assert.match(checklist, new RegExp(`data-action="todo-add"[^>]*data-category="${category}"`));
-    }
-    assert.equal((checklist.match(/data-action="checklist-manage"/g) ?? []).length, 1);
-    assert.match(checklist, /class="todos-label">TODOS</);
-    assert.match(checklist, /data-action="todo-edit-input"/);
-    assert.match(checklist, /data-action="todo-remove"[^>]*aria-label="移除"/);
-    assert.match(checklist, /data-action="todo-add-toggle"[^>]*>＋ 添加一项/);
-    assert.doesNotMatch(checklist, /checklist-delete-rail/);
-    assert.doesNotMatch(checklist, /class="reservation-files"|class="custom-todos-panel"/);
-  }
-});
-
-test('checklist uses a plain title without completion count and labels todos before four groups', () => {
-  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
-  const html = renderApp(trips, state, true);
-  const checklist = html.slice(html.indexOf('id="checklist"'), html.indexOf('</main>'));
-
-  assert.match(checklist, /<h2 id="checklist-title">[\s\S]*清单[\s\S]*<\/h2>/);
-  assert.doesNotMatch(checklist, />\d+\/\d+</);
-  assert.match(checklist, /TODOS[\s\S]*class="checklist-grid"/);
-});
-
-test('renderApp exposes editable planned amounts', () => {
-  const state = normalizePersistedState({ activeTripId: 'italy', budgetPlans: { 'italy-transit': 456 } }, trips);
-  const html = renderApp(trips, state, true);
-  assert.match(html, /data-action="budget-plan"[^>]*data-budget-item-id="italy-transit"[^>]*value="456"/);
 });
 
 test('renderApp presents destination literature and three concrete highlights', () => {
@@ -107,11 +34,37 @@ test('renderApp presents destination literature and three concrete highlights', 
 
     assert.match(html, new RegExp(trip.editorial.quote.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     assert.match(html, new RegExp(trip.editorial.author));
-    assert.match(html, /data-balance-title="true"/);
-    assert.doesNotMatch(html, /class="trip-quote-line"/);
     assert.equal((html.match(/class="trip-highlight"/g) ?? []).length, 3);
     assert.doesNotMatch(html, /先排必去|这份初版|兴趣空位/);
   }
+});
+
+test('Tokyo overview follows the current six-day route and interests', () => {
+  const tokyo = trips.find((trip) => trip.id === 'tokyo');
+  const state = normalizePersistedState({ activeTripId: 'tokyo' }, [tokyo]);
+  const html = renderApp([tokyo], state, true, { standalone: true, assetBase: '../' });
+
+  for (const stop of ['成田 · 上野', '浅草 · 浅草桥 · 蔵前', '青山 · 表参道 · 涩谷', '新宿', '神保町 · 白金台 · 芝公园', '上野 · 成田']) {
+    assert.match(html, new RegExp(stop.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  const routeBoard = html.match(/<div class="route-board"[\s\S]*?<\/div>\s*<\/div>/)?.[0] ?? '';
+  assert.doesNotMatch(routeBoard, /镰仓|下北泽与高圆寺|丸之内与麻布台/);
+  assert.doesNotMatch(html, /tokyo-teamlab-ticket/);
+});
+
+test('checklist uses one four-category Todos system with per-section add controls', () => {
+  const tokyo = trips.find((trip) => trip.id === 'tokyo');
+  const state = normalizePersistedState({ activeTripId: 'tokyo', customTodos: [{ id: 'todo-camera', label: '清洁镜头', category: 'packing' }] }, [tokyo]);
+  const html = renderApp([tokyo], state, true, { standalone: true, assetBase: '../' });
+
+  assert.match(html, />TODOS</);
+  assert.match(html, /data-action="checklist-manage"/);
+  assert.equal((html.match(/data-checklist-category=/g) ?? []).length, 4);
+  assert.equal((html.match(/data-action="todo-add"/g) ?? []).length, 4);
+  for (const title of ['预约', '证件', '行李', '其他']) assert.match(html, new RegExp(`>${title}<`));
+  assert.doesNotMatch(html, /Yeah\.|预约与凭证|class="reservation-grid"/);
+  const packing = html.match(/data-checklist-category="packing"[\s\S]*?<\/section>/)?.[0] ?? '';
+  assert.ok(packing.indexOf('data-action="todo-add"') < packing.indexOf('清洁镜头'));
 });
 
 test('renderApp exposes category expense forms, entries and automatic totals', () => {
@@ -136,38 +89,11 @@ test('renderApp exposes category expense forms, entries and automatic totals', (
   assert.match(html, /data-budget-remaining="1712\.5"/);
 });
 
-test('renderApp places the four practical travel groups before departure checklist in the confirmed order', () => {
-  for (const trip of trips) {
-    const state = normalizePersistedState({ activeTripId: trip.id }, [trip]);
-    const html = renderApp([trip], state, true, { standalone: true, assetBase: '../' });
-    const headings = ['初访须知', '常用 APP / 官网', '习俗与当期节庆', '紧急联络'];
-    const positions = headings.map((heading) => html.indexOf(heading));
-
-    assert.ok(positions.every((position) => position >= 0));
-    assert.deepEqual([...positions].sort((a, b) => a - b), positions);
-    assert.ok(positions.at(-1) < html.indexOf('清单'));
-    assert.match(html, /href="tel:[+0-9-]+"/);
-    assert.match(html, /data-external="true"/);
-    assert.doesNotMatch(html, /data-external="true"[^>]*target="_blank"/);
-    assert.match(html, /核验于 2026-08-11/);
-  }
-});
-
-test('renderApp replaces reservation files with booking todos', () => {
-  const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
-  const html = renderApp(trips, state, true);
-  assert.doesNotMatch(html, /RESERVATIONS|预约与凭证/);
-  assert.match(html, /data-checklist-category="booking"/);
-  assert.doesNotMatch(html, /name="reference"|name="credentialUrl"/);
-  assert.match(html, /data-action="todo-remove"/);
-  assert.doesNotMatch(html, /初版 · 可继续补充|天初版行程/);
-});
-
 test('renderApp presents every day with a jump link and full timeline', () => {
   const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
   const html = renderApp(trips, state, true);
 
-  assert.match(html, /8 天行程/);
+  assert.match(html, /8 天初版行程/);
   for (const day of trips[0].days) {
     assert.match(html, new RegExp(`data-day-date="${day.date}"`));
     assert.match(html, new RegExp(`href="#day-${day.date}"`));
@@ -208,29 +134,11 @@ test('itinerary cards expose local photos, trilingual names and cultural guidanc
   const firstPlace = trips[0].days[0].places[0];
 
   assert.match(html, new RegExp(`data-place-id="${firstPlace.id}"`));
-  assert.match(html, new RegExp(`src="\\.\\./${firstPlace.image}"`));
+  assert.match(html, new RegExp(`--place-image:url\\('\\.\\./${firstPlace.image}'\\)`));
   assert.match(html, new RegExp(firstPlace.nameEn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   assert.match(html, /class="place-name-local" lang="it"/);
   assert.match(html, /class="culture-note"/);
   assert.match(html, /class="tips-note"/);
-});
-
-test('place details keep one attraction introduction and move transit into map direction links', () => {
-  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
-  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
-  assert.match(html, /景点简介/);
-  assert.doesNotMatch(html, /class="place-note"/);
-  assert.doesNotMatch(html, /class="transit-note"/);
-  assert.match(html, /class="commute-link"/);
-  assert.match(html, /https:\/\/www\.google\.com\/maps\/dir\/\?api=1&amp;origin=/);
-  assert.match(html, /class="place-photo-fallback"/);
-});
-
-test('place editor saves without a conflict confirmation prompt', () => {
-  const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
-  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
-  assert.doesNotMatch(html, /data-conflict-prompt/);
-  assert.doesNotMatch(html, /data-action="confirm-conflict"/);
 });
 
 test('every day renders reorder, delete, schedule and add controls', () => {
@@ -244,48 +152,29 @@ test('every day renders reorder, delete, schedule and add controls', () => {
   assert.match(html, /data-action="place-time"/);
   assert.match(html, /data-action="place-duration"/);
   assert.match(html, /data-action="place-travel"/);
+  assert.match(html, /data-action="itinerary-import"/);
+  assert.match(html, /accept="application\/json,.json"/);
 });
 
-test('every day ends with an accommodation form that can copy a multi-day stay', () => {
-  const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
-  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
-  assert.equal((html.match(/data-action="accommodation-form"/g) ?? []).length, trips[0].days.length);
-  assert.match(html, /name="copyThrough"/);
-  assert.match(html, /待补充住宿/);
-  assert.match(html, /name="address"[^>]*required/);
-});
-
-test('saved accommodation summary shows only hotel name, full address and an edit label', () => {
+test('day heading shows a compact non-interactive transit summary without exposing the import control', () => {
   const state = normalizePersistedState({
-    activeTripId: 'italy',
-    accommodations: { '2026-08-23': { name: 'Hotel Artemide', address: 'Via Nazionale 22, 00184 Roma RM, Italy', maps: 'https://maps.example/' } },
-  }, trips);
-  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
-  const card = html.match(/<details class="accommodation-card" data-accommodation-date="2026-08-23">[\s\S]*?<\/details>/)?.[0] ?? '';
-  assert.match(card, /Hotel Artemide/);
-  assert.match(card, /Via Nazionale 22, 00184 Roma RM, Italy/);
-  assert.match(card, /<b>修改<\/b>/);
-  assert.doesNotMatch(card, /填写一次，可复制到连续多天/);
-});
+    activeTripId: 'tokyo',
+    itinerary: {
+      dayOverrides: {
+        '2026-10-05': {
+          mapUrl: 'https://www.google.com/maps/dir/?api=1&origin=Narita&destination=Ueno',
+          transitSummary: 'Skyliner · 银座线',
+        },
+      },
+    },
+  }, [trips[1]]);
+  const html = renderApp([trips[1]], state, true, { standalone: true, assetBase: '../' });
 
-test('itinerary details start collapsed and deletion is exposed only by swipe rail', () => {
-  const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
-  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
-  assert.doesNotMatch(html, /<details class="place-card" open>/);
-  assert.doesNotMatch(html, /data-action="place-menu"/);
-  assert.match(html, /class="delete-place"/);
-});
-
-test('bottom navigation targets four exclusive app views', () => {
-  const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
-  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
-  assert.match(html, /data-app-view="overview"/);
-  assert.match(html, /data-app-view="itinerary" hidden/);
-  assert.doesNotMatch(html, /data-app-view="information"/);
-  assert.match(html, /data-app-view="budget" hidden/);
-  assert.match(html, /data-app-view="checklist" hidden/);
-  const bottomNav = html.match(/<nav class="bottom-nav"[\s\S]*?<\/nav>/)?.[0] ?? '';
-  assert.equal((bottomNav.match(/data-action="app-tab"/g) ?? []).length, 4);
+  assert.match(html, /class="day-transit-summary"/);
+  assert.match(html, /Skyliner · 银座线/);
+  assert.doesNotMatch(html, /class="day-map-link"/);
+  assert.doesNotMatch(html, /导入行程 JSON/);
+  assert.doesNotMatch(html, /data-action="itinerary-import"/);
 });
 
 test('place editor uses an in-app drawer instead of the native dialog element', () => {
@@ -296,18 +185,6 @@ test('place editor uses an in-app drawer instead of the native dialog element', 
   assert.match(html, /data-panel-backdrop/);
   assert.match(html, /aria-hidden="true"/);
   assert.doesNotMatch(html, /<dialog/);
-  assert.match(html, /textarea name="note"[^>]*maxlength="50"/);
-  assert.match(html, /class="editor-field editor-field--full"[\s\S]*name="name"/);
-  assert.match(html, /class="editor-field-group editor-field-group--compact"[\s\S]*name="time"[\s\S]*name="durationMinutes"[\s\S]*name="travelMinutes"/);
-  assert.equal((html.match(/class="editor-field editor-field--full"/g) ?? []).length, 5);
-});
-
-test('all display titles opt into one shared responsive title system', () => {
-  const state = normalizePersistedState({ activeTripId: 'tokyo' }, trips);
-  const html = renderApp(trips, state, true, { standalone: true, assetBase: '../' });
-  for (const title of ['东京', '逐日行程', '抵达前，先认识这里', '清单', '花销', '添加行程', '今晚的选择']) {
-    assert.match(html, new RegExp(`data-balance-title="true"[^>]*>${title.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}`));
-  }
 });
 
 test('Tokyo flight cards show confirmed route, terminals and local times', () => {
@@ -336,7 +213,6 @@ test('every day opens a horizontally paged evening or airport guide', () => {
   assert.match(html, /data-guide-page="restaurants"/);
   assert.match(html, /data-guide-page="bars"/);
   assert.match(html, /data-guide-tab="activities">其他 5/);
-  assert.equal((html.match(/data-action="guide-top"/g) ?? []).length, trips[1].eveningGuides.filter((guide) => guide.mode !== 'airport').length * 3);
   assert.match(html, /data-guide-page="activities"/);
   assert.match(html, /其他娱乐/);
   assert.match(html, /class="recommendation-media"/);

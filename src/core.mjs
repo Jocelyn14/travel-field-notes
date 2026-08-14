@@ -1,6 +1,6 @@
 export const RESERVATION_STATUSES = ['待预订', '已预订', '已付款', '凭证已存'];
 export const BUDGET_CATEGORIES = ['交通', '住宿', '餐饮', '门票', '购物'];
-export const STATE_VERSION = 5;
+export const STATE_VERSION = 4;
 
 const isRecord = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 const isHttpsUrl = (value) => typeof value === 'string' && value.startsWith('https://');
@@ -281,7 +281,6 @@ export function normalizePersistedState(rawState, trips) {
   const tripIds = new Set(trips.map((trip) => trip.id));
   const reservationIds = new Set(trips.flatMap((trip) => trip.reservations.map((item) => item.id)));
   const checklistIds = new Set(trips.flatMap((trip) => trip.checklist.flatMap((group) => group.items.map((item) => item.id))));
-  for (const id of reservationIds) checklistIds.add(`todo-${id}`);
   const budgetItemIds = new Set(trips.flatMap((trip) => trip.budget.map((item) => item.id)));
   const tripDates = new Set(trips.flatMap((trip) => trip.days.map((day) => day.date)));
 
@@ -291,21 +290,6 @@ export function normalizePersistedState(rawState, trips) {
     .filter(([id, status]) => reservationIds.has(id) && RESERVATION_STATUSES.includes(status)));
   const checklist = Object.fromEntries(Object.entries(isRecord(state.checklist) ? state.checklist : {})
     .filter(([id, checked]) => checklistIds.has(id) && typeof checked === 'boolean'));
-  const checklistLabels = Object.fromEntries(Object.entries(isRecord(state.checklistLabels) ? state.checklistLabels : {})
-    .filter(([id, label]) => checklistIds.has(id) && isNonEmptyString(label))
-    .map(([id, label]) => [id, label.trim()]));
-  const deletedChecklistIds = [...new Set(Array.isArray(state.deletedChecklistIds) ? state.deletedChecklistIds : [])]
-    .filter((id) => checklistIds.has(id));
-  const reservationRecords = Object.fromEntries(Object.entries(isRecord(state.reservationRecords) ? state.reservationRecords : {})
-    .filter(([id, record]) => reservationIds.has(id) && isRecord(record))
-    .map(([id, record]) => [id, {
-      done: record.done === true,
-      reference: typeof record.reference === 'string' ? record.reference.trim() : '',
-      paidAmount: Number.isFinite(Number(record.paidAmount)) && Number(record.paidAmount) >= 0 ? Number(record.paidAmount) : 0,
-      credentialUrl: isHttpsUrl(record.credentialUrl) ? record.credentialUrl : '',
-      note: typeof record.note === 'string' ? record.note.trim() : '',
-    }]));
-  for (const [id, status] of Object.entries(reservations)) reservationRecords[id] ??= { done: status !== RESERVATION_STATUSES[0], reference: '', paidAmount: 0, credentialUrl: '', note: '' };
   const seenTodoIds = new Set();
   const customTodos = (Array.isArray(state.customTodos) ? state.customTodos : [])
     .filter((todo) => {
@@ -317,8 +301,15 @@ export function normalizePersistedState(rawState, trips) {
       id: todo.id,
       label: todo.label.trim(),
       checked: todo.checked === true,
-      category: ['booking', 'documents', 'luggage', 'other'].includes(todo.category) ? todo.category : 'other',
+      category: ['reservation', 'documents', 'packing', 'other'].includes(todo.category) ? todo.category : 'other',
+      source: 'user',
     }));
+  const checklistEdits = Object.fromEntries(Object.entries(isRecord(state.checklistEdits) ? state.checklistEdits : {})
+    .filter(([id, edit]) => (checklistIds.has(id) || reservationIds.has(id)) && isRecord(edit))
+    .map(([id, edit]) => [id, {
+      label: typeof edit.label === 'string' ? edit.label.trim().slice(0, 80) : '',
+      deleted: edit.deleted === true,
+    }]));
   const seenBudgetEntryIds = new Set();
   const budgetEntries = (Array.isArray(state.budgetEntries) ? state.budgetEntries : [])
     .filter((entry) => {
@@ -353,20 +344,20 @@ export function normalizePersistedState(rawState, trips) {
     .map(([date, ids]) => [date, [...new Set(ids)]]));
   const placeOverrides = Object.fromEntries(Object.entries(isRecord(rawItinerary.placeOverrides) ? rawItinerary.placeOverrides : {})
     .filter(([, override]) => isRecord(override)));
+  const dayOverrides = Object.fromEntries(Object.entries(isRecord(rawItinerary.dayOverrides) ? rawItinerary.dayOverrides : {})
+    .filter(([date, override]) => tripDates.has(date) && isRecord(override)));
 
   return {
     version: STATE_VERSION,
     activeTripId: tripIds.has(state.activeTripId) ? state.activeTripId : trips[0]?.id ?? '',
     rates,
     reservations,
-    reservationRecords,
     checklist,
-    checklistLabels,
-    deletedChecklistIds,
+    checklistEdits,
     customTodos,
     budgetEntries,
     budgetPlans,
     accommodations,
-    itinerary: { customPlaces, deletedPlaceIds, dayOrder, placeOverrides },
+    itinerary: { customPlaces, deletedPlaceIds, dayOrder, placeOverrides, dayOverrides },
   };
 }

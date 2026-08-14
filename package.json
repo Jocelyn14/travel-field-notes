@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node scripts/update_content_revision.mjs --check && node --test tests/core.test.mjs tests/data.test.mjs tests/entrypoints.test.mjs tests/itinerary.test.mjs tests/search.test.mjs tests/typography.test.mjs tests/view.test.mjs tests/evening-media.test.mjs tests/content-revision.test.mjs",
+    "test": "node scripts/update_content_revision.mjs --check && node --test tests/core.test.mjs tests/data.test.mjs tests/entrypoints.test.mjs tests/itinerary.test.mjs tests/search.test.mjs tests/view.test.mjs tests/evening-media.test.mjs tests/content-revision.test.mjs",
     "test:browser": "node --test tests/browser.test.mjs tests/pwa.test.mjs",
     "data:build": "node scripts/build_trip_data.mjs",
     "media:capture-search-evidence": "node scripts/capture_evening_search_evidence.mjs",

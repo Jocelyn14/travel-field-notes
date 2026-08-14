@@ -456,39 +456,6 @@ test('planned data covers every budget category and checklist group', async () =
   }
 });
 
-test('each destination provides ordered practical information with safe official links and callable contacts', async () => {
-  const trips = JSON.parse(await readFile(dataUrl, 'utf8'));
-  for (const trip of trips) {
-    const info = trip.practicalInfo;
-    assert.match(info.verifiedAt, /^\d{4}-\d{2}-\d{2}$/);
-    assert.ok(info.essentials.length >= 3);
-    assert.ok(info.resources.length >= 3);
-    assert.ok(info.customs.length >= 3);
-    assert.ok(info.emergencyContacts.length >= 4);
-
-    for (const resource of info.resources) {
-      assert.ok(resource.name.trim());
-      assert.ok(resource.description.trim().length >= 8);
-      assert.match(resource.url, /^https:\/\//);
-    }
-    for (const item of [...info.essentials, ...info.customs]) {
-      assert.ok(item.title.trim());
-      assert.ok(item.description.trim().length >= 8);
-      if (item.url) assert.match(item.url, /^https:\/\//);
-    }
-    for (const contact of info.emergencyContacts) {
-      assert.ok(contact.label.trim());
-      assert.match(contact.phone, /^\+?[0-9][0-9-]+$/);
-      assert.match(contact.sourceUrl, /^https:\/\//);
-    }
-  }
-
-  assert.ok(trips[0].practicalInfo.emergencyContacts.some((item) => item.phone === '112'));
-  assert.ok(trips[0].practicalInfo.emergencyContacts.some((item) => item.phone === '+39-3939110852'));
-  assert.ok(trips[1].practicalInfo.emergencyContacts.some((item) => item.phone === '110'));
-  assert.ok(trips[1].practicalInfo.emergencyContacts.some((item) => item.phone === '+81-3-6450-2195'));
-});
-
 test('each destination opens with an attributed literary quote and three trip highlights', async () => {
   const trips = JSON.parse(await readFile(dataUrl, 'utf8'));
   const [italy, tokyo] = trips;

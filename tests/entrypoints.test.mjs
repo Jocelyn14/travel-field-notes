@@ -14,16 +14,16 @@ test('root directory links to two separate destination pages', async () => {
 test('Italy entry point is pinned to Italy and shared root assets', async () => {
   const html = await readProjectFile('italy/index.html');
   assert.match(html, /<html[^>]+data-trip-id="italy"/);
-  assert.match(html, /href="\.\.\/styles\.css\?v=a11desk14"/);
-  assert.match(html, /src="\.\.\/src\/app\.mjs\?v=a11desk14"/);
+  assert.match(html, /href="\.\.\/styles\.css\?v=tokyov2e"/);
+  assert.match(html, /src="\.\.\/src\/app\.mjs\?v=tokyov2e"/);
   assert.match(html, /href="manifest\.webmanifest"/);
 });
 
 test('Tokyo entry point is pinned to Tokyo and shared root assets', async () => {
   const html = await readProjectFile('tokyo/index.html');
   assert.match(html, /<html[^>]+data-trip-id="tokyo"/);
-  assert.match(html, /href="\.\.\/styles\.css\?v=a11desk14"/);
-  assert.match(html, /src="\.\.\/src\/app\.mjs\?v=a11desk14"/);
+  assert.match(html, /href="\.\.\/styles\.css\?v=tokyov2e"/);
+  assert.match(html, /src="\.\.\/src\/app\.mjs\?v=tokyov2e"/);
   assert.match(html, /href="manifest\.webmanifest"/);
 });
 
@@ -35,18 +35,15 @@ test('each destination has an independently installable manifest', async () => {
   assert.equal(tokyo.id, './tokyo-guide');
   assert.equal(tokyo.start_url, './');
   assert.notEqual(italy.name, tokyo.name);
-  assert.equal(italy.icons[0].src, '../assets/icon-italy.svg');
-  assert.equal(tokyo.icons[0].src, '../assets/icon-tokyo.svg');
-  assert.notEqual(italy.icons[1].src, tokyo.icons[1].src);
 });
 
 test('the application requests the versioned trip dataset', async () => {
   const app = await readProjectFile('src/app.mjs');
   const worker = await readProjectFile('sw.js');
 
-  assert.match(app, /data\/trips\.json\?v=a11desk14/);
-  for (const moduleName of ['core', 'itinerary', 'search', 'interaction', 'typography', 'view']) {
-    assert.match(app, new RegExp(`\\./${moduleName}\\.mjs\\?v=a11desk14`));
+  assert.match(app, /data\/trips\.json\?v=tokyov2e/);
+  for (const moduleName of ['core', 'itinerary', 'search', 'interaction', 'view']) {
+    assert.match(app, new RegExp(`\\./${moduleName}\\.mjs\\?v=tokyov2e`));
   }
-  assert.match(worker, /\.\/data\/trips\.json\?v=a11desk14/);
+  assert.match(worker, /\.\/data\/trips\.json\?v=tokyov2e/);
 });

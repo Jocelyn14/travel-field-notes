@@ -19,14 +19,6 @@ async function openEveningImage(page, target) {
   assert.ok(await image.evaluate((node) => node.complete && node.naturalWidth > 0), `${target.label} should be available`);
 }
 
-test('a new release forces the browser to discover a new service worker and cache namespace', async () => {
-  const appSource = await readFile(new URL('../src/app.mjs', import.meta.url), 'utf8');
-  const workerSource = await readFile(new URL('../sw.js', import.meta.url), 'utf8');
-
-  assert.match(appSource, /serviceWorker\.register\(new URL\('sw\.js\?v=a11desk14'/);
-  assert.match(workerSource, /travel-atlas-v12-/);
-});
-
 test('navigation cache writes bind to the fetch event synchronously without delaying the response', async () => {
   const listeners = {};
   let failCacheWrite;
@@ -180,8 +172,8 @@ test('unique Italy venue photos and Tokyo illustrations reload offline after fir
   const italyPage = await context.newPage();
   const tokyoPage = await context.newPage();
   const targets = [
-    { page: italyPage, url: `${italyUrl}#itinerary`, tripId: 'italy', date: '2026-08-23', tab: 'activities', image: 'it-a-opera-roma.webp', label: 'Italy venue photo' },
-    { page: tokyoPage, url: `${tokyoUrl}#itinerary`, tripId: 'tokyo', date: '2026-10-05', tab: 'restaurants', image: 'jp-r-hakushu.webp', label: 'Tokyo illustration' },
+    { page: italyPage, url: italyUrl, date: '2026-08-23', tab: 'activities', image: 'it-a-opera-roma.webp', heading: /意大利/, label: 'Italy venue photo' },
+    { page: tokyoPage, url: tokyoUrl, date: '2026-10-05', tab: 'restaurants', image: 'jp-r-hakushu.webp', heading: /东京/, label: 'Tokyo illustration' },
   ];
   const errors = [];
   for (const page of [italyPage, tokyoPage]) {
@@ -207,7 +199,7 @@ test('unique Italy venue photos and Tokyo illustrations reload offline after fir
     for (const target of targets) {
       await target.page.reload({ waitUntil: 'domcontentloaded' });
       await target.page.locator('[data-app-ready="true"]').waitFor();
-      assert.equal(await target.page.locator('[data-app-ready="true"]').getAttribute('data-active-trip'), target.tripId);
+      assert.match(await target.page.getByRole('heading', { level: 1 }).textContent(), target.heading);
       await openEveningImage(target.page, { ...target, label: `${target.label} offline` });
     }
     assert.equal(errors.length, 0, errors.join('\n'));

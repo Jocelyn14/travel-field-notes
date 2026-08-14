@@ -13,7 +13,7 @@ const checkOnly = process.argv.includes('--check');
 const tripsPath = join(root, 'data', 'trips.json');
 const workerPath = join(root, 'sw.js');
 const REVISION_PATTERN = /const CONTENT_REVISION = '([a-f0-9]{64})';/;
-const CACHE_PATTERN = /const CACHE_NAME = `travel-atlas-v12-\$\{CONTENT_REVISION\}`;/;
+const CACHE_PATTERN = /const CACHE_NAME = `travel-atlas-v11-\$\{CONTENT_REVISION\}`;/;
 
 const referencedMedia = (trips) => {
   const paths = new Set();
@@ -65,7 +65,7 @@ for (const path of referencedMedia(trips)) {
 }
 const revision = hash.digest('hex');
 const workerSource = await readFile(workerPath, 'utf8');
-if (!CACHE_PATTERN.test(workerSource)) throw new Error('sw.js CACHE_NAME must include the v12 CONTENT_REVISION constant');
+if (!CACHE_PATTERN.test(workerSource)) throw new Error('sw.js CACHE_NAME must include the v11 CONTENT_REVISION constant');
 const currentRevision = workerSource.match(REVISION_PATTERN)?.[1] ?? '';
 
 if (checkOnly) {

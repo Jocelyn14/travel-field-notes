@@ -3,9 +3,26 @@ const emptyItinerary = () => ({
   deletedPlaceIds: {},
   dayOrder: {},
   placeOverrides: {},
+  dayOverrides: {},
 });
 
 const cloneItinerary = (state) => structuredClone(state ?? emptyItinerary());
+
+export function importItineraryPackage(currentState, payload, expectedTripId) {
+  if (payload?.schema !== 'fieldnotes-itinerary-import/v1') throw new Error('不支持的行程导入格式');
+  if (payload.tripId !== expectedTripId) throw new Error('导入包与当前目的地不匹配');
+  const itinerary = payload.itinerary;
+  if (!itinerary || typeof itinerary !== 'object'
+    || !itinerary.customPlaces || !itinerary.deletedPlaceIds
+    || !itinerary.dayOrder || !itinerary.placeOverrides) {
+    throw new Error('导入包缺少完整行程数据');
+  }
+  return { ...structuredClone(currentState), itinerary: cloneItinerary(itinerary) };
+}
+
+export function shouldApplyItineraryRelease({ tripId, release, appliedRelease }) {
+  return tripId === 'tokyo' && release === 'tokyov2e' && appliedRelease !== release;
+}
 
 function timeToMinutes(value) {
   const match = /^(\d{2}):(\d{2})$/.exec(value ?? '');
@@ -68,7 +85,11 @@ export function applyItineraryEdits(trip, itineraryState) {
     const places = [...day.places, ...customPlaces]
       .filter((place) => !state.deletedPlaceIds?.[place.id])
       .map((place) => ({ ...place, ...(state.placeOverrides?.[place.id] ?? {}) }));
-    return { ...day, places: orderPlaces(places, state.dayOrder?.[day.date]) };
+    return {
+      ...day,
+      ...(state.dayOverrides?.[day.date] ?? {}),
+      places: orderPlaces(places, state.dayOrder?.[day.date]),
+    };
   });
 
   return editedTrip;

@@ -1,0 +1,191 @@
+[
+  {
+    "placeId": "tokyo-v2-ca929",
+    "file": "assets/places/tokyo-v2-ca929.webp",
+    "title": "Narita International Airport, Terminal 1 2",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Narita_International_Airport,_Terminal_1_2.JPG",
+    "author": "Terence Ong",
+    "license": "CC BY 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+  },
+  {
+    "placeId": "tokyo-v2-skyliner-in",
+    "file": "assets/places/tokyo-v2-skyliner-in.webp",
+    "title": "Keisei-Type-AE",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Keisei-Type-AE.jpg",
+    "author": "MaedaAkihiko",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-ueno-checkin",
+    "file": "assets/places/tokyo-v2-ueno-checkin.webp",
+    "title": "Subway Ueno-Okachimachi - panoramio",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Subway_Ueno-Okachimachi_-_panoramio.jpg",
+    "author": "Nagono",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "placeId": "tokyo-v2-ameyoko",
+    "file": "assets/places/tokyo-v2-ameyoko.webp",
+    "title": "Ameya-yokocho on a March morning, Tokyo, 2016",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ameya-yokocho_on_a_March_morning,_Tokyo,_2016.jpg",
+    "author": "DimiTalen",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  {
+    "placeId": "tokyo-v2-sensoji",
+    "file": "assets/places/tokyo-v2-sensoji.webp",
+    "title": "Five-storied Pagoda of Sensoji Temple in Tokyo, 20240824 1103 5615",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Five-storied_Pagoda_of_Sensoji_Temple_in_Tokyo,_20240824_1103_5615.jpg",
+    "author": "Jakub Hałun",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-tarot",
+    "file": "assets/places/tokyo-v2-tarot.webp",
+    "title": "Kaarten uit meerdere tarot-kaartspelen, met zwarte sterretjes op achterkant, objectnr 32271",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kaarten_uit_meerdere_tarot-kaartspelen,_met_zwarte_sterretjes_op_achterkant,_objectnr_32271.JPG",
+    "author": "Martin du Pont",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "placeId": "tokyo-v2-kuramae",
+    "file": "assets/places/tokyo-v2-kuramae.webp",
+    "title": "Kuramae Station Asakusa line exit Jul 31 2021 05-48PM",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kuramae_Station_Asakusa_line_exit_Jul_31_2021_05-48PM.jpeg",
+    "author": "Nesnad This photo was taken with iPhone 6S",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-nezu",
+    "file": "assets/places/tokyo-v2-nezu.webp",
+    "title": "Nezu Museum P5091941",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nezu_Museum_P5091941.jpg",
+    "author": "Fukumoto",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-aoyama",
+    "file": "assets/places/tokyo-v2-aoyama.webp",
+    "title": "Street crowd reflecting in the polyhedral mirrors of the station Tokyu Plaza Omotesando, Harajuku, Tokyo, Japan",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Street_crowd_reflecting_in_the_polyhedral_mirrors_of_the_station_Tokyu_Plaza_Omotesando,_Harajuku,_Tokyo,_Japan.jpg",
+    "author": "Basile Morin",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-shibuya",
+    "file": "assets/places/tokyo-v2-shibuya.webp",
+    "title": "Tokyo Shibuya Scramble Crossing 2018-10-09",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tokyo_Shibuya_Scramble_Crossing_2018-10-09.jpg",
+    "author": "Benh LIEU SONG ( Flickr )",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  {
+    "placeId": "tokyo-v2-gyoen",
+    "file": "assets/places/tokyo-v2-gyoen.webp",
+    "title": "Shinjuku Gyoen National Garden and NTT DoCoMo Yoyogi Building, Tokyo, Japan",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shinjuku_Gyoen_National_Garden_and_NTT_DoCoMo_Yoyogi_Building,_Tokyo,_Japan.jpg",
+    "author": "Basile Morin",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-yodobashi",
+    "file": "assets/places/tokyo-v2-yodobashi.webp",
+    "title": "Yodobashi Camera Shinjuku Nishiguchi Store (53441837403)",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yodobashi_Camera_Shinjuku_Nishiguchi_Store_(53441837403).jpg",
+    "author": "Dick Thomas Johnson from Tokyo, Japan",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  {
+    "placeId": "tokyo-v2-shinjuku-night",
+    "file": "assets/places/tokyo-v2-shinjuku-night.webp",
+    "title": "Colorful neon street signs in Kabukichō, Shinjuku, Tokyo",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Colorful_neon_street_signs_in_Kabukich%C5%8D,_Shinjuku,_Tokyo.jpg",
+    "author": "Basile Morin",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-jimbocho",
+    "file": "assets/places/tokyo-v2-jimbocho.webp",
+    "title": "Jimbōchō Book Town 2025 02",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jimb%C5%8Dch%C5%8D_Book_Town_2025_02.jpg",
+    "author": "Olaf2",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-teien",
+    "file": "assets/places/tokyo-v2-teien.webp",
+    "title": "Tokyo Metropolitan Teien Art Museum PC042591",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tokyo_Metropolitan_Teien_Art_Museum_PC042591.jpg",
+    "author": "Kestrel",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-meguro-church",
+    "file": "assets/places/tokyo-v2-meguro-church.webp",
+    "title": "St. Anselm's Catholic Church 2",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:St._Anselm%27s_Catholic_Church_2.jpg",
+    "author": "Aw1805",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "placeId": "tokyo-v2-tokyo-tower",
+    "file": "assets/places/tokyo-v2-tokyo-tower.webp",
+    "title": "Tokyo Tower, Minato City",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tokyo_Tower,_Minato_City.jpg",
+    "author": "David Kernan",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-kiyomizu",
+    "file": "assets/places/tokyo-v2-kiyomizu.webp",
+    "title": "Kiyomizu Kannon-do Temple @ Ueno Park (9254179352)",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kiyomizu_Kannon-do_Temple_@_Ueno_Park_(9254179352).jpg",
+    "author": "Guilhem Vellut from Annecy, France",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  {
+    "placeId": "tokyo-v2-checkout",
+    "file": "assets/places/tokyo-v2-checkout.webp",
+    "title": "Keisei-Ueno-STA Ikenohata-Entrance",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Keisei-Ueno-STA_Ikenohata-Entrance.jpg",
+    "author": "MaedaAkihiko",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "tokyo-v2-skyliner-out",
+    "file": "assets/places/tokyo-v2-skyliner-out.webp",
+    "title": "Keisei Skyliner interior",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Keisei_Skyliner_interior.jpg",
+    "author": "Nicholas Wang",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  {
+    "placeId": "tokyo-v2-ca930",
+    "file": "assets/places/tokyo-v2-ca930.webp",
+    "title": "Narita International Airport, Terminal 1, Departure Hall 8",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Narita_International_Airport,_Terminal_1,_Departure_Hall_8.JPG",
+    "author": "Terence Ong",
+    "license": "CC BY 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+  }
+]

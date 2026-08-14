@@ -12,7 +12,7 @@ async function openTokyoEveningGuide(viewport = { width: 390, height: 844 }) {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport });
   try {
-    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
+    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await page.locator('[data-action="open-evening"][data-guide-date="2026-10-05"]').click();
     const guide = page.locator('[data-evening-guide-date="2026-10-05"]');
@@ -76,57 +76,30 @@ test('separate travel pages stay responsive across target viewports', async () =
   }
 });
 
-test('both overview tabs show destination-specific practical travel desks', async () => {
-  const browser = await chromium.launch(launchOptions);
-  try {
-    for (const [url, expectedContact, absentContact] of [
-      [italyUrl, '+39-3939110852', '+81-3-6450-2195'],
-      [tokyoUrl, '+81-3-6450-2195', '+39-3939110852'],
-    ]) {
-      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-      await page.goto(`${url}#overview`, { waitUntil: 'networkidle' });
-      await page.locator('[data-app-ready="true"]').waitFor();
-      const information = page.locator('[data-app-view="overview"]');
-      assert.equal(await information.locator('.practical-card h3').allTextContents().then((items) => items.join('|')), '初访须知|常用 APP / 官网|习俗与当期节庆|紧急联络');
-      assert.equal(await information.locator(`a[href="tel:${expectedContact}"]`).count(), 1);
-      assert.equal(await information.locator(`a[href="tel:${absentContact}"]`).count(), 0);
-      await page.close();
-    }
-  } finally {
-    await browser.close();
-  }
-});
-
 test('Italy and Tokyo management state are isolated and persist locally', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   try {
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
-    await page.locator('[data-app-tab="checklist"]').click();
-    const bookingTodo = page.locator('[data-checklist-category="booking"] [data-action="checklist"]').first();
-    await bookingTodo.check();
-    await page.locator('[data-app-tab="budget"]').click();
+    const reservation = page.locator('[data-action="reservation"]').first();
+    await reservation.click();
+    await assert.doesNotReject(() => reservation.getByText('已预订').waitFor());
     const rate = page.locator('[data-action="rate"]');
     await rate.fill('8.5');
     await rate.press('Enter');
-    await page.locator('[data-app-tab="checklist"]').click();
     await page.locator('[data-action="checklist"]').first().check();
 
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
-    await page.locator('[data-app-tab="checklist"]').click();
-    assert.equal(await page.locator('[data-checklist-category="booking"] [data-action="checklist"]').first().isChecked(), false);
+    assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '待预订');
     assert.equal(await page.locator('[data-action="checklist"]').first().isChecked(), false);
 
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     assert.equal(await page.locator('[data-app-ready="true"]').getAttribute('data-active-trip'), 'italy');
-    await page.locator('[data-app-tab="checklist"]').click();
-    assert.equal(await page.locator('[data-checklist-category="booking"] [data-action="checklist"]').first().isChecked(), true);
-    await page.locator('[data-app-tab="budget"]').click();
+    assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '已预订');
     assert.equal(await page.locator('[data-action="rate"]').inputValue(), '8.5');
-    await page.locator('[data-app-tab="checklist"]').click();
     assert.equal(await page.locator('[data-action="checklist"]').first().isChecked(), true);
     assert.deepEqual(await page.evaluate(() => Object.keys(localStorage).sort()), ['travel-atlas-state:italy', 'travel-atlas-state:tokyo']);
   } finally {
@@ -138,14 +111,10 @@ test('budget ledger accumulates, persists, deletes and stays destination-specifi
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   try {
-    await page.goto(`${italyUrl}#budget`, { waitUntil: 'networkidle' });
+    await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.evaluate(() => localStorage.clear());
     await page.reload({ waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
-
-    const transitPlan = page.locator('[data-action="budget-plan"][data-budget-item-id="italy-transit"]');
-    await transitPlan.fill('456');
-    await transitPlan.blur();
 
     const transitForm = page.locator('[data-budget-item-id="italy-transit"] form');
     await transitForm.locator('[name="amount"]').fill('25');
@@ -158,12 +127,11 @@ test('budget ledger accumulates, persists, deletes and stays destination-specifi
     assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '37.5');
 
     await page.reload({ waitUntil: 'networkidle' });
-    assert.equal(await page.locator('[data-action="budget-plan"][data-budget-item-id="italy-transit"]').inputValue(), '456');
     assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '37.5');
     await page.locator('[data-budget-item-id="italy-transit"] [data-action="budget-entry-delete"]').click();
     assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '12.5');
 
-    await page.goto(`${tokyoUrl}#budget`, { waitUntil: 'networkidle' });
+    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '0');
   } finally {
@@ -176,13 +144,13 @@ test('offline external links stay on-page and explain what happened', async () =
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   try {
-    await page.goto(`${italyUrl}#overview`, { waitUntil: 'networkidle' });
+    await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await context.setOffline(true);
     await page.evaluate(() => window.dispatchEvent(new Event('offline')));
-    await page.locator('.practical-desk [data-external="true"]').first().click();
+    await page.locator('[data-external="true"]').first().click();
     await assert.doesNotReject(() => page.getByText('当前离线，地图与官网需要联网后打开。').waitFor());
-    assert.equal(page.url(), `${italyUrl}#overview`);
+    assert.equal(page.url(), italyUrl);
   } finally {
     await browser.close();
   }
@@ -197,7 +165,7 @@ test('in-app add drawer opens, saves and persists for both destinations', async 
       [tokyoUrl, '2026-10-05', '個人スポット'],
     ]) {
       const page = await context.newPage();
-      await page.goto(`${url}#itinerary`, { waitUntil: 'networkidle' });
+      await page.goto(url, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
       await page.locator(`[data-action="add-place"][data-day-date="${date}"]`).click();
       const panel = page.locator('[data-panel="place-editor"]');
@@ -207,7 +175,6 @@ test('in-app add drawer opens, saves and persists for both destinations', async 
       await panel.locator('[name="nameEn"]').fill('Private stop');
       await panel.locator('[name="nameLocal"]').fill(localName);
       await panel.locator('[name="address"]').fill('Test address');
-      await panel.locator('[name="time"]').fill('23:30');
       await panel.locator('.save-place').click();
       await page.locator(`[data-day-timeline="${date}"]`).getByText('私人兴趣点').waitFor();
       await page.reload({ waitUntil: 'networkidle' });
@@ -219,175 +186,11 @@ test('in-app add drawer opens, saves and persists for both destinations', async 
   }
 });
 
-test('new stops save without conflict prompts and times are automatically sequenced', async () => {
+test('delete rail works with desktop pointer, explicit menu and undo', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 878, height: 720 } });
   try {
-    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
-    await page.locator('[data-action="add-place"][data-day-date="2026-10-05"]').click();
-    const panel = page.locator('[data-panel="place-editor"]');
-    for (const [name, value] of [['name', '并行测试景点'], ['nameEn', 'Parallel stop'], ['nameLocal', '並行スポット'], ['address', 'Tokyo']]) {
-      await panel.locator(`[name="${name}"]`).fill(value);
-    }
-    await panel.locator('[name="time"]').fill('15:30');
-    await panel.locator('.save-place').click();
-    const item = page.locator('.timeline-item', { hasText: '并行测试景点' });
-    await item.waitFor();
-    assert.equal(await panel.count(), 1);
-    assert.equal(await page.locator('[data-conflict-prompt]').count(), 0);
-    assert.notEqual(await item.evaluate((node) => node.closest('.timeline-group')?.dataset.parallelGroup), 'true');
-    const orderedTimes = await page.locator('[data-day-timeline="2026-10-05"] .timeline-time strong').allTextContents();
-    assert.deepEqual(orderedTimes, [...orderedTimes].sort());
-    const orderedNames = await page.locator('[data-day-timeline="2026-10-05"] .place-title h3').allTextContents();
-    assert.equal(orderedTimes[orderedNames.indexOf('并行测试景点')], '15:30');
-  } finally {
-    await browser.close();
-  }
-});
-
-test('custom checklist todos can be added, checked, deleted and persist', async () => {
-  const browser = await chromium.launch(launchOptions);
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  try {
-    await page.goto(`${italyUrl}#checklist`, { waitUntil: 'networkidle' });
-    const section = page.locator('[data-checklist-category="other"]');
-    await section.locator('[data-action="todo-add"] [name="label"]').fill('打印酒店确认单');
-    await section.locator('[data-action="todo-add"]').getByRole('button', { name: '添加' }).click();
-    await section.locator('[data-action="todo-add"] [name="label"]').fill('下载离线地图');
-    await section.locator('[data-action="todo-add"]').getByRole('button', { name: '添加' }).click();
-    assert.deepEqual(await section.locator('[data-action="custom-todo"] + span').allTextContents(), ['打印酒店确认单', '下载离线地图']);
-    const row = section.locator('.checklist-item', { hasText: '打印酒店确认单' });
-    await row.locator('[data-action="custom-todo"]').check();
-    await page.reload({ waitUntil: 'networkidle' });
-    const persistedSection = page.locator('[data-checklist-category="other"]');
-    const persisted = persistedSection.locator('.checklist-item', { hasText: '打印酒店确认单' });
-    assert.equal(await persisted.locator('[data-action="custom-todo"]').isChecked(), true);
-    await persistedSection.locator('[data-action="checklist-manage"]').click();
-    await persisted.locator('[data-action="todo-delete"]').click();
-    assert.equal(await persistedSection.locator('.checklist-item', { hasText: '打印酒店确认单' }).count(), 0);
-    assert.deepEqual(await persistedSection.locator('[data-action="custom-todo"] + span').allTextContents(), ['下载离线地图']);
-  } finally {
-    await browser.close();
-  }
-});
-
-test('checklist normal and management modes keep add, edit, completion and removal independent', async () => {
-  const browser = await chromium.launch(launchOptions);
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  try {
-    await page.goto(`${italyUrl}#checklist`, { waitUntil: 'networkidle' });
-    await page.evaluate(() => localStorage.clear());
-    await page.reload({ waitUntil: 'networkidle' });
-    const manage = page.locator('[data-action="checklist-manage"]');
-    assert.equal(await manage.count(), 1);
-    assert.equal(await page.locator('.todos-label').textContent(), 'TODOS');
-    const booking = page.locator('[data-checklist-category="booking"]');
-    const originalCount = Number((await booking.locator(':scope > header > span').textContent()).match(/\d+/)[0]);
-    await booking.locator('[data-action="todo-add-toggle"]').click();
-    await booking.locator('[data-action="todo-add"] input').fill('打印酒店确认单');
-    await booking.locator('[data-action="todo-add"] button[type="submit"]').click();
-    assert.equal(Number((await booking.locator(':scope > header > span').textContent()).match(/\d+/)[0]), originalCount + 1);
-    assert.equal(await booking.locator('[data-action="custom-todo"] + span').last().textContent(), '打印酒店确认单');
-    const checkbox = page.locator('[data-action="checklist"]').first();
-    await checkbox.check();
-    assert.equal(await checkbox.locator('~ i').evaluate((node) => getComputedStyle(node).backgroundColor), 'rgb(110, 123, 88)');
-    await manage.click();
-    assert.equal(await page.locator('[data-action="todo-add-toggle"]:visible').count(), 0);
-    const input = page.locator('[data-action="todo-edit-input"]').first();
-    assert.equal(await input.evaluate((node) => document.activeElement === node), true);
-    await input.fill('三城酒店确认单');
-    await input.press('Enter');
-    await page.reload({ waitUntil: 'networkidle' });
-    assert.equal(await page.locator('[data-action="checklist"] + span').first().textContent(), '三城酒店确认单');
-    await page.locator('[data-action="checklist-manage"]').click();
-    await page.locator('[data-action="todo-remove"]').first().click();
-    assert.equal(await page.locator('[data-action="checklist"] + span').filter({ hasText: '三城酒店确认单' }).count(), 0);
-  } finally {
-    await browser.close();
-  }
-});
-
-test('touch users can tap any existing todo text, edit it, and save with the management button', async () => {
-  const browser = await chromium.launch(launchOptions);
-  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
-  const page = await context.newPage();
-  try {
-    await page.goto(`${italyUrl}#checklist`, { waitUntil: 'networkidle' });
-    await page.evaluate(() => localStorage.clear());
-    await page.reload({ waitUntil: 'networkidle' });
-    await page.locator('[data-action="checklist-manage"]').tap();
-    const input = page.locator('[data-action="todo-edit-input"]').nth(1);
-    const itemId = await input.getAttribute('data-item-id');
-    await input.tap();
-    await input.fill('护照与签证复印件（已确认）');
-    assert.equal(await input.inputValue(), '护照与签证复印件（已确认）');
-    await page.locator('[data-action="checklist-manage"]').tap();
-    assert.equal(await page.locator(`[data-action="checklist"][data-item-id="${itemId}"] + span`).textContent(), '护照与签证复印件（已确认）');
-  } finally {
-    await browser.close();
-  }
-});
-
-test('shared display titles and editor field grid stay balanced at Pro widths', async () => {
-  const browser = await chromium.launch(launchOptions);
-  try {
-    for (const url of [italyUrl, tokyoUrl]) {
-      for (const width of [393, 430]) {
-        const page = await browser.newPage({ viewport: { width, height: 932 } });
-        await page.goto(`${url}#overview`, { waitUntil: 'networkidle' });
-        const titleResults = await page.locator('[data-balance-title="true"]:visible').evaluateAll((nodes) => nodes.map((node) => {
-          const widths = [...node.querySelectorAll('.display-title__line')].map((line) => line.getBoundingClientRect().width);
-          return { text: node.getAttribute('aria-label') || node.textContent, widths };
-        }));
-        for (const title of titleResults.filter(({ widths }) => widths.length > 1)) {
-          assert.ok(Math.min(...title.widths) / Math.max(...title.widths) >= 0.62, `${width}px title is imbalanced: ${JSON.stringify(title)}`);
-        }
-        await page.locator('.bottom-nav [data-app-tab="itinerary"]').click();
-        await page.locator('[data-action="add-place"]').first().click();
-        const sizes = await page.locator('.editor-grid').evaluate((grid) => {
-          const full = [...grid.querySelectorAll('.editor-field--full')].map((field) => ({
-            left: field.getBoundingClientRect().left,
-            right: field.getBoundingClientRect().right,
-            inputHeight: field.querySelector('input, textarea').getBoundingClientRect().height,
-          }));
-          const compact = [...grid.querySelectorAll('.editor-field-group--compact input')].map((input) => ({
-            width: input.getBoundingClientRect().width,
-            height: input.getBoundingClientRect().height,
-          }));
-          return { full, compact };
-        });
-        assert.ok(sizes.full.every((field) => Math.abs(field.left - sizes.full[0].left) < 1 && Math.abs(field.right - sizes.full[0].right) < 1));
-        assert.ok(Math.max(...sizes.compact.map(({ width: value }) => value)) - Math.min(...sizes.compact.map(({ width: value }) => value)) < 1);
-        assert.ok(sizes.compact.every(({ height }) => Math.abs(height - sizes.full[0].inputHeight) < 1));
-        await page.close();
-      }
-    }
-  } finally {
-    await browser.close();
-  }
-});
-
-test('short AFTER HOURS content keeps the modal below the viewport height', async () => {
-  const browser = await chromium.launch(launchOptions);
-  const page = await browser.newPage({ viewport: { width: 393, height: 852 } });
-  try {
-    await page.goto(`${italyUrl}#itinerary`, { waitUntil: 'networkidle' });
-    await page.locator('[data-action="open-evening"][data-guide-date="2026-08-30"]').click();
-    const dimensions = await page.locator('[data-panel="evening-guide"]:visible').evaluate((panel) => ({
-      height: panel.getBoundingClientRect().height,
-      viewport: innerHeight,
-    }));
-    assert.ok(dimensions.height < dimensions.viewport - 40, JSON.stringify(dimensions));
-  } finally {
-    await browser.close();
-  }
-});
-
-test('delete rail works with horizontal gesture and undo without an extra menu', async () => {
-  const browser = await chromium.launch(launchOptions);
-  const page = await browser.newPage({ viewport: { width: 878, height: 720 } });
-  try {
-    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
+    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     const item = page.locator('.timeline-item').first();
     const start = { pointerId: 7, pointerType: 'mouse', clientX: 720, clientY: 300, bubbles: true };
@@ -397,9 +200,16 @@ test('delete rail works with horizontal gesture and undo without an extra menu',
     await assert.doesNotReject(() => item.evaluate((node) => {
       if (!node.classList.contains('is-swiped')) throw new Error('delete rail not revealed');
     }));
-    assert.equal(await item.locator('[data-action="place-menu"]').count(), 0);
+    assert.equal(await item.locator('[data-action="place-menu"]').getAttribute('aria-expanded'), 'true');
+
+    await item.locator('[data-action="place-menu"]').click();
+    assert.equal(await item.evaluate((node) => node.classList.contains('is-swiped')), false);
+    assert.equal(await item.locator('[data-action="place-menu"]').getAttribute('aria-expanded'), 'false');
+    await item.locator('[data-action="place-menu"]').click();
+    assert.equal(await item.evaluate((node) => node.classList.contains('is-swiped')), true);
+    assert.equal(await item.locator('[data-action="place-menu"]').getAttribute('aria-expanded'), 'true');
     const count = await page.locator('.timeline-item').count();
-    await item.locator('[data-action="delete-place"]').click({ position: { x: 60, y: 30 } });
+    await item.locator('[data-action="delete-place"]').click({ force: true });
     assert.equal(await page.locator('.timeline-item').count(), count - 1);
     await page.locator('[data-action="undo-delete"]').click();
     assert.equal(await page.locator('.timeline-item').count(), count);
@@ -413,7 +223,7 @@ test('timeline spacing stays relaxed without overflow at target viewports', asyn
   try {
     for (const viewport of [{ width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
       const page = await browser.newPage({ viewport });
-      await page.goto(`${italyUrl}#itinerary`, { waitUntil: 'networkidle' });
+      await page.goto(italyUrl, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
       const geometry = await page.locator('[data-day-timeline]').first().evaluate((timeline) => {
         const items = [...timeline.querySelectorAll('.timeline-item')];
@@ -436,24 +246,11 @@ test('timeline spacing stays relaxed without overflow at target viewports', asyn
   }
 });
 
-test('mobile day date and summary columns do not overlap', async () => {
+test('daily evening guide opens, switches horizontally and shows airport-only departure advice', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   try {
-    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
-    const heading = page.locator('.section-heading--day').first();
-    const boxes = await heading.locator(':scope > div').evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect()).map(({ left, right, top, bottom }) => ({ left, right, top, bottom })));
-    assert.ok(boxes[0].right <= boxes[1].left, `date ends at ${boxes[0].right}, summary starts at ${boxes[1].left}`);
-  } finally {
-    await browser.close();
-  }
-});
-
-test('daily evening guide opens, switches by click and shows airport-only departure advice', async () => {
-  const browser = await chromium.launch(launchOptions);
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  try {
-    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
+    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     await page.locator('[data-action="open-evening"][data-guide-date="2026-10-05"]').click();
     const panel = page.locator('[data-panel="evening-guide"]');
@@ -463,9 +260,8 @@ test('daily evening guide opens, switches by click and shows airport-only depart
     assert.equal(await firstGuide.locator('[data-guide-page="bars"] .recommendation-card').count(), 5);
     assert.equal(await firstGuide.locator('[data-guide-page="activities"] .recommendation-card').count(), 5);
     await firstGuide.locator('[data-guide-tab="activities"]').click();
-    assert.equal(await firstGuide.locator('[data-guide-page="activities"]').getAttribute('aria-hidden'), 'false');
-    assert.equal(await firstGuide.locator('[data-guide-page="restaurants"]').getAttribute('aria-hidden'), 'true');
-    assert.equal(await firstGuide.locator('.guide-carousel').evaluate((node) => node.scrollWidth === node.clientWidth), true);
+    await page.waitForTimeout(350);
+    assert.ok(await firstGuide.locator('.guide-carousel').evaluate((node) => node.scrollLeft > node.clientWidth * 1.5));
     await page.keyboard.press('Escape');
     await panel.waitFor({ state: 'hidden' });
 
@@ -485,7 +281,7 @@ test('editorial evening cards keep approved treatments across target viewports',
   try {
     for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
       const page = await browser.newPage({ viewport });
-      await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
+      await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
 
       const airportMark = page.locator('.evening-launch.is-airport .evening-location-mark').first();
@@ -569,7 +365,8 @@ test('editorial evening cards keep approved treatments across target viewports',
       assert.ok(await restaurant.locator('h4').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 20));
       assert.ok(await restaurant.locator('.recommendation-copy p').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 15));
       assert.ok(await restaurant.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-      assert.equal(await guide.locator('.guide-carousel').evaluate((node) => node.scrollWidth === node.clientWidth), true);
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      assert.equal(await guide.locator('.guide-carousel').evaluate((node) => getComputedStyle(node).scrollBehavior), 'auto');
       await page.close();
     }
   } finally {
@@ -614,7 +411,7 @@ test('Italy and Tokyo evening modals fit 768px with readable compact attribution
   try {
     for (const url of [italyUrl, tokyoUrl]) {
       const page = await browser.newPage({ viewport: { width: 768, height: 1024 } });
-      await page.goto(`${url}#itinerary`, { waitUntil: 'networkidle' });
+      await page.goto(url, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
       await page.locator('[data-action="open-evening"]').first().click();
       const panel = page.locator('[data-panel="evening-guide"]');
@@ -623,8 +420,9 @@ test('Italy and Tokyo evening modals fit 768px with readable compact attribution
         await activeGuide.locator('[data-guide-tab="activities"]').click();
         await page.waitForFunction(() => {
           const guide = document.querySelector('[data-evening-guide-date]:not([hidden])');
+          const carousel = guide?.querySelector('.guide-carousel');
           return guide?.querySelector('[data-guide-tab="activities"]')?.getAttribute('aria-selected') === 'true'
-            && guide?.querySelector('[data-guide-page="activities"]')?.getAttribute('aria-hidden') === 'false';
+            && Math.abs(carousel.scrollLeft - carousel.clientWidth * 2) <= 1;
         });
       }
       const selectedPage = activeGuide.locator('[role="tabpanel"][aria-hidden="false"]');
@@ -673,9 +471,10 @@ test('evening tab selection persists after category click loses focus', async ()
     await activity.click();
     await page.waitForFunction(() => {
       const guideNode = document.querySelector('[data-evening-guide-date="2026-10-05"]');
+      const carousel = guideNode?.querySelector('.guide-carousel');
       const tab = guideNode?.querySelector('[data-guide-tab="activities"]');
       return tab?.getAttribute('aria-selected') === 'true'
-        && guideNode?.querySelector('[data-guide-page="activities"]')?.getAttribute('aria-hidden') === 'false';
+        && Math.abs(carousel.scrollLeft - carousel.clientWidth * 2) <= 1;
     });
     await page.locator('[data-action="close-evening"]').focus();
     assert.deepEqual(await tabTreatment(activity), {
@@ -683,7 +482,7 @@ test('evening tab selection persists after category click loses focus', async ()
       underlineColor: 'rgb(100, 112, 82)',
       underlineHeight: '2px',
     });
-    assert.equal((await tabTreatment(restaurant)).underlineColor, 'rgb(168, 79, 61)');
+    assert.equal((await tabTreatment(restaurant)).underlineColor, 'rgba(0, 0, 0, 0)');
   } finally {
     await browser.close();
   }
@@ -754,72 +553,25 @@ test('evening tabs support roving focus and manual keyboard activation', async (
   }
 });
 
-test('evening categories ignore horizontal scrolling and only change after tab activation', async () => {
+test('evening tab selection follows direct carousel scrolling', async () => {
   const { browser, page, guide } = await openTokyoEveningGuide();
   try {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     const carousel = guide.locator('.guide-carousel');
     await carousel.evaluate((node) => { node.scrollLeft = node.clientWidth; });
-    await page.waitForTimeout(50);
+    await page.waitForFunction(() => document.querySelector('[data-evening-guide-date="2026-10-05"] [data-guide-tab="bars"]')?.getAttribute('aria-selected') === 'true');
     const restaurant = guide.locator('[data-guide-tab="restaurants"]');
     const bar = guide.locator('[data-guide-tab="bars"]');
     assert.equal((await tabTreatment(restaurant)).underlineColor, 'rgba(0, 0, 0, 0)');
-    assert.equal((await tabTreatment(bar)).selected, 'false');
-    assert.equal(await guide.locator('[data-guide-page="restaurants"]').getAttribute('aria-hidden'), 'false');
-    assert.equal(await guide.locator('[data-guide-page="bars"]').getAttribute('aria-hidden'), 'true');
-  } finally {
-    await browser.close();
-  }
-});
-
-test('mobile app views, fixed navigation, accommodation copying and evening top link work together', async () => {
-  const browser = await chromium.launch(launchOptions);
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  try {
-    await page.goto(`${italyUrl}#itinerary`, { waitUntil: 'networkidle' });
-    await page.evaluate(() => localStorage.clear());
-    await page.reload({ waitUntil: 'networkidle' });
-    assert.equal(await page.locator('.place-card[open]').count(), 0);
-    assert.equal(await page.locator('[data-action="place-menu"]').count(), 0);
-
-    const stay = page.locator('[data-accommodation-date="2026-08-23"]');
-    await stay.locator('summary').click();
-    await stay.locator('[name="name"]').fill('Hotel Test Roma');
-    await stay.locator('[name="address"]').fill('Via Roma 1');
-    await stay.locator('[name="copyThrough"]').fill('2026-08-25');
-    await stay.getByRole('button', { name: '保存住宿' }).click();
-    for (const date of ['2026-08-23', '2026-08-24', '2026-08-25']) {
-      await page.locator(`[data-accommodation-date="${date}"]`).getByText('Hotel Test Roma').waitFor();
-    }
-
-    for (const view of ['overview', 'itinerary', 'checklist', 'budget']) {
-      await page.locator(`.bottom-nav [data-app-tab="${view}"]`).click();
-      assert.equal(await page.locator('[data-app-view]:visible').count(), 1);
-      assert.equal(await page.locator('[data-app-view]:visible').getAttribute('data-app-view'), view);
-    }
-    await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
-    const navBottom = await page.locator('.bottom-nav').evaluate((node) => innerHeight - node.getBoundingClientRect().bottom);
-    assert.ok(Math.abs(navBottom) <= 1, `fixed nav bottom offset ${navBottom}`);
-
-    await page.locator('.bottom-nav [data-app-tab="itinerary"]').click();
-    await page.locator('[data-action="open-evening"][data-guide-date="2026-08-23"]').click();
-    const guide = page.locator('[data-evening-guide-date="2026-08-23"]');
-    await guide.evaluate((node) => { node.scrollTop = 600; });
-    await guide.locator('[data-guide-page="restaurants"] [data-action="guide-top"]').click({ force: true });
-    await page.waitForFunction(() => document.querySelector('[data-evening-guide-date="2026-08-23"]')?.scrollTop < 2);
-    const restaurantGap = await guide.evaluate((node) => {
-      const activePage = node.querySelector('[data-guide-page="restaurants"]');
-      const topLink = activePage.querySelector('[data-action="guide-top"]');
-      return activePage.getBoundingClientRect().bottom - topLink.getBoundingClientRect().bottom;
+    assert.deepEqual(await tabTreatment(bar), {
+      selected: 'true',
+      underlineColor: 'rgb(56, 91, 112)',
+      underlineHeight: '2px',
     });
-    assert.ok(restaurantGap <= 2, `restaurant carousel leaves ${restaurantGap}px blank space`);
-    await guide.locator('[data-guide-tab="activities"]').click();
-    await page.waitForFunction(() => {
-      const guide = document.querySelector('[data-evening-guide-date="2026-08-23"]');
-      const carousel = guide?.querySelector('.guide-carousel');
-      const page = guide?.querySelector('[data-guide-page="activities"]');
-      return carousel && page && Math.abs(carousel.getBoundingClientRect().height - page.scrollHeight) <= 2;
-    });
+    assert.equal(await guide.locator('[data-guide-page="restaurants"]').getAttribute('aria-hidden'), 'true');
+    assert.equal(await guide.locator('[data-guide-page="restaurants"]').getAttribute('inert'), '');
+    assert.equal(await guide.locator('[data-guide-page="bars"]').getAttribute('aria-hidden'), 'false');
+    assert.equal(await guide.locator('[data-guide-page="bars"]').getAttribute('inert'), null);
   } finally {
     await browser.close();
   }
@@ -829,7 +581,7 @@ test('reordering updates times and the recalculated time remains editable', asyn
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 878, height: 720 } });
   try {
-    await page.goto(`${tokyoUrl}#itinerary`, { waitUntil: 'networkidle' });
+    await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.evaluate(() => localStorage.clear());
     await page.reload({ waitUntil: 'networkidle' });
     const day = page.locator('[data-day-timeline="2026-10-09"]');

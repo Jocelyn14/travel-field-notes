@@ -3572,12 +3572,12 @@
           "description": "在人潮抵达之前穿过雷门与仲见世，让晨光、香烟和五重塔组成第一次认识东京的画面。"
         },
         {
-          "title": "旧物与时间",
-          "description": "从东京国立博物馆走到谷中，再去下北泽与高圆寺，在寺院、旧宅和复古小店里触摸城市的旧时间。"
+          "title": "书页与美术馆",
+          "description": "从根津美术馆、青山艺术书店走到神保町旧书街，再在庭园美术馆看建筑与展览彼此映照。"
         },
         {
-          "title": "霓虹夜航",
-          "description": "从涩谷天空俯瞰密集灯火，最后走入新宿的霓虹、塔罗与夜间小店，感受东京在入夜后彻底醒来。"
+          "title": "胶卷与夜景",
+          "description": "在新宿补充胶卷与摄影器材，把涩谷、新宿和东京塔的入夜时刻留给街头摄影与小酒馆。"
         }
       ]
     },
@@ -3682,7 +3682,7 @@
     "sample": false,
     "hero": "assets/tokyo-hero.webp",
     "coordinates": "35.6762° N · 139.6503° E",
-    "summary": "六天第一次东京：经典城市地标打底，再把寺庙、博物馆、塔罗与复古街区编进同一条铁路坐标。",
+    "summary": "六天从上野出发，把寺院、塔罗、艺术书店、摄影器材与美术馆串进东京的街区和夜色。",
     "dates": {
       "start": "2026-10-05",
       "end": "2026-10-10"
@@ -3694,12 +3694,12 @@
       "secondary": "#314A67"
     },
     "route": [
-      "涩谷",
-      "浅草与上野",
-      "丸之内与麻布台",
-      "镰仓",
-      "下北泽与高圆寺",
-      "东京站"
+      "成田 · 上野",
+      "浅草 · 浅草桥 · 蔵前",
+      "青山 · 表参道 · 涩谷",
+      "新宿",
+      "神保町 · 白金台 · 芝公园",
+      "上野 · 成田"
     ],
     "days": [
       {
@@ -6364,17 +6364,23 @@
         "placeId": "tokyo-tarot"
       },
       {
-        "id": "tokyo-teamlab-ticket",
-        "title": "teamLab Borderless",
-        "meta": "10 月 7 日 · 分时票",
-        "placeId": "tokyo-teamlab"
+        "id": "tokyo-nezu-ticket",
+        "title": "根津美术馆",
+        "meta": "10 月 7 日 · 出发前确认展期与预约",
+        "placeId": "tokyo-v2-nezu"
+      },
+      {
+        "id": "tokyo-tower-ticket",
+        "title": "东京塔",
+        "meta": "10 月 9 日 · 夜景时段",
+        "placeId": "tokyo-v2-tokyo-tower"
       }
     ],
     "budget": [
       {
         "id": "tokyo-transit",
         "category": "交通",
-        "label": "机场、市内与镰仓往返",
+        "label": "成田机场往返与东京市内交通",
         "planned": 26000,
         "paid": 0
       },
@@ -6446,11 +6452,11 @@
           },
           {
             "id": "tokyo-booking",
-            "label": "预约涩谷天空、塔罗馆与 teamLab"
+            "label": "预约塔罗馆、根津美术馆与东京塔"
           },
           {
             "id": "tokyo-flight-info",
-            "label": "补充 10 月 5 日与 10 日航班时间"
+            "label": "确认成田机场往返列车与航班时间"
           }
         ]
       }
