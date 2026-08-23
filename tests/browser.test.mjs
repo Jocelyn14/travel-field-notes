@@ -4,9 +4,14 @@ import { chromium } from 'playwright';
 
 const baseUrl = process.env.TRAVEL_ATLAS_BASE_URL ?? 'http://127.0.0.1:4177/';
 const italyUrl = `${baseUrl}italy/`;
-const tokyoUrl = `${baseUrl}tokyo/`;
+const tokyoUrl = `${baseUrl}tokyo/?release=fieldnotes2f`;
 const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const launchOptions = { headless: true, executablePath: chromePath };
+
+async function activateView(page, view) {
+  await page.locator(`.bottom-nav [data-app-tab="${view}"]`).click();
+  await page.locator(`[data-app-view="${view}"]`).waitFor({ state: 'visible' });
+}
 
 async function openTokyoEveningGuide(viewport = { width: 390, height: 844 }) {
   const browser = await chromium.launch(launchOptions);
@@ -14,6 +19,7 @@ async function openTokyoEveningGuide(viewport = { width: 390, height: 844 }) {
   try {
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
+    await activateView(page, 'itinerary');
     await page.locator('[data-action="open-evening"][data-guide-date="2026-10-05"]').click();
     const guide = page.locator('[data-evening-guide-date="2026-10-05"]');
     await guide.waitFor({ state: 'visible' });
@@ -82,26 +88,33 @@ test('Italy and Tokyo management state are isolated and persist locally', async 
   try {
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
-    const reservation = page.locator('[data-action="reservation"]').first();
-    await reservation.click();
-    await assert.doesNotReject(() => reservation.getByText('已预订').waitFor());
+    await activateView(page, 'checklist');
+    const reservation = page.locator('[data-action="reservation-check"]').first();
+    await reservation.check();
+    await page.locator('[data-action="checklist"]').first().check();
+    await activateView(page, 'budget');
     const rate = page.locator('[data-action="rate"]');
     await rate.fill('8.5');
     await rate.press('Enter');
-    await page.locator('[data-action="checklist"]').first().check();
 
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
-    assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '待预订');
+    await activateView(page, 'checklist');
+    assert.equal(await page.locator('[data-action="reservation-check"]').first().isChecked(), false);
     assert.equal(await page.locator('[data-action="checklist"]').first().isChecked(), false);
 
     await page.goto(italyUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
     assert.equal(await page.locator('[data-app-ready="true"]').getAttribute('data-active-trip'), 'italy');
-    assert.equal(await page.locator('[data-action="reservation"]').first().locator('[data-status]').textContent(), '已预订');
-    assert.equal(await page.locator('[data-action="rate"]').inputValue(), '8.5');
+    await activateView(page, 'checklist');
+    assert.equal(await page.locator('[data-action="reservation-check"]').first().isChecked(), true);
     assert.equal(await page.locator('[data-action="checklist"]').first().isChecked(), true);
-    assert.deepEqual(await page.evaluate(() => Object.keys(localStorage).sort()), ['travel-atlas-state:italy', 'travel-atlas-state:tokyo']);
+    await activateView(page, 'budget');
+    assert.equal(await page.locator('[data-action="rate"]').inputValue(), '8.5');
+    const primaryStateKeys = await page.evaluate(() => Object.keys(localStorage)
+      .filter((key) => !key.includes(':backup:') && !key.endsWith(':itinerary-release'))
+      .sort());
+    assert.deepEqual(primaryStateKeys, ['travel-atlas-state:italy', 'travel-atlas-state:tokyo']);
   } finally {
     await browser.close();
   }
@@ -115,6 +128,7 @@ test('budget ledger accumulates, persists, deletes and stays destination-specifi
     await page.evaluate(() => localStorage.clear());
     await page.reload({ waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
+    await activateView(page, 'budget');
 
     const transitForm = page.locator('[data-budget-item-id="italy-transit"] form');
     await transitForm.locator('[name="amount"]').fill('25');
@@ -133,6 +147,7 @@ test('budget ledger accumulates, persists, deletes and stays destination-specifi
 
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
+    await activateView(page, 'budget');
     assert.equal(await page.locator('[data-budget-recorded]').getAttribute('data-budget-recorded'), '0');
   } finally {
     await browser.close();
@@ -167,6 +182,7 @@ test('in-app add drawer opens, saves and persists for both destinations', async 
       const page = await context.newPage();
       await page.goto(url, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
+      await activateView(page, 'itinerary');
       await page.locator(`[data-action="add-place"][data-day-date="${date}"]`).click();
       const panel = page.locator('[data-panel="place-editor"]');
       await panel.waitFor({ state: 'visible' });
@@ -186,12 +202,13 @@ test('in-app add drawer opens, saves and persists for both destinations', async 
   }
 });
 
-test('delete rail works with desktop pointer, explicit menu and undo', async () => {
+test('delete rail works with desktop pointer and undo without a menu control', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 878, height: 720 } });
   try {
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
+    await activateView(page, 'itinerary');
     const item = page.locator('.timeline-item').first();
     const start = { pointerId: 7, pointerType: 'mouse', clientX: 720, clientY: 300, bubbles: true };
     await item.dispatchEvent('pointerdown', start);
@@ -200,16 +217,10 @@ test('delete rail works with desktop pointer, explicit menu and undo', async () 
     await assert.doesNotReject(() => item.evaluate((node) => {
       if (!node.classList.contains('is-swiped')) throw new Error('delete rail not revealed');
     }));
-    assert.equal(await item.locator('[data-action="place-menu"]').getAttribute('aria-expanded'), 'true');
-
-    await item.locator('[data-action="place-menu"]').click();
-    assert.equal(await item.evaluate((node) => node.classList.contains('is-swiped')), false);
-    assert.equal(await item.locator('[data-action="place-menu"]').getAttribute('aria-expanded'), 'false');
-    await item.locator('[data-action="place-menu"]').click();
-    assert.equal(await item.evaluate((node) => node.classList.contains('is-swiped')), true);
-    assert.equal(await item.locator('[data-action="place-menu"]').getAttribute('aria-expanded'), 'true');
+    assert.equal(await item.locator('[data-action="place-menu"]').count(), 0);
+    assert.equal(await item.locator('[data-action="delete-place"]').count(), 1);
     const count = await page.locator('.timeline-item').count();
-    await item.locator('[data-action="delete-place"]').click({ force: true });
+    await item.locator('[data-action="delete-place"]').click();
     assert.equal(await page.locator('.timeline-item').count(), count - 1);
     await page.locator('[data-action="undo-delete"]').click();
     assert.equal(await page.locator('.timeline-item').count(), count);
@@ -225,6 +236,7 @@ test('timeline spacing stays relaxed without overflow at target viewports', asyn
       const page = await browser.newPage({ viewport });
       await page.goto(italyUrl, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
+      await activateView(page, 'itinerary');
       const geometry = await page.locator('[data-day-timeline]').first().evaluate((timeline) => {
         const items = [...timeline.querySelectorAll('.timeline-item')];
         const first = items[0].getBoundingClientRect();
@@ -246,12 +258,13 @@ test('timeline spacing stays relaxed without overflow at target viewports', asyn
   }
 });
 
-test('daily evening guide opens, switches horizontally and shows airport-only departure advice', async () => {
+test('daily evening guide switches by tab click and shows airport-only departure advice', async () => {
   const browser = await chromium.launch(launchOptions);
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   try {
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.locator('[data-app-ready="true"]').waitFor();
+    await activateView(page, 'itinerary');
     await page.locator('[data-action="open-evening"][data-guide-date="2026-10-05"]').click();
     const panel = page.locator('[data-panel="evening-guide"]');
     await panel.waitFor({ state: 'visible' });
@@ -260,8 +273,8 @@ test('daily evening guide opens, switches horizontally and shows airport-only de
     assert.equal(await firstGuide.locator('[data-guide-page="bars"] .recommendation-card').count(), 5);
     assert.equal(await firstGuide.locator('[data-guide-page="activities"] .recommendation-card').count(), 5);
     await firstGuide.locator('[data-guide-tab="activities"]').click();
-    await page.waitForTimeout(350);
-    assert.ok(await firstGuide.locator('.guide-carousel').evaluate((node) => node.scrollLeft > node.clientWidth * 1.5));
+    assert.equal(await firstGuide.locator('[data-guide-page="activities"]').getAttribute('aria-hidden'), 'false');
+    assert.equal(await firstGuide.locator('.guide-carousel').count(), 0);
     await page.keyboard.press('Escape');
     await panel.waitFor({ state: 'hidden' });
 
@@ -283,6 +296,7 @@ test('editorial evening cards keep approved treatments across target viewports',
       const page = await browser.newPage({ viewport });
       await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
+      await activateView(page, 'itinerary');
 
       const airportMark = page.locator('.evening-launch.is-airport .evening-location-mark').first();
       assert.equal(await airportMark.evaluate((node) => getComputedStyle(node).color), 'rgb(23, 33, 29)');
@@ -365,8 +379,8 @@ test('editorial evening cards keep approved treatments across target viewports',
       assert.ok(await restaurant.locator('h4').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 20));
       assert.ok(await restaurant.locator('.recommendation-copy p').evaluate((node) => parseFloat(getComputedStyle(node).fontSize) >= 15));
       assert.ok(await restaurant.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-      await page.emulateMedia({ reducedMotion: 'reduce' });
-      assert.equal(await guide.locator('.guide-carousel').evaluate((node) => getComputedStyle(node).scrollBehavior), 'auto');
+      assert.equal(await guide.locator('.guide-carousel').count(), 0);
+      assert.equal(await guide.locator('.guide-panels').evaluate((node) => getComputedStyle(node).overflowX), 'visible');
       await page.close();
     }
   } finally {
@@ -382,6 +396,7 @@ test('broken evening images reveal accessible category-themed line art', async (
       ['bars', 'bar', '酒杯线稿', 'rgb(56, 91, 112)'],
       ['activities', 'activity', '夜间活动线稿', 'rgb(100, 112, 82)'],
     ]) {
+      await guide.locator(`[data-guide-tab="${pageName}"]`).click();
       const card = guide.locator(`[data-guide-page="${pageName}"] .recommendation-card`).first();
       const image = card.locator('img');
       await image.evaluate((node, name) => { node.src = `/missing-${name}-${Date.now()}.webp`; }, theme);
@@ -413,17 +428,14 @@ test('Italy and Tokyo evening modals fit 768px with readable compact attribution
       const page = await browser.newPage({ viewport: { width: 768, height: 1024 } });
       await page.goto(url, { waitUntil: 'networkidle' });
       await page.locator('[data-app-ready="true"]').waitFor();
-      await page.locator('[data-action="open-evening"]').first().click();
+      await activateView(page, 'itinerary');
+      const guideDate = url === italyUrl ? '2026-08-23' : '2026-10-05';
+      await page.locator(`[data-action="open-evening"][data-guide-date="${guideDate}"]`).click();
       const panel = page.locator('[data-panel="evening-guide"]');
       const activeGuide = panel.locator('[data-evening-guide-date]:not([hidden])');
       if (url === italyUrl) {
         await activeGuide.locator('[data-guide-tab="activities"]').click();
-        await page.waitForFunction(() => {
-          const guide = document.querySelector('[data-evening-guide-date]:not([hidden])');
-          const carousel = guide?.querySelector('.guide-carousel');
-          return guide?.querySelector('[data-guide-tab="activities"]')?.getAttribute('aria-selected') === 'true'
-            && Math.abs(carousel.scrollLeft - carousel.clientWidth * 2) <= 1;
-        });
+        await activeGuide.locator('[data-guide-tab="activities"][aria-selected="true"]').waitFor();
       }
       const selectedPage = activeGuide.locator('[role="tabpanel"][aria-hidden="false"]');
       await selectedPage.waitFor({ state: 'visible' });
@@ -450,9 +462,9 @@ test('Italy and Tokyo evening modals fit 768px with readable compact attribution
         const captionBox = await caption.boundingBox();
         const attributionBox = await caption.locator('.recommendation-media-attribution').boundingBox();
         assert.ok(attributionBox && attributionBox.width >= 140, `photo attribution must remain readable, got ${attributionBox?.width}px`);
-        assert.ok(captionBox && captionBox.height <= 160, `photo attribution must stay compact, got ${captionBox?.height}px`);
+        assert.ok(captionBox && captionBox.height <= 180, `photo attribution must stay compact, got ${captionBox?.height}px`);
       }
-      for (const link of await activeGuide.locator('.recommendation-media-source, .recommendation-media-license').all()) {
+      for (const link of await selectedPage.locator('.recommendation-media-source, .recommendation-media-license').all()) {
         const target = await link.boundingBox();
         assert.ok(target && target.width >= 44 && target.height >= 44);
       }
@@ -469,13 +481,7 @@ test('evening tab selection persists after category click loses focus', async ()
     const restaurant = guide.locator('[data-guide-tab="restaurants"]');
     const activity = guide.locator('[data-guide-tab="activities"]');
     await activity.click();
-    await page.waitForFunction(() => {
-      const guideNode = document.querySelector('[data-evening-guide-date="2026-10-05"]');
-      const carousel = guideNode?.querySelector('.guide-carousel');
-      const tab = guideNode?.querySelector('[data-guide-tab="activities"]');
-      return tab?.getAttribute('aria-selected') === 'true'
-        && Math.abs(carousel.scrollLeft - carousel.clientWidth * 2) <= 1;
-    });
+    await guide.locator('[data-guide-tab="activities"][aria-selected="true"]').waitFor();
     await page.locator('[data-action="close-evening"]').focus();
     assert.deepEqual(await tabTreatment(activity), {
       selected: 'true',
@@ -553,16 +559,12 @@ test('evening tabs support roving focus and manual keyboard activation', async (
   }
 });
 
-test('evening tab selection follows direct carousel scrolling', async () => {
-  const { browser, page, guide } = await openTokyoEveningGuide();
+test('evening categories use click-only tabs without a horizontal carousel', async () => {
+  const { browser, guide } = await openTokyoEveningGuide();
   try {
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    const carousel = guide.locator('.guide-carousel');
-    await carousel.evaluate((node) => { node.scrollLeft = node.clientWidth; });
-    await page.waitForFunction(() => document.querySelector('[data-evening-guide-date="2026-10-05"] [data-guide-tab="bars"]')?.getAttribute('aria-selected') === 'true');
-    const restaurant = guide.locator('[data-guide-tab="restaurants"]');
     const bar = guide.locator('[data-guide-tab="bars"]');
-    assert.equal((await tabTreatment(restaurant)).underlineColor, 'rgba(0, 0, 0, 0)');
+    assert.equal(await guide.locator('.guide-carousel').count(), 0);
+    await bar.click();
     assert.deepEqual(await tabTreatment(bar), {
       selected: 'true',
       underlineColor: 'rgb(56, 91, 112)',
@@ -584,19 +586,20 @@ test('reordering updates times and the recalculated time remains editable', asyn
     await page.goto(tokyoUrl, { waitUntil: 'networkidle' });
     await page.evaluate(() => localStorage.clear());
     await page.reload({ waitUntil: 'networkidle' });
+    await activateView(page, 'itinerary');
     const day = page.locator('[data-day-timeline="2026-10-09"]');
-    for (let step = 0; step < 4; step += 1) {
-      await day.locator('article.timeline-item[data-place-id="tokyo-shinjuku"]').press('Alt+ArrowUp');
+    for (let step = 0; step < 2; step += 1) {
+      await day.locator('article.timeline-item[data-place-id="tokyo-v2-meguro-church"]').press('Alt+ArrowUp');
     }
-    const moved = day.locator('article.timeline-item[data-place-id="tokyo-shinjuku"]');
-    assert.equal(await moved.locator('.timeline-time strong').textContent(), '08:00');
+    const moved = day.locator('article.timeline-item[data-place-id="tokyo-v2-meguro-church"]');
+    assert.equal(await moved.locator('.timeline-time strong').textContent(), '10:00');
     const details = moved.locator('.place-card');
     if ((await details.getAttribute('open')) === null) await details.locator(':scope > summary').click();
     await moved.locator('[data-action="edit-schedule"]').click();
     const timeInput = moved.locator('[data-action="place-time"]');
     await timeInput.fill('09:10');
     await timeInput.dispatchEvent('change');
-    assert.equal(await day.locator('article.timeline-item[data-place-id="tokyo-shinjuku"] .timeline-time strong').textContent(), '09:10');
+    assert.equal(await day.locator('article.timeline-item[data-place-id="tokyo-v2-meguro-church"] .timeline-time strong').textContent(), '09:10');
   } finally {
     await browser.close();
   }

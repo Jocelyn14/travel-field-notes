@@ -1,6 +1,8 @@
 import { writeFile } from 'node:fs/promises';
 import { buildGoogleMapsSearchUrl } from '../src/core.mjs';
 import eveningMediaCatalog from './evening-media-catalog.json' with { type: 'json' };
+import italyWorkbook from '../data/imports/italy-2026-workbook.json' with { type: 'json' };
+import baseTrips from '../data/base-trips.json' with { type: 'json' };
 
 const EVENING_CATALOG_BY_ID = new Map(eveningMediaCatalog.map((item) => [item.id, item]));
 
@@ -497,6 +499,272 @@ const italy = {
   ],
 };
 
+const WORKBOOK_PLACE_IDS = new Map([
+  ['2026-08-23|07:00', 'italy-fco-arrival'],
+  ['2026-08-23|14:30', 'italy-capitoline'],
+  ['2026-08-24|08:40', 'italy-vatican-museums'],
+  ['2026-08-24|15:30', 'italy-colosseum'],
+  ['2026-08-24|19:00', 'italy-navona-trevi'],
+  ['2026-08-25|15:20', 'italy-rome-florence-train'],
+  ['2026-08-25|19:00', 'italy-signoria-vecchio'],
+  ['2026-08-26|09:30', 'italy-duomo'],
+  ['2026-08-26|14:30', 'italy-uffizi'],
+  ['2026-08-26|21:00', 'italy-michelangelo'],
+  ['2026-08-27|10:45', 'italy-accademia'],
+  ['2026-08-27|13:43', 'italy-florence-naples-train'],
+  ['2026-08-27|18:30', 'italy-san-severo'],
+  ['2026-08-28|09:30', 'italy-capri-ferry'],
+  ['2026-08-28|10:40', 'italy-capri'],
+  ['2026-08-28|15:00', 'italy-anacapri'],
+  ['2026-08-28|18:45', 'italy-naples-waterfront'],
+  ['2026-08-29|10:30', 'italy-pompeii'],
+  ['2026-08-29|18:45', 'italy-naples-rome-train'],
+  ['2026-08-29|21:00', 'italy-trastevere'],
+  ['2026-08-30|13:05', 'italy-fco-departure'],
+]);
+
+const VERIFIED_STAYS = [
+  {
+    dates: ['2026-08-22'],
+    name: '天府国际大酒店',
+    nameEn: 'Tianfu International Hotel Complex',
+    address: '成都市东部新区草池街道八月路99号',
+    checkIn: '待确认',
+    checkOut: '待确认',
+    website: 'https://www.iaga-global.org/Uploads/Tianfu-International-Hotel-Complex.pdf',
+  },
+  {
+    dates: ['2026-08-23', '2026-08-24'],
+    name: '罗马 W 酒店',
+    nameEn: 'W Rome',
+    address: 'Via Liguria, 26-36, 00187 Roma RM, Italy',
+    checkIn: '15:00',
+    checkOut: '12:00',
+    website: 'https://www.marriott.com/en-us/hotels/romwv-w-rome/overview/',
+  },
+  {
+    dates: ['2026-08-25', '2026-08-26'],
+    name: '佛罗伦萨 W 酒店',
+    nameEn: 'W Florence',
+    address: 'Via del Melarancio No. 1, 50123 Firenze FI, Italy',
+    checkIn: '15:00',
+    checkOut: '12:00',
+    website: 'https://www.marriott.com/en-us/hotels/flrwh-w-florence/overview/',
+  },
+  {
+    dates: ['2026-08-27', '2026-08-28'],
+    name: '地中海那不勒斯万丽酒店',
+    nameEn: 'Renaissance Naples Hotel Mediterraneo',
+    address: 'Via Ponte di Tappia, 25, 80133 Napoli NA, Italy',
+    checkIn: '15:00',
+    checkOut: '12:00',
+    website: 'https://www.marriott.com/en-us/hotels/napbr-renaissance-naples-hotel-mediterraneo/overview/',
+  },
+  {
+    dates: ['2026-08-29'],
+    name: '罗马维斯康蒂艾美酒店',
+    nameEn: 'Le Méridien Visconti Rome',
+    address: 'Via Federico Cesi, 37, 00193 Roma RM, Italy',
+    checkIn: '15:00',
+    checkOut: '12:00',
+    website: 'https://www.marriott.com/en-us/hotels/rommd-le-meridien-visconti-rome/overview/',
+  },
+];
+
+const STAY_BY_DATE = new Map(VERIFIED_STAYS.flatMap((stay) => stay.dates.map((date) => [date, {
+  name: stay.name,
+  nameEn: stay.nameEn,
+  address: stay.address,
+  checkIn: stay.checkIn,
+  checkOut: stay.checkOut,
+  website: stay.website,
+  maps: buildGoogleMapsSearchUrl(stay.nameEn, stay.address),
+}])));
+
+const WORKBOOK_MEDIA = new Map(Object.entries({
+  '2026-08-22|08:55': 'italy-air-travel-illustration',
+  '2026-08-22|10:30': 'italy-hotel-tianfu',
+  '2026-08-22|11:30': 'italy-city-transfer-illustration',
+  '2026-08-22|12:00': 'italy-meal-chengdu',
+  '2026-08-22|13:00': 'italy-chengdu-skyline',
+  '2026-08-22|17:00': 'italy-meal-chengdu',
+  '2026-08-22|18:30': 'italy-hotel-tianfu',
+  '2026-08-22|23:00': 'italy-chengdu-tianfu-airport',
+  '2026-08-23|01:30': 'italy-chengdu-tianfu-airport',
+  '2026-08-23|07:00': 'italy-fco-arrival',
+  '2026-08-23|09:00': 'italy-hotel-w-rome',
+  '2026-08-23|10:00': 'italy-spanish-steps',
+  '2026-08-23|12:00': 'italy-meal-rome',
+  '2026-08-23|14:30': 'italy-pantheon',
+  '2026-08-23|18:30': 'italy-pincio',
+  '2026-08-23|20:00': 'italy-meal-rome',
+  '2026-08-24|08:40': 'italy-vatican-museums',
+  '2026-08-24|12:00': 'italy-st-peters',
+  '2026-08-24|13:00': 'italy-meal-rome',
+  '2026-08-24|13:40': 'italy-hotel-w-rome',
+  '2026-08-24|15:30': 'italy-colosseum',
+  '2026-08-24|19:00': 'italy-meal-rome',
+  '2026-08-24|21:00': 'italy-hotel-w-rome',
+  '2026-08-25|09:40': 'italy-borghese-gallery',
+  '2026-08-25|12:00': 'italy-borghese-gallery',
+  '2026-08-25|13:00': 'italy-meal-rome',
+  '2026-08-25|15:20': 'italy-rome-florence-train',
+  '2026-08-25|17:31': 'italy-hotel-w-florence',
+  '2026-08-25|19:00': 'italy-signoria-vecchio',
+  '2026-08-25|20:00': 'italy-meal-florence',
+  '2026-08-26|09:30': 'italy-duomo',
+  '2026-08-26|12:00': 'italy-duomo',
+  '2026-08-26|13:00': 'italy-meal-florence',
+  '2026-08-26|14:30': 'italy-uffizi',
+  '2026-08-26|17:00': 'italy-boboli',
+  '2026-08-26|19:30': 'italy-meal-florence',
+  '2026-08-26|21:00': 'italy-hotel-w-florence',
+  '2026-08-27|10:45': 'italy-accademia',
+  '2026-08-27|13:43': 'italy-florence-naples-train',
+  '2026-08-27|17:18': 'italy-hotel-renaissance-naples',
+  '2026-08-27|18:30': 'italy-naples-waterfront',
+  '2026-08-27|20:00': 'italy-meal-naples',
+  '2026-08-28|09:30': 'italy-capri-ferry',
+  '2026-08-28|10:20': 'italy-capri',
+  '2026-08-28|10:40': 'italy-capri',
+  '2026-08-28|13:00': 'italy-anacapri',
+  '2026-08-28|15:00': 'italy-monte-solaro',
+  '2026-08-28|16:30': 'italy-anacapri',
+  '2026-08-28|17:00': 'italy-capri-ferry',
+  '2026-08-28|17:55': 'italy-capri-ferry',
+  '2026-08-28|18:45': 'italy-meal-naples',
+  '2026-08-28|20:30': 'italy-hotel-renaissance-naples',
+  '2026-08-29|08:20': 'italy-train-illustration',
+  '2026-08-29|09:18': 'italy-train-illustration',
+  '2026-08-29|10:30': 'italy-pompeii',
+  '2026-08-29|13:45': 'italy-train-illustration',
+  '2026-08-29|14:13': 'italy-meal-naples',
+  '2026-08-29|15:30': 'italy-santelmo',
+  '2026-08-29|17:30': 'italy-hotel-renaissance-naples',
+  '2026-08-29|18:45': 'italy-naples-rome-train',
+  '2026-08-29|20:00': 'italy-hotel-le-meridien-rome',
+  '2026-08-29|21:00': 'italy-meal-rome',
+  '2026-08-30|09:30': 'italy-fco-departure',
+  '2026-08-30|13:05': 'italy-fco-departure',
+  '2026-08-31|05:25': 'italy-chengdu-tianfu-airport',
+  '2026-08-31|11:40': 'italy-air-travel-illustration',
+}).map(([key, id]) => [key, `assets/places/${id}.webp`]));
+
+const DAY_TITLES = {
+  '2026-08-22': '昆明 → 成都 · 联程前夜',
+  '2026-08-23': '成都 → 罗马 · 落地后走进古城',
+  '2026-08-24': '梵蒂冈与古罗马 · 一日穿越两千年',
+  '2026-08-25': '罗马 → 佛罗伦萨 · 从博尔盖塞到阿诺河',
+  '2026-08-26': '佛罗伦萨 · 穹顶、名作与花园',
+  '2026-08-27': '佛罗伦萨 → 那不勒斯 · 南意第一夜',
+  '2026-08-28': '卡普里岛 · 从 Marina Grande 到索拉罗山',
+  '2026-08-29': '庞贝 → 那不勒斯 → 罗马 · 最长衔接日',
+  '2026-08-30': '罗马 → 成都 · 离境与长途飞行',
+  '2026-08-31': '成都 → 昆明 · 联程收尾',
+};
+
+const TYPE_META = {
+  transit: { category: '跨城交通', image: 'assets/places/italy-rome-florence-train.webp', emoji: '🚆' },
+  arrival: { category: '抵达', image: 'assets/places/italy-fco-arrival.webp', emoji: '🛬' },
+  stay: { category: '住宿交接', image: 'assets/places/italy-fco-arrival.webp', emoji: '🛎️' },
+  meal: { category: '餐饮', image: 'assets/places/italy-trastevere.webp', emoji: '🍽️' },
+  visit: { category: '城市探索', image: 'assets/places/italy-capitoline.webp', emoji: '🏛️' },
+  note: { category: '行程事项', image: 'assets/places/italy-capitoline.webp', emoji: '📍' },
+};
+
+const displayName = (text) => {
+  const bracketed = [...text.matchAll(/【([^】]+)】/g)].map((match) => match[1]);
+  if (bracketed.length >= 1 && /游览|登/.test(text)) return bracketed[0];
+  const transport = text.match(/搭乘(?:飞机|火车|轮渡)?【?([^】]+)?】?前往(.+)/);
+  if (transport) return `${transport[1] ? `${transport[1]} · ` : ''}前往${transport[2]}`;
+  return text.replace(/[，。]$/, '').replace(/^游览/, '').trim();
+};
+
+const durationFor = (events, index) => {
+  const current = events[index].time.split(':').map(Number);
+  const next = events[index + 1]?.time.split(':').map(Number);
+  if (!next) return events[index].type === 'transit' ? 150 : 60;
+  const difference = (next[0] * 60 + next[1]) - (current[0] * 60 + current[1]);
+  return Math.max(20, Math.min(180, difference));
+};
+
+const cityImage = (route, fallback) => {
+  if (/卡普里/.test(route)) return 'assets/places/italy-capri.webp';
+  if (/那不勒斯|庞贝/.test(route)) return 'assets/places/italy-naples-waterfront.webp';
+  if (/佛罗伦萨/.test(route)) return 'assets/places/italy-duomo.webp';
+  if (/罗马/.test(route)) return 'assets/places/italy-capitoline.webp';
+  return fallback;
+};
+
+const originalPlaces = new Map(italy.days.flatMap((day) => day.places).map((place) => [place.id, place]));
+const preserveOriginalName = new Set(['italy-duomo', 'italy-capri']);
+const workbookDays = italyWorkbook.days.map((day) => {
+  const places = day.events.map((event, index) => {
+    const reusedId = WORKBOOK_PLACE_IDS.get(`${day.date}|${event.time}`);
+    const original = reusedId ? originalPlaces.get(reusedId) : undefined;
+    const meta = TYPE_META[event.type] ?? TYPE_META.note;
+    const name = preserveOriginalName.has(reusedId) ? original.name : displayName(event.itinerary);
+    const id = reusedId ?? `italy-2026-${day.date.slice(5).replace('-', '')}-${event.time.replace(':', '')}-${String(index + 1).padStart(2, '0')}`;
+    const image = WORKBOOK_MEDIA.get(`${day.date}|${event.time}`)
+      ?? original?.image
+      ?? (event.type === 'visit' ? cityImage(day.route, meta.image) : meta.image);
+    return {
+      ...(original ?? {}),
+      id,
+      name,
+      nameEn: original?.nameEn ?? name,
+      nameLocal: original?.nameLocal ?? name,
+      category: meta.category,
+      kind: event.type,
+      time: event.time,
+      durationMinutes: durationFor(day.events, index),
+      travelMinutes: 0,
+      timeMode: ['transit', 'arrival'].includes(event.type) ? 'fixed' : 'flexible',
+      address: original?.address ?? `${day.route} · 具体地址待确认`,
+      cost: original?.cost ?? 0,
+      transit: event.itinerary,
+      meals: event.meals,
+      note: event.itinerary,
+      culture: original?.culture || event.itinerary,
+      tips: event.meals ? `${event.itinerary}；餐食：${event.meals}` : event.itinerary,
+      image,
+      imageAlt: `${name}${image.includes('hotel-') ? '酒店实景照片' : image.includes('illustration') || image.includes('meal-') ? '编辑插画' : '实景照片'}`,
+      imageFallback: meta.emoji,
+      links: {
+        ...(original?.links ?? {}),
+        maps: buildGoogleMapsSearchUrl(name, original?.address ?? `${day.route} · 具体地址待确认`),
+      },
+    };
+  });
+  return {
+    date: day.date,
+    city: day.route,
+    title: DAY_TITLES[day.date],
+    subtitle: `${places.length} 项安排 · 住宿：${STAY_BY_DATE.get(day.date)?.name ?? '无当晚住宿'}`,
+    accommodation: STAY_BY_DATE.get(day.date) ?? null,
+    places,
+  };
+});
+
+italy.dates = { start: '2026-08-22', end: '2026-08-31' };
+italy.summary = '十天完成昆明—成都—罗马—佛罗伦萨—那不勒斯—卡普里—庞贝的跨城衔接；航班、火车、轮渡、住宿与预约按当地时间汇入同一条时间线。';
+italy.theme = { accent: '#C65F16', secondary: '#319BA0', lemon: '#D9C441', ocean: '#022E5B', leaf: '#5B6819' };
+italy.route = ['昆明', '成都', '罗马', '佛罗伦萨', '那不勒斯', '卡普里', '庞贝', '罗马', '成都', '昆明'];
+italy.days = workbookDays;
+italy.eveningGuides = [
+  airportGuide('2026-08-22', workbookDays[0].places.at(-1).id, [
+    '23:00 前往成都天府机场后，以完成值机、托运与登机为唯一优先事项。',
+    '确认 3U3895 航站楼与登机口，餐饮和休息安排以机场当日开放为准。',
+    '长途飞行前补水、充电，并把护照、机票与入境资料放在随身包。',
+  ]),
+  ...italy.eveningGuides,
+  airportGuide('2026-08-31', workbookDays.at(-1).places.at(-1).id, [
+    '成都入境后先确认行李是否直挂，并预留 T1 到 T2 的转场时间。',
+    '在休息室完成补水、早餐与设备充电，持续关注 3U6617 登机口。',
+    '抵达昆明后本次联程结束，离开机场前再次清点证件与托运行李。',
+  ]),
+];
+
 const tokyo = {
   editorial: {
     quote: '日々旅にして旅を栖とす。',
@@ -654,4 +922,16 @@ const tokyo = {
   ],
 };
 
-await writeFile(new URL('../data/trips.json', import.meta.url), `${JSON.stringify([italy, tokyo], null, 2)}\n`, 'utf8');
+const baseItaly = baseTrips.find((trip) => trip.id === 'italy');
+const baseTokyo = baseTrips.find((trip) => trip.id === 'tokyo');
+const finalItaly = {
+  ...baseItaly,
+  dates: italy.dates,
+  summary: italy.summary,
+  theme: italy.theme,
+  route: italy.route,
+  days: italy.days,
+  eveningGuides: italy.eveningGuides,
+};
+
+await writeFile(new URL('../data/trips.json', import.meta.url), `${JSON.stringify([finalItaly, baseTokyo], null, 2)}\n`, 'utf8');

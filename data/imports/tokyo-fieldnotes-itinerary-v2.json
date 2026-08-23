@@ -654,6 +654,7 @@
     },
     "dayOverrides": {
       "2026-10-05": {
+        "activityArea": "成田—上野",
         "city": "成田 · 上野",
         "title": "抵达东京 · 在上野安顿下来",
         "subtitle": "14:00 抵达成田 T1 · Skyliner · 阿美横丁晚餐",
@@ -661,6 +662,7 @@
         "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Narita+International+Airport+Terminal+1&destination=Ameyoko+Shopping+Street&waypoints=Keisei+Ueno+Station&travelmode=transit"
       },
       "2026-10-06": {
+        "activityArea": "浅草—蔵前",
         "city": "浅草 · 浅草桥 · 藏前",
         "title": "寺院清晨 · 塔罗图像与下町旧物",
         "subtitle": "浅草寺 · 东京塔罗美术馆预约 · 纸品与手作",
@@ -668,6 +670,7 @@
         "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Senso-ji+Temple&destination=Kuramae+Tokyo&waypoints=Tokyo+Tarot+Museum&travelmode=transit"
       },
       "2026-10-07": {
+        "activityArea": "青山—涩谷",
         "city": "青山 · 表参道 · 涩谷",
         "title": "古美术与建筑 · 入夜后看城市灯火",
         "subtitle": "根津美术馆 · 摄影书与艺术画册 · 涩谷夜景",
@@ -675,6 +678,7 @@
         "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Nezu+Museum&destination=Shibuya+Scramble+Crossing&waypoints=Omotesando+Tokyo&travelmode=transit"
       },
       "2026-10-08": {
+        "activityArea": "新宿",
         "city": "新宿",
         "title": "庭园与胶卷 · 从白昼拍到霓虹",
         "subtitle": "新宿御苑 · 友都八喜 · 旧相机与夜间小店",
@@ -682,6 +686,7 @@
         "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Shinjuku+Gyoen&destination=Shinjuku+Tokyo&waypoints=Yodobashi+Camera+Shinjuku+West&travelmode=transit"
       },
       "2026-10-09": {
+        "activityArea": "神保町—白金台—芝公园",
         "city": "神保町 · 白金台 · 芝公园",
         "title": "书页、装饰艺术与东京塔",
         "subtitle": "神保町古书街 · 东京都庭园美术馆 · 东京塔夜景",
@@ -689,6 +694,7 @@
         "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Jimbocho+Book+Town&destination=Tokyo+Tower&waypoints=Tokyo+Metropolitan+Teien+Art+Museum%7CSt.+Anselm+Catholic+Meguro+Church&travelmode=transit"
       },
       "2026-10-10": {
+        "activityArea": "上野—成田",
         "city": "上野 · 成田",
         "title": "清水观音堂 · 留足时间去机场",
         "subtitle": "清晨参拜 · 酒店退房 · 15:20 成田 T1 离境",

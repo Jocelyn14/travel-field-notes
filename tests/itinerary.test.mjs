@@ -66,9 +66,9 @@ test('importItineraryPackage rejects another destination', () => {
 });
 
 test('shouldApplyItineraryRelease applies a matching release only once', () => {
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'tokyov2e', appliedRelease: '' }), true);
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'tokyov2e', appliedRelease: 'tokyov2e' }), false);
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'italy', release: 'tokyov2e', appliedRelease: '' }), false);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2f', appliedRelease: '' }), true);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2f', appliedRelease: 'fieldnotes2f' }), false);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'italy', release: 'fieldnotes2f', appliedRelease: '' }), false);
 });
 
 test('recalculateDay cascades flexible times and preserves fixed anchors', () => {

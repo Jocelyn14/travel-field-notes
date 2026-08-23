@@ -27,6 +27,20 @@ test('renderApp includes every agreed section and safe external links', () => {
   assert.match(html, /target="_blank" rel="noopener noreferrer"/);
 });
 
+test('Italy workbook itinerary renders semantic event colors and default hotel stays', () => {
+  const italy = trips.find((trip) => trip.id === 'italy');
+  const state = normalizePersistedState({ activeTripId: 'italy' }, [italy]);
+  const html = renderApp([italy], state, true, { standalone: true, assetBase: '../' });
+
+  for (const kind of ['transit', 'arrival', 'stay', 'meal', 'visit']) {
+    assert.match(html, new RegExp(`data-event-kind="${kind}"`));
+  }
+  assert.match(html, /W Rome/);
+  assert.match(html, /W Florence/);
+  assert.match(html, /Renaissance Naples Hotel Mediterraneo/);
+  assert.match(html, /<strong>餐食<\/strong><span>早：酒店早餐<\/span>/);
+});
+
 test('renderApp presents destination literature and three concrete highlights', () => {
   for (const trip of trips) {
     const state = normalizePersistedState({ activeTripId: trip.id }, [trip]);
@@ -93,7 +107,7 @@ test('renderApp presents every day with a jump link and full timeline', () => {
   const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
   const html = renderApp(trips, state, true);
 
-  assert.match(html, /8 天初版行程/);
+  assert.match(html, /10 天初版行程/);
   for (const day of trips[0].days) {
     assert.match(html, new RegExp(`data-day-date="${day.date}"`));
     assert.match(html, new RegExp(`href="#day-${day.date}"`));
@@ -131,10 +145,10 @@ test('renderApp can present one destination without exposing the other trip swit
 test('itinerary cards expose local photos, trilingual names and cultural guidance', () => {
   const state = normalizePersistedState({ activeTripId: 'italy' }, trips);
   const html = renderApp([trips[0]], state, true, { standalone: true, assetBase: '../' });
-  const firstPlace = trips[0].days[0].places[0];
+  const firstPlace = trips[0].days.flatMap((day) => day.places).find((place) => place.id === 'italy-vatican-museums');
 
   assert.match(html, new RegExp(`data-place-id="${firstPlace.id}"`));
-  assert.match(html, new RegExp(`--place-image:url\\('\\.\\./${firstPlace.image}'\\)`));
+  assert.match(html, new RegExp(`src="\\.\\./${firstPlace.image}"`));
   assert.match(html, new RegExp(firstPlace.nameEn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   assert.match(html, /class="place-name-local" lang="it"/);
   assert.match(html, /class="culture-note"/);
@@ -152,8 +166,8 @@ test('every day renders reorder, delete, schedule and add controls', () => {
   assert.match(html, /data-action="place-time"/);
   assert.match(html, /data-action="place-duration"/);
   assert.match(html, /data-action="place-travel"/);
-  assert.match(html, /data-action="itinerary-import"/);
-  assert.match(html, /accept="application\/json,.json"/);
+  assert.doesNotMatch(html, /data-action="itinerary-import"/);
+  assert.doesNotMatch(html, /accept="application\/json,.json"/);
 });
 
 test('day heading shows a compact non-interactive transit summary without exposing the import control', () => {
@@ -199,7 +213,7 @@ test('Tokyo flight cards show confirmed route, terminals and local times', () =>
   assert.match(html, /14:00/);
 });
 
-test('every day opens a horizontally paged evening or airport guide', () => {
+test('every day opens a click-switched evening or airport guide', () => {
   const tokyoTrip = structuredClone(trips[1]);
   tokyoTrip.eveningGuides[0].restaurants[0].imageKind = 'illustration';
   const state = normalizePersistedState({ activeTripId: 'tokyo' }, [tokyoTrip]);
@@ -207,7 +221,8 @@ test('every day opens a horizontally paged evening or airport guide', () => {
 
   assert.equal((html.match(/data-action="open-evening"/g) ?? []).length, trips[1].days.length);
   assert.match(html, /data-panel="evening-guide"/);
-  assert.match(html, /class="guide-carousel"/);
+  assert.match(html, /class="guide-tabs"/);
+  assert.doesNotMatch(html, /class="guide-carousel"/);
   assert.doesNotMatch(html, /evening-route-mark/);
   assert.match(html, /class="evening-location-mark"/);
   assert.match(html, /data-guide-page="restaurants"/);

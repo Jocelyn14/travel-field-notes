@@ -145,6 +145,28 @@ const validTrips = [
     reservations: [{ id: 'colosseum-ticket', title: '斗兽场门票', placeId: 'colosseum' }],
     budget: [{ id: 'ticket', category: '门票', label: '景点门票', planned: 40, paid: 18 }],
     checklist: [{ id: 'docs', title: '证件', items: [{ id: 'passport', label: '护照' }] }],
+    practicalInfo: {
+      verifiedAt: '2026-08-10',
+      essentials: Array.from({ length: 3 }, (_, index) => ({
+        title: `须知 ${index + 1}`,
+        description: '一条可供初访旅行者使用的必要说明。',
+      })),
+      customs: Array.from({ length: 3 }, (_, index) => ({
+        title: `习俗 ${index + 1}`,
+        description: '一条可供初访旅行者参考的当地习俗。',
+      })),
+      resources: Array.from({ length: 3 }, (_, index) => ({
+        name: `资源 ${index + 1}`,
+        description: '官方旅行信息资源。',
+        url: `https://example.com/resource-${index + 1}`,
+      })),
+      emergencyContacts: Array.from({ length: 4 }, (_, index) => ({
+        label: `紧急联络 ${index + 1}`,
+        phone: `112-${index + 1}`,
+        note: '旅行途中需要时拨打。',
+        sourceUrl: `https://example.com/contact-${index + 1}`,
+      })),
+    },
   },
 ];
 
@@ -323,17 +345,22 @@ test('normalizePersistedState migrates older data and removes unknown trip keys'
   }, validTrips);
 
   assert.deepEqual(migrated, {
-    version: 3,
+    version: 4,
     activeTripId: 'italy',
     rates: { italy: 8.1 },
     reservations: { 'colosseum-ticket': '已付款' },
     checklist: { passport: true },
+    checklistEdits: {},
+    customTodos: [],
     budgetEntries: [{ id: 'expense-1', budgetItemId: 'ticket', amount: 24.5, note: '博物馆' }],
+    budgetPlans: {},
+    accommodations: {},
     itinerary: {
       customPlaces: {},
       deletedPlaceIds: {},
       dayOrder: {},
       placeOverrides: {},
+      dayOverrides: {},
     },
   });
 });

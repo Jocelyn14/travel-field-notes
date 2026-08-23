@@ -3,7 +3,7 @@ import {
   cycleReservationStatus,
   normalizePersistedState,
   validateTrips,
-} from './core.mjs?v=tokyov2e';
+} from './core.mjs?v=italy2026c';
 import {
   addCustomPlace,
   applyItineraryEdits,
@@ -15,10 +15,10 @@ import {
   shouldApplyItineraryRelease,
   sortDayByTime,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=tokyov2e';
-import { searchPlace } from './search.mjs?v=tokyov2e';
-import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=tokyov2e';
-import { renderApp } from './view.mjs?v=tokyov2e';
+} from './itinerary.mjs?v=italy2026c';
+import { searchPlace } from './search.mjs?v=italy2026c';
+import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=italy2026c';
+import { renderApp } from './view.mjs?v=italy2026c';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -60,12 +60,33 @@ function showToast(message, actionLabel = '') {
   showToast.timer = window.setTimeout(() => { toast.hidden = true; undoDeletedId = ''; }, actionLabel ? 6000 : 3200);
 }
 
+function decorateExternalLinks() {
+  root.querySelectorAll('a[data-external="true"]').forEach((link) => {
+    let url;
+    try {
+      url = new URL(link.href);
+    } catch {
+      return;
+    }
+    const isGoogleMaps = /(^|\.)google\.[^/]+$/i.test(url.hostname) && url.pathname.startsWith('/maps');
+    if (url.protocol !== 'https:' || isGoogleMaps || link.nextElementSibling?.dataset.action === 'copy-external-url') return;
+    const copy = document.createElement('button');
+    copy.type = 'button';
+    copy.className = 'external-copy-control';
+    copy.dataset.action = 'copy-external-url';
+    copy.dataset.copyUrl = url.href;
+    copy.textContent = '复制网址';
+    link.insertAdjacentElement('afterend', copy);
+  });
+}
+
 function render({ preserveScroll = false } = {}) {
   const scrollY = window.scrollY;
   root.innerHTML = renderApp(trips, state, navigator.onLine, { standalone: true, assetBase: appRoot.href, checklistManaging });
   root.dataset.appReady = 'true';
   root.dataset.activeTrip = state.activeTripId;
   root.setAttribute('aria-busy', 'false');
+  decorateExternalLinks();
   activateAppView(viewFromHash(), { updateHash: false, scroll: false });
   if (preserveScroll) window.scrollTo({ top: scrollY });
 }
@@ -88,7 +109,7 @@ function activateAppView(view, { updateHash = true, scroll = true } = {}) {
     if (tab.dataset.appTab === nextView) tab.setAttribute('aria-current', 'page');
     else tab.removeAttribute('aria-current');
   });
-  if (updateHash && location.hash !== `#${nextView}`) history.pushState(null, '', `#${nextView}`);
+  if (updateHash && location.hash !== `#${nextView}`) history.replaceState(null, '', `#${nextView}`);
   if (scroll) window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
@@ -204,21 +225,11 @@ function selectGuideTab(guide, selectedPage) {
     page.setAttribute('aria-hidden', String(!isSelected));
     page.toggleAttribute('inert', !isSelected);
   });
-  const carousel = guide.querySelector('.guide-carousel');
-  const selected = guide.querySelector(`[data-guide-page="${selectedPage}"]`);
-  if (carousel && selected) carousel.style.height = `${selected.scrollHeight}px`;
 }
 
 function activateGuideTab(tab) {
   const guide = tab.closest('[data-evening-guide-date]');
-  const carousel = guide?.querySelector('.guide-carousel');
-  const page = guide?.querySelector(`[data-guide-page="${tab.dataset.guideTab}"]`);
-  if (!guide || !carousel || !page) return;
-  const pageIndex = [...carousel.querySelectorAll('[data-guide-page]')].indexOf(page);
-  const previousScrollBehavior = carousel.style.scrollBehavior;
-  carousel.style.scrollBehavior = 'auto';
-  carousel.scrollLeft = pageIndex * carousel.clientWidth;
-  carousel.style.scrollBehavior = previousScrollBehavior;
+  if (!guide) return;
   selectGuideTab(guide, tab.dataset.guideTab);
 }
 
@@ -236,15 +247,6 @@ function moveGuideTabFocus(tab, key) {
   tabs[targetIndex].focus();
 }
 
-function syncGuideTabToCarousel(carousel) {
-  if (!carousel.clientWidth) return;
-  const pages = [...carousel.querySelectorAll('[data-guide-page]')];
-  const pageIndex = Math.max(0, Math.min(pages.length - 1, Math.round(carousel.scrollLeft / carousel.clientWidth)));
-  const selectedPage = pages[pageIndex]?.dataset.guidePage;
-  const guide = carousel.closest('[data-evening-guide-date]');
-  if (guide && selectedPage) selectGuideTab(guide, selectedPage);
-}
-
 function openEveningGuide(date, trigger) {
   const panel = root.querySelector('[data-panel="evening-guide"]');
   const guide = panel?.querySelector(`[data-evening-guide-date="${CSS.escape(date)}"]`);
@@ -252,12 +254,8 @@ function openEveningGuide(date, trigger) {
   if (!trigger.id) trigger.id = `evening-${date}`;
   panelState = nextPanelState(panelState, { type: 'open-evening', guideDate: date, originId: trigger.id });
   panel.querySelectorAll('[data-evening-guide-date]').forEach((item) => { item.hidden = item !== guide; });
-  const carousel = guide.querySelector('.guide-carousel');
-  if (carousel) {
-    carousel.scrollLeft = 0;
-    const firstPage = carousel.querySelector('[data-guide-page]')?.dataset.guidePage;
-    if (firstPage) selectGuideTab(guide, firstPage);
-  }
+  const firstPage = guide.querySelector('[data-guide-page]')?.dataset.guidePage;
+  if (firstPage) selectGuideTab(guide, firstPage);
   panel.hidden = false;
   panel.setAttribute('aria-hidden', 'false');
   const backdrop = root.querySelector('[data-evening-backdrop]');
@@ -291,6 +289,14 @@ root.addEventListener('click', (event) => {
 
   const action = event.target.closest('[data-action]');
   if (!action) return;
+  if (action.dataset.action === 'copy-external-url') {
+    const url = action.dataset.copyUrl;
+    navigator.clipboard?.writeText(url).then(
+      () => showToast('网址已复制。'),
+      () => showToast('复制失败，请长按链接复制。'),
+    );
+    return;
+  }
   if (action.dataset.action === 'app-tab') {
     event.preventDefault();
     activateAppView(action.dataset.appTab);
@@ -662,10 +668,6 @@ root.addEventListener('wheel', (event) => {
   setDeleteRail(item, event.deltaX > 0);
 }, { passive: false });
 
-root.addEventListener('scroll', (event) => {
-  if (event.target.matches?.('.guide-carousel')) syncGuideTabToCarousel(event.target);
-}, true);
-
 root.addEventListener('change', async (event) => {
   const input = event.target.closest?.('[data-action="itinerary-import"]');
   if (!input?.files?.[0]) return;
@@ -698,7 +700,7 @@ window.addEventListener('hashchange', () => activateAppView(viewFromHash(), { up
 
 async function start() {
   try {
-    const response = await fetch(new URL('data/trips.json?v=tokyov2e', appRoot));
+    const response = await fetch(new URL('data/trips.json?v=italy2026c', appRoot));
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const allTrips = await response.json();
     const validation = validateTrips(allTrips);
@@ -715,7 +717,7 @@ async function start() {
       release,
       appliedRelease: localStorage.getItem(releaseKey) ?? '',
     })) {
-      const importResponse = await fetch(new URL('data/imports/tokyo-fieldnotes-itinerary-v2.json?v=tokyov2e', appRoot));
+      const importResponse = await fetch(new URL('data/imports/tokyo-fieldnotes-itinerary-v2.json?v=italy2026c', appRoot));
       if (!importResponse.ok) throw new Error(`东京行程导入包 HTTP ${importResponse.status}`);
       localStorage.setItem(`${storageKey}:backup:${Date.now()}`, JSON.stringify(state));
       state = importItineraryPackage(state, await importResponse.json(), requestedTrip.id);

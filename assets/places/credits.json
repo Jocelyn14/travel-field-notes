@@ -1,23 +1,5 @@
 [
   {
-    "placeId": "italy-fco-arrival",
-    "file": "assets/places/italy-fco-arrival.webp",
-    "title": "Aeroporto di Roma-Fiumicino - interior arrival area",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aeroporto_di_Roma-Fiumicino_-_interior_arrival_area.jpg",
-    "author": "User:Mattes",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-  },
-  {
-    "placeId": "italy-colosseum",
-    "file": "assets/places/italy-colosseum.webp",
-    "title": "Colosseum in Rome-April 2007-1- copie 2B",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Colosseum_in_Rome-April_2007-1-_copie_2B.jpg",
-    "author": "Diliff",
-    "license": "CC BY-SA 2.5",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
-  },
-  {
     "placeId": "italy-forum",
     "file": "assets/places/italy-forum.webp",
     "title": "Roman Forum from Palatine Hill 9-9-16",
@@ -25,6 +7,123 @@
     "author": "Chalaph",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "italy-st-peters",
+    "file": "assets/places/italy-st-peters.webp",
+    "title": "Basilica di San Pietro in Vaticano September 2015-1a",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg",
+    "author": "Alvesgaspar",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "italy-spanish-steps",
+    "file": "assets/places/italy-spanish-steps.webp",
+    "title": "Piazza di Spagna (Rome) 0004",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Piazza_di_Spagna_(Rome)_0004.jpg",
+    "author": "Arnaud 25",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "placeId": "italy-pisa-tower",
+    "file": "assets/places/italy-pisa-tower.webp",
+    "title": "Italy - Pisa - Leaning Tower",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Italy_-_Pisa_-_Leaning_Tower.jpg",
+    "author": "Arne Müseler",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en"
+  },
+  {
+    "placeId": "italy-spaccanapoli",
+    "file": "assets/places/italy-spaccanapoli.webp",
+    "title": "Naples spaccanapoli",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naples_spaccanapoli.JPG",
+    "author": "Velvet",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "placeId": "italy-chengdu-skyline",
+    "file": "assets/places/italy-chengdu-skyline.webp",
+    "title": "雪山下的成都市天际线 Chengdu skyline with snow capped mountains (cropped)",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E9%9B%AA%E5%B1%B1%E4%B8%8B%E7%9A%84%E6%88%90%E9%83%BD%E5%B8%82%E5%A4%A9%E9%99%85%E7%BA%BF_Chengdu_skyline_with_snow_capped_mountains_(cropped).jpg",
+    "author": "FISU",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "placeId": "italy-chengdu-tianfu-airport",
+    "file": "assets/places/italy-chengdu-tianfu-airport.webp",
+    "title": "GTC Area of Tianfu Int'l Airport",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:GTC_Area_of_Tianfu_Int%27l_Airport.jpg",
+    "author": "Shdkahsdk",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "italy-pantheon",
+    "file": "assets/places/italy-pantheon.webp",
+    "title": "Extérieur du Panthéon à Rome",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ext%C3%A9rieur_du_Panth%C3%A9on_%C3%A0_Rome.jpg",
+    "author": "Van Der Meulen Christofle",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  {
+    "placeId": "italy-pincio",
+    "file": "assets/places/italy-pincio.webp",
+    "title": "View of Rome from Pincio (4)",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Rome_from_Pincio_(4).jpg",
+    "author": "Krzysztof Golik",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "italy-borghese-gallery",
+    "file": "assets/places/italy-borghese-gallery.webp",
+    "title": "Galleria borghese facade",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Galleria_borghese_facade.jpg",
+    "author": "Alessio Damato",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  {
+    "placeId": "italy-boboli",
+    "file": "assets/places/italy-boboli.webp",
+    "title": "Jardín de Bóboli, Florencia, Italia, 2022-09-19, DD 13",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jard%C3%ADn_de_B%C3%B3boli,_Florencia,_Italia,_2022-09-19,_DD_13.jpg",
+    "author": "Diego Delso",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "italy-monte-solaro",
+    "file": "assets/places/italy-monte-solaro.webp",
+    "title": "Capri Chairlift",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Capri_Chairlift.jpg",
+    "author": "Dr Tr from Saint-Petersburg, Russia",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  {
+    "placeId": "italy-santelmo",
+    "file": "assets/places/italy-santelmo.webp",
+    "title": "Napoli panorama di Napoli da Castel Sant'Elmo -",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Napoli_panorama_di_Napoli_da_Castel_Sant%27Elmo_-.jpg",
+    "author": "Mfran22",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "italy-fco-arrival",
+    "file": "assets/places/italy-fco-arrival.webp",
+    "title": "Aeroporto di Roma-Fiumicino - interior arrival area",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aeroporto_di_Roma-Fiumicino_-_interior_arrival_area.jpg",
+    "author": "User:Mattes",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
     "placeId": "italy-capitoline",
@@ -45,22 +144,13 @@
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
   },
   {
-    "placeId": "italy-st-peters",
-    "file": "assets/places/italy-st-peters.webp",
-    "title": "Basilica di San Pietro in Vaticano September 2015-1a",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg",
-    "author": "Alvesgaspar",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-  },
-  {
-    "placeId": "italy-pantheon",
-    "file": "assets/places/italy-pantheon.webp",
-    "title": "Pantheon of Paris 007",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pantheon_of_Paris_007.JPG",
-    "author": "Moonik",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "placeId": "italy-colosseum",
+    "file": "assets/places/italy-colosseum.webp",
+    "title": "Colosseum in Rome-April 2007-1- copie 2B",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Colosseum_in_Rome-April_2007-1-_copie_2B.jpg",
+    "author": "Diliff",
+    "license": "CC BY-SA 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
   },
   {
     "placeId": "italy-navona-trevi",
@@ -72,15 +162,6 @@
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
-    "placeId": "italy-spanish-steps",
-    "file": "assets/places/italy-spanish-steps.webp",
-    "title": "Piazza di Spagna (Rome) 0004",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Piazza_di_Spagna_(Rome)_0004.jpg",
-    "author": "Arnaud 25",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-  },
-  {
     "placeId": "italy-rome-florence-train",
     "file": "assets/places/italy-rome-florence-train.webp",
     "title": "Frecciarossa 1000 nuova livrea",
@@ -88,15 +169,6 @@
     "author": "Gisorr650",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-  },
-  {
-    "placeId": "italy-duomo",
-    "file": "assets/places/italy-duomo.webp",
-    "title": "Cattedrale di Santa Maria del Fiore – Il Duomo di Firenze",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cattedrale_di_Santa_Maria_del_Fiore_%E2%80%93_Il_Duomo_di_Firenze.jpg",
-    "author": "Gary Campbell-Hall",
-    "license": "CC BY 2.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
   },
   {
     "placeId": "italy-signoria-vecchio",
@@ -108,13 +180,13 @@
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
-    "placeId": "italy-pisa-tower",
-    "file": "assets/places/italy-pisa-tower.webp",
-    "title": "Italy - Pisa - Leaning Tower",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Italy_-_Pisa_-_Leaning_Tower.jpg",
-    "author": "Arne Müseler",
-    "license": "CC BY-SA 3.0 de",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en"
+    "placeId": "italy-duomo",
+    "file": "assets/places/italy-duomo.webp",
+    "title": "Cattedrale di Santa Maria del Fiore – Il Duomo di Firenze",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cattedrale_di_Santa_Maria_del_Fiore_%E2%80%93_Il_Duomo_di_Firenze.jpg",
+    "author": "Gary Campbell-Hall",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
   },
   {
     "placeId": "italy-uffizi",
@@ -151,15 +223,6 @@
     "author": "Sailko",
     "license": "CC BY 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-  },
-  {
-    "placeId": "italy-spaccanapoli",
-    "file": "assets/places/italy-spaccanapoli.webp",
-    "title": "Naples spaccanapoli",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naples_spaccanapoli.JPG",
-    "author": "Velvet",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
     "placeId": "italy-san-severo",
@@ -241,24 +304,6 @@
     "author": "CAPTAIN RAJU",
     "license": "CC0",
     "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-  },
-  {
-    "placeId": "tokyo-meiji",
-    "file": "assets/places/tokyo-meiji.webp",
-    "title": "Meiji Jingu 2023-3",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Meiji_Jingu_2023-3.jpg",
-    "author": "Akonnchiroll",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-  },
-  {
-    "placeId": "tokyo-harajuku",
-    "file": "assets/places/tokyo-harajuku.webp",
-    "title": "Omotesando Tokyo spring 2012",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Omotesando_Tokyo_spring_2012.JPG",
-    "author": "Kakidai",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
     "placeId": "tokyo-shibuya-crossing",
@@ -387,6 +432,24 @@
     "licenseUrl": "https://commons.wikimedia.org/wiki/File:Komachi_Dori-Kamakura.jpg"
   },
   {
+    "placeId": "tokyo-meiji",
+    "file": "assets/places/tokyo-meiji.webp",
+    "title": "Meiji Jingu 2023-3",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Meiji_Jingu_2023-3.jpg",
+    "author": "Akonnchiroll",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "placeId": "tokyo-harajuku",
+    "file": "assets/places/tokyo-harajuku.webp",
+    "title": "Omotesando Tokyo spring 2012",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Omotesando_Tokyo_spring_2012.JPG",
+    "author": "Kakidai",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
     "placeId": "tokyo-shimokitazawa",
     "file": "assets/places/tokyo-shimokitazawa.webp",
     "title": "Shimokitazawa Street 2015",
@@ -439,5 +502,123 @@
     "author": "ブルーノ・プラス",
     "license": "CC BY 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "placeId": "italy-hotel-tianfu",
+    "file": "assets/places/italy-hotel-tianfu.webp",
+    "title": "天府国际大酒店 / Tianfu International Hotel Complex",
+    "sourceUrl": "https://sg.hotels.com/ho3612252512/tianfuhotel/",
+    "author": "Tianfu International Hotel Complex via Hotels.com",
+    "license": "Official gallery preview - review before public release",
+    "licenseUrl": "https://sg.hotels.com/ho3612252512/tianfuhotel/",
+    "assetUrl": "https://images.trvl-media.com/lodging/113000000/112860000/112851700/112851641/w1845h1229x1y0-c5a05cfc.jpg?impolicy=resizecrop&ra=fill&rh=900&rw=1350",
+    "usageScope": "local preview only; rights review required before publication"
+  },
+  {
+    "placeId": "italy-hotel-w-rome",
+    "file": "assets/places/italy-hotel-w-rome.webp",
+    "title": "W Rome - Living Room",
+    "sourceUrl": "https://www.marriott.com/en-us/hotels/romwv-w-rome/photos/",
+    "author": "W Rome / Marriott International",
+    "license": "Official gallery preview - review before public release",
+    "licenseUrl": "https://www.marriott.com/en-us/hotels/romwv-w-rome/photos/",
+    "assetUrl": "https://cache.marriott.com/is/image/marriotts7prod/wh-romwv-living-room-31140:Wide-Hor?wid=1336&fit=constrain",
+    "usageScope": "local preview only; rights review required before publication"
+  },
+  {
+    "placeId": "italy-hotel-w-florence",
+    "file": "assets/places/italy-hotel-w-florence.webp",
+    "title": "W Florence - Daytime Rooftop Terrace",
+    "sourceUrl": "https://www.marriott.com/en-us/hotels/flrwh-w-florence/overview/",
+    "author": "W Florence / Marriott International",
+    "license": "Official gallery preview - review before public release",
+    "licenseUrl": "https://www.marriott.com/en-us/hotels/flrwh-w-florence/overview/",
+    "assetUrl": "https://cache.marriott.com/is/image/marriotts7prod/wh-flrwh-daytime-rooftop-terrace-w-26304:Wide-Hor?wid=1336&fit=constrain",
+    "usageScope": "local preview only; rights review required before publication"
+  },
+  {
+    "placeId": "italy-hotel-renaissance-naples",
+    "file": "assets/places/italy-hotel-renaissance-naples.webp",
+    "title": "Renaissance Naples Hotel Mediterraneo - Hotel View",
+    "sourceUrl": "https://www.marriott.com/en-us/hotels/napbr-renaissance-naples-hotel-mediterraneo/photos/",
+    "author": "Renaissance Naples Hotel Mediterraneo / Marriott International",
+    "license": "Official gallery preview - review before public release",
+    "licenseUrl": "https://www.marriott.com/en-us/hotels/napbr-renaissance-naples-hotel-mediterraneo/photos/",
+    "assetUrl": "https://cache.marriott.com/content/dam/marriott-renditions/NAPBR/napbr-hotel-0030-hor-wide.jpg?output-quality=80&interpolation=progressive-bilinear&downsize=1336px:*",
+    "usageScope": "local preview only; rights review required before publication"
+  },
+  {
+    "placeId": "italy-hotel-le-meridien-rome",
+    "file": "assets/places/italy-hotel-le-meridien-rome.webp",
+    "title": "Le Méridien Visconti Rome - Hotel Entrance",
+    "sourceUrl": "https://www.marriott.com/en-us/hotels/rommd-le-meridien-visconti-rome/photos/",
+    "author": "Le Méridien Visconti Rome / Marriott International",
+    "license": "Official gallery preview - review before public release",
+    "licenseUrl": "https://www.marriott.com/en-us/hotels/rommd-le-meridien-visconti-rome/photos/",
+    "assetUrl": "https://cache.marriott.com/content/dam/marriott-renditions/ROMMD/rommd-hotel-entrance-7644-hor-wide.jpg?output-quality=80&interpolation=progressive-bilinear&downsize=1336px:*",
+    "usageScope": "local preview only; rights review required before publication"
+  },
+  {
+    "placeId": "italy-air-travel-illustration",
+    "file": "assets/places/italy-air-travel-illustration.webp",
+    "title": "FIELDNOTES editorial line illustration",
+    "sourceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "author": "FIELDNOTES",
+    "license": "CC BY 4.0 project artwork",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "placeId": "italy-city-transfer-illustration",
+    "file": "assets/places/italy-city-transfer-illustration.webp",
+    "title": "FIELDNOTES editorial line illustration",
+    "sourceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "author": "FIELDNOTES",
+    "license": "CC BY 4.0 project artwork",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "placeId": "italy-train-illustration",
+    "file": "assets/places/italy-train-illustration.webp",
+    "title": "FIELDNOTES editorial line illustration",
+    "sourceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "author": "FIELDNOTES",
+    "license": "CC BY 4.0 project artwork",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "placeId": "italy-meal-chengdu",
+    "file": "assets/places/italy-meal-chengdu.webp",
+    "title": "FIELDNOTES editorial line illustration",
+    "sourceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "author": "FIELDNOTES",
+    "license": "CC BY 4.0 project artwork",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "placeId": "italy-meal-rome",
+    "file": "assets/places/italy-meal-rome.webp",
+    "title": "FIELDNOTES editorial line illustration",
+    "sourceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "author": "FIELDNOTES",
+    "license": "CC BY 4.0 project artwork",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "placeId": "italy-meal-florence",
+    "file": "assets/places/italy-meal-florence.webp",
+    "title": "FIELDNOTES editorial line illustration",
+    "sourceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "author": "FIELDNOTES",
+    "license": "CC BY 4.0 project artwork",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "placeId": "italy-meal-naples",
+    "file": "assets/places/italy-meal-naples.webp",
+    "title": "FIELDNOTES editorial line illustration",
+    "sourceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "author": "FIELDNOTES",
+    "license": "CC BY 4.0 project artwork",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
   }
 ]

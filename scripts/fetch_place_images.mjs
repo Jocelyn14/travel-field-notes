@@ -7,6 +7,7 @@ const creditsFile = new URL('../assets/places/credits.json', import.meta.url);
 const trips = JSON.parse(await readFile(new URL('../data/trips.json', import.meta.url), 'utf8'));
 const places = trips.flatMap((trip) => trip.days.flatMap((day) => day.places));
 const forceIds = new Set(process.argv.slice(2));
+const processedImages = new Set();
 const userAgent = 'FieldNotesTravelAtlas/1.0 (personal offline travel guide)';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 let lastRequestAt = 0;
@@ -14,6 +15,13 @@ let lastRequestAt = 0;
 const QUERY_OVERRIDES = {
   'italy-fco-arrival': 'Leonardo da Vinci Fiumicino Airport exterior',
   'italy-fco-departure': 'Leonardo da Vinci Fiumicino Airport exterior',
+  'italy-chengdu-skyline': 'Chengdu skyline mountains',
+  'italy-chengdu-tianfu-airport': 'Chengdu Tianfu International Airport terminal',
+  'italy-borghese-gallery': 'Galleria Borghese facade Rome',
+  'italy-boboli': 'Boboli Gardens Florence',
+  'italy-santelmo': "Castel Sant'Elmo Naples panorama",
+  'italy-pincio': 'View of Rome from Pincio',
+  'italy-monte-solaro': 'Monte Solaro chairlift Capri',
   'italy-vatican-museums': 'Vatican Museums entrance Rome',
   'italy-navona-trevi': 'Trevi Fountain Rome',
   'italy-rome-florence-train': 'Frecciarossa high speed train Italy',
@@ -41,6 +49,14 @@ const QUERY_OVERRIDES = {
 const PINNED_FILES = {
   'italy-fco-arrival': 'Aeroporto di Roma-Fiumicino - interior arrival area.jpg',
   'italy-fco-departure': 'Airport departure gate (FCO) in 2025.01.jpg',
+  'italy-chengdu-skyline': '雪山下的成都市天际线 Chengdu skyline with snow capped mountains (cropped).jpg',
+  'italy-chengdu-tianfu-airport': "GTC Area of Tianfu Int'l Airport.jpg",
+  'italy-pantheon': 'Extérieur du Panthéon à Rome.jpg',
+  'italy-borghese-gallery': 'Galleria borghese facade.jpg',
+  'italy-boboli': 'Jardín de Bóboli, Florencia, Italia, 2022-09-19, DD 13.jpg',
+  'italy-santelmo': "Napoli panorama di Napoli da Castel Sant'Elmo -.jpg",
+  'italy-pincio': 'View of Rome from Pincio (4).jpg',
+  'italy-monte-solaro': 'Capri Chairlift.jpg',
   'italy-vatican-museums': 'Vatican Museums entrance.jpg',
   'italy-michelangelo': 'Florence panorama as seen from The Piazza Michelangelo.jpg',
   'italy-capri-ferry': 'Molo Beverello b&n.jpg',
@@ -170,10 +186,14 @@ try {
 }
 
 for (const [index, place] of places.entries()) {
-  if (forceIds.size && !forceIds.has(place.id)) continue;
+  const assetId = place.image.split('/').at(-1).replace(/\.webp$/, '');
+  if (forceIds.size && !forceIds.has(place.id) && !forceIds.has(assetId)) continue;
+  if (processedImages.has(place.image)) continue;
+  processedImages.add(place.image);
+  const mediaPlace = { ...place, id: assetId };
   const target = new URL(`../${place.image}`, import.meta.url);
-  const existingCredit = credits.find((item) => item.placeId === place.id);
-  if (existingCredit && !forceIds.has(place.id)) {
+  const existingCredit = credits.find((item) => item.placeId === assetId);
+  if (existingCredit && !forceIds.has(place.id) && !forceIds.has(assetId)) {
     try {
       if ((await stat(target)).size > 10_000) {
         process.stdout.write(`[${index + 1}/${places.length}] ${place.id} 已存在，跳过\n`);
@@ -181,7 +201,7 @@ for (const [index, place] of places.entries()) {
       }
     } catch {}
   }
-  const page = await findImageInfo(place);
+  const page = await findImageInfo(mediaPlace);
   const info = page.imageinfo[0];
   const imageResponse = await throttledFetch(info.thumburl, { headers: { 'User-Agent': userAgent } });
   if (!imageResponse.ok) throw new Error(`${place.id} 图片下载失败：HTTP ${imageResponse.status}`);
@@ -191,9 +211,9 @@ for (const [index, place] of places.entries()) {
     .resize(1200, 800, { fit: 'cover', position: 'attention' })
     .webp({ quality: 78, effort: 5 })
     .toFile(fileURLToPath(target));
-  credits = [...credits.filter((item) => item.placeId !== place.id), creditFor(place, page)];
+  credits = [...credits.filter((item) => item.placeId !== assetId), creditFor(mediaPlace, page)];
   await writeFile(creditsFile, `${JSON.stringify(credits, null, 2)}\n`, 'utf8');
-  process.stdout.write(`[${index + 1}/${places.length}] ${place.id} <- ${page.title}\n`);
+  process.stdout.write(`[${index + 1}/${places.length}] ${assetId} <- ${page.title}\n`);
 }
 
 credits.sort((a, b) => places.findIndex((place) => place.id === a.placeId) - places.findIndex((place) => place.id === b.placeId));

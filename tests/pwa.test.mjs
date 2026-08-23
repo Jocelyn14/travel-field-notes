@@ -6,16 +6,23 @@ import { chromium } from 'playwright';
 
 const baseUrl = process.env.TRAVEL_ATLAS_BASE_URL ?? 'http://127.0.0.1:4177/';
 const italyUrl = `${baseUrl}italy/`;
-const tokyoUrl = `${baseUrl}tokyo/`;
+const tokyoUrl = `${baseUrl}tokyo/?release=fieldnotes2f`;
 const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
+async function activateView(page, view) {
+  await page.locator(`.bottom-nav [data-app-tab="${view}"]`).click();
+  await page.locator(`[data-app-view="${view}"]`).waitFor({ state: 'visible' });
+}
+
 async function openEveningImage(page, target) {
+  await activateView(page, 'itinerary');
   await page.locator(`[data-action="open-evening"][data-guide-date="${target.date}"]`).click();
   const guide = page.locator(`[data-evening-guide-date="${target.date}"]`);
   await guide.waitFor({ state: 'visible' });
   if (target.tab !== 'restaurants') await guide.locator(`[data-guide-tab="${target.tab}"]`).click();
   const image = guide.locator(`img[src$="assets/evening/${target.image}"]`);
   await image.waitFor({ state: 'visible' });
+  await image.evaluate((node) => node.decode?.().catch(() => {}));
   assert.ok(await image.evaluate((node) => node.complete && node.naturalWidth > 0), `${target.label} should be available`);
 }
 
@@ -166,14 +173,47 @@ test('failed navigation resolves the destination-specific cached response', asyn
   assert.equal(cacheOpenCount, 0, 'network failures should not attempt a navigation cache write');
 });
 
+test('uncached query navigation falls back to the matching destination shell', async () => {
+  const listeners = {};
+  const matches = [];
+  const italyShell = { cached: 'italy-shell' };
+  const workerSource = await readFile(new URL('../sw.js', import.meta.url), 'utf8');
+
+  runInNewContext(workerSource, {
+    URL,
+    fetch: () => Promise.reject(new Error('offline')),
+    caches: {
+      open: () => Promise.resolve({ put: () => Promise.resolve() }),
+      match: (request) => {
+        matches.push(request);
+        return Promise.resolve(request === './italy/index.html' ? italyShell : undefined);
+      },
+    },
+    self: {
+      location: { origin: 'https://travel.test' },
+      addEventListener: (type, listener) => { listeners[type] = listener; },
+    },
+  });
+
+  let responsePromise;
+  listeners.fetch({
+    request: { method: 'GET', mode: 'navigate', url: 'https://travel.test/italy/?release=italy2026c' },
+    respondWith: (promise) => { responsePromise = promise; },
+    waitUntil: () => {},
+  });
+
+  assert.equal(await responsePromise, italyShell);
+  assert.equal(matches.at(-1), './italy/index.html');
+});
+
 test('unique Italy venue photos and Tokyo illustrations reload offline after first visit', async () => {
   const browser = await chromium.launch({ headless: true, executablePath: chromePath });
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const italyPage = await context.newPage();
   const tokyoPage = await context.newPage();
   const targets = [
-    { page: italyPage, url: italyUrl, date: '2026-08-23', tab: 'activities', image: 'it-a-opera-roma.webp', heading: /意大利/, label: 'Italy venue photo' },
-    { page: tokyoPage, url: tokyoUrl, date: '2026-10-05', tab: 'restaurants', image: 'jp-r-hakushu.webp', heading: /东京/, label: 'Tokyo illustration' },
+    { page: italyPage, url: italyUrl, tripId: 'italy', date: '2026-08-23', tab: 'activities', image: 'it-a-opera-roma.webp', label: 'Italy venue photo' },
+    { page: tokyoPage, url: tokyoUrl, tripId: 'tokyo', date: '2026-10-05', tab: 'restaurants', image: 'jp-r-hakushu.webp', label: 'Tokyo illustration' },
   ];
   const errors = [];
   for (const page of [italyPage, tokyoPage]) {
@@ -188,6 +228,7 @@ test('unique Italy venue photos and Tokyo illustrations reload offline after fir
       const page = target.page;
       await page.locator('[data-app-ready="true"]').waitFor();
       await page.evaluate(() => navigator.serviceWorker.ready);
+      await activateView(page, 'itinerary');
       recommendationSources.push(...await page.locator('.recommendation-media img').evaluateAll((images) => images.map((image) => image.src)));
       await openEveningImage(page, target);
     }
@@ -199,7 +240,7 @@ test('unique Italy venue photos and Tokyo illustrations reload offline after fir
     for (const target of targets) {
       await target.page.reload({ waitUntil: 'domcontentloaded' });
       await target.page.locator('[data-app-ready="true"]').waitFor();
-      assert.match(await target.page.getByRole('heading', { level: 1 }).textContent(), target.heading);
+      assert.equal(await target.page.locator('[data-app-ready="true"]').getAttribute('data-active-trip'), target.tripId);
       await openEveningImage(target.page, { ...target, label: `${target.label} offline` });
     }
     assert.equal(errors.length, 0, errors.join('\n'));

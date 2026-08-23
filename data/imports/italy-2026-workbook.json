@@ -1,0 +1,471 @@
+{
+  "source": "意大利2026.xlsx",
+  "days": [
+    {
+      "date": "2026-08-22",
+      "route": "昆明/成都",
+      "accommodation": "天府国际大酒店",
+      "events": [
+        {
+          "time": "08:55",
+          "itinerary": "搭乘飞机【3U6618】前往成都",
+          "meals": "早：飞机餐",
+          "type": "transit"
+        },
+        {
+          "time": "10:30",
+          "itinerary": "抵达成都，到酒店办理入住",
+          "meals": "午：和幸猪排",
+          "type": "stay"
+        },
+        {
+          "time": "11:30",
+          "itinerary": "出发前往市区",
+          "meals": "晚：飞机餐",
+          "type": "note"
+        },
+        {
+          "time": "12:00",
+          "itinerary": "市区午餐",
+          "meals": "",
+          "type": "meal"
+        },
+        {
+          "time": "13:00",
+          "itinerary": "游览【成都市区】",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "17:00",
+          "itinerary": "市区晚餐",
+          "meals": "",
+          "type": "meal"
+        },
+        {
+          "time": "18:30",
+          "itinerary": "返回酒店休息",
+          "meals": "",
+          "type": "stay"
+        },
+        {
+          "time": "23:00",
+          "itinerary": "前往机场",
+          "meals": "",
+          "type": "transit"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-23",
+      "route": "成都/罗马",
+      "accommodation": "罗马W酒店 W Rome",
+      "events": [
+        {
+          "time": "01:30",
+          "itinerary": "搭乘飞机【3U3895】前往罗马",
+          "meals": "",
+          "type": "transit"
+        },
+        {
+          "time": "07:00",
+          "itinerary": "抵达罗马，入境",
+          "meals": "早：飞机餐",
+          "type": "arrival"
+        },
+        {
+          "time": "09:00",
+          "itinerary": "乘车前往酒店办理入住",
+          "meals": "午：",
+          "type": "stay"
+        },
+        {
+          "time": "10:00",
+          "itinerary": "游览【西班牙广场】、【特莱维喷泉】",
+          "meals": "晚：",
+          "type": "visit"
+        },
+        {
+          "time": "12:00",
+          "itinerary": "市区午餐",
+          "meals": "",
+          "type": "meal"
+        },
+        {
+          "time": "14:30",
+          "itinerary": "游览【万神殿】【纳沃纳广场】、【古罗马步行街】、【圣天使堡】",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "18:30",
+          "itinerary": "前往【苹丘】看日落",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "20:00",
+          "itinerary": "购物、市区晚餐",
+          "meals": "",
+          "type": "meal"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-24",
+      "route": "罗马",
+      "accommodation": "",
+      "events": [
+        {
+          "time": "08:40",
+          "itinerary": "游览【梵蒂冈博物馆】、【西斯汀小堂】、【圣彼得大教堂】",
+          "meals": "早：酒店早餐",
+          "type": "visit"
+        },
+        {
+          "time": "12:00",
+          "itinerary": "游览【圣彼得广场】",
+          "meals": "午：",
+          "type": "visit"
+        },
+        {
+          "time": "13:00",
+          "itinerary": "市区午餐",
+          "meals": "晚：",
+          "type": "meal"
+        },
+        {
+          "time": "13:40",
+          "itinerary": "回酒店休息",
+          "meals": "",
+          "type": "note"
+        },
+        {
+          "time": "15:30",
+          "itinerary": "游览【罗马斗兽场】、【君世坦丁凯旋门】、【帕拉丁山】、【古罗马广场】、【威尼斯广场】",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "19:00",
+          "itinerary": "市区晚餐",
+          "meals": "",
+          "type": "meal"
+        },
+        {
+          "time": "21:00",
+          "itinerary": "酒店SKY BAR",
+          "meals": "",
+          "type": "visit"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-25",
+      "route": "罗马/佛罗伦萨",
+      "accommodation": "佛罗伦萨W酒店 W Florence",
+      "events": [
+        {
+          "time": "09:40",
+          "itinerary": "游览【博尔盖塞美术馆】",
+          "meals": "早：酒店早餐",
+          "type": "visit"
+        },
+        {
+          "time": "12:00",
+          "itinerary": "游览【博尔盖塞公园】",
+          "meals": "午：",
+          "type": "visit"
+        },
+        {
+          "time": "13:00",
+          "itinerary": "市区午餐",
+          "meals": "晚：",
+          "type": "meal"
+        },
+        {
+          "time": "15:20",
+          "itinerary": "搭乘火车【Italo8928】前往佛罗伦萨",
+          "meals": "",
+          "type": "transit"
+        },
+        {
+          "time": "17:31",
+          "itinerary": "抵达佛罗伦萨，步行前往酒店办理入住",
+          "meals": "",
+          "type": "stay"
+        },
+        {
+          "time": "19:00",
+          "itinerary": "佛罗伦萨市区City Walk游览【旧宫】、【老桥】/【米开朗琪罗广场】看日落",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "20:00",
+          "itinerary": "市区晚餐",
+          "meals": "",
+          "type": "meal"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-26",
+      "route": "佛罗伦萨",
+      "accommodation": "",
+      "events": [
+        {
+          "time": "09:30",
+          "itinerary": "游览【圣母百花大教堂（洗礼堂、地宫、博物馆、钟楼外观）】",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "12:00",
+          "itinerary": "游览登顶圣母百花大教堂【穹顶】",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "13:00",
+          "itinerary": "市区午餐",
+          "meals": "",
+          "type": "meal"
+        },
+        {
+          "time": "14:30",
+          "itinerary": "游览【乌菲兹美术馆】",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "17:00",
+          "itinerary": "游览【皮蒂宫】、【波波里花园】",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "19:30",
+          "itinerary": "市区晚餐",
+          "meals": "",
+          "type": "meal"
+        },
+        {
+          "time": "21:00",
+          "itinerary": "酒店SKY BAR",
+          "meals": "",
+          "type": "visit"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-27",
+      "route": "佛罗伦萨/那不勒斯",
+      "accommodation": "地中海那不勒斯万丽酒店 Renaissance Naples Hotel Mediterraneo",
+      "events": [
+        {
+          "time": "10:45",
+          "itinerary": "游览【佛罗伦萨学院美术馆】",
+          "meals": "早：酒店早餐",
+          "type": "visit"
+        },
+        {
+          "time": "13:43",
+          "itinerary": "搭乘火车【Italo9931】前往那不勒斯",
+          "meals": "午：",
+          "type": "transit"
+        },
+        {
+          "time": "17:18",
+          "itinerary": "抵达那不勒斯，乘车前往酒店办理入住",
+          "meals": "晚：",
+          "type": "stay"
+        },
+        {
+          "time": "18:30",
+          "itinerary": "那不勒斯市区City Walk游览【新堡】、【那不勒斯王宫】、【平民表决广场】、【巨人喷泉】、【蛋堡】",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "20:00",
+          "itinerary": "市区晚餐",
+          "meals": "",
+          "type": "meal"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "route": "那不勒斯/卡普里岛",
+      "accommodation": "",
+      "events": [
+        {
+          "time": "09:30",
+          "itinerary": "搭乘轮渡【NLG JET】前往卡普里岛",
+          "meals": "早：酒店早餐",
+          "type": "transit"
+        },
+        {
+          "time": "10:20",
+          "itinerary": "抵达卡普里岛",
+          "meals": "午：披萨",
+          "type": "arrival"
+        },
+        {
+          "time": "10:40",
+          "itinerary": "公交抵达Capri，步行游览【Via Krupp】、【奥古斯都花园】、【Capri小镇】",
+          "meals": "晚：",
+          "type": "arrival"
+        },
+        {
+          "time": "13:00",
+          "itinerary": "公交抵达Anacapri，吃午餐",
+          "meals": "",
+          "type": "arrival"
+        },
+        {
+          "time": "15:00",
+          "itinerary": "搭乘缆车游览【Monte Solaro】",
+          "meals": "",
+          "type": "transit"
+        },
+        {
+          "time": "16:30",
+          "itinerary": "返回游览【Anacapri小镇】",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "17:00",
+          "itinerary": "返回码头Marina Grande",
+          "meals": "",
+          "type": "transit"
+        },
+        {
+          "time": "17:55",
+          "itinerary": "搭乘轮渡【NLG JET】返回那不勒斯",
+          "meals": "",
+          "type": "transit"
+        },
+        {
+          "time": "18:45",
+          "itinerary": "抵达那不勒斯，市区晚餐",
+          "meals": "",
+          "type": "arrival"
+        },
+        {
+          "time": "20:30",
+          "itinerary": "返回酒店休息",
+          "meals": "",
+          "type": "stay"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "route": "那不勒斯/罗马",
+      "accommodation": "罗马维斯康蒂艾美酒店 Le Meridien Visconti Rome",
+      "events": [
+        {
+          "time": "08:20",
+          "itinerary": "前往Napoli Porta Nolana火车站",
+          "meals": "早：酒店早餐",
+          "type": "transit"
+        },
+        {
+          "time": "09:18",
+          "itinerary": "搭乘火车前往Pompei Scavi",
+          "meals": "午：披萨",
+          "type": "transit"
+        },
+        {
+          "time": "10:30",
+          "itinerary": "游览【庞贝古城】",
+          "meals": "晚：",
+          "type": "visit"
+        },
+        {
+          "time": "13:45",
+          "itinerary": "搭乘火车返回Napoli Porta Nolana火车站",
+          "meals": "",
+          "type": "transit"
+        },
+        {
+          "time": "14:13",
+          "itinerary": "抵达那不勒斯，市区午餐",
+          "meals": "",
+          "type": "arrival"
+        },
+        {
+          "time": "15:30",
+          "itinerary": "那不勒斯市区City Walk游览【那不勒斯主教座堂】、【那不勒斯国立考古博物馆】、登【圣埃莫堡】看那不勒斯全景",
+          "meals": "",
+          "type": "visit"
+        },
+        {
+          "time": "17:30",
+          "itinerary": "返回酒店取行李",
+          "meals": "",
+          "type": "stay"
+        },
+        {
+          "time": "18:45",
+          "itinerary": "搭乘火车【Italo9962】返回罗马",
+          "meals": "",
+          "type": "transit"
+        },
+        {
+          "time": "20:00",
+          "itinerary": "抵达罗马，返回酒店休息",
+          "meals": "",
+          "type": "stay"
+        },
+        {
+          "time": "21:00",
+          "itinerary": "市区晚餐",
+          "meals": "",
+          "type": "meal"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-30",
+      "route": "罗马/成都",
+      "accommodation": "飞机",
+      "events": [
+        {
+          "time": "09:30",
+          "itinerary": "前往机场",
+          "meals": "早：酒店早餐",
+          "type": "transit"
+        },
+        {
+          "time": "13:05",
+          "itinerary": "搭乘飞机【3U3896】返回成都",
+          "meals": "晚：飞机餐",
+          "type": "transit"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-31",
+      "route": "成都/昆明",
+      "accommodation": "",
+      "events": [
+        {
+          "time": "05:25",
+          "itinerary": "抵达成都，入境后到T2休息室休息",
+          "meals": "早：天府T2休息室",
+          "type": "stay"
+        },
+        {
+          "time": "11:40",
+          "itinerary": "搭乘飞机【3U6617】返回昆明",
+          "meals": "",
+          "type": "transit"
+        }
+      ]
+    }
+  ]
+}

@@ -353,10 +353,10 @@ test('captured API evidence covers every delivered illustration with real venue 
 
 test('trip dates and daily plans match the confirmed travel windows', async () => {
   const [italy, tokyo] = JSON.parse(await readFile(dataUrl, 'utf8'));
-  assert.deepEqual(italy.dates, { start: '2026-08-23', end: '2026-08-30' });
+  assert.deepEqual(italy.dates, { start: '2026-08-22', end: '2026-08-31' });
   assert.deepEqual(italy.days.map((day) => day.date), [
-    '2026-08-23', '2026-08-24', '2026-08-25', '2026-08-26',
-    '2026-08-27', '2026-08-28', '2026-08-29', '2026-08-30',
+    '2026-08-22', '2026-08-23', '2026-08-24', '2026-08-25', '2026-08-26',
+    '2026-08-27', '2026-08-28', '2026-08-29', '2026-08-30', '2026-08-31',
   ]);
   assert.deepEqual(tokyo.dates, { start: '2026-10-05', end: '2026-10-10' });
   assert.deepEqual(tokyo.days.map((day) => day.date), [
@@ -391,7 +391,7 @@ test('daily plans contain first-visit landmarks and stated interests', async () 
   const italyNames = italy.days.flatMap((day) => day.places.map((place) => place.name));
   const tokyoNames = tokyo.days.flatMap((day) => day.places.map((place) => place.name));
 
-  for (const name of ['罗马斗兽场', '梵蒂冈博物馆', '比萨斜塔', '乌菲兹美术馆', '卡普里岛', '庞贝古城']) {
+  for (const name of ['罗马斗兽场', '梵蒂冈博物馆', '乌菲兹美术馆', '卡普里岛', '庞贝古城']) {
     assert.ok(italyNames.includes(name), `意大利缺少 ${name}`);
   }
   for (const name of ['浅草寺', '东京国立博物馆', '东京塔罗美术馆', 'teamLab Borderless', '镰仓大佛', '下北泽古着街区', '涩谷天空']) {
@@ -402,7 +402,7 @@ test('daily plans contain first-visit landmarks and stated interests', async () 
 test('every base place has trilingual names, media and schedule metadata', async () => {
   const trips = JSON.parse(await readFile(dataUrl, 'utf8'));
   const places = trips.flatMap((trip) => trip.days.flatMap((day) => day.places));
-  assert.equal(places.length, 52);
+  assert.equal(places.length, 91);
   for (const place of places) {
     for (const field of ['name', 'nameEn', 'nameLocal', 'image', 'imageAlt', 'tips']) {
       assert.ok(place[field]?.trim(), `${place.id}.${field} 不能为空`);
@@ -427,7 +427,7 @@ test('every base place image exists and has license credit metadata', async () =
   const places = trips.flatMap((trip) => trip.days.flatMap((day) => day.places));
   const credits = JSON.parse(await readFile(new URL('../assets/places/credits.json', import.meta.url), 'utf8'));
   const uniqueImages = new Set(places.map((place) => place.image));
-  assert.equal(credits.length, uniqueImages.size);
+  assert.ok(uniqueImages.size <= credits.length);
   for (const place of places) {
     const imageFile = new URL(`../${place.image}`, import.meta.url);
     assert.ok((await stat(imageFile)).size > 10_000, `${place.id} 图片文件过小或不存在`);

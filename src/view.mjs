@@ -1,5 +1,5 @@
-import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=tokyov2e';
-import { applyItineraryEdits } from './itinerary.mjs?v=tokyov2e';
+import { buildGoogleMapsDirectionsUrl, calculateBudget, RESERVATION_STATUSES } from './core.mjs?v=italy2026c';
+import { applyItineraryEdits } from './itinerary.mjs?v=italy2026c';
 
 const moneyFormatters = new Map();
 
@@ -93,15 +93,27 @@ function renderDayJump(days) {
 
 function renderAccommodation(day, stay, tripEnd) {
   const mapLink = stay?.maps ? `<a href="${escapeHtml(stay.maps)}" target="_blank" rel="noopener noreferrer" data-external="true">Google Maps${icon('external')}</a>` : '';
+  const websiteLink = stay?.website ? `<a href="${escapeHtml(stay.website)}" target="_blank" rel="noopener noreferrer" data-external="true">酒店官网${icon('external')}</a>` : '';
+  const stayTimes = stay?.checkIn && stay?.checkOut
+    ? `<p class="accommodation-times"><span>入住 ${escapeHtml(stay.checkIn)}</span><span>退房 ${escapeHtml(stay.checkOut)}</span></p>`
+    : '';
   return `<details class="accommodation-card" data-accommodation-date="${escapeHtml(day.date)}">
-    <summary><span>${icon('pin')}</span><div><small>STAY / ${escapeHtml(day.date)}</small><strong>${escapeHtml(stay?.name || '待补充住宿')}</strong>${stay?.address ? `<p>${escapeHtml(stay.address)}</p>` : ''}</div><b>${stay ? '修改' : '补充'}</b></summary>
+    <summary><span>${icon('pin')}</span><div><small>STAY / ${escapeHtml(day.date)}</small><strong>${escapeHtml(stay?.name || '待补充住宿')}</strong>${stay?.nameEn ? `<em>${escapeHtml(stay.nameEn)}</em>` : ''}${stay?.address ? `<p>${escapeHtml(stay.address)}</p>` : ''}${stayTimes}</div><b>${stay ? '修改' : '补充'}</b></summary>
     <form data-action="accommodation-form" data-day-date="${escapeHtml(day.date)}">
       <label>酒店 / 民宿名称<input name="name" value="${escapeHtml(stay?.name || '')}" required placeholder="例如 Hotel Artemide"></label>
       <label>地址<input name="address" value="${escapeHtml(stay?.address || '')}" required placeholder="街道、城市或邮编"></label>
       <label>复制到（含当天）<input name="copyThrough" type="date" min="${escapeHtml(day.date)}" max="${escapeHtml(tripEnd)}" value="${escapeHtml(day.date)}"></label>
-      <footer>${mapLink}<button type="submit">保存住宿</button></footer>
+      <footer>${mapLink}${websiteLink}<button type="submit">保存住宿</button></footer>
     </form>
   </details>`;
+}
+
+function mergeAccommodation(baseStay, savedStay) {
+  if (!savedStay) return baseStay;
+  if (!baseStay) return savedStay;
+  const savedIsLegacyPlaceholder = !savedStay.address || /待确认|待补充/.test(savedStay.address);
+  if (savedIsLegacyPlaceholder) return baseStay;
+  return { ...baseStay, ...savedStay };
 }
 
 function renderDay(day, currency, index, locale, assetBase, eveningGuide, accommodation, tripEnd) {
@@ -112,10 +124,11 @@ function renderDay(day, currency, index, locale, assetBase, eveningGuide, accomm
     ? '<small>餐饮 · 休息 · 登机缓冲</small>'
     : '<small><i>餐厅</i><i>酒吧</i><i>其他</i></small>';
   const orderedPlaces = day.places;
-  const transitSummary = day.transitSummary ? `<div class="day-transit-summary" role="note" aria-label="${dayDate.monthDay} 主要交通线路">
-    <span aria-hidden="true">${icon('pin')}${icon('route')}</span>
-    <small>今日区域</small>
-    <strong>${escapeHtml(day.transitSummary)}</strong>
+  const transitSummary = day.transitSummary ? `<div class="day-transit-summary" role="note" aria-label="${dayDate.monthDay} 活动区域与主要交通线路">
+    <span class="day-transit-icon" data-transit-icon="map-coordinates" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V7l5-3 6 3 5-3v12l-5 3-6-3-5 3Z"/><path d="M9 4v12M15 7v12"/><circle cx="15" cy="11" r="2"/></svg></span>
+    <small>区域 · 通勤</small>
+    <strong>${escapeHtml(day.activityArea || day.title)}</strong>
+    <span class="day-transit-line">${escapeHtml(day.transitSummary)}</span>
   </div>` : '';
   const timeline = orderedPlaces.map((place, placeIndex) => `<div class="timeline-group">${renderPlace(place, currency, placeIndex, day.date, locale, assetBase, orderedPlaces[placeIndex - 1], false)}</div>`).join('');
   return `<article class="day-block" id="day-${escapeHtml(day.date)}" data-day-date="${escapeHtml(day.date)}">
@@ -141,7 +154,10 @@ function renderPlace(place, currency, index, dayDate, locale, assetBase, previou
     <div><span>${escapeHtml(place.flight.arrival)}</span><strong>${escapeHtml(place.flight.destination)}</strong></div>
     <footer>${escapeHtml(place.flight.cabin)} · ${escapeHtml(place.flight.aircraft)}${place.flight.meal ? ' · 含餐食' : ''}</footer>
   </div>` : '';
-  return `<article class="timeline-item${isParallel ? ' is-parallel' : ''}" data-place-id="${escapeHtml(place.id)}" data-day-date="${escapeHtml(dayDate)}" draggable="true" tabindex="0" aria-label="${escapeHtml(place.name)}，可拖动重新排序">
+  const nameEn = place.nameEn && place.nameEn !== place.name ? `<span class="place-name-en" lang="en">${escapeHtml(place.nameEn)}</span>` : '';
+  const nameLocal = place.nameLocal && place.nameLocal !== place.name && place.nameLocal !== place.nameEn ? `<span class="place-name-local" lang="${locale}">${escapeHtml(place.nameLocal)}</span>` : '';
+  const meal = place.meals ? `<p class="place-meal"><strong>餐食</strong><span>${escapeHtml(place.meals)}</span></p>` : '';
+  return `<article class="timeline-item${isParallel ? ' is-parallel' : ''}" data-event-kind="${escapeHtml(place.kind || 'visit')}" data-place-id="${escapeHtml(place.id)}" data-day-date="${escapeHtml(dayDate)}" draggable="true" tabindex="0" aria-label="${escapeHtml(place.name)}，可拖动重新排序">
     ${commuteLink}
     <button class="delete-place" type="button" data-action="delete-place" data-place-id="${escapeHtml(place.id)}" aria-label="删除 ${escapeHtml(place.name)}">删除</button>
     <div class="timeline-time"><strong>${escapeHtml(place.time)}</strong><span>${place.durationMinutes} MIN</span></div>
@@ -149,11 +165,12 @@ function renderPlace(place, currency, index, dayDate, locale, assetBase, previou
     <details class="place-card">
       <summary>
         <span class="place-photo"><img src="${escapeHtml(placeImage)}" alt="${escapeHtml(place.imageAlt)}"><span class="place-photo-fallback" role="img" aria-label="地点图片暂不可用" hidden>${escapeHtml(place.imageFallback || place.emoji || '📍')}</span></span>
-        <div class="place-title"><span class="eyebrow">${escapeHtml(place.category)} · ${place.cost ? formatMoney(place.cost, currency) : '免费'}</span><h3>${escapeHtml(place.name)}</h3><span class="place-name-en" lang="en">${escapeHtml(place.nameEn)}</span><span class="place-name-local" lang="${locale}">${escapeHtml(place.nameLocal)}</span></div>
+        <div class="place-title"><span class="eyebrow">${escapeHtml(place.category)} · ${place.cost ? formatMoney(place.cost, currency) : '免费'}</span><h3>${escapeHtml(place.name)}</h3>${nameEn}${nameLocal}</div>
         <span class="expand-label">详情</span>
       </summary>
       <div class="place-detail">
         <p class="place-address">${icon('pin')}<span>${escapeHtml(place.address)}</span></p>
+        ${meal}
         ${flight}
         <section class="culture-note"><strong>景点简介</strong><p>${escapeHtml(place.culture || place.note)}</p></section>
         ${place.tips && place.tips !== (place.culture || place.note) ? `<section class="tips-note"><strong>参观提示</strong><p>${escapeHtml(place.tips)}</p></section>` : ''}
@@ -271,9 +288,9 @@ function renderEveningGuidePanel(trip, assetBase) {
         }
         const guideId = escapeHtml(`evening-${guide.date}`);
         return `<article class="evening-guide" data-evening-guide-date="${escapeHtml(guide.date)}" hidden>
-          <header><p>${escapeHtml(guide.date)} · LAST STOP</p><h3>${escapeHtml(anchor?.name ?? '')}附近</h3><span>左右滑动切换餐厅 / 酒吧 / 其他</span></header>
+          <header><p>${escapeHtml(guide.date)} · LAST STOP</p><h3>${escapeHtml(anchor?.name ?? '')}附近</h3><span>点击切换餐厅 / 酒吧 / 其他</span></header>
           <nav class="guide-tabs" role="tablist" aria-label="晚间推荐分类" aria-orientation="horizontal"><button id="${guideId}-restaurants-tab" type="button" role="tab" aria-selected="true" tabindex="0" aria-controls="${guideId}-restaurants-panel" data-action="guide-tab" data-guide-tab="restaurants">餐厅 ${guide.restaurants.length}</button><button id="${guideId}-bars-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="${guideId}-bars-panel" data-action="guide-tab" data-guide-tab="bars">酒吧 ${guide.bars.length}</button><button id="${guideId}-activities-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="${guideId}-activities-panel" data-action="guide-tab" data-guide-tab="activities">其他 ${guide.activities.length}</button></nav>
-          <div class="guide-carousel">
+          <div class="guide-panels">
             <section id="${guideId}-restaurants-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-restaurants-tab" aria-hidden="false" data-guide-page="restaurants" data-category-theme="restaurant"><header><span>01</span><div><small>DINNER</small><h3>餐厅推荐</h3></div></header>${guide.restaurants.map((item) => renderRecommendation(item, 'restaurant', assetBase)).join('')}<button class="guide-top-link" type="button" data-action="guide-top">返回顶部 ↑</button></section>
             <section id="${guideId}-bars-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-bars-tab" aria-hidden="true" inert data-guide-page="bars" data-category-theme="bar"><header><span>02</span><div><small>DRINKS</small><h3>酒吧推荐</h3></div></header>${guide.bars.map((item) => renderRecommendation(item, 'bar', assetBase)).join('')}<button class="guide-top-link" type="button" data-action="guide-top">返回顶部 ↑</button></section>
             <section id="${guideId}-activities-panel" class="guide-page" role="tabpanel" tabindex="0" aria-labelledby="${guideId}-activities-tab" aria-hidden="true" inert data-guide-page="activities" data-category-theme="activity"><header><span>03</span><div><small>AFTER DARK</small><h3>其他娱乐</h3></div></header>${guide.activities.map((item) => renderRecommendation(item, 'activity', assetBase)).join('')}<button class="guide-top-link" type="button" data-action="guide-top">返回顶部 ↑</button></section>
@@ -392,7 +409,7 @@ function renderPracticalInfo(info) {
     <header class="practical-desk__heading"><div><p class="kicker">LOCAL INFO</p><h2 id="practical-desk-title">抵达前，先认识这里</h2></div><small>信息核验于 ${escapeHtml(info.verifiedAt)}</small></header>
     <div class="practical-grid">
       <article class="practical-card practical-card--essentials"><span class="practical-card__index">01</span><div><p class="kicker">FIRST VISIT</p><h3>初访须知</h3></div><ul>${renderNotes(info.essentials)}</ul></article>
-      <article class="practical-card practical-card--resources"><span class="practical-card__index">02</span><div><p class="kicker">TOOLS & LINKS</p><h3>常用 App / 官网</h3></div><ul>${info.resources.map((resource) => `<li><a href="${escapeHtml(resource.url)}" data-external="true" target="_blank" rel="noopener noreferrer"><span><strong>${escapeHtml(resource.name)}</strong><small>${escapeHtml(resource.description)}</small></span>${icon('external')}</a></li>`).join('')}</ul></article>
+      <article class="practical-card practical-card--resources"><span class="practical-card__index">02</span><div><p class="kicker">TOOLS & LINKS</p><h3>常用 APP / 官网</h3></div><ul>${info.resources.map((resource) => `<li><a href="${escapeHtml(resource.url)}" data-external="true" target="_blank" rel="noopener noreferrer"><span><strong>${escapeHtml(resource.name)}</strong><small>${escapeHtml(resource.description)}</small></span>${icon('external')}</a><button class="external-copy-control" type="button" data-action="copy-external-url" data-copy-url="${escapeHtml(resource.url)}">复制网址</button></li>`).join('')}</ul></article>
       <article class="practical-card practical-card--customs"><span class="practical-card__index">03</span><div><p class="kicker">LOCAL RHYTHM</p><h3>习俗与当期节庆</h3></div><ul>${renderNotes(info.customs)}</ul></article>
       <article class="practical-card practical-card--emergency"><span class="practical-card__index">04</span><div><p class="kicker">HELP & SAFETY</p><h3>紧急联络</h3></div><ul>${info.emergencyContacts.map((contact) => `<li><div><strong>${escapeHtml(contact.label)}</strong><p>${escapeHtml(contact.note)}</p><a href="${escapeHtml(contact.sourceUrl)}" data-external="true" target="_blank" rel="noopener noreferrer">官方来源 ${icon('external')}</a></div><a class="call-link" href="tel:${escapeHtml(contact.phone)}" aria-label="拨打 ${escapeHtml(contact.label)} ${escapeHtml(contact.phone)}"><small>一键拨号</small><b>${escapeHtml(contact.phone)}</b></a></li>`).join('')}</ul></article>
     </div>
@@ -414,7 +431,7 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
   const trip = applyItineraryEdits(baseTrip, state.itinerary);
   const localLanguage = trip.id === 'italy' ? 'it' : 'ja';
 
-  return `<div class="app-shell" data-theme="${escapeHtml(trip.id)}" style="--accent:${escapeHtml(trip.theme.accent)};--secondary:${escapeHtml(trip.theme.secondary)}">
+  return `<div class="app-shell" data-theme="${escapeHtml(trip.id)}" style="--accent:${escapeHtml(trip.theme.accent)};--secondary:${escapeHtml(trip.theme.secondary)};--lemon:${escapeHtml(trip.theme.lemon || trip.theme.accent)};--ocean:${escapeHtml(trip.theme.ocean || trip.theme.secondary)};--leaf:${escapeHtml(trip.theme.leaf || trip.theme.secondary)}">
     <a class="skip-link" href="#overview">跳到正文</a>
     ${renderSiteHeader(trips, trip, standalone)}
     ${!isOnline ? '<div class="offline-banner" role="status">当前离线，攻略仍可阅读；地图与官网将在联网后打开。</div>' : ''}
@@ -448,7 +465,7 @@ export function renderApp(trips, state, isOnline = true, options = {}) {
         <section class="content-section itinerary-section" id="itinerary" aria-labelledby="itinerary-title">
           <header class="page-heading itinerary-heading"><div><p class="kicker">DAILY ROUTES / 02</p><h2 id="itinerary-title">逐日行程</h2></div></header>
           ${renderDayJump(trip.days)}
-          <div class="days-stack">${trip.days.map((day, index) => renderDay(day, trip.currency, index, localLanguage, assetBase, trip.eveningGuides.find((guide) => guide.date === day.date), state.accommodations[day.date], trip.dates.end)).join('')}</div>
+          <div class="days-stack">${trip.days.map((day, index) => renderDay(day, trip.currency, index, localLanguage, assetBase, trip.eveningGuides.find((guide) => guide.date === day.date), mergeAccommodation(day.accommodation, state.accommodations[day.date]), trip.dates.end)).join('')}</div>
         </section>
       </div>
       </section>

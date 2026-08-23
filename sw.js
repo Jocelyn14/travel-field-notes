@@ -1,4 +1,4 @@
-const CONTENT_REVISION = '149beae10f88ca3c67b385aca4d16b6cf9172e4bb530082de55f72e7552f2079';
+const CONTENT_REVISION = 'e7f7c116e3370edf5bc077a82583b7fee3042772e084a3744d9472ccbe761a37';
 const CACHE_NAME = `travel-atlas-v11-${CONTENT_REVISION}`;
 const APP_SHELL = [
   './',
@@ -9,16 +9,16 @@ const APP_SHELL = [
   './tokyo/',
   './tokyo/index.html',
   './tokyo/manifest.webmanifest',
-  './styles.css?v=tokyov2e',
+  './styles.css?v=italy2026c',
   './manifest.webmanifest',
-  './src/app.mjs?v=tokyov2e',
-  './src/core.mjs?v=tokyov2e',
-  './src/itinerary.mjs?v=tokyov2e',
-  './src/interaction.mjs?v=tokyov2e',
-  './src/search.mjs?v=tokyov2e',
-  './src/view.mjs?v=tokyov2e',
-  './data/trips.json?v=tokyov2e',
-  './data/imports/tokyo-fieldnotes-itinerary-v2.json?v=tokyov2e',
+  './src/app.mjs?v=italy2026c',
+  './src/core.mjs?v=italy2026c',
+  './src/itinerary.mjs?v=italy2026c',
+  './src/interaction.mjs?v=italy2026c',
+  './src/search.mjs?v=italy2026c',
+  './src/view.mjs?v=italy2026c',
+  './data/trips.json?v=italy2026c',
+  './data/imports/tokyo-fieldnotes-itinerary-v2.json?v=italy2026c',
   './assets/places/tokyo-v2-ca929.webp',
   './assets/places/tokyo-v2-skyliner-in.webp',
   './assets/places/tokyo-v2-ueno-checkin.webp',
@@ -79,13 +79,18 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
+    const destinationShell = url.pathname.includes('/italy/')
+      ? './italy/index.html'
+      : url.pathname.includes('/tokyo/')
+        ? './tokyo/index.html'
+        : './index.html';
     const networkPromise = fetch(request);
     const cacheWritePromise = networkPromise.then((response) => {
       if (!response.ok) return undefined;
       const copy = response.clone();
       return caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
     }).catch(() => undefined);
-    const responsePromise = networkPromise.catch(() => caches.match(request).then((cached) => cached || caches.match('./index.html')));
+    const responsePromise = networkPromise.catch(() => caches.match(request).then((cached) => cached || caches.match(destinationShell)));
     event.waitUntil(cacheWritePromise);
     event.respondWith(responsePromise);
     return;
