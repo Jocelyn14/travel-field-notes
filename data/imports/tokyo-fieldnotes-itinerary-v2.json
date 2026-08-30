@@ -9,6 +9,33 @@
     "东京都庭园美术馆 2026 年 10 月展览及换展休馆安排尚待官方公布。",
     "10 月 10 日 Skyliner 班次仅作计划锚点，购票前复核 2026 年 10 月时刻表。"
   ],
+  "accommodations": {
+    "2026-10-05": {
+      "name": "Four Points Flex by Sheraton Tokyo Ueno",
+      "address": "7-12-9 Ueno, Taito-ku, Tokyo, Japan, 110-0005",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Four%20Points%20Flex%20by%20Sheraton%20Tokyo%20Ueno"
+    },
+    "2026-10-06": {
+      "name": "Four Points Flex by Sheraton Tokyo Ueno",
+      "address": "7-12-9 Ueno, Taito-ku, Tokyo, Japan, 110-0005",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Four%20Points%20Flex%20by%20Sheraton%20Tokyo%20Ueno"
+    },
+    "2026-10-07": {
+      "name": "Four Points Flex by Sheraton Tokyo Ueno",
+      "address": "7-12-9 Ueno, Taito-ku, Tokyo, Japan, 110-0005",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Four%20Points%20Flex%20by%20Sheraton%20Tokyo%20Ueno"
+    },
+    "2026-10-08": {
+      "name": "Four Points Flex by Sheraton Tokyo Ueno",
+      "address": "7-12-9 Ueno, Taito-ku, Tokyo, Japan, 110-0005",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Four%20Points%20Flex%20by%20Sheraton%20Tokyo%20Ueno"
+    },
+    "2026-10-09": {
+      "name": "Four Points Flex by Sheraton Tokyo Ueno",
+      "address": "7-12-9 Ueno, Taito-ku, Tokyo, Japan, 110-0005",
+      "maps": "https://www.google.com/maps/search/?api=1&query=Four%20Points%20Flex%20by%20Sheraton%20Tokyo%20Ueno"
+    }
+  },
   "itinerary": {
     "customPlaces": {
       "tokyo-v2-ca929": {
@@ -414,7 +441,7 @@
         "note": "营业时间待确认；从志村坂上站步行约 10–15 分钟。",
         "culture": "",
         "tips": "附近停车可使用距店约 50 米的 Olympic 超市停车场。",
-        "image": "assets/places/tokyo-v2-kogosei.svg",
+        "image": "assets/places/tokyo-v2-kogosei.png",
         "imageFallback": "🪴",
         "imageAlt": "KOGOSEI 植物店",
         "links": {

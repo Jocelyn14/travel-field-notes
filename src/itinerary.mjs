@@ -8,7 +8,7 @@ const emptyItinerary = () => ({
 
 const cloneItinerary = (state) => structuredClone(state ?? emptyItinerary());
 
-export function importItineraryPackage(currentState, payload, expectedTripId) {
+export function importItineraryPackage(currentState, payload, expectedTripId, { includeAccommodations = false } = {}) {
   if (payload?.schema !== 'fieldnotes-itinerary-import/v1') throw new Error('不支持的行程导入格式');
   if (payload.tripId !== expectedTripId) throw new Error('导入包与当前目的地不匹配');
   const itinerary = payload.itinerary;
@@ -17,11 +17,18 @@ export function importItineraryPackage(currentState, payload, expectedTripId) {
     || !itinerary.dayOrder || !itinerary.placeOverrides) {
     throw new Error('导入包缺少完整行程数据');
   }
-  return { ...structuredClone(currentState), itinerary: cloneItinerary(itinerary) };
+  const importedState = { ...structuredClone(currentState), itinerary: cloneItinerary(itinerary) };
+  if (includeAccommodations && payload.accommodations && typeof payload.accommodations === 'object') {
+    importedState.accommodations = {
+      ...(importedState.accommodations ?? {}),
+      ...structuredClone(payload.accommodations),
+    };
+  }
+  return importedState;
 }
 
 export function shouldApplyItineraryRelease({ tripId, release, appliedRelease }) {
-  return tripId === 'tokyo' && release === 'fieldnotes2g' && appliedRelease !== release;
+  return tripId === 'tokyo' && release === 'fieldnotes2h' && appliedRelease !== release;
 }
 
 function timeToMinutes(value) {
