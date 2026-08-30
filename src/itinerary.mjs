@@ -21,7 +21,7 @@ export function importItineraryPackage(currentState, payload, expectedTripId) {
 }
 
 export function shouldApplyItineraryRelease({ tripId, release, appliedRelease }) {
-  return tripId === 'tokyo' && release === 'fieldnotes2f' && appliedRelease !== release;
+  return tripId === 'tokyo' && release === 'fieldnotes2g' && appliedRelease !== release;
 }
 
 function timeToMinutes(value) {

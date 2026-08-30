@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">KOGOSEI 植物店示意插画</title>
+  <desc id="desc">米白背景上的黑色线描植物与陶土色花盆</desc>
+  <rect width="960" height="640" fill="#f3f0e8"/>
+  <path d="M0 500h960" fill="none" stroke="#18201d" stroke-width="5"/>
+  <path d="M380 493h200l-22-180H402z" fill="#c65d3b" stroke="#18201d" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M480 313V132M480 242c-65-14-112-55-133-119 69 1 116 44 133 119Zm0-55c60-17 101-58 118-118-65 5-103 47-118 118Zm0 97c-53-10-91-41-111-91 57-1 95 30 111 91Zm0-48c49-12 82-43 98-89-52 2-85 35-98 89Z" fill="#6e7b58" stroke="#18201d" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="480" cy="132" r="10" fill="#18201d"/>
+  <path d="M72 92h220M72 122h145" fill="none" stroke="#314a67" stroke-width="6"/>
+  <text x="72" y="190" fill="#18201d" font-family="Arial, sans-serif" font-size="44" font-weight="700">KOGOSEI</text>
+  <text x="72" y="235" fill="#65706b" font-family="Arial, sans-serif" font-size="24">PLANT SHOP · ITABASHI</text>
+</svg>
