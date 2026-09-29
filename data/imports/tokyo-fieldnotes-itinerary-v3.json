@@ -495,13 +495,16 @@
         "note": "抵达第一晚在公园散步，按体力缩短；不赶室内展馆。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-ueno-park.webp",
         "imageFallback": "📍",
-        "imageAlt": "上野公园夜间散步",
+        "imageAlt": "上野公园夜景",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Ueno%20Park%20Uenokoen%2C%20Taito%20City%2C%20Tokyo",
           "official": "https://www.kensetsu.metro.tokyo.lg.jp/jimusho/toubuk/ueno/kouenannai"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Evening_in_Ueno_Park_2025_April_12_various_04.jpg",
+        "imageCredit": "Nesnad",
+        "imageLicense": "CC BY 4.0"
       },
       "tokyo-v3-fuglen": {
         "id": "tokyo-v3-fuglen",
@@ -520,13 +523,16 @@
         "note": "浅草寺之后喝咖啡，按现场排队灵活调整。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-fuglen.webp",
         "imageFallback": "📍",
-        "imageAlt": "Fuglen 浅草咖啡",
+        "imageAlt": "东京咖啡氛围图，非 Fuglen 店铺实景",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Fuglen%20Asakusa%20Asakusa%2C%20Taito%20City%2C%20Tokyo",
           "official": "https://fuglen.no/Fuglen-Asakusa"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Coffee_cup_and_tray_by_daveiam_in_Tokyo.jpg",
+        "imageCredit": "daveiam",
+        "imageLicense": "CC BY 2.0"
       },
       "tokyo-v3-jimbocho": {
         "id": "tokyo-v3-jimbocho",
@@ -545,12 +551,15 @@
         "note": "集中找文学、艺术画册、摄影书与旧刊，午餐可在街区解决。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v2-jimbocho.webp",
         "imageFallback": "📍",
         "imageAlt": "神保町古书街",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Jimbocho%20Book%20Town%20Jinbocho%2C%20Chiyoda%20City%2C%20Tokyo"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Jimb%C5%8Dch%C5%8D_Book_Town_2025_02.jpg",
+        "imageCredit": "Olaf2",
+        "imageLicense": "CC BY-SA 4.0"
       },
       "tokyo-v3-film-akiba": {
         "id": "tokyo-v3-film-akiba",
@@ -569,12 +578,15 @@
         "note": "机动购买胶卷；库存不可保证，别因此耽误 14:30 的塔罗美术馆。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-film-akiba.webp",
         "imageFallback": "📍",
-        "imageAlt": "秋叶原买胶卷 · 机动",
+        "imageAlt": "秋叶原友都八喜店外观",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Yodobashi%20Camera%20Multimedia%20Akiba%201-1%20Kanda%20Hanaokacho%2C%20Chiyoda%20City%2C%20Tokyo"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Yodobashi-Akiba_2015.JPG",
+        "imageCredit": "正和",
+        "imageLicense": "CC BY-SA 4.0"
       },
       "tokyo-v3-urasando": {
         "id": "tokyo-v3-urasando",
@@ -593,13 +605,16 @@
         "note": "THE TOKYO TOILET 设计项目打卡；不将其误写为电影《Perfect Days》的确切镜头地点。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-urasando.webp",
         "imageFallback": "📍",
-        "imageAlt": "THE TOKYO TOILET · 裏参道",
+        "imageAlt": "THE TOKYO TOILET 裏参道",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Urasando%20Toilet%20Urasando%2C%20Shibuya%20City%2C%20Tokyo",
           "official": "https://tokyotoilet.jp/en/urasando/"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Urasando_Public_Toilet.jpg",
+        "imageCredit": "Syced",
+        "imageLicense": "CC0"
       },
       "tokyo-v3-meiji": {
         "id": "tokyo-v3-meiji",
@@ -643,13 +658,16 @@
         "note": "第二处厕所设计项目打卡，午餐与前往青山的路线可灵活安排。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-jingumae.webp",
         "imageFallback": "📍",
-        "imageAlt": "THE TOKYO TOILET · 神宫前",
+        "imageAlt": "THE TOKYO TOILET 神宫前",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Jingumae%20Toilet%20Jingumae%2C%20Shibuya%20City%2C%20Tokyo",
           "official": "https://tokyotoilet.jp/en/jingumae/"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Toilet_jingumae_n.jpg",
+        "imageCredit": "鋸香具師",
+        "imageLicense": "CC BY-SA 4.0"
       },
       "tokyo-v3-jingu-dori": {
         "id": "tokyo-v3-jingu-dori",
@@ -668,13 +686,16 @@
         "note": "第三处厕所设计项目打卡；与表参道两小时散步相连。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-jingu-dori.webp",
         "imageFallback": "📍",
-        "imageAlt": "THE TOKYO TOILET · 神宫通公园",
+        "imageAlt": "THE TOKYO TOILET 神宫通公园",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Jingu-Dori%20Park%20Toilet%20Jingu-Dori%20Park%2C%20Shibuya%20City%2C%20Tokyo",
           "official": "https://tokyotoilet.jp/en/jingu-dori_park/"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Toilet_jingu_park_n.jpg",
+        "imageCredit": "鋸香具師",
+        "imageLicense": "CC BY-SA 4.0"
       },
       "tokyo-v3-takadanobaba-dinner": {
         "id": "tokyo-v3-takadanobaba-dinner",
@@ -693,12 +714,15 @@
         "note": "Jazz SPOT Intro 前在高田马场附近吃晚餐，餐厅现场选择。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-takadanobaba-dinner.webp",
         "imageFallback": "📍",
-        "imageAlt": "高田马场晚餐",
+        "imageAlt": "高田马场街景，晚餐餐厅尚未选定",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Takadanobaba%20Dinner%20Takadanobaba%2C%20Shinjuku%20City%2C%20Tokyo"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Waseda_Street_Takadanobaba_2026.jpg",
+        "imageCredit": "ノーマルエディタ",
+        "imageLicense": "CC BY-SA 4.0"
       },
       "tokyo-v3-intro": {
         "id": "tokyo-v3-intro",
@@ -717,13 +741,16 @@
         "note": "朋友推荐的爵士乐场所；当晚演出、费用及入场方式临行前复核。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-intro.webp",
         "imageFallback": "📍",
-        "imageAlt": "Jazz SPOT Intro",
+        "imageAlt": "爵士乐器氛围图，非 Jazz SPOT Intro 店铺实景",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Jazz%20SPOT%20Intro%20Takadanobaba%2C%20Shinjuku%20City%2C%20Tokyo",
           "official": "https://jazzspot.intro.co.jp/access/"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Yamaha_YTS-23_TenorSaxophone.JPG",
+        "imageCredit": "Nabokov at English Wikipedia",
+        "imageLicense": "CC BY-SA 3.0"
       },
       "tokyo-v3-tnm": {
         "id": "tokyo-v3-tnm",
@@ -767,13 +794,16 @@
         "note": "到江之电车站与附近道口看《灌篮高手》经典海边画面；注意行车安全、不占道。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-kamakurakokomae.webp",
         "imageFallback": "📍",
-        "imageAlt": "镰仓高校前 · 灌篮高手取景地",
+        "imageAlt": "镰仓高校前铁道路口",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Kamakurakokomae%20Station%20Kamakurakokomae%20Station%2C%20Kamakura%2C%20Kanagawa",
           "official": "https://www.enoden.co.jp/en/train/station/kamakurakokomae/"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Kamakura_koukou_mae_Fumikiri_-_02.jpg",
+        "imageCredit": "Quercus acuta",
+        "imageLicense": "CC0"
       },
       "tokyo-v3-shichirigahama": {
         "id": "tokyo-v3-shichirigahama",
@@ -792,12 +822,15 @@
         "note": "留出看海、拍照与休息时间；天气不好时可以提早返东京。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-shichirigahama.webp",
         "imageFallback": "📍",
         "imageAlt": "七里滨海岸",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Shichirigahama%20Beach%20Shichirigahama%2C%20Kamakura%2C%20Kanagawa"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Shichirigahama.jpg",
+        "imageCredit": "Kakidai",
+        "imageLicense": "CC BY-SA 4.0"
       },
       "tokyo-v3-amalfi": {
         "id": "tokyo-v3-amalfi",
@@ -816,13 +849,16 @@
         "note": "可选海景早晚餐；确认营业与等位后再决定，之后返回上野。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-amalfi.webp",
         "imageFallback": "📍",
-        "imageAlt": "Amalfi Della Sera · 可选早晚餐",
+        "imageAlt": "七里滨海景，非 Amalfi Della Sera 餐厅实景",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Amalfi%20Della%20Sera%20Shichirigahama%2C%20Kamakura%2C%20Kanagawa",
           "official": "https://amalfi-dellasera.com/access/"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Shichirigahama_Beach_as_seen_from_Inamuragasaki_Peninsula_130809_7.jpg",
+        "imageCredit": "DXR",
+        "imageLicense": "CC BY-SA 3.0"
       },
       "tokyo-v3-kogosei": {
         "id": "tokyo-v3-kogosei",
@@ -866,13 +902,16 @@
         "note": "朋友推荐。优先一楼单点晚餐与饮品，不预设地下高价套餐；营业、订位和价格临行前确认。",
         "culture": "",
         "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/placeholder.svg",
+        "image": "assets/places/tokyo-v3-blindtiger.webp",
         "imageFallback": "📍",
-        "imageAlt": "Bar BLINDTIGER 白金 · 一楼晚餐",
+        "imageAlt": "鸡尾酒氛围图，非 BLINDTIGER 店铺实景",
         "links": {
           "maps": "https://www.google.com/maps/search/?api=1&query=Bar%20BLINDTIGER%20Shirokane%20Shirokane%2C%20Minato%20City%2C%20Tokyo",
           "official": "https://tabelog.com/tokyo/A1316/A131602/13315810/"
-        }
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Cocktail_glass_(50961535397).jpg",
+        "imageCredit": "mrhayata from Tokyo, Japan",
+        "imageLicense": "CC BY-SA 2.0"
       }
     },
     "deletedPlaceIds": {

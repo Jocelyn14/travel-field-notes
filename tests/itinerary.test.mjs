@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import {
   addCustomPlace,
+  applyItineraryMediaPatch,
   applyItineraryEdits,
   importItineraryPackage,
   recalculateDay,
@@ -66,9 +67,29 @@ test('importItineraryPackage rejects another destination', () => {
 });
 
 test('shouldApplyItineraryRelease applies a matching release only once', () => {
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2j', appliedRelease: '' }), true);
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2j', appliedRelease: 'fieldnotes2j' }), false);
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'italy', release: 'fieldnotes2j', appliedRelease: '' }), false);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2k', appliedRelease: '' }), true);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2k', appliedRelease: 'fieldnotes2k' }), false);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'italy', release: 'fieldnotes2k', appliedRelease: '' }), false);
+});
+
+test('Tokyo image patch keeps user itinerary edits and custom photos', () => {
+  const current = { itinerary: { customPlaces: {
+    a: { name: '我改过的名字', time: '18:10', image: 'assets/places/placeholder.svg' },
+    b: { name: '我的照片', image: 'assets/my-photo.webp' },
+  }, deletedPlaceIds: { c: true }, dayOrder: { day: ['b', 'a'] } } };
+  const payload = { itinerary: { customPlaces: {
+    a: { name: '原名', image: 'assets/places/a.webp', imageAlt: '实景', imageCredit: 'Author' },
+    b: { image: 'assets/places/b.webp' },
+    c: { image: 'assets/places/c.webp' },
+  } } };
+  const result = applyItineraryMediaPatch(current, payload);
+  assert.equal(result.itinerary.customPlaces.a.name, '我改过的名字');
+  assert.equal(result.itinerary.customPlaces.a.time, '18:10');
+  assert.equal(result.itinerary.customPlaces.a.image, 'assets/places/a.webp');
+  assert.equal(result.itinerary.customPlaces.b.image, 'assets/my-photo.webp');
+  assert.deepEqual(result.itinerary.deletedPlaceIds, { c: true });
+  assert.deepEqual(result.itinerary.dayOrder.day, ['b', 'a']);
+  assert.equal(current.itinerary.customPlaces.a.image, 'assets/places/placeholder.svg');
 });
 
 test('recalculateDay cascades flexible times and preserves fixed anchors', () => {

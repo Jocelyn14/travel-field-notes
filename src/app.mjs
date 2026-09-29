@@ -14,12 +14,13 @@ import {
   restorePlace,
   shouldApplyItineraryRelease,
   TOKYO_ITINERARY_RELEASE,
+  applyItineraryMediaPatch,
   sortDayByTime,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=tokyo2026v3';
+} from './itinerary.mjs?v=tokyo2026v3b';
 import { searchPlace } from './search.mjs?v=italy2026c';
 import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=italy2026c';
-import { renderApp } from './view.mjs?v=italy2026c';
+import { renderApp } from './view.mjs?v=tokyo2026v3b';
 
 const STORAGE_KEY_PREFIX = 'travel-atlas-state';
 const appRoot = new URL('../', import.meta.url);
@@ -712,14 +713,18 @@ async function start() {
     storageKey = `${STORAGE_KEY_PREFIX}:${requestedTrip.id}`;
     state = normalizePersistedState(readState(), trips);
     const releaseKey = `${storageKey}:itinerary-release`;
+    const appliedRelease = localStorage.getItem(releaseKey) ?? '';
     if (shouldApplyItineraryRelease({
       tripId: requestedTrip.id,
-      appliedRelease: localStorage.getItem(releaseKey) ?? '',
+      appliedRelease,
     })) {
-      const importResponse = await fetch(new URL('data/imports/tokyo-fieldnotes-itinerary-v3.json?v=tokyo2026v3', appRoot));
+      const importResponse = await fetch(new URL('data/imports/tokyo-fieldnotes-itinerary-v3.json?v=tokyo2026v3b', appRoot));
       if (!importResponse.ok) throw new Error(`东京行程导入包 HTTP ${importResponse.status}`);
       localStorage.setItem(`${storageKey}:backup:${Date.now()}`, JSON.stringify(state));
-      state = importItineraryPackage(state, await importResponse.json(), requestedTrip.id, { includeAccommodations: true });
+      const payload = await importResponse.json();
+      state = appliedRelease === 'fieldnotes2j'
+        ? applyItineraryMediaPatch(state, payload)
+        : importItineraryPackage(state, payload, requestedTrip.id, { includeAccommodations: true });
       localStorage.setItem(releaseKey, TOKYO_ITINERARY_RELEASE);
     }
     saveState();

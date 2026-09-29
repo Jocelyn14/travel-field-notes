@@ -27,7 +27,20 @@ export function importItineraryPackage(currentState, payload, expectedTripId, { 
   return importedState;
 }
 
-export const TOKYO_ITINERARY_RELEASE = 'fieldnotes2j';
+export const TOKYO_ITINERARY_RELEASE = 'fieldnotes2k';
+
+export function applyItineraryMediaPatch(currentState, payload) {
+  const nextState = structuredClone(currentState);
+  const importedPlaces = payload?.itinerary?.customPlaces ?? {};
+  for (const [id, place] of Object.entries(nextState.itinerary?.customPlaces ?? {})) {
+    const imported = importedPlaces[id];
+    if (!imported?.image || place.image !== 'assets/places/placeholder.svg') continue;
+    for (const field of ['image', 'imageAlt', 'imageSource', 'imageCredit', 'imageLicense']) {
+      place[field] = imported[field];
+    }
+  }
+  return nextState;
+}
 
 export function shouldApplyItineraryRelease({ tripId, appliedRelease }) {
   return tripId === 'tokyo' && appliedRelease !== TOKYO_ITINERARY_RELEASE;

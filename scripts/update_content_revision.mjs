@@ -57,17 +57,22 @@ const canonicalJson = (value) => {
 };
 
 const trips = JSON.parse(await readFile(tripsPath, 'utf8'));
+let tokyoImport;
 const tripsBytes = Buffer.from(canonicalJson(trips), 'utf8');
 const hash = createHash('sha256');
 hash.update('travel-atlas-content-v1\0');
 updateHash(hash, 'data/trips.json', tripsBytes);
 try {
-  const tokyoImport = JSON.parse(await readFile(tokyoImportPath, 'utf8'));
+  tokyoImport = JSON.parse(await readFile(tokyoImportPath, 'utf8'));
   updateHash(hash, 'data/imports/tokyo-fieldnotes-itinerary-v3.json', Buffer.from(canonicalJson(tokyoImport), 'utf8'));
 } catch (error) {
   if (error.code !== 'ENOENT') throw error;
 }
-for (const path of referencedMedia(trips)) {
+const media = new Set(referencedMedia(trips));
+for (const place of Object.values(tokyoImport?.itinerary?.customPlaces ?? {})) {
+  if (place.image) media.add(place.image);
+}
+for (const path of [...media].sort()) {
   updateHash(hash, path, await readFile(safeMediaPath(path)));
 }
 const revision = hash.digest('hex');

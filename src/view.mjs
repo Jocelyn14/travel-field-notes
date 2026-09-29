@@ -170,6 +170,7 @@ function renderPlace(place, currency, index, dayDate, locale, assetBase, previou
       </summary>
       <div class="place-detail">
         <p class="place-address">${icon('pin')}<span>${escapeHtml(place.address)}</span></p>
+        ${place.imageSource && place.imageCredit ? `<p class="place-image-credit">图片：<a href="${escapeHtml(place.imageSource)}" target="_blank" rel="noopener noreferrer" data-external="true">${escapeHtml(place.imageCredit)} · ${escapeHtml(place.imageLicense || '来源')}</a>${place.imageAlt && /非.+实景|尚未选定/.test(place.imageAlt) ? ` · ${escapeHtml(place.imageAlt)}` : ''}</p>` : ''}
         ${meal}
         ${flight}
         <section class="culture-note"><strong>景点简介</strong><p>${escapeHtml(place.culture || place.note)}</p></section>

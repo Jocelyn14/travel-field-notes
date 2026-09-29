@@ -22,8 +22,8 @@ test('Italy entry point is pinned to Italy and shared root assets', async () => 
 test('Tokyo entry point is pinned to Tokyo and shared root assets', async () => {
   const html = await readProjectFile('tokyo/index.html');
   assert.match(html, /<html[^>]+data-trip-id="tokyo"/);
-  assert.match(html, /href="\.\.\/styles\.css\?v=italy2026c"/);
-  assert.match(html, /src="\.\.\/src\/app\.mjs\?v=tokyo2026v3"/);
+  assert.match(html, /href="\.\.\/styles\.css\?v=tokyo2026v3b"/);
+  assert.match(html, /src="\.\.\/src\/app\.mjs\?v=tokyo2026v3b"/);
   assert.match(html, /href="manifest\.webmanifest"/);
 });
 
@@ -42,9 +42,10 @@ test('the application requests the versioned trip dataset', async () => {
   const worker = await readProjectFile('sw.js');
 
   assert.match(app, /data\/trips\.json\?v=italy2026c/);
-  for (const moduleName of ['core', 'search', 'interaction', 'view']) {
+  for (const moduleName of ['core', 'search', 'interaction']) {
     assert.match(app, new RegExp(`\\./${moduleName}\\.mjs\\?v=italy2026c`));
   }
-  assert.match(app, /\.\/itinerary\.mjs\?v=tokyo2026v3/);
+  assert.match(app, /\.\/view\.mjs\?v=tokyo2026v3b/);
+  assert.match(app, /\.\/itinerary\.mjs\?v=tokyo2026v3b/);
   assert.match(worker, /\.\/data\/trips\.json\?v=italy2026c/);
 });

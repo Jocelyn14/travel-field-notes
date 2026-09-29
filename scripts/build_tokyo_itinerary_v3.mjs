@@ -3,6 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 const sourceUrl = new URL('../data/imports/tokyo-fieldnotes-itinerary-v2.json', import.meta.url);
 const outputUrl = new URL('../data/imports/tokyo-fieldnotes-itinerary-v3.json', import.meta.url);
 const payload = JSON.parse(await readFile(sourceUrl, 'utf8'));
+const imageCredits = JSON.parse(await readFile(new URL('../assets/places/tokyo-v3-credits.json', import.meta.url), 'utf8'));
 const { customPlaces: places, deletedPlaceIds, dayOrder, dayOverrides } = payload.itinerary;
 
 payload.title = '东京 2026 · 确认版逐日行程 v3';
@@ -113,6 +114,23 @@ add('tokyo-v3-blindtiger', '2026-10-09', '17:30', 90,
   'Bar BLINDTIGER 白金 · 一楼晚餐', 'Bar BLINDTIGER Shirokane', 'バー・ブラインドタイガー 白金', '酒吧 · 餐饮',
   'Shirokane, Minato City, Tokyo', '朋友推荐。优先一楼单点晚餐与饮品，不预设地下高价套餐；营业、订位和价格临行前确认。',
   'https://tabelog.com/tokyo/A1316/A131602/13315810/');
+
+for (const credit of imageCredits) {
+  const place = places[credit.placeId];
+  if (!place) throw new Error(`Unknown Tokyo v3 image place: ${credit.placeId}`);
+  Object.assign(place, {
+    image: credit.file, imageAlt: credit.imageAlt,
+    imageSource: credit.sourceUrl, imageCredit: credit.author,
+    imageLicense: credit.license,
+  });
+}
+const jimbochoCredit = JSON.parse(await readFile(new URL('../assets/places/tokyo-v2-credits.json', import.meta.url), 'utf8'))
+  .find((credit) => credit.placeId === 'tokyo-v2-jimbocho');
+Object.assign(places['tokyo-v3-jimbocho'], {
+  image: 'assets/places/tokyo-v2-jimbocho.webp', imageAlt: '神保町古书街',
+  imageSource: jimbochoCredit.sourceUrl, imageCredit: jimbochoCredit.author,
+  imageLicense: jimbochoCredit.license,
+});
 
 for (const id of ['tokyo-v2-shibuya', 'tokyo-v2-gyoen', 'tokyo-v2-yodobashi', 'tokyo-v2-shinjuku-night', 'tokyo-v2-jimbocho', 'tokyo-v2-kogosei']) {
   delete places[id];

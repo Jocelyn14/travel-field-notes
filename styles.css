@@ -1083,6 +1083,16 @@ svg.icon {
   font-size: 13px;
 }
 
+.place-detail > .place-image-credit {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.place-image-credit a {
+  color: inherit;
+  text-underline-offset: 2px;
+}
+
 .culture-note,
 .tips-note {
   margin: 0 0 18px;
