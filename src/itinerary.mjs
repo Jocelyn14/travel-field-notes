@@ -27,8 +27,10 @@ export function importItineraryPackage(currentState, payload, expectedTripId, { 
   return importedState;
 }
 
-export function shouldApplyItineraryRelease({ tripId, release, appliedRelease }) {
-  return tripId === 'tokyo' && release === 'fieldnotes2h' && appliedRelease !== release;
+export const TOKYO_ITINERARY_RELEASE = 'fieldnotes2j';
+
+export function shouldApplyItineraryRelease({ tripId, appliedRelease }) {
+  return tripId === 'tokyo' && appliedRelease !== TOKYO_ITINERARY_RELEASE;
 }
 
 function timeToMinutes(value) {

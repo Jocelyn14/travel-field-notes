@@ -11,6 +11,7 @@ const argumentValue = (name, fallback) => {
 const root = resolve(argumentValue('--root', projectRoot));
 const checkOnly = process.argv.includes('--check');
 const tripsPath = join(root, 'data', 'trips.json');
+const tokyoImportPath = join(root, 'data', 'imports', 'tokyo-fieldnotes-itinerary-v3.json');
 const workerPath = join(root, 'sw.js');
 const REVISION_PATTERN = /const CONTENT_REVISION = '([a-f0-9]{64})';/;
 const CACHE_PATTERN = /const CACHE_NAME = `travel-atlas-v11-\$\{CONTENT_REVISION\}`;/;
@@ -60,6 +61,12 @@ const tripsBytes = Buffer.from(canonicalJson(trips), 'utf8');
 const hash = createHash('sha256');
 hash.update('travel-atlas-content-v1\0');
 updateHash(hash, 'data/trips.json', tripsBytes);
+try {
+  const tokyoImport = JSON.parse(await readFile(tokyoImportPath, 'utf8'));
+  updateHash(hash, 'data/imports/tokyo-fieldnotes-itinerary-v3.json', Buffer.from(canonicalJson(tokyoImport), 'utf8'));
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error;
+}
 for (const path of referencedMedia(trips)) {
   updateHash(hash, path, await readFile(safeMediaPath(path)));
 }

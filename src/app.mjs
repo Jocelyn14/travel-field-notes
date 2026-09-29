@@ -13,9 +13,10 @@ import {
   reorderPlace,
   restorePlace,
   shouldApplyItineraryRelease,
+  TOKYO_ITINERARY_RELEASE,
   sortDayByTime,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=fieldnotes2h';
+} from './itinerary.mjs?v=tokyo2026v3';
 import { searchPlace } from './search.mjs?v=italy2026c';
 import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=italy2026c';
 import { renderApp } from './view.mjs?v=italy2026c';
@@ -710,18 +711,16 @@ async function start() {
     trips = [requestedTrip];
     storageKey = `${STORAGE_KEY_PREFIX}:${requestedTrip.id}`;
     state = normalizePersistedState(readState(), trips);
-    const release = new URLSearchParams(location.search).get('release') ?? '';
     const releaseKey = `${storageKey}:itinerary-release`;
     if (shouldApplyItineraryRelease({
       tripId: requestedTrip.id,
-      release,
       appliedRelease: localStorage.getItem(releaseKey) ?? '',
     })) {
-      const importResponse = await fetch(new URL('data/imports/tokyo-fieldnotes-itinerary-v2.json?v=fieldnotes2h', appRoot));
+      const importResponse = await fetch(new URL('data/imports/tokyo-fieldnotes-itinerary-v3.json?v=tokyo2026v3', appRoot));
       if (!importResponse.ok) throw new Error(`东京行程导入包 HTTP ${importResponse.status}`);
       localStorage.setItem(`${storageKey}:backup:${Date.now()}`, JSON.stringify(state));
       state = importItineraryPackage(state, await importResponse.json(), requestedTrip.id, { includeAccommodations: true });
-      localStorage.setItem(releaseKey, release);
+      localStorage.setItem(releaseKey, TOKYO_ITINERARY_RELEASE);
     }
     saveState();
     render();

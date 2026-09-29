@@ -1,4 +1,4 @@
-const CONTENT_REVISION = 'e7f7c116e3370edf5bc077a82583b7fee3042772e084a3744d9472ccbe761a37';
+const CONTENT_REVISION = '77cc08cfafe81289744c36da21c3e4c6bfb70d413802d011b6af0fd43bf81355';
 const CACHE_NAME = `travel-atlas-v11-${CONTENT_REVISION}`;
 const APP_SHELL = [
   './',
@@ -11,14 +11,17 @@ const APP_SHELL = [
   './tokyo/manifest.webmanifest',
   './styles.css?v=italy2026c',
   './manifest.webmanifest',
-  './src/app.mjs?v=fieldnotes2h',
+  './src/app.mjs?v=italy2026c',
+  './src/app.mjs?v=tokyo2026v3',
   './src/core.mjs?v=italy2026c',
-  './src/itinerary.mjs?v=fieldnotes2h',
+  './src/itinerary.mjs?v=italy2026c',
+  './src/itinerary.mjs?v=tokyo2026v3',
   './src/interaction.mjs?v=italy2026c',
   './src/search.mjs?v=italy2026c',
   './src/view.mjs?v=italy2026c',
   './data/trips.json?v=italy2026c',
-  './data/imports/tokyo-fieldnotes-itinerary-v2.json?v=fieldnotes2h',
+  './data/imports/tokyo-fieldnotes-itinerary-v2.json?v=italy2026c',
+  './data/imports/tokyo-fieldnotes-itinerary-v3.json?v=tokyo2026v3',
   './assets/places/tokyo-v2-ca929.webp',
   './assets/places/tokyo-v2-skyliner-in.webp',
   './assets/places/tokyo-v2-ueno-checkin.webp',
@@ -33,7 +36,6 @@ const APP_SHELL = [
   './assets/places/tokyo-v2-yodobashi.webp',
   './assets/places/tokyo-v2-shinjuku-night.webp',
   './assets/places/tokyo-v2-jimbocho.webp',
-  './assets/places/tokyo-v2-kogosei.png',
   './assets/places/tokyo-v2-teien.webp',
   './assets/places/tokyo-v2-meguro-church.webp',
   './assets/places/tokyo-v2-tokyo-tower.webp',
@@ -41,6 +43,7 @@ const APP_SHELL = [
   './assets/places/tokyo-v2-checkout.webp',
   './assets/places/tokyo-v2-skyliner-out.webp',
   './assets/places/tokyo-v2-ca930.webp',
+  './assets/places/tokyo-v2-kogosei.png',
   './assets/places/tokyo-v2-credits.json',
   './assets/italy-hero.webp',
   './assets/tokyo-hero.webp',
