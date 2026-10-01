@@ -23,7 +23,7 @@ test('Tokyo entry point is pinned to Tokyo and shared root assets', async () => 
   const html = await readProjectFile('tokyo/index.html');
   assert.match(html, /<html[^>]+data-trip-id="tokyo"/);
   assert.match(html, /href="\.\.\/styles\.css\?v=tokyo2026v3b"/);
-  assert.match(html, /src="\.\.\/src\/app\.mjs\?v=tokyo2026v3b"/);
+  assert.match(html, /src="\.\.\/src\/app\.mjs\?v=tokyo2026v3c"/);
   assert.match(html, /href="manifest\.webmanifest"/);
 });
 
@@ -46,6 +46,6 @@ test('the application requests the versioned trip dataset', async () => {
     assert.match(app, new RegExp(`\\./${moduleName}\\.mjs\\?v=italy2026c`));
   }
   assert.match(app, /\.\/view\.mjs\?v=tokyo2026v3b/);
-  assert.match(app, /\.\/itinerary\.mjs\?v=tokyo2026v3b/);
+  assert.match(app, /\.\/itinerary\.mjs\?v=tokyo2026v3c/);
   assert.match(worker, /\.\/data\/trips\.json\?v=italy2026c/);
 });

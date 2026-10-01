@@ -27,7 +27,30 @@ export function importItineraryPackage(currentState, payload, expectedTripId, { 
   return importedState;
 }
 
-export const TOKYO_ITINERARY_RELEASE = 'fieldnotes2k';
+export const TOKYO_ITINERARY_RELEASE = 'fieldnotes2l';
+
+export function applyTokyoNightRoutePatch(currentState, payload) {
+  const nextState = structuredClone(currentState);
+  const itinerary = nextState.itinerary;
+  const date = '2026-10-06';
+  const newIds = ['tokyo-v4-yurikamome', 'tokyo-v4-odaiba-night'];
+  for (const id of newIds) {
+    if (!itinerary.deletedPlaceIds?.[id] && !itinerary.customPlaces[id]) {
+      itinerary.customPlaces[id] = structuredClone(payload.itinerary.customPlaces[id]);
+    }
+  }
+  const order = itinerary.dayOrder[date] ?? [];
+  for (const id of newIds) {
+    if (!itinerary.deletedPlaceIds?.[id] && !order.includes(id)) order.push(id);
+  }
+  itinerary.dayOrder[date] = order;
+  const oldHeading = itinerary.dayOverrides?.[date];
+  if (!oldHeading || oldHeading.title === '寺院清晨 · 书页与塔罗') {
+    itinerary.dayOverrides ??= {};
+    itinerary.dayOverrides[date] = structuredClone(payload.itinerary.dayOverrides[date]);
+  }
+  return nextState;
+}
 
 export function applyItineraryMediaPatch(currentState, payload) {
   const nextState = structuredClone(currentState);

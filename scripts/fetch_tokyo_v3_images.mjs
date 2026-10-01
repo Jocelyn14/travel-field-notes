@@ -15,6 +15,8 @@ const entries = [
   ['tokyo-v3-shichirigahama', 'File:Shichirigahama.jpg', false, '七里滨海岸'],
   ['tokyo-v3-amalfi', 'File:Shichirigahama Beach as seen from Inamuragasaki Peninsula 130809 7.jpg', true, '七里滨海景，非 Amalfi Della Sera 餐厅实景'],
   ['tokyo-v3-blindtiger', 'File:Cocktail glass (50961535397).jpg', true, '鸡尾酒氛围图，非 BLINDTIGER 店铺实景'],
+  ['tokyo-v4-yurikamome', 'File:Yurikamome Series7300-7451F Rainbow-Bridge.jpg', false, '海鸥线列车与彩虹大桥'],
+  ['tokyo-v4-odaiba-night', 'File:Rainbow Bridge (28108827509).jpg', false, '从台场看到的彩虹大桥夜景'],
 ];
 
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -30,8 +32,11 @@ async function fetchWithRetry(url) {
 }
 
 const outputDir = new URL('../assets/places/', import.meta.url);
-const credits = [];
-for (const [placeId, title, contextual, imageAlt] of entries) {
+const creditsUrl = new URL('../assets/places/tokyo-v3-credits.json', import.meta.url);
+const credits = JSON.parse(await readFile(creditsUrl, 'utf8'));
+const only = process.argv.indexOf('--only');
+const selectedEntries = only < 0 ? entries : entries.filter(([placeId]) => process.argv.slice(only + 1).includes(placeId));
+for (const [placeId, title, contextual, imageAlt] of selectedEntries) {
   const api = new URL('https://commons.wikimedia.org/w/api.php');
   api.search = new URLSearchParams({ action: 'query', format: 'json', titles: title, prop: 'imageinfo', iiprop: 'url|extmetadata|mime|size', iiurlwidth: '1000' });
   const page = Object.values((await (await fetchWithRetry(api)).json()).query?.pages ?? {})[0];
@@ -42,11 +47,14 @@ for (const [placeId, title, contextual, imageAlt] of entries) {
   if (!/^(CC0|Public domain|CC BY(?:-SA)?(?: |$))/i.test(license)) throw new Error(`Unsupported license ${license}: ${title}`);
   const image = Buffer.from(await (await fetchWithRetry(info.thumburl)).arrayBuffer());
   await sharp(image).rotate().resize(900, 600, { fit: 'cover', position: 'attention' }).webp({ quality: 78, effort: 5 }).toFile(fileURLToPath(new URL(`${placeId}.webp`, outputDir)));
-  credits.push({ placeId, file: `assets/places/${placeId}.webp`, title: plain(metadata.ObjectName?.value) || title.slice(5), sourceUrl: info.descriptionurl,
+  const credit = { placeId, file: `assets/places/${placeId}.webp`, title: plain(metadata.ObjectName?.value) || title.slice(5), sourceUrl: info.descriptionurl,
     author: plain(metadata.Artist?.value || metadata.Credit?.value) || 'Wikimedia Commons contributor', license,
     licenseUrl: metadata.LicenseUrl?.value || info.descriptionurl, imageAlt, contextual,
-    modification: 'Cropped, resized and converted to WebP for the itinerary thumbnail.' });
+    modification: 'Cropped, resized and converted to WebP for the itinerary thumbnail.' };
+  const index = credits.findIndex((item) => item.placeId === placeId);
+  if (index >= 0) credits[index] = credit;
+  else credits.push(credit);
   console.log(`${placeId}: ${title} (${license})`);
   await sleep(1700);
 }
-await writeFile(new URL('../assets/places/tokyo-v3-credits.json', import.meta.url), `${JSON.stringify(credits, null, 2)}\n`);
+await writeFile(creditsUrl, `${JSON.stringify(credits, null, 2)}\n`);

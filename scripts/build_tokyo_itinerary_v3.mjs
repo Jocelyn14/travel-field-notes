@@ -114,6 +114,25 @@ add('tokyo-v3-blindtiger', '2026-10-09', '17:30', 90,
   'Bar BLINDTIGER 白金 · 一楼晚餐', 'Bar BLINDTIGER Shirokane', 'バー・ブラインドタイガー 白金', '酒吧 · 餐饮',
   'Shirokane, Minato City, Tokyo', '朋友推荐。优先一楼单点晚餐与饮品，不预设地下高价套餐；营业、订位和价格临行前确认。',
   'https://tabelog.com/tokyo/A1316/A131602/13315810/');
+add('tokyo-v4-yurikamome', '2026-10-06', '18:35', 25,
+  '海鸥线 · 彩虹大桥夜景', 'Yurikamome Line · Rainbow Bridge', 'ゆりかもめ・レインボーブリッジ', '轨道交通 · 夜景',
+  'Shimbashi Station, Minato City, Tokyo → Odaiba-kaihinkoen Station, Minato City, Tokyo',
+  '从蔵前乘浅草线到新桥，换乘海鸥线到台场海滨公园；沿途从车窗看彩虹大桥。出发时间可随蔵前停留调整。',
+  'https://www.yurikamome.co.jp/en/');
+Object.assign(places['tokyo-v4-yurikamome'], {
+  cost: 330, travelMinutes: 5,
+  tips: '按单程普通成人票参考；返程另计，票价和实际班次以现场为准。优先坐车头或车尾看景，不保证有空位。',
+  links: {
+    maps: 'https://www.google.com/maps/dir/?api=1&origin=Shimbashi+Station+Tokyo&destination=Odaiba-kaihinkoen+Station&travelmode=transit',
+    official: 'https://www.yurikamome.co.jp/en/',
+  },
+});
+add('tokyo-v4-odaiba-night', '2026-10-06', '19:15', 45,
+  '台场海滨公园 · 夜景散步', 'Odaiba Seaside Park · Night Walk', 'お台場海浜公園・夜景散歩', '海滨 · 夜景',
+  '1 Chome Daiba, Minato City, Tokyo',
+  '在海边看彩虹大桥与东京湾夜景，散步后可在台场简餐，再乘海鸥线返回新桥、转车回上野。',
+  'https://www.yurikamome.co.jp/en/sightseeing/course/view-spot.html');
+places['tokyo-v4-odaiba-night'].travelMinutes = 20;
 
 for (const credit of imageCredits) {
   const place = places[credit.placeId];
@@ -139,7 +158,7 @@ for (const id of ['tokyo-v2-shibuya', 'tokyo-v2-gyoen', 'tokyo-v2-yodobashi', 't
 
 Object.assign(dayOrder, {
   '2026-10-05': ['tokyo-v2-ca929', 'tokyo-v2-skyliner-in', 'tokyo-v2-ueno-checkin', 'tokyo-v3-ueno-park', 'tokyo-v2-ameyoko'],
-  '2026-10-06': ['tokyo-v2-sensoji', 'tokyo-v3-fuglen', 'tokyo-v3-jimbocho', 'tokyo-v3-film-akiba', 'tokyo-v2-tarot', 'tokyo-v2-kuramae'],
+  '2026-10-06': ['tokyo-v2-sensoji', 'tokyo-v3-fuglen', 'tokyo-v3-jimbocho', 'tokyo-v3-film-akiba', 'tokyo-v2-tarot', 'tokyo-v2-kuramae', 'tokyo-v4-yurikamome', 'tokyo-v4-odaiba-night'],
   '2026-10-07': ['tokyo-v3-urasando', 'tokyo-v3-meiji', 'tokyo-v3-jingumae', 'tokyo-v2-nezu', 'tokyo-v2-aoyama', 'tokyo-v3-jingu-dori', 'tokyo-v3-takadanobaba-dinner', 'tokyo-v3-intro'],
   '2026-10-08': ['tokyo-v3-tnm', 'tokyo-v3-kamakurakokomae', 'tokyo-v3-shichirigahama', 'tokyo-v3-amalfi'],
   '2026-10-09': ['tokyo-v3-kogosei', 'tokyo-v2-teien', 'tokyo-v2-meguro-church', 'tokyo-v3-blindtiger', 'tokyo-v2-tokyo-tower'],
@@ -153,7 +172,7 @@ const summary = (date, activityArea, city, title, subtitle, transitSummary, mapP
   };
 };
 summary('2026-10-05', '成田—上野', '成田 · 上野', '抵达东京 · 公园与阿美横丁', '成田 T1 · 上野酒店入住 · 上野公园晚间散步', 'Skyliner · 徒步', ['Narita Airport Terminal 1', hotel, 'Ueno Park', 'Ameyoko']);
-summary('2026-10-06', '浅草—神保町—浅草桥', '浅草 · 神保町 · 浅草桥', '寺院清晨 · 书页与塔罗', '浅草寺 · 神保町古书街 · 东京塔罗美术馆', '银座线 · 半藏门线 · 浅草线', ['Sensoji', 'Jimbocho Book Town', 'Tokyo Tarot Museum', 'Kuramae']);
+summary('2026-10-06', '浅草—神保町—蔵前—台场', '浅草 · 神保町 · 蔵前 · 台场', '寺院清晨 · 书页与海湾夜景', '浅草寺 · 神保町古书街 · 东京塔罗美术馆 · 海鸥线', '银座线 · 半藏门线 · 浅草线 · 海鸥线', ['Sensoji', 'Jimbocho Book Town', 'Tokyo Tarot Museum', 'Kuramae', 'Shimbashi Station', 'Odaiba Seaside Park']);
 summary('2026-10-07', '原宿—青山—高田马场', '原宿 · 青山 · 高田马场', '神宫、古美术与三处建筑', '明治神宫 · 根津美术馆 · 表参道两小时 · Jazz SPOT Intro', '山手线 · 徒步', ['Urasando Toilet', 'Meiji Jingu', 'Nezu Museum', 'Omotesando', 'Jazz SPOT Intro']);
 summary('2026-10-08', '上野—镰仓', '上野 · 镰仓', '国立博物馆与镰仓海岸', '东京国立博物馆 · 镰仓高校前 · 七里滨；非全天镰仓', 'JR · 江之电', ['Tokyo National Museum', 'Kamakurakokomae Station', 'Shichirigahama Beach']);
 summary('2026-10-09', '板桥—白金台—白金', '板桥 · 白金台 · 白金', '植物、设计与晚间小酌', 'KOGOSEI · 东京都庭园美术馆 · BLINDTIGER', '三田线 · 南北线', ['KOGOSEI Plant Shop', 'Tokyo Metropolitan Teien Art Museum', 'Bar BLINDTIGER Shirokane']);

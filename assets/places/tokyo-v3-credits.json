@@ -142,5 +142,29 @@
     "imageAlt": "鸡尾酒氛围图，非 BLINDTIGER 店铺实景",
     "contextual": true,
     "modification": "Cropped, resized and converted to WebP for the itinerary thumbnail."
+  },
+  {
+    "placeId": "tokyo-v4-yurikamome",
+    "file": "assets/places/tokyo-v4-yurikamome.webp",
+    "title": "Yurikamome Series7300-7451F Rainbow-Bridge",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yurikamome_Series7300-7451F_Rainbow-Bridge.jpg",
+    "author": "MaedaAkihiko",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "imageAlt": "海鸥线列车与彩虹大桥",
+    "contextual": false,
+    "modification": "Cropped, resized and converted to WebP for the itinerary thumbnail."
+  },
+  {
+    "placeId": "tokyo-v4-odaiba-night",
+    "file": "assets/places/tokyo-v4-odaiba-night.webp",
+    "title": "Rainbow Bridge (28108827509)",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rainbow_Bridge_(28108827509).jpg",
+    "author": "mattvaux7",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "imageAlt": "从台场看到的彩虹大桥夜景",
+    "contextual": false,
+    "modification": "Cropped, resized and converted to WebP for the itinerary thumbnail."
   }
 ]

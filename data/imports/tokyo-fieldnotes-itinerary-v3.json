@@ -912,6 +912,62 @@
         "imageSource": "https://commons.wikimedia.org/wiki/File:Cocktail_glass_(50961535397).jpg",
         "imageCredit": "mrhayata from Tokyo, Japan",
         "imageLicense": "CC BY-SA 2.0"
+      },
+      "tokyo-v4-yurikamome": {
+        "id": "tokyo-v4-yurikamome",
+        "dayDate": "2026-10-06",
+        "name": "海鸥线 · 彩虹大桥夜景",
+        "nameEn": "Yurikamome Line · Rainbow Bridge",
+        "nameLocal": "ゆりかもめ・レインボーブリッジ",
+        "category": "轨道交通 · 夜景",
+        "time": "18:35",
+        "durationMinutes": 25,
+        "travelMinutes": 5,
+        "timeMode": "flexible",
+        "address": "Shimbashi Station, Minato City, Tokyo → Odaiba-kaihinkoen Station, Minato City, Tokyo",
+        "cost": 330,
+        "transit": "",
+        "note": "从蔵前乘浅草线到新桥，换乘海鸥线到台场海滨公园；沿途从车窗看彩虹大桥。出发时间可随蔵前停留调整。",
+        "culture": "",
+        "tips": "按单程普通成人票参考；返程另计，票价和实际班次以现场为准。优先坐车头或车尾看景，不保证有空位。",
+        "image": "assets/places/tokyo-v4-yurikamome.webp",
+        "imageFallback": "📍",
+        "imageAlt": "海鸥线列车与彩虹大桥",
+        "links": {
+          "maps": "https://www.google.com/maps/dir/?api=1&origin=Shimbashi+Station+Tokyo&destination=Odaiba-kaihinkoen+Station&travelmode=transit",
+          "official": "https://www.yurikamome.co.jp/en/"
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Yurikamome_Series7300-7451F_Rainbow-Bridge.jpg",
+        "imageCredit": "MaedaAkihiko",
+        "imageLicense": "CC0"
+      },
+      "tokyo-v4-odaiba-night": {
+        "id": "tokyo-v4-odaiba-night",
+        "dayDate": "2026-10-06",
+        "name": "台场海滨公园 · 夜景散步",
+        "nameEn": "Odaiba Seaside Park · Night Walk",
+        "nameLocal": "お台場海浜公園・夜景散歩",
+        "category": "海滨 · 夜景",
+        "time": "19:15",
+        "durationMinutes": 45,
+        "travelMinutes": 20,
+        "timeMode": "flexible",
+        "address": "1 Chome Daiba, Minato City, Tokyo",
+        "cost": 0,
+        "transit": "",
+        "note": "在海边看彩虹大桥与东京湾夜景，散步后可在台场简餐，再乘海鸥线返回新桥、转车回上野。",
+        "culture": "",
+        "tips": "营业时间与现场安排请临行前核实。",
+        "image": "assets/places/tokyo-v4-odaiba-night.webp",
+        "imageFallback": "📍",
+        "imageAlt": "从台场看到的彩虹大桥夜景",
+        "links": {
+          "maps": "https://www.google.com/maps/search/?api=1&query=Odaiba%20Seaside%20Park%20%C2%B7%20Night%20Walk%201%20Chome%20Daiba%2C%20Minato%20City%2C%20Tokyo",
+          "official": "https://www.yurikamome.co.jp/en/sightseeing/course/view-spot.html"
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Rainbow_Bridge_(28108827509).jpg",
+        "imageCredit": "mattvaux7",
+        "imageLicense": "CC BY 2.0"
       }
     },
     "deletedPlaceIds": {
@@ -961,7 +1017,9 @@
         "tokyo-v3-jimbocho",
         "tokyo-v3-film-akiba",
         "tokyo-v2-tarot",
-        "tokyo-v2-kuramae"
+        "tokyo-v2-kuramae",
+        "tokyo-v4-yurikamome",
+        "tokyo-v4-odaiba-night"
       ],
       "2026-10-07": [
         "tokyo-v3-urasando",
@@ -1003,12 +1061,12 @@
         "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Narita%20Airport%20Terminal%201&destination=Ameyoko&waypoints=Four%20Points%20Flex%20by%20Sheraton%20Tokyo%20Ueno%7CUeno%20Park&travelmode=transit"
       },
       "2026-10-06": {
-        "activityArea": "浅草—神保町—浅草桥",
-        "city": "浅草 · 神保町 · 浅草桥",
-        "title": "寺院清晨 · 书页与塔罗",
-        "subtitle": "浅草寺 · 神保町古书街 · 东京塔罗美术馆",
-        "transitSummary": "银座线 · 半藏门线 · 浅草线",
-        "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Sensoji&destination=Kuramae&waypoints=Jimbocho%20Book%20Town%7CTokyo%20Tarot%20Museum&travelmode=transit"
+        "activityArea": "浅草—神保町—蔵前—台场",
+        "city": "浅草 · 神保町 · 蔵前 · 台场",
+        "title": "寺院清晨 · 书页与海湾夜景",
+        "subtitle": "浅草寺 · 神保町古书街 · 东京塔罗美术馆 · 海鸥线",
+        "transitSummary": "银座线 · 半藏门线 · 浅草线 · 海鸥线",
+        "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Sensoji&destination=Odaiba%20Seaside%20Park&waypoints=Jimbocho%20Book%20Town%7CTokyo%20Tarot%20Museum%7CKuramae%7CShimbashi%20Station&travelmode=transit"
       },
       "2026-10-07": {
         "activityArea": "原宿—青山—高田马场",

@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {
   addCustomPlace,
   applyItineraryMediaPatch,
+  applyTokyoNightRoutePatch,
   applyItineraryEdits,
   importItineraryPackage,
   recalculateDay,
@@ -67,9 +68,9 @@ test('importItineraryPackage rejects another destination', () => {
 });
 
 test('shouldApplyItineraryRelease applies a matching release only once', () => {
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2k', appliedRelease: '' }), true);
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2k', appliedRelease: 'fieldnotes2k' }), false);
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'italy', release: 'fieldnotes2k', appliedRelease: '' }), false);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2l', appliedRelease: '' }), true);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2l', appliedRelease: 'fieldnotes2l' }), false);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'italy', release: 'fieldnotes2l', appliedRelease: '' }), false);
 });
 
 test('Tokyo image patch keeps user itinerary edits and custom photos', () => {
@@ -90,6 +91,29 @@ test('Tokyo image patch keeps user itinerary edits and custom photos', () => {
   assert.deepEqual(result.itinerary.deletedPlaceIds, { c: true });
   assert.deepEqual(result.itinerary.dayOrder.day, ['b', 'a']);
   assert.equal(current.itinerary.customPlaces.a.image, 'assets/places/placeholder.svg');
+});
+
+test('Tokyo night route patch adds both stops after Kuramae without losing personal edits', () => {
+  const current = { itinerary: {
+    customPlaces: { 'tokyo-v2-kuramae': { id: 'tokyo-v2-kuramae', time: '16:45' } },
+    deletedPlaceIds: {},
+    dayOrder: { '2026-10-06': ['tokyo-v2-tarot', 'tokyo-v2-kuramae'] },
+    dayOverrides: { '2026-10-06': { title: '我自己的标题' } },
+  } };
+  const payload = { itinerary: {
+    customPlaces: {
+      'tokyo-v4-yurikamome': { id: 'tokyo-v4-yurikamome', time: '18:35' },
+      'tokyo-v4-odaiba-night': { id: 'tokyo-v4-odaiba-night', time: '19:15' },
+    },
+    dayOverrides: { '2026-10-06': { title: '新版标题' } },
+  } };
+  const result = applyTokyoNightRoutePatch(current, payload);
+  assert.deepEqual(result.itinerary.dayOrder['2026-10-06'], [
+    'tokyo-v2-tarot', 'tokyo-v2-kuramae', 'tokyo-v4-yurikamome', 'tokyo-v4-odaiba-night',
+  ]);
+  assert.equal(result.itinerary.customPlaces['tokyo-v2-kuramae'].time, '16:45');
+  assert.equal(result.itinerary.dayOverrides['2026-10-06'].title, '我自己的标题');
+  assert.equal(current.itinerary.customPlaces['tokyo-v4-yurikamome'], undefined);
 });
 
 test('recalculateDay cascades flexible times and preserves fixed anchors', () => {

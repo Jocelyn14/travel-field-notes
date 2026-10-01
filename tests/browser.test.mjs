@@ -4,7 +4,7 @@ import { chromium } from 'playwright';
 
 const baseUrl = process.env.TRAVEL_ATLAS_BASE_URL ?? 'http://127.0.0.1:4177/';
 const italyUrl = `${baseUrl}italy/`;
-const tokyoUrl = `${baseUrl}tokyo/?release=fieldnotes2k`;
+const tokyoUrl = `${baseUrl}tokyo/?release=fieldnotes2l`;
 const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const launchOptions = { headless: true, executablePath: chromePath };
 
