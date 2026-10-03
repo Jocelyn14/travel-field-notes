@@ -166,5 +166,29 @@
     "imageAlt": "从台场看到的彩虹大桥夜景",
     "contextual": false,
     "modification": "Cropped, resized and converted to WebP for the itinerary thumbnail."
+  },
+  {
+    "placeId": "tokyo-v4-ginza",
+    "file": "assets/places/tokyo-v4-ginza.webp",
+    "title": "GINZA SIX Exterior view 2018",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:GINZA_SIX_Exterior_view_2018.jpg",
+    "author": "Wpcpey",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "imageAlt": "GINZA SIX 外观",
+    "contextual": false,
+    "modification": "Cropped, resized and converted to WebP for the itinerary thumbnail."
+  },
+  {
+    "placeId": "tokyo-v4-kushisuke",
+    "file": "assets/places/tokyo-v4-kushisuke.webp",
+    "title": "Yakitori-1",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yakitori-1.jpg",
+    "author": "江戸村のとくぞう",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "imageAlt": "烧鸟料理示意图，非串助原宿店实景",
+    "contextual": true,
+    "modification": "Cropped, resized and converted to WebP for the itinerary thumbnail."
   }
 ]

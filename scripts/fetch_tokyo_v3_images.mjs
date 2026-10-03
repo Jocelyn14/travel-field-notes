@@ -17,6 +17,8 @@ const entries = [
   ['tokyo-v3-blindtiger', 'File:Cocktail glass (50961535397).jpg', true, '鸡尾酒氛围图，非 BLINDTIGER 店铺实景'],
   ['tokyo-v4-yurikamome', 'File:Yurikamome Series7300-7451F Rainbow-Bridge.jpg', false, '海鸥线列车与彩虹大桥'],
   ['tokyo-v4-odaiba-night', 'File:Rainbow Bridge (28108827509).jpg', false, '从台场看到的彩虹大桥夜景'],
+  ['tokyo-v4-ginza', 'File:GINZA SIX Exterior view 2018.jpg', false, 'GINZA SIX 外观'],
+  ['tokyo-v4-kushisuke', 'File:Yakitori-1.jpg', true, '烧鸟料理示意图，非串助原宿店实景'],
 ];
 
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));

@@ -321,14 +321,14 @@
         "nameEn": "St. Anselm Catholic Meguro Church",
         "nameLocal": "カトリック目黒教会（聖アンセルモ教会）",
         "category": "教堂 · 可选",
-        "time": "16:00",
-        "durationMinutes": 30,
+        "time": "15:50",
+        "durationMinutes": 20,
         "travelMinutes": 30,
         "timeMode": "flexible",
         "address": "4 Chome-6-22 Kamiosaki, Shinagawa City, Tokyo",
         "cost": 0,
         "transit": "只在开放且体力允许时停留，随后前往东京塔。",
-        "note": "机动停留；若庭园美术馆看得更久，可直接跳过。",
+        "note": "机动短停；若庭园美术馆看得更久，可直接跳过，不挤占银座时间。",
         "culture": "现代主义教堂建筑，以简洁结构和宗教空间见长。",
         "tips": "弥撒或活动时保持安静；若关闭只看外观并离开。",
         "image": "assets/places/tokyo-v2-meguro-church.webp",
@@ -348,14 +348,14 @@
         "nameEn": "Tokyo Tower Night View",
         "nameLocal": "東京タワー夜景",
         "category": "经典地标 · 夜景",
-        "time": "20:00",
-        "durationMinutes": 60,
+        "time": "21:30",
+        "durationMinutes": 45,
         "travelMinutes": 40,
         "timeMode": "fixed",
         "address": "4 Chome-2-8 Shibakoen, Minato City, Tokyo",
         "cost": 1500,
         "transit": "把东京塔作为最后一个硬锚点，晚餐在附近解决。",
-        "note": "机动夜景。若 BLINDTIGER 晚餐聊得尽兴，就不赶去东京塔。",
+        "note": "机动夜景。若银座或 BLINDTIGER 晚餐聊得尽兴，就不赶去东京塔。",
         "culture": "1958 年开放，是战后东京现代化最具识别度的城市标志。",
         "tips": "主展望台和 Top Deck 票种不同；不必为了高价套票勉强升级。",
         "image": "assets/places/tokyo-v2-tokyo-tower.webp",
@@ -697,31 +697,32 @@
         "imageCredit": "鋸香具師",
         "imageLicense": "CC BY-SA 4.0"
       },
-      "tokyo-v3-takadanobaba-dinner": {
-        "id": "tokyo-v3-takadanobaba-dinner",
+      "tokyo-v4-kushisuke": {
+        "id": "tokyo-v4-kushisuke",
         "dayDate": "2026-10-07",
-        "name": "高田马场晚餐",
-        "nameEn": "Takadanobaba Dinner",
-        "nameLocal": "高田馬場で夕食",
-        "category": "餐饮",
-        "time": "17:30",
-        "durationMinutes": 75,
-        "travelMinutes": 15,
+        "name": "串助 · 原宿店",
+        "nameEn": "Kushisuke Harajuku",
+        "nameLocal": "串助 原宿店",
+        "category": "烧鸟 · 晚餐",
+        "time": "17:20",
+        "durationMinutes": 60,
+        "travelMinutes": 25,
         "timeMode": "flexible",
-        "address": "Takadanobaba, Shinjuku City, Tokyo",
+        "address": "東京都渋谷区神宮前3-24-3 桑原ビル 1F",
         "cost": 0,
         "transit": "",
-        "note": "Jazz SPOT Intro 前在高田马场附近吃晚餐，餐厅现场选择。",
+        "note": "表参道与神宫通公园之后吃烧鸟；约 18:20 离店，前往高田马场 Jazz SPOT Intro。未订位，建议提前确认座位和当晚演出。",
         "culture": "",
-        "tips": "营业时间与现场安排请临行前核实。",
-        "image": "assets/places/tokyo-v3-takadanobaba-dinner.webp",
+        "tips": "官网：周三晚餐 17:00—23:00。建议订 17:20 左右；若无法及时入座，改在高田马场简餐，以免错过爵士。",
+        "image": "assets/places/tokyo-v4-kushisuke.webp",
         "imageFallback": "📍",
-        "imageAlt": "高田马场街景，晚餐餐厅尚未选定",
+        "imageAlt": "烧鸟料理示意图，非串助原宿店实景",
         "links": {
-          "maps": "https://www.google.com/maps/search/?api=1&query=Takadanobaba%20Dinner%20Takadanobaba%2C%20Shinjuku%20City%2C%20Tokyo"
+          "maps": "https://www.google.com/maps/search/?api=1&query=Kushisuke%20Harajuku%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E7%A5%9E%E5%AE%AE%E5%89%8D3-24-3%20%E6%A1%91%E5%8E%9F%E3%83%93%E3%83%AB%201F",
+          "official": "https://kushisuke-harajuku.com/"
         },
-        "imageSource": "https://commons.wikimedia.org/wiki/File:Waseda_Street_Takadanobaba_2026.jpg",
-        "imageCredit": "ノーマルエディタ",
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Yakitori-1.jpg",
+        "imageCredit": "江戸村のとくぞう",
         "imageLicense": "CC BY-SA 4.0"
       },
       "tokyo-v3-intro": {
@@ -892,7 +893,7 @@
         "nameEn": "Bar BLINDTIGER Shirokane",
         "nameLocal": "バー・ブラインドタイガー 白金",
         "category": "酒吧 · 餐饮",
-        "time": "17:30",
+        "time": "19:30",
         "durationMinutes": 90,
         "travelMinutes": 15,
         "timeMode": "flexible",
@@ -968,6 +969,34 @@
         "imageSource": "https://commons.wikimedia.org/wiki/File:Rainbow_Bridge_(28108827509).jpg",
         "imageCredit": "mattvaux7",
         "imageLicense": "CC BY 2.0"
+      },
+      "tokyo-v4-ginza": {
+        "id": "tokyo-v4-ginza",
+        "dayDate": "2026-10-09",
+        "name": "银座散步 · GINZA SIX",
+        "nameEn": "Ginza & GINZA SIX",
+        "nameLocal": "銀座・ギンザシックス",
+        "category": "街区 · 购物",
+        "time": "16:45",
+        "durationMinutes": 120,
+        "travelMinutes": 35,
+        "timeMode": "flexible",
+        "address": "東京都中央区銀座6丁目10-1",
+        "cost": 0,
+        "transit": "",
+        "note": "留足两小时逛银座街区与 GINZA SIX；商店通常营业至 20:30，个别店铺不同。之后前往白金 BLINDTIGER。",
+        "culture": "",
+        "tips": "GINZA SIX 店铺/咖啡 10:30—20:30；以官网和各店当日公告为准。",
+        "image": "assets/places/tokyo-v4-ginza.webp",
+        "imageFallback": "📍",
+        "imageAlt": "GINZA SIX 外观",
+        "links": {
+          "maps": "https://www.google.com/maps/search/?api=1&query=Ginza%20%26%20GINZA%20SIX%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E9%8A%80%E5%BA%A76%E4%B8%81%E7%9B%AE10-1",
+          "official": "https://ginza6.tokyo/"
+        },
+        "imageSource": "https://commons.wikimedia.org/wiki/File:GINZA_SIX_Exterior_view_2018.jpg",
+        "imageCredit": "Wpcpey",
+        "imageLicense": "CC BY-SA 4.0"
       }
     },
     "deletedPlaceIds": {
@@ -1001,7 +1030,8 @@
       "tokyo-v2-yodobashi": true,
       "tokyo-v2-shinjuku-night": true,
       "tokyo-v2-jimbocho": true,
-      "tokyo-v2-kogosei": true
+      "tokyo-v2-kogosei": true,
+      "tokyo-v3-takadanobaba-dinner": true
     },
     "dayOrder": {
       "2026-10-05": [
@@ -1028,7 +1058,7 @@
         "tokyo-v2-nezu",
         "tokyo-v2-aoyama",
         "tokyo-v3-jingu-dori",
-        "tokyo-v3-takadanobaba-dinner",
+        "tokyo-v4-kushisuke",
         "tokyo-v3-intro"
       ],
       "2026-10-08": [
@@ -1041,6 +1071,7 @@
         "tokyo-v3-kogosei",
         "tokyo-v2-teien",
         "tokyo-v2-meguro-church",
+        "tokyo-v4-ginza",
         "tokyo-v3-blindtiger",
         "tokyo-v2-tokyo-tower"
       ],
@@ -1072,9 +1103,9 @@
         "activityArea": "原宿—青山—高田马场",
         "city": "原宿 · 青山 · 高田马场",
         "title": "神宫、古美术与三处建筑",
-        "subtitle": "明治神宫 · 根津美术馆 · 表参道两小时 · Jazz SPOT Intro",
+        "subtitle": "明治神宫 · 根津美术馆 · 表参道两小时 · 串助 · Jazz SPOT Intro",
         "transitSummary": "山手线 · 徒步",
-        "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Urasando%20Toilet&destination=Jazz%20SPOT%20Intro&waypoints=Meiji%20Jingu%7CNezu%20Museum%7COmotesando&travelmode=transit"
+        "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Urasando%20Toilet&destination=Jazz%20SPOT%20Intro&waypoints=Meiji%20Jingu%7CNezu%20Museum%7COmotesando%7CKushisuke%20Harajuku&travelmode=transit"
       },
       "2026-10-08": {
         "activityArea": "上野—镰仓",
@@ -1085,12 +1116,12 @@
         "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Tokyo%20National%20Museum&destination=Shichirigahama%20Beach&waypoints=Kamakurakokomae%20Station&travelmode=transit"
       },
       "2026-10-09": {
-        "activityArea": "板桥—白金台—白金",
-        "city": "板桥 · 白金台 · 白金",
-        "title": "植物、设计与晚间小酌",
-        "subtitle": "KOGOSEI · 东京都庭园美术馆 · BLINDTIGER",
-        "transitSummary": "三田线 · 南北线",
-        "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=KOGOSEI%20Plant%20Shop&destination=Bar%20BLINDTIGER%20Shirokane&waypoints=Tokyo%20Metropolitan%20Teien%20Art%20Museum&travelmode=transit"
+        "activityArea": "板桥—白金台—银座—白金",
+        "city": "板桥 · 白金台 · 银座 · 白金",
+        "title": "植物、设计与银座散步",
+        "subtitle": "KOGOSEI · 东京都庭园美术馆 · GINZA SIX · BLINDTIGER",
+        "transitSummary": "三田线 · 浅草线 · 南北线",
+        "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=KOGOSEI%20Plant%20Shop&destination=Bar%20BLINDTIGER%20Shirokane&waypoints=Tokyo%20Metropolitan%20Teien%20Art%20Museum%7CGINZA%20SIX&travelmode=transit"
       },
       "2026-10-10": {
         "activityArea": "上野—成田",

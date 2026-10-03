@@ -27,7 +27,52 @@ export function importItineraryPackage(currentState, payload, expectedTripId, { 
   return importedState;
 }
 
-export const TOKYO_ITINERARY_RELEASE = 'fieldnotes2l';
+export const TOKYO_ITINERARY_RELEASE = 'fieldnotes2m';
+
+export function applyTokyoGinzaAndDinnerPatch(currentState, payload) {
+  const nextState = structuredClone(currentState);
+  const itinerary = nextState.itinerary;
+  const { customPlaces, deletedPlaceIds, dayOrder } = itinerary;
+  const imported = payload.itinerary;
+  const dinnerId = 'tokyo-v3-takadanobaba-dinner';
+  const dinner = customPlaces[dinnerId];
+  const replaceDinner = dinner && !deletedPlaceIds[dinnerId]
+    && dinner.time === '17:30' && (dinner.name === '高田马场晚餐' || dinner.name === undefined);
+  if (replaceDinner) {
+    delete customPlaces[dinnerId];
+    deletedPlaceIds[dinnerId] = true;
+  }
+  const insert = (date, id, beforeId) => {
+    if (deletedPlaceIds[id]) return;
+    customPlaces[id] ??= structuredClone(imported.customPlaces[id]);
+    const order = dayOrder[date] ?? [];
+    if (!order.includes(id)) {
+      const at = order.indexOf(beforeId);
+      order.splice(at < 0 ? order.length : at, 0, id);
+    }
+    dayOrder[date] = order;
+  };
+  if (replaceDinner) {
+    dayOrder['2026-10-07'] = dayOrder['2026-10-07'].filter((id) => id !== dinnerId);
+  }
+  insert('2026-10-07', 'tokyo-v4-kushisuke', 'tokyo-v3-intro');
+  insert('2026-10-09', 'tokyo-v4-ginza', 'tokyo-v3-blindtiger');
+  for (const [id, oldTime, newTime] of [
+    ['tokyo-v2-meguro-church', '16:00', '15:50'],
+    ['tokyo-v3-blindtiger', '17:30', '19:30'],
+    ['tokyo-v2-tokyo-tower', '20:00', '21:30'],
+  ]) {
+    if (customPlaces[id]?.time === oldTime && !itinerary.placeOverrides?.[id]?.time) {
+      customPlaces[id].time = newTime;
+      if (id === 'tokyo-v2-meguro-church') customPlaces[id].durationMinutes = 20;
+      if (id === 'tokyo-v2-tokyo-tower') customPlaces[id].durationMinutes = 45;
+    }
+  }
+  if (itinerary.dayOverrides?.['2026-10-09']?.title === '植物、设计与晚间小酌') {
+    itinerary.dayOverrides['2026-10-09'] = structuredClone(imported.dayOverrides['2026-10-09']);
+  }
+  return nextState;
+}
 
 export function applyTokyoNightRoutePatch(currentState, payload) {
   const nextState = structuredClone(currentState);

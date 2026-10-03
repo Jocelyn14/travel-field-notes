@@ -5,6 +5,7 @@ import {
   addCustomPlace,
   applyItineraryMediaPatch,
   applyTokyoNightRoutePatch,
+  applyTokyoGinzaAndDinnerPatch,
   applyItineraryEdits,
   importItineraryPackage,
   recalculateDay,
@@ -68,9 +69,9 @@ test('importItineraryPackage rejects another destination', () => {
 });
 
 test('shouldApplyItineraryRelease applies a matching release only once', () => {
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2l', appliedRelease: '' }), true);
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', release: 'fieldnotes2l', appliedRelease: 'fieldnotes2l' }), false);
-  assert.equal(shouldApplyItineraryRelease({ tripId: 'italy', release: 'fieldnotes2l', appliedRelease: '' }), false);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', appliedRelease: '' }), true);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'tokyo', appliedRelease: 'fieldnotes2m' }), false);
+  assert.equal(shouldApplyItineraryRelease({ tripId: 'italy', appliedRelease: '' }), false);
 });
 
 test('Tokyo image patch keeps user itinerary edits and custom photos', () => {
@@ -114,6 +115,33 @@ test('Tokyo night route patch adds both stops after Kuramae without losing perso
   assert.equal(result.itinerary.customPlaces['tokyo-v2-kuramae'].time, '16:45');
   assert.equal(result.itinerary.dayOverrides['2026-10-06'].title, '我自己的标题');
   assert.equal(current.itinerary.customPlaces['tokyo-v4-yurikamome'], undefined);
+});
+
+test('Tokyo Ginza and dinner patch preserves custom edits while replacing generic dinner', () => {
+  const current = { itinerary: {
+    customPlaces: {
+      'tokyo-v3-takadanobaba-dinner': { id: 'tokyo-v3-takadanobaba-dinner', time: '17:30' },
+      'tokyo-v3-blindtiger': { id: 'tokyo-v3-blindtiger', time: '17:30' },
+      'tokyo-v2-meguro-church': { id: 'tokyo-v2-meguro-church', time: '16:00' },
+    },
+    deletedPlaceIds: {}, placeOverrides: {},
+    dayOrder: {
+      '2026-10-07': ['tokyo-v3-jingu-dori', 'tokyo-v3-takadanobaba-dinner', 'tokyo-v3-intro'],
+      '2026-10-09': ['tokyo-v2-meguro-church', 'tokyo-v3-blindtiger'],
+    },
+    dayOverrides: { '2026-10-09': { title: '植物、设计与晚间小酌' } },
+  } };
+  const payload = { itinerary: { customPlaces: {
+    'tokyo-v4-kushisuke': { id: 'tokyo-v4-kushisuke', time: '17:00' },
+    'tokyo-v4-ginza': { id: 'tokyo-v4-ginza', time: '16:45' },
+  }, dayOverrides: { '2026-10-09': { title: '植物、设计与银座散步' } } } };
+  const result = applyTokyoGinzaAndDinnerPatch(current, payload);
+  assert.deepEqual(result.itinerary.dayOrder['2026-10-07'], ['tokyo-v3-jingu-dori', 'tokyo-v4-kushisuke', 'tokyo-v3-intro']);
+  assert.deepEqual(result.itinerary.dayOrder['2026-10-09'], ['tokyo-v2-meguro-church', 'tokyo-v4-ginza', 'tokyo-v3-blindtiger']);
+  assert.equal(result.itinerary.deletedPlaceIds['tokyo-v3-takadanobaba-dinner'], true);
+  assert.equal(result.itinerary.customPlaces['tokyo-v3-blindtiger'].time, '19:30');
+  assert.equal(result.itinerary.dayOverrides['2026-10-09'].title, '植物、设计与银座散步');
+  assert.equal(current.itinerary.customPlaces['tokyo-v3-blindtiger'].time, '17:30');
 });
 
 test('recalculateDay cascades flexible times and preserves fixed anchors', () => {

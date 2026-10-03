@@ -16,9 +16,10 @@ import {
   TOKYO_ITINERARY_RELEASE,
   applyItineraryMediaPatch,
   applyTokyoNightRoutePatch,
+  applyTokyoGinzaAndDinnerPatch,
   sortDayByTime,
   updatePlaceSchedule,
-} from './itinerary.mjs?v=tokyo2026v3c';
+} from './itinerary.mjs?v=tokyo2026v3d';
 import { searchPlace } from './search.mjs?v=italy2026c';
 import { classifyHorizontalGesture, nextPanelState } from './interaction.mjs?v=italy2026c';
 import { renderApp } from './view.mjs?v=tokyo2026v3b';
@@ -719,12 +720,14 @@ async function start() {
       tripId: requestedTrip.id,
       appliedRelease,
     })) {
-      const importResponse = await fetch(new URL('data/imports/tokyo-fieldnotes-itinerary-v3.json?v=tokyo2026v3c', appRoot));
+      const importResponse = await fetch(new URL('data/imports/tokyo-fieldnotes-itinerary-v3.json?v=tokyo2026v3d', appRoot));
       if (!importResponse.ok) throw new Error(`东京行程导入包 HTTP ${importResponse.status}`);
       localStorage.setItem(`${storageKey}:backup:${Date.now()}`, JSON.stringify(state));
       const payload = await importResponse.json();
       if (appliedRelease === 'fieldnotes2j' || appliedRelease === 'fieldnotes2k') {
-        state = applyTokyoNightRoutePatch(applyItineraryMediaPatch(state, payload), payload);
+        state = applyTokyoGinzaAndDinnerPatch(applyTokyoNightRoutePatch(applyItineraryMediaPatch(state, payload), payload), payload);
+      } else if (appliedRelease === 'fieldnotes2l') {
+        state = applyTokyoGinzaAndDinnerPatch(state, payload);
       } else {
         state = importItineraryPackage(state, payload, requestedTrip.id, { includeAccommodations: true });
       }

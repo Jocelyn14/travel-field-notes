@@ -1,4 +1,4 @@
-const CONTENT_REVISION = 'aadaf4e37d4cbd702cf7c99d06e23a36ad65724686fd904a891068c10e1a01fa';
+const CONTENT_REVISION = '92a4be3f457604066fbfd14ea6738c00ed3e946aa9771754b423a9405d9cf541';
 const CACHE_NAME = `travel-atlas-v11-${CONTENT_REVISION}`;
 const APP_SHELL = [
   './',
@@ -13,17 +13,19 @@ const APP_SHELL = [
   './styles.css?v=tokyo2026v3b',
   './manifest.webmanifest',
   './src/app.mjs?v=italy2026c',
-  './src/app.mjs?v=tokyo2026v3c',
+  './src/app.mjs?v=tokyo2026v3d',
   './src/core.mjs?v=italy2026c',
   './src/itinerary.mjs?v=italy2026c',
-  './src/itinerary.mjs?v=tokyo2026v3c',
+  './src/itinerary.mjs?v=tokyo2026v3d',
   './src/interaction.mjs?v=italy2026c',
   './src/search.mjs?v=italy2026c',
   './src/view.mjs?v=italy2026c',
   './src/view.mjs?v=tokyo2026v3b',
   './data/trips.json?v=italy2026c',
   './data/imports/tokyo-fieldnotes-itinerary-v2.json?v=italy2026c',
-  './data/imports/tokyo-fieldnotes-itinerary-v3.json?v=tokyo2026v3c',
+  './data/imports/tokyo-fieldnotes-itinerary-v3.json?v=tokyo2026v3d',
+  './assets/places/tokyo-v4-ginza.webp',
+  './assets/places/tokyo-v4-kushisuke.webp',
   './assets/places/tokyo-v4-yurikamome.webp',
   './assets/places/tokyo-v4-odaiba-night.webp',
   './assets/places/tokyo-v3-ueno-park.webp',

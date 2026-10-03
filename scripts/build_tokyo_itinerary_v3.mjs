@@ -44,8 +44,8 @@ Object.assign(places['tokyo-v2-nezu'], {
 });
 Object.assign(places['tokyo-v2-aoyama'], { time: '14:30', durationMinutes: 120, note: '表参道至少保留完整两小时，重点逛文学、艺术画册、摄影书与旧刊，不排成购物冲刺。' });
 Object.assign(places['tokyo-v2-teien'], { time: '13:30', durationMinutes: 120, note: '参观 Marimekko 展与建筑；西洋庭园 10 月 2 日后关闭，临行前核实展览与入馆安排。' });
-Object.assign(places['tokyo-v2-meguro-church'], { time: '16:00', durationMinutes: 30, note: '机动停留；若庭园美术馆看得更久，可直接跳过。' });
-Object.assign(places['tokyo-v2-tokyo-tower'], { time: '20:00', durationMinutes: 60, note: '机动夜景。若 BLINDTIGER 晚餐聊得尽兴，就不赶去东京塔。' });
+Object.assign(places['tokyo-v2-meguro-church'], { time: '15:50', durationMinutes: 20, note: '机动短停；若庭园美术馆看得更久，可直接跳过，不挤占银座时间。' });
+Object.assign(places['tokyo-v2-tokyo-tower'], { time: '21:30', durationMinutes: 45, note: '机动夜景。若银座或 BLINDTIGER 晚餐聊得尽兴，就不赶去东京塔。' });
 Object.assign(places['tokyo-v2-kiyomizu'], { durationMinutes: 30, note: '这里是上野的清水观音堂，不是京都清水寺；参拜后回酒店退房。' });
 Object.assign(places['tokyo-v2-skyliner-out'], { durationMinutes: 43, note: '计划乘 11:20 京成上野出发、12:03 到达成田 T1 的 Skyliner；购票时核实周六班次。' });
 
@@ -87,9 +87,12 @@ add('tokyo-v3-jingumae', '2026-10-07', '11:15', 15,
 add('tokyo-v3-jingu-dori', '2026-10-07', '16:45', 15,
   'THE TOKYO TOILET · 神宫通公园', 'Jingu-Dori Park Toilet', '神宮通公園トイレ', '建筑打卡',
   'Jingu-Dori Park, Shibuya City, Tokyo', '第三处厕所设计项目打卡；与表参道两小时散步相连。', 'https://tokyotoilet.jp/en/jingu-dori_park/');
-add('tokyo-v3-takadanobaba-dinner', '2026-10-07', '17:30', 75,
-  '高田马场晚餐', 'Takadanobaba Dinner', '高田馬場で夕食', '餐饮',
-  'Takadanobaba, Shinjuku City, Tokyo', 'Jazz SPOT Intro 前在高田马场附近吃晚餐，餐厅现场选择。');
+add('tokyo-v4-kushisuke', '2026-10-07', '17:20', 60,
+  '串助 · 原宿店', 'Kushisuke Harajuku', '串助 原宿店', '烧鸟 · 晚餐',
+  '東京都渋谷区神宮前3-24-3 桑原ビル 1F', '表参道与神宫通公园之后吃烧鸟；约 18:20 离店，前往高田马场 Jazz SPOT Intro。未订位，建议提前确认座位和当晚演出。',
+  'https://kushisuke-harajuku.com/');
+places['tokyo-v4-kushisuke'].travelMinutes = 25;
+places['tokyo-v4-kushisuke'].tips = '官网：周三晚餐 17:00—23:00。建议订 17:20 左右；若无法及时入座，改在高田马场简餐，以免错过爵士。';
 add('tokyo-v3-intro', '2026-10-07', '19:00', 90,
   'Jazz SPOT Intro', 'Jazz SPOT Intro', 'ジャズスポット・イントロ', '爵士乐',
   'Takadanobaba, Shinjuku City, Tokyo', '朋友推荐的爵士乐场所；当晚演出、费用及入场方式临行前复核。', 'https://jazzspot.intro.co.jp/access/');
@@ -110,7 +113,7 @@ add('tokyo-v3-kogosei', '2026-10-09', '10:00', 75,
   'KOGOSEI 植物店', 'KOGOSEI Plant Shop', 'KOGOSEI 植物店', '植物店',
   '東京都板橋区東坂下2丁目10-10 志村ハビテーション101号', '从都营三田线志村坂上站步行约 10–15 分钟；门店与当日营业时间再确认。', 'https://kogosei.jp/');
 places['tokyo-v3-kogosei'].image = 'assets/places/tokyo-v2-kogosei.png';
-add('tokyo-v3-blindtiger', '2026-10-09', '17:30', 90,
+add('tokyo-v3-blindtiger', '2026-10-09', '19:30', 90,
   'Bar BLINDTIGER 白金 · 一楼晚餐', 'Bar BLINDTIGER Shirokane', 'バー・ブラインドタイガー 白金', '酒吧 · 餐饮',
   'Shirokane, Minato City, Tokyo', '朋友推荐。优先一楼单点晚餐与饮品，不预设地下高价套餐；营业、订位和价格临行前确认。',
   'https://tabelog.com/tokyo/A1316/A131602/13315810/');
@@ -133,9 +136,16 @@ add('tokyo-v4-odaiba-night', '2026-10-06', '19:15', 45,
   '在海边看彩虹大桥与东京湾夜景，散步后可在台场简餐，再乘海鸥线返回新桥、转车回上野。',
   'https://www.yurikamome.co.jp/en/sightseeing/course/view-spot.html');
 places['tokyo-v4-odaiba-night'].travelMinutes = 20;
+add('tokyo-v4-ginza', '2026-10-09', '16:45', 120,
+  '银座散步 · GINZA SIX', 'Ginza & GINZA SIX', '銀座・ギンザシックス', '街区 · 购物',
+  '東京都中央区銀座6丁目10-1', '留足两小时逛银座街区与 GINZA SIX；商店通常营业至 20:30，个别店铺不同。之后前往白金 BLINDTIGER。',
+  'https://ginza6.tokyo/');
+places['tokyo-v4-ginza'].travelMinutes = 35;
+places['tokyo-v4-ginza'].tips = 'GINZA SIX 店铺/咖啡 10:30—20:30；以官网和各店当日公告为准。';
 
 for (const credit of imageCredits) {
   const place = places[credit.placeId];
+  if (credit.placeId === 'tokyo-v3-takadanobaba-dinner') continue;
   if (!place) throw new Error(`Unknown Tokyo v3 image place: ${credit.placeId}`);
   Object.assign(place, {
     image: credit.file, imageAlt: credit.imageAlt,
@@ -151,7 +161,7 @@ Object.assign(places['tokyo-v3-jimbocho'], {
   imageLicense: jimbochoCredit.license,
 });
 
-for (const id of ['tokyo-v2-shibuya', 'tokyo-v2-gyoen', 'tokyo-v2-yodobashi', 'tokyo-v2-shinjuku-night', 'tokyo-v2-jimbocho', 'tokyo-v2-kogosei']) {
+for (const id of ['tokyo-v2-shibuya', 'tokyo-v2-gyoen', 'tokyo-v2-yodobashi', 'tokyo-v2-shinjuku-night', 'tokyo-v2-jimbocho', 'tokyo-v2-kogosei', 'tokyo-v3-takadanobaba-dinner']) {
   delete places[id];
   deletedPlaceIds[id] = true;
 }
@@ -159,9 +169,9 @@ for (const id of ['tokyo-v2-shibuya', 'tokyo-v2-gyoen', 'tokyo-v2-yodobashi', 't
 Object.assign(dayOrder, {
   '2026-10-05': ['tokyo-v2-ca929', 'tokyo-v2-skyliner-in', 'tokyo-v2-ueno-checkin', 'tokyo-v3-ueno-park', 'tokyo-v2-ameyoko'],
   '2026-10-06': ['tokyo-v2-sensoji', 'tokyo-v3-fuglen', 'tokyo-v3-jimbocho', 'tokyo-v3-film-akiba', 'tokyo-v2-tarot', 'tokyo-v2-kuramae', 'tokyo-v4-yurikamome', 'tokyo-v4-odaiba-night'],
-  '2026-10-07': ['tokyo-v3-urasando', 'tokyo-v3-meiji', 'tokyo-v3-jingumae', 'tokyo-v2-nezu', 'tokyo-v2-aoyama', 'tokyo-v3-jingu-dori', 'tokyo-v3-takadanobaba-dinner', 'tokyo-v3-intro'],
+  '2026-10-07': ['tokyo-v3-urasando', 'tokyo-v3-meiji', 'tokyo-v3-jingumae', 'tokyo-v2-nezu', 'tokyo-v2-aoyama', 'tokyo-v3-jingu-dori', 'tokyo-v4-kushisuke', 'tokyo-v3-intro'],
   '2026-10-08': ['tokyo-v3-tnm', 'tokyo-v3-kamakurakokomae', 'tokyo-v3-shichirigahama', 'tokyo-v3-amalfi'],
-  '2026-10-09': ['tokyo-v3-kogosei', 'tokyo-v2-teien', 'tokyo-v2-meguro-church', 'tokyo-v3-blindtiger', 'tokyo-v2-tokyo-tower'],
+  '2026-10-09': ['tokyo-v3-kogosei', 'tokyo-v2-teien', 'tokyo-v2-meguro-church', 'tokyo-v4-ginza', 'tokyo-v3-blindtiger', 'tokyo-v2-tokyo-tower'],
   '2026-10-10': ['tokyo-v2-kiyomizu', 'tokyo-v2-checkout', 'tokyo-v2-skyliner-out', 'tokyo-v2-ca930'],
 });
 
@@ -173,9 +183,9 @@ const summary = (date, activityArea, city, title, subtitle, transitSummary, mapP
 };
 summary('2026-10-05', '成田—上野', '成田 · 上野', '抵达东京 · 公园与阿美横丁', '成田 T1 · 上野酒店入住 · 上野公园晚间散步', 'Skyliner · 徒步', ['Narita Airport Terminal 1', hotel, 'Ueno Park', 'Ameyoko']);
 summary('2026-10-06', '浅草—神保町—蔵前—台场', '浅草 · 神保町 · 蔵前 · 台场', '寺院清晨 · 书页与海湾夜景', '浅草寺 · 神保町古书街 · 东京塔罗美术馆 · 海鸥线', '银座线 · 半藏门线 · 浅草线 · 海鸥线', ['Sensoji', 'Jimbocho Book Town', 'Tokyo Tarot Museum', 'Kuramae', 'Shimbashi Station', 'Odaiba Seaside Park']);
-summary('2026-10-07', '原宿—青山—高田马场', '原宿 · 青山 · 高田马场', '神宫、古美术与三处建筑', '明治神宫 · 根津美术馆 · 表参道两小时 · Jazz SPOT Intro', '山手线 · 徒步', ['Urasando Toilet', 'Meiji Jingu', 'Nezu Museum', 'Omotesando', 'Jazz SPOT Intro']);
+summary('2026-10-07', '原宿—青山—高田马场', '原宿 · 青山 · 高田马场', '神宫、古美术与三处建筑', '明治神宫 · 根津美术馆 · 表参道两小时 · 串助 · Jazz SPOT Intro', '山手线 · 徒步', ['Urasando Toilet', 'Meiji Jingu', 'Nezu Museum', 'Omotesando', 'Kushisuke Harajuku', 'Jazz SPOT Intro']);
 summary('2026-10-08', '上野—镰仓', '上野 · 镰仓', '国立博物馆与镰仓海岸', '东京国立博物馆 · 镰仓高校前 · 七里滨；非全天镰仓', 'JR · 江之电', ['Tokyo National Museum', 'Kamakurakokomae Station', 'Shichirigahama Beach']);
-summary('2026-10-09', '板桥—白金台—白金', '板桥 · 白金台 · 白金', '植物、设计与晚间小酌', 'KOGOSEI · 东京都庭园美术馆 · BLINDTIGER', '三田线 · 南北线', ['KOGOSEI Plant Shop', 'Tokyo Metropolitan Teien Art Museum', 'Bar BLINDTIGER Shirokane']);
+summary('2026-10-09', '板桥—白金台—银座—白金', '板桥 · 白金台 · 银座 · 白金', '植物、设计与银座散步', 'KOGOSEI · 东京都庭园美术馆 · GINZA SIX · BLINDTIGER', '三田线 · 浅草线 · 南北线', ['KOGOSEI Plant Shop', 'Tokyo Metropolitan Teien Art Museum', 'GINZA SIX', 'Bar BLINDTIGER Shirokane']);
 summary('2026-10-10', '上野—成田', '上野 · 成田', '清水观音堂 · 留足时间去机场', '清晨参拜 · 酒店退房 · 15:20 成田 T1 离境', '徒步 · Skyliner', ['Kiyomizu Kannon-do Ueno', hotel, 'Keisei Ueno Station', 'Narita Airport Terminal 1']);
 
 await writeFile(outputUrl, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
